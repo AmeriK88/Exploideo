@@ -254,15 +254,14 @@
               <h2 class="h2-section">Categorías</h2>
               <p class="mt-1 p-muted">Explora por tipo de experiencia.</p>
             </div>
-            <a href="{% url 'experiences:list' %}" class="btn btn-ghost">Ver todo</a>
+            <a href="{% url 'experiences:list' %}" class="btn btn-ghost">Ver todo →</a>
           </div>
 
           {% if categories %}
             <div class="mt-4 flex flex-wrap gap-2" data-stagger>
               {% for c in categories %}
                 <a href="{% url 'experiences:list' %}?category={{ c.slug }}"
-                  class="badge"
-                  data-animate="fade-up">
+                  class="badge badge-neutral hover-lift" data-animate="fade-up">
                   {{ c.name }}
                 </a>
               {% endfor %}

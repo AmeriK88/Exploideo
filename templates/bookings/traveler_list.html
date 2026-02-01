@@ -54,7 +54,7 @@
                         <span class="badge badge-neutral hover-lift">💶 {{ b.total_price }}€</span>
                       {% endif %}
 
-                      {# ✅ Si hay override por rechazo de cambio, destacarlo #}
+                      {# Si hay override por rechazo de cambio, destacarlo #}
                       {% if b.extras.free_cancel_override and b.extras.free_cancel_override.reason == "change_rejected" %}
                         <span class="badge badge-status-cancel_requested hover-lift">🆓 Cancelación gratis</span>
                       {% endif %}

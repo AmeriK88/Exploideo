@@ -56,11 +56,11 @@
 
         <div class="mt-5 flex flex-wrap gap-2">
           {% if profile.languages %}
-            <span class="badge">🗣 {{ profile.languages }}</span>
+            <span class="badge badge-neutral hover-lift">🗣 {{ profile.languages }}</span>
           {% endif %}
 
           {% if profile.website %}
-            <a class="badge" href="{{ profile.website }}" target="_blank" rel="noopener">
+            <a class="badge badge-neutral hover-lift" href="{{ profile.website }}" target="_blank" rel="noopener">
               🔗 Web
             </a>
           {% endif %}
@@ -114,8 +114,8 @@
 
         {% if review_stats.count %}
           <div class="flex flex-wrap items-center gap-2">
-            <span class="badge">⭐ {{ review_stats.avg|floatformat:1 }}/5</span>
-            <span class="badge">🧾 {{ review_stats.count }} reseñas</span>
+            <span class="badge badge-neutral hover-lift">⭐ {{ review_stats.avg|floatformat:1 }}/5</span>
+            <span class="badge badge-neutral hover-lift">🧾 {{ review_stats.count }} reseñas</span>
           </div>
         {% endif %}
       </div>

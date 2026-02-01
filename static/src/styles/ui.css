@@ -1,7 +1,7 @@
 @layer components {
   /* Helpers */
 /* Helpers */
-.hover-lift { @apply transition-transform duration-200 ease-out hover:-translate-y-0.5; }
+.hover-lift { @apply transition-transform duration-300 ease-out hover:-translate-y-0.5; }
 .hover-text { @apply transition-colors hover:text-slate-700; }
 .soft-shadow { @apply shadow-sm hover:shadow-md transition-shadow duration-200; }
 .focus-ring {
@@ -33,7 +33,7 @@
 
   .booking-card-bg{
     @apply absolute inset-0 bg-center bg-cover;
-    opacity: .45;
+    opacity: .48;
     transform: scale(1.05);
     filter: saturate(.95) contrast(.95);
   }
@@ -153,7 +153,7 @@
   .badge-amber,
   .badge-red,
   .badge-blue{
-    @apply inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium leading-none;
+    @apply inline-flex items-center gap-1 whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-medium leading-none;
     backface-visibility: hidden;
   }
 
