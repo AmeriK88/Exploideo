@@ -130,7 +130,7 @@
                       Escribir reseña
                     </a>
                   {% else %}
-                    <span class="badge">Necesitas una reserva aceptada</span>
+                    <span class="badge badge-neutral hover-lift">Necesitas una reserva aceptada</span>
                   {% endif %}
                 {% else %}
                   <a href="{% url 'accounts:login' %}?next={% url 'experiences:detail' exp.pk %}"

@@ -15,19 +15,19 @@
         <div class="flex items-center gap-2">
           {% with s=booking.status|lower %}
             {% if s == "accepted" %}
-              <span class="badge badge-status-accepted">Aceptada</span>
+              <span class="badge badge-status-accepted hover-lift">Aceptada</span>
             {% elif s == "pending" %}
-              <span class="badge badge-status-pending">Pendiente</span>
+              <span class="badge badge-status-pending hover-lift">Pendiente</span>
             {% elif s == "change_requested" %}
-              <span class="badge badge-status-change_requested">Cambio solicitado</span>
+              <span class="badge badge-status-change_requested hover-lift">Cambio solicitado</span>
             {% elif s == "cancel_requested" %}
-              <span class="badge badge-status-cancel_requested">Cancelación solicitada</span>
+              <span class="badge badge-status-cancel_requested hover-lift">Cancelación solicitada</span>
             {% elif s == "rejected" %}
-              <span class="badge badge-status-rejected">Rechazada</span>
+              <span class="badge badge-status-rejected hover-lift">Rechazada</span>
             {% elif s == "canceled" %}
-              <span class="badge badge-status-canceled">Cancelada</span>
+              <span class="badge badge-status-canceled hover-lift">Cancelada</span>
             {% else %}
-              <span class="badge">{{ booking.status }}</span>
+              <span class="badge hover-lift">{{ booking.status }}</span>
             {% endif %}
           {% endwith %}
         </div>
@@ -149,17 +149,17 @@
 
           {% with cr=booking.extras.change_request %}
             <div class="mt-3 flex flex-wrap gap-2">
-              {% if cr.date %}<span class="badge">📅 {{ cr.date }}</span>{% endif %}
-              {% if cr.adults is not None %}<span class="badge">👤 {{ cr.adults }} adultos</span>{% endif %}
-              {% if cr.children is not None %}<span class="badge">🧒 {{ cr.children }} niños</span>{% endif %}
-              {% if cr.infants is not None %}<span class="badge">👶 {{ cr.infants }} bebés</span>{% endif %}
+              {% if cr.date %}<span class="badge hover-lift">📅 {{ cr.date }}</span>{% endif %}
+              {% if cr.adults is not None %}<span class="badge hover-lift">👤 {{ cr.adults }} adultos</span>{% endif %}
+              {% if cr.children is not None %}<span class="badge hover-lift">🧒 {{ cr.children }} niños</span>{% endif %}
+              {% if cr.infants is not None %}<span class="badge hover-lift">👶 {{ cr.infants }} bebés</span>{% endif %}
               {% if cr.transport_mode_label %}
-                <span class="badge">🚐 {{ cr.transport_mode_label }}</span>
+                <span class="badge hover-lift">🚐 {{ cr.transport_mode_label }}</span>
               {% elif cr.transport_mode %}
-                <span class="badge">🚐 {{ cr.transport_mode }}</span>
+                <span class="badge hover-lift">🚐 {{ cr.transport_mode }}</span>
               {% endif %}
-              {% if cr.preferred_language %}<span class="badge">🗣 {{ cr.preferred_language }}</span>{% endif %}
-              {% if cr.pickup_notes %}<span class="badge">📍 {{ cr.pickup_notes }}</span>{% endif %}
+              {% if cr.preferred_language %}<span class="badge hover-lift">🗣 {{ cr.preferred_language }}</span>{% endif %}
+              {% if cr.pickup_notes %}<span class="badge hover-lift">📍 {{ cr.pickup_notes }}</span>{% endif %}
             </div>
 
             {% if cr.notes %}
@@ -219,21 +219,21 @@
         </p>
 
         <div class="mt-3 flex flex-wrap gap-2">
-          <span class="badge">📅 {{ booking.date }}</span>
+          <span class="badge hover-lift">📅 {{ booking.date }}</span>
 
           {% if booking.total_price %}
-            <span class="badge">💶 {{ booking.total_price }}€</span>
+            <span class="badge hover-lift">💶 {{ booking.total_price }}€</span>
           {% endif %}
 
           {% if booking.experience.location %}
-            <span class="badge">📍 {{ booking.experience.location }}</span>
+            <span class="badge hover-lift">📍 {{ booking.experience.location }}</span>
           {% endif %}
 
           {% if booking.experience.duration_minutes %}
-            <span class="badge">⏱ {{ booking.experience.duration_minutes }} min</span>
+            <span class="badge hover-lift">⏱ {{ booking.experience.duration_minutes }} min</span>
           {% endif %}
           {% if booking.preferred_language %}
-            <span class="badge">🗣 {{ booking.get_preferred_language_display }}</span>
+            <span class="badge hover-lift">🗣 {{ booking.get_preferred_language_display }}</span>
           {% endif %}
         </div>
       </div>
@@ -259,7 +259,7 @@
 
             <div class="mt-4 flex flex-wrap gap-2">
               {% if booking.pickup_time %}
-                <span class="badge">
+                <span class="badge hover-lift">
                   {% if booking.transport_mode == "own_vehicle" %}
                     ⏰ Hora de encuentro: {{ booking.pickup_time|time:"H:i" }}
                   {% else %}
@@ -267,12 +267,12 @@
                   {% endif %}
                 </span>
               {% else %}
-                <span class="badge badge-amber">
+                <span class="badge badge-amber hover-lift">
                   ⏳ Pendiente de confirmar hora
                 </span>
               {% endif %}
               {% if booking.meeting_point %}
-                <span class="badge">📍 {{ booking.meeting_point }}</span>
+                <span class="badge hover-lift">📍 {{ booking.meeting_point }}</span>
               {% endif %}
             </div>
           </div>
@@ -284,18 +284,18 @@
         <h2 class="label-title">Participantes y logística</h2>
 
         <div class="mt-3 flex flex-wrap gap-2">
-          <span class="badge">👤 {{ booking.adults }} adultos</span>
-          <span class="badge">🧒 {{ booking.children }} niños</span>
-          <span class="badge">👶 {{ booking.infants }} bebés</span>
+          <span class="badge hover-lift">👤 {{ booking.adults }} adultos</span>
+          <span class="badge hover-lift">🧒 {{ booking.children }} niños</span>
+          <span class="badge hover-lift">👶 {{ booking.infants }} bebés</span>
 
           {% if booking.transport_mode %}
-            <span class="badge">
+            <span class="badge hover-lift">
               🚐 {{ booking.get_transport_mode_display|default:booking.transport_mode }}
             </span>
           {% endif %}
 
           {% if booking.pickup_notes %}
-            <span class="badge">📝 {{ booking.pickup_notes }}</span>
+            <span class="badge hover-lift">📝 {{ booking.pickup_notes }}</span>
           {% endif %}
         </div>
 

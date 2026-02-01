@@ -9,7 +9,7 @@
       </p>
     </div>
     {% if search_cfg.badge %}
-      <span class="badge">{{ search_cfg.badge }}</span>
+      <span class="badge badge-neutral hover-lift">{{ search_cfg.badge }}</span>
     {% endif %}
   </div>
 
@@ -27,7 +27,7 @@
       />
     </div>
 
-    {# Estos campos NO se usarán en helpdesk, pero quedan listos #}
+    {# NO se usarán en helpdesk #}
     {% if search_cfg.show_price or search_cfg.show_duration %}
       <div class="grid gap-3 sm:grid-cols-2">
         {% if search_cfg.show_price %}

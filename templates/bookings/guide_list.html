@@ -14,8 +14,18 @@
     {% if bookings %}
       <div class="space-y-3">
         {% for b in bookings %}
-          <div class="card">
-            <div class="card-body">
+          <div class="card booking-card">
+            {# Background image (soft) #}
+            {% if b.experience.image %}
+              <div
+                class="booking-card-bg"
+                style="background-image:url('{{ b.experience.image.url }}');"
+                aria-hidden="true"
+              ></div>
+              <div class="booking-card-overlay" aria-hidden="true"></div>
+            {% endif %}
+
+            <div class="card-body booking-card-content">
               <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <!-- Left -->
                 <div class="min-w-0">
@@ -26,25 +36,25 @@
                   </h2>
 
                   <div class="mt-2 flex flex-wrap gap-2">
-                    <span class="badge">👤 {{ b.traveler.username }}</span>
-                    <span class="badge">📅 {{ b.date }}</span>
+                    <span class="badge badge-neutral hover-lift">👤 {{ b.traveler.username }}</span>
+                    <span class="badge badge-neutral hover-lift">📅 {{ b.date }}</span>
 
                     {% if b.preferred_language %}
-                      <span class="badge">🗣 {{ b.get_preferred_language_display }}</span>
+                      <span class="badge badge-neutral hover-lift">🗣 {{ b.get_preferred_language_display }}</span>
                     {% endif %}
 
-                    <span class="badge">👤 {{ b.adults }} adultos</span>
-                    <span class="badge">🧒 {{ b.children }} niños</span>
-                    <span class="badge">👶 {{ b.infants }} bebés</span>
+                    <span class="badge badge-neutral hover-lift">👤 {{ b.adults }} adultos</span>
+                    <span class="badge badge-neutral hover-lift">🧒 {{ b.children }} niños</span>
+                    <span class="badge badge-neutral hover-lift">👶 {{ b.infants }} bebés</span>
 
-                    <span class="badge">🚐 {{ b.get_transport_mode_display }}</span>
+                    <span class="badge badge-neutral hover-lift">🚐 {{ b.get_transport_mode_display }}</span>
 
                     {% if b.pickup_notes %}
-                      <span class="badge">📍 {{ b.pickup_notes }}</span>
+                      <span class="badge badge-neutral hover-lift">📍 {{ b.pickup_notes }}</span>
                     {% endif %}
 
                     {% if b.total_price %}
-                      <span class="badge">💶 {{ b.total_price }}€</span>
+                      <span class="badge badge-neutral hover-lift">💶 {{ b.total_price }}€</span>
                     {% endif %}
                   </div>
 
@@ -60,32 +70,32 @@
                     </p>
                   {% endif %}
 
-                  {# ✅ Extra útil para el guía: mini resumen del cambio solicitado #}
+                  {# mini resumen del cambio solicitado #}
                   {% if b.status|lower == "change_requested" and b.extras.change_request %}
-                    <div class="mt-3 rounded-xl border border-slate-200 bg-white p-3">
+                    <div class="mt-3 rounded-xl border border-slate-200 bg-white/80 backdrop-blur-[2px] p-3">
                       <p class="text-xs font-semibold text-slate-900">Cambio solicitado</p>
                       <p class="mt-1 text-xs text-slate-500">Revisa los campos propuestos antes de decidir.</p>
 
                       {% with cr=b.extras.change_request %}
                         <div class="mt-2 flex flex-wrap gap-2">
-                          {% if cr.date %}<span class="badge">📅 {{ cr.date }}</span>{% endif %}
-                          {% if cr.adults is not None %}<span class="badge">👤 {{ cr.adults }} adultos</span>{% endif %}
-                          {% if cr.children is not None %}<span class="badge">🧒 {{ cr.children }} niños</span>{% endif %}
-                          {% if cr.infants is not None %}<span class="badge">👶 {{ cr.infants }} bebés</span>{% endif %}
+                          {% if cr.date %}<span class="badge badge-neutral hover-lift">📅 {{ cr.date }}</span>{% endif %}
+                          {% if cr.adults is not None %}<span class="badge badge-neutral hover-lift">👤 {{ cr.adults }} adultos</span>{% endif %}
+                          {% if cr.children is not None %}<span class="badge badge-neutral hover-lift">🧒 {{ cr.children }} niños</span>{% endif %}
+                          {% if cr.infants is not None %}<span class="badge badge-neutral hover-lift">👶 {{ cr.infants }} bebés</span>{% endif %}
                           {% if cr.transport_mode_label %}
-                            <span class="badge">🚐 {{ cr.transport_mode_label }}</span>
+                            <span class="badge badge-neutral hover-lift">🚐 {{ cr.transport_mode_label }}</span>
                           {% elif cr.transport_mode %}
-                            <span class="badge">🚐 {{ cr.transport_mode }}</span>
+                            <span class="badge badge-neutral hover-lift">🚐 {{ cr.transport_mode }}</span>
                           {% endif %}
-                          {% if cr.pickup_notes %}<span class="badge">📍 {{ cr.pickup_notes }}</span>{% endif %}
+                          {% if cr.pickup_notes %}<span class="badge badge-neutral hover-lift">📍 {{ cr.pickup_notes }}</span>{% endif %}
                         </div>
                       {% endwith %}
                     </div>
                   {% endif %}
 
-                  {# ✅ Si hay cancelación y es override (rechazo de cambio), avisar al guía #}
+                  {# Si hay cancelación y es override (rechazo de cambio), avisar al guía #}
                   {% if b.status|lower == "cancel_requested" and b.extras.free_cancel_override and b.extras.free_cancel_override.reason == "change_rejected" %}
-                    <div class="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
+                    <div class="mt-3 rounded-xl border border-slate-200 bg-slate-50/80 backdrop-blur-[2px] p-3">
                       <p class="text-xs font-semibold text-slate-900">Cancelación gratuita</p>
                       <p class="mt-1 text-xs text-slate-500">
                         El viajero puede cancelar gratis porque se rechazó su solicitud de cambio.
@@ -99,19 +109,19 @@
                 <div class="flex flex-col items-start gap-2 sm:items-end">
                   {% with s=b.status|lower %}
                     {% if s == "accepted" %}
-                      <span class="badge badge-status-accepted">Aceptada</span>
+                      <span class="badge badge-status-accepted hover-lift">Aceptada</span>
                     {% elif s == "pending" %}
-                      <span class="badge badge-status-pending">Pendiente</span>
+                      <span class="badge badge-status-pending hover-lift">Pendiente</span>
                     {% elif s == "change_requested" %}
-                      <span class="badge badge-status-change_requested">Cambio solicitado</span>
+                      <span class="badge badge-status-change_requested hover-lift">Cambio solicitado</span>
                     {% elif s == "cancel_requested" %}
-                      <span class="badge badge-status-cancel_requested">Cancelación solicitada</span>
+                      <span class="badge badge-status-cancel_requested hover-lift">Cancelación solicitada</span>
                     {% elif s == "rejected" %}
-                      <span class="badge badge-status-rejected">Rechazada</span>
+                      <span class="badge badge-status-rejected hover-lift">Rechazada</span>
                     {% elif s == "canceled" %}
-                      <span class="badge badge-status-canceled">Cancelada</span>
+                      <span class="badge update-decision-rejected hover-lift">Cancelada</span>
                     {% else %}
-                      <span class="badge">{{ b.status }}</span>
+                      <span class="badge badge-neutral hover-lift">{{ b.status }}</span>
                     {% endif %}
                   {% endwith %}
 
@@ -121,7 +131,6 @@
                     </a>
 
                     {% with s=b.status|lower %}
-
                       {% if s == "pending" %}
                         <a href="{% url 'bookings:accept' b.pk %}" class="btn btn-primary">
                           Aceptar con mensaje
@@ -131,7 +140,6 @@
                         </a>
 
                       {% elif s == "accepted" %}
-                        {# Si está aceptada pero falta hora/punto, permitir reconfirmar #}
                         {% if not b.pickup_time %}
                           <a href="{% url 'bookings:accept' b.pk %}" class="btn btn-primary">
                             Confirmar hora y punto
@@ -155,16 +163,13 @@
                           <button class="btn btn-primary" type="submit">Aprobar cancelación</button>
                         </form>
 
-                        {# Si existe override, NO mostrar rechazar para no confundir al guía #}
                         {% if not b.extras.free_cancel_override or b.extras.free_cancel_override.reason != "change_rejected" %}
                           <form method="post" action="{% url 'bookings:guide_cancel_decide' b.pk 'reject' %}">
                             {% csrf_token %}
                             <button class="btn btn-ghost" type="submit">Rechazar cancelación</button>
                           </form>
                         {% endif %}
-
                       {% endif %}
-
                     {% endwith %}
                   </div>
                 </div>

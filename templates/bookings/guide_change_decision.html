@@ -13,10 +13,10 @@
       <div class="card-body">
         <h2 class="h2-section">Reserva actual</h2>
         <div class="mt-3 flex flex-wrap gap-2">
-          <span class="badge">📅 {{ booking.date }}</span>
-          <span class="badge">👥 {{ booking.people }} pax</span>
-          <span class="badge">🚐 {{ booking.get_transport_mode_display }}</span>
-          <span class="badge">📍 {{ booking.pickup_notes }}</span>
+          <span class="badge hover-lift">📅 {{ booking.date }}</span>
+          <span class="badge hover-lift">👥 {{ booking.people }} pax</span>
+          <span class="badge hover-lift">🚐 {{ booking.get_transport_mode_display }}</span>
+          <span class="badge hover-lift">📍 {{ booking.pickup_notes }}</span>
         </div>
       </div>
     </div>
@@ -26,15 +26,15 @@
         <h2 class="h2-section">Cambio solicitado</h2>
         {% with cr=booking.extras.change_request %}
           <div class="mt-3 flex flex-wrap gap-2">
-            <span class="badge">📅 {{ cr.date }}</span>
-            <span class="badge">👤 {{ cr.adults }} / 🧒 {{ cr.children }} / 👶 {{ cr.infants }}</span>
-            <span class="badge">🚐 {{ cr.transport_mode }}</span>
-            <span class="badge">📍 {{ cr.pickup_notes }}</span>
+            <span class="badge hover-lift">📅 {{ cr.date }}</span>
+            <span class="badge hover-lift">👤 {{ cr.adults }} / 🧒 {{ cr.children }} / 👶 {{ cr.infants }}</span>
+            <span class="badge hover-lift">🚐 {{ cr.transport_mode }}</span>
+            <span class="badge hover-lift">📍 {{ cr.pickup_notes }}</span>
           </div>
         {% endwith %}
       </div>
     </div>
-  </div>
+  </div> 
 
   <div class="card">
     <div class="card-body">

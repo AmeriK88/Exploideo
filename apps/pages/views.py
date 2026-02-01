@@ -112,7 +112,9 @@ def traveler_dashboard(request):
     if request.user.is_guide():
         return redirect("pages:dashboard")
 
-    today = timezone.localdate()
+    now = timezone.localtime()
+    today = now.date()
+    now_time = now.time()
     since = today - timedelta(days=30)
 
     categories = Category.objects.all()
@@ -131,7 +133,11 @@ def traveler_dashboard(request):
     )
 
     # Bookings del traveler
-    traveler_bookings_qs = Booking.objects.filter(traveler=request.user).select_related("experience", "experience__guide")
+    traveler_bookings_qs = (
+        Booking.objects
+        .filter(traveler=request.user)
+        .select_related("experience", "experience__guide")
+    )
 
     # KPIs
     bookings_30d = traveler_bookings_qs.filter(created_at__date__gte=since).count()
@@ -143,26 +149,41 @@ def traveler_dashboard(request):
         traveler_bookings_qs.filter(
             status=Booking.Status.ACCEPTED,
             created_at__date__gte=since,
-        ).aggregate(total=Sum("total_price"))["total"]
+        )
+        .aggregate(total=Sum("total_price"))["total"]
         or Decimal("0.00")
     )
 
     unseen_traveler_bookings = traveler_bookings_qs.filter(seen_by_traveler=False).count()
 
-    # Próxima reserva (futura) - yo excluiría canceled y rejected
-    next_booking = (
-        traveler_bookings_qs.filter(date__gte=today)
+    # Próxima reserva (incluye HOY si aún no ha empezado)
+    base_next_qs = (
+        traveler_bookings_qs
         .exclude(status__in=[Booking.Status.REJECTED, Booking.Status.CANCELED])
-        .order_by("date", "created_at")
+    )
+
+    # 1) Si queda algo hoy (pickup_time >= ahora), esto manda
+    today_next = (
+        base_next_qs
+        .filter(date=today, pickup_time__gte=now_time)
+        .order_by("pickup_time", "created_at")
         .first()
     )
+
+    # 2) Si no hay nada hoy, buscamos desde mañana en adelante
+    future_next = (
+        base_next_qs
+        .filter(date__gt=today)
+        .order_by("date", "pickup_time", "created_at")
+        .first()
+    )
+
+    next_booking = today_next or future_next
 
     # Tabla reservas recientes
     recent_bookings = traveler_bookings_qs.order_by("-created_at")[:8]
 
-    reviews_count = request.user.reviews.filter(
-        status=Review.Status.PUBLISHED
-    ).count()
+    reviews_count = request.user.reviews.filter(status=Review.Status.PUBLISHED).count()
 
     kpis = {
         "bookings_30d": bookings_30d,

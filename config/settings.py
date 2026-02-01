@@ -116,11 +116,14 @@ LOGOUT_REDIRECT_URL = "accounts:login"
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "Atlantic/Canary"
 
 USE_I18N = True
 
 USE_TZ = True
+
+
+
 
 # Email settings
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

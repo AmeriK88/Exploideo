@@ -184,19 +184,19 @@
                       <td class="py-3 pr-3">
                         {% with s=b.status|lower %}
                           {% if s == "accepted" %}
-                            <span class="badge badge-status-accepted">Aceptada</span>
+                            <span class="badge badge-status-accepted hover-lift">Aceptada</span>
                           {% elif s == "pending" %}
-                            <span class="badge badge-status-pending">Pendiente</span>
+                            <span class="badge badge-status-pending hover-lift">Pendiente</span>
                           {% elif s == "change_requested" %}
-                            <span class="badge badge-status-change">Cambio solicitado</span>
+                            <span class="badge badge-status-change hover-lift">Cambio solicitado</span>
                           {% elif s == "cancel_requested" %}
-                            <span class="badge badge-status-cancel">Cancelación solicitada</span>
+                            <span class="badge badge-status-cancel hover-lift">Cancelación solicitada</span>
                           {% elif s == "rejected" %}
-                            <span class="badge badge-status-rejected">Rechazada</span>
+                            <span class="badge badge-status-rejected hover-lift">Rechazada</span>
                           {% elif s == "canceled" %}
-                            <span class="badge update-decision-rejected">Cancelada</span>
+                            <span class="badge update-decision-rejected hover-lift">Cancelada</span>
                           {% else %}
-                            <span class="badge">{{ b.status }}</span>
+                            <span class="badge badge-neutral hover-lift">{{ b.status }}</span>
                           {% endif %}
                         {% endwith %}
                       </td>

@@ -14,7 +14,7 @@
       <a href="{% url 'pages:guide_dashboard' %}" class="btn btn-ghost">← Volver al panel</a>
     </div>
 
-    <div class="card" data-animate="fade-up">
+    <div class="card hover-lift" data-animate="fade-up">
       <div class="card-body">
         {% if reviews %}
           <div class="overflow-x-auto">
@@ -37,34 +37,34 @@
                       <span class="clamp-1">{{ r.experience.title }}</span>
                     </td>
 
-                    <td class="py-3 pr-3">
+                    <td class="py-3 p-lead pr-3">
                       {{ r.traveler.username }}
                     </td>
 
                     <td class="py-3 pr-3">
                       <div class="flex flex-wrap items-center gap-2">
-                        <span class="badge">{{ r.rating }}/5</span>
+                        <span class="badge badge-neutral hover-lift">{{ r.rating }}/5</span>
 
                         {% if r.booking and r.booking.status == "accepted" %}
-                          <span class="badge badge-emerald">Verificada</span>
+                          <span class="badge badge-emerald hover-lift">Verificada</span>
                         {% endif %}
                       </div>
                     </td>
 
                     <td class="py-3 pr-3">
                       {% if r.status == "published" %}
-                        <span class="badge badge-emerald">Publicada</span>
+                        <span class="badge badge-emerald hover-lift">Publicada</span>
                       {% elif r.status == "pending" %}
-                        <span class="badge badge-amber">Pendiente</span>
+                        <span class="badge badge-amber hover-lift">Pendiente</span>
                       {% elif r.status == "flagged" %}
                         <div class="space-y-1">
-                          <span class="badge badge-red">Marcada</span>
+                          <span class="badge badge-red hover-lift">Marcada</span>
                           {% if r.flagged_reason %}
                             <p class="p-micro">{{ r.flagged_reason }}</p>
                           {% endif %}
                         </div>
                       {% else %}
-                        <span class="badge">—</span>
+                        <span class="badge badge-neutral hover-lift">—</span>
                       {% endif %}
                     </td>
 

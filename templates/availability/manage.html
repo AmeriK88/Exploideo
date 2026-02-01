@@ -31,7 +31,7 @@
               <label class="label">{{ form.is_enabled.label }}</label>
               {{ form.is_enabled }}
               {% if form.is_enabled.help_text %}<p class="help">{{ form.is_enabled.help_text|safe }}</p>{% endif %}
-              {% if form.is_enabled.errors %}<p class="mt-1 text-xs text-red-600">{{ form.is_enabled.errors|striptags }}</p>{% endif %}
+              {% if form.is_enabled.errors %}<p class="field-error">{{ form.is_enabled.errors|striptags }}</p>{% endif %}
             </div>
 
             {# rango #}
@@ -39,17 +39,17 @@
               <div>
                 <label class="label">{{ form.start_date.label }}</label>
                 {{ form.start_date|add_class:"input" }}
-                {% if form.start_date.errors %}<p class="mt-1 text-xs text-red-600">{{ form.start_date.errors|striptags }}</p>{% endif %}
+                {% if form.start_date.errors %}<p class="field-error">{{ form.start_date.errors|striptags }}</p>{% endif %}
               </div>
               <div>
                 <label class="label">{{ form.end_date.label }}</label>
                 {{ form.end_date|add_class:"input" }}
-                {% if form.end_date.errors %}<p class="mt-1 text-xs text-red-600">{{ form.end_date.errors|striptags }}</p>{% endif %}
+                {% if form.end_date.errors %}<p class="field-error">{{ form.end_date.errors|striptags }}</p>{% endif %}
               </div>
             </div>
 
             {# capacidad #}
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+            <div class="content-box">
               <h3 class="text-sm font-semibold text-slate-900">Capacidad diaria</h3>
               <p class="mt-1 text-xs text-slate-600">
                 Puedes limitar por <b>personas</b>, por <b>número de excursiones</b>, o ambas.
@@ -61,14 +61,14 @@
                   <label class="label">{{ form.daily_capacity_people.label }}</label>
                   {{ form.daily_capacity_people|add_class:"input" }}
                   {% if form.daily_capacity_people.help_text %}<p class="help">{{ form.daily_capacity_people.help_text|safe }}</p>{% endif %}
-                  {% if form.daily_capacity_people.errors %}<p class="mt-1 text-xs text-red-600">{{ form.daily_capacity_people.errors|striptags }}</p>{% endif %}
+                  {% if form.daily_capacity_people.errors %}<p class="field-error">{{ form.daily_capacity_people.errors|striptags }}</p>{% endif %}
                 </div>
 
                 <div>
                   <label class="label">{{ form.daily_capacity_bookings.label }}</label>
                   {{ form.daily_capacity_bookings|add_class:"input" }}
                   {% if form.daily_capacity_bookings.help_text %}<p class="help">{{ form.daily_capacity_bookings.help_text|safe }}</p>{% endif %}
-                  {% if form.daily_capacity_bookings.errors %}<p class="mt-1 text-xs text-red-600">{{ form.daily_capacity_bookings.errors|striptags }}</p>{% endif %}
+                  {% if form.daily_capacity_bookings.errors %}<p class="field-error">{{ form.daily_capacity_bookings.errors|striptags }}</p>{% endif %}
                 </div>
               </div>
             </div>
@@ -85,7 +85,7 @@
                 {% endfor %}
               </div>
               {% if form.weekdays.help_text %}<p class="help">{{ form.weekdays.help_text|safe }}</p>{% endif %}
-              {% if form.weekdays.errors %}<p class="mt-1 text-xs text-red-600">{{ form.weekdays.errors|striptags }}</p>{% endif %}
+              {% if form.weekdays.errors %}<p class="field-error">{{ form.weekdays.errors|striptags }}</p>{% endif %}
             </div>
 
             <button type="submit" class="btn btn-primary w-full">
@@ -116,7 +116,7 @@
                 {% endif %}
 
                 {% if field.errors %}
-                  <p class="mt-1 text-xs text-red-600">{{ field.errors|striptags }}</p>
+                  <p class="field-error">{{ field.errors|striptags }}</p>
                 {% endif %}
               </div>
             {% endfor %}
