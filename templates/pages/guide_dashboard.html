@@ -27,7 +27,9 @@
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
       <div data-animate="fade-up">
         <div class="card">
-          <div class="card-body">
+      <div class="card-body relative">
+        <!-- Subtle top gradient -->
+        <div class="hero-top-glow"></div>
             <p class="p-muted">Experiencias</p>
             <p class="mt-2 p-large">
               {{ kpis.experiences|default:"—" }}
@@ -39,7 +41,9 @@
 
       <div data-animate="fade-up">
         <div class="card">
-          <div class="card-body">
+      <div class="card-body relative">
+        <!-- Subtle top gradient -->
+        <div class="hero-top-glow"></div>
             <p class="p-muted">Reservas (30 días)</p>
             <p class="mt-2 p-large">
               {{ kpis.bookings_30d|default:"—" }}
@@ -51,7 +55,9 @@
 
       <div data-animate="fade-up">
         <div class="card">
-          <div class="card-body">
+      <div class="card-body relative">
+        <!-- Subtle top gradient -->
+        <div class="hero-top-glow"></div>
             <p class="p-muted">Pendientes</p>
             <p class="mt-2 p-large">
               {{ kpis.pending|default:"—" }}
@@ -70,7 +76,9 @@
 
       <div data-animate="fade-up">
         <div class="card">
-          <div class="card-body">
+      <div class="card-body relative">
+        <!-- Subtle top gradient -->
+        <div class="hero-top-glow"></div>
             <p class="p-muted">Ingresos</p>
             <p class="mt-2 p-large">
               {{ kpis.revenue_30d|default:"—" }} €
@@ -85,7 +93,9 @@
     <div data-animate="fade-up">
       <a href="{% url 'reviews:guide_list' %}"
          class="block card hover-lift soft-shadow">
-        <div class="card-body">
+        <div class="card-body relative">
+          <!-- Subtle top gradient -->
+          <div class="hero-top-glow"></div>
           <p class="p-muted">Reseñas</p>
           <p class="mt-2 p-large">
             {{ kpis.reviews|default:"—" }}
@@ -158,7 +168,9 @@
     {% if recent_bookings %}
       <div data-animate="fade-up">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body relative">
+            <!-- Subtle top gradient -->
+            <div class="hero-top-glow"></div>
             <div class="flex items-center justify-between">
               <h2 class="h2-section">Reservas recientes</h2>
               <a href="{% url 'bookings:guide_list' %}" class="btn btn-ghost">Ver todas →</a>

@@ -2,13 +2,10 @@
 {% block title %}Detalle de reserva{% endblock %}
 
 {% block dashboard_content %}
+  <div class="card">
+    <div class="card-body relative">
       <!-- Subtle top gradient -->
       <div class="hero-top-glow"></div>
-  <div class="card">
-    <div class="card-body">
-
-
-
       <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 class="h1-page">Detalle de reserva</h1>
@@ -100,7 +97,7 @@
 
       {# NUEVO: Si el guía rechazó un cambio, permitir cancelación gratis y guiar al viajero #}
       {% if request.user == booking.traveler %}
-        {% if booking.extras.free_cancel_override and booking.extras.free_cancel_override.reason == "change_rejected" %}
+        {% if booking.extras.free_cancel_override and booking.extras.free_cancel_override.reason == "change_rejected" and show_free_cancel %}
           <div class="status-banner status-banner-update-rejected">
             ❌ El guía ha rechazado tu solicitud de cambio.
             <div class="mt-2">
@@ -119,23 +116,36 @@
         {% endif %}
       {% endif %}
 
+      {% if request.user == booking.traveler and has_started %}
+        <div class="alert alert-info mt-4">
+          <p class="p-body">
+            Esta experiencia ya ha comenzado o ha finalizado. Las modificaciones y cancelaciones están deshabilitadas.
+          </p>
+        </div>
+      {% endif %}
+
+
       {# Acciones del viajero (solo si no está cancelada/rechazada y no hay solicitud ya pendiente) #}
       {% if request.user == booking.traveler %}
         <div class="mt-4 flex flex-wrap gap-2">
-          {% with s=booking.status|lower %}
-            {% if s != "rejected" and s != "canceled" %}
-              {% if s != "change_requested" and s != "cancel_requested" %}
-                {% if not booking.extras.free_cancel_override %}
-                  <a href="{% url 'bookings:request_change' booking.pk %}" class="btn btn-primary">
-                    Solicitar cambio
-                  </a>
-                  <a href="{% url 'bookings:request_cancel' booking.pk %}" class="btn btn-ghost">
-                    Solicitar cancelación
-                  </a>
-                {% endif %}
-              {% endif %}
+
+          {% if show_free_cancel %}
+            <a href="{% url 'bookings:request_cancel' booking.pk %}" class="btn btn-primary">
+              Cancelar gratis
+            </a>
+          {% else %}
+            {% if can_request_change %}
+              <a href="{% url 'bookings:request_change' booking.pk %}" class="btn btn-primary">
+                Solicitar cambio
+              </a>
             {% endif %}
-          {% endwith %}
+
+            {% if can_request_cancel %}
+              <a href="{% url 'bookings:request_cancel' booking.pk %}" class="btn btn-ghost">
+                Solicitar cancelación
+              </a>
+            {% endif %}
+          {% endif %}
 
           <a href="{% url 'bookings:traveler_list' %}" class="btn btn-ghost">
             ← Volver a mis reservas

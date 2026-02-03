@@ -133,8 +133,8 @@
             <!-- Panel -->
             <div class="account-dd__panel absolute right-0 mt-2 w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">
               <div class="px-4 py-3">
-                <p class="text-xs text-slate-500">Sesión iniciada como</p>
-                <p class="text-sm font-semibold text-slate-900 truncate">{{ user.username }}</p>
+                <p class="p-micro">Sesión iniciada como</p>
+                <p class="h3-card truncate">{{ user.username }}</p>
               </div>
 
               <div class="h-px bg-slate-200"></div>
@@ -281,12 +281,47 @@
     <!-- Footer -->
     <footer class="mt-16 border-t border-slate-200 bg-linear-to-b from-white to-slate-50">
       <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+
+        <!-- Top CTA strip -->
+        <div class="card mb-8">
+          <div class="card-body flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p class="text-base font-semibold text-slate-900 tracking-tight">
+                ¿Quieres enterarte de experiencias nuevas antes que nadie?
+              </p>
+              <p class="mt-1 p-muted">
+                Novedades reales, sin spam. 1 email cuando haya algo bueno.
+              </p>
+            </div>
+
+            <form method="post" action="{% url 'pages:newsletter_subscribe' %}"
+                  class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
+              {% csrf_token %}
+              <input type="hidden" name="source" value="footer" />
+
+              <label class="sr-only" for="footer_email">Email</label>
+              <input
+                id="footer_email"
+                type="email"
+                name="email"
+                class="input sm:w-72"
+                placeholder="tu@email.com"
+                autocomplete="email"
+                required
+              />
+              <button class="btn btn-primary whitespace-nowrap" type="submit">
+                Avisarme
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Main grid -->
         <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm">
 
           <!-- Brand -->
           <div class="space-y-4">
             <a href="{% url 'pages:home' %}" class="inline-flex items-center gap-3 group">
-              <!-- Logo "badge" -->
               <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm group-hover:shadow-md transition overflow-hidden">
                 <img
                   src="{% static 'img/favicon-512.png' %}"
@@ -295,12 +330,11 @@
                 />
               </span>
 
-
               <div class="leading-tight">
                 <p class="text-base font-semibold text-slate-900 tracking-tight">
                   LanzaXperience
                 </p>
-                <p class="text-xs text-slate-500">
+                <p class="p-micro">
                   Guías verificados · Experiencias reales
                 </p>
               </div>
@@ -310,44 +344,65 @@
               Plataforma de experiencias auténticas en Lanzarote con guías locales verificados.
             </p>
 
-            <!-- Mini “trust chips” -->
+            <!-- Trust chips -->
             <div class="flex flex-wrap gap-2">
-              <span class="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600">
-                📍 Lanzarote
-              </span>
-              <span class="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600">
-                ⭐ Reseñas reales
-              </span>
-              <span class="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs text-slate-600">
-                🧭 Local guides
-              </span>
+              <span class="badge badge-neutral">📍 Lanzarote</span>
+              <span class="badge badge-neutral">⭐ Reseñas reales</span>
+              <span class="badge badge-neutral">🧭 Local guides</span>
+            </div>
+
+            <!-- Social -->
+            <div class="flex items-center gap-3 pt-1">
+              {# Pon tus URLs reales cuando las tengas #}
+              <a href="#" class="badge badge-neutral hover-lift" aria-label="Instagram">📸</a>
+              <a href="#" class="badge badge-neutral hover-lift" aria-label="TikTok">🎵</a>
+              <a href="#" class="badge badge-neutral hover-lift" aria-label="YouTube">▶️</a>
             </div>
           </div>
 
           <!-- Producto -->
           <div>
-            <h4 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">Producto</h4>
+            <h4 class="h3-card uppercase tracking-wide">Producto</h4>
             <ul class="mt-3 space-y-2 text-slate-600">
-              <li><a href="{% url 'experiences:list' %}" class="hover:text-slate-900 transition">Explorar experiencias</a></li>
-              <li><a href="{% url 'accounts:register' %}" class="hover:text-slate-900 transition">Convertirme en guía</a></li>
+              <li>
+                <a href="{% url 'experiences:list' %}" class="hover:text-slate-900 transition">
+                  Explorar experiencias
+                </a>
+                <p class="p-micro">Encuentra planes con disponibilidad real.</p>
+              </li>
+              <li>
+                <a href="{% url 'accounts:register' %}" class="hover:text-slate-900 transition">
+                  Convertirme en guía
+                </a>
+                <p class="p-micro">Publica y gestiona reservas desde tu panel.</p>
+              </li>
+
               {% if user.is_authenticated %}
-                <li><a href="{% url 'pages:dashboard' %}" class="hover:text-slate-900 transition">Mi panel</a></li>
+                <li>
+                  <a href="{% url 'pages:dashboard' %}" class="hover:text-slate-900 transition">
+                    Mi panel
+                  </a>
+                  <p class="p-micro">Reservas, notificaciones y solicitudes.</p>
+                </li>
               {% else %}
-                <li><a href="{% url 'accounts:login' %}" class="hover:text-slate-900 transition">Acceder</a></li>
+                <li>
+                  <a href="{% url 'accounts:login' %}" class="hover:text-slate-900 transition">
+                    Acceder
+                  </a>
+                  <p class="p-micro">Entra para ver y gestionar tus reservas.</p>
+                </li>
               {% endif %}
             </ul>
           </div>
 
           <!-- Soporte -->
           <div>
-            <h4 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">Soporte</h4>
+            <h4 class="h3-card uppercase tracking-wide">Soporte</h4>
             <ul class="mt-3 space-y-2 text-slate-600">
               <li><a href="{% url 'helpdesk:helpdesk' %}" class="hover:text-slate-900 transition">Centro de ayuda</a></li>
               <li><a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-slate-900 transition">Términos y condiciones</a></li>
               <li><a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-900 transition">Política de privacidad</a></li>
               <li><a href="{% url 'pages:cookie_policy' %}" class="hover:text-slate-900 transition">Política de cookies</a></li>
-
-              <!-- Add this -->
               <li>
                 <button
                   type="button"
@@ -357,31 +412,52 @@
                   Preferencias de cookies
                 </button>
               </li>
+
+              <li class="pt-2">
+                <p class="p-micro">¿Algo urgente?</p>
+                <a href="mailto:support@lanzaxperience.com" class="hover:text-slate-900 transition">
+                  support@lanzaxperience.com
+                </a>
+              </li>
             </ul>
           </div>
 
           <!-- Local -->
           <div>
-            <h4 class="text-sm font-semibold text-slate-900 uppercase tracking-wide">Ubicación</h4>
-            <p class="mt-3 text-slate-600 leading-relaxed">
-              🌋 Lanzarote, Islas Canarias<br>
-              Hecho con <span class="text-red-500">♥</span> para experiencias reales
-            </p>
+            <h4 class="h3-card uppercase tracking-wide">Ubicación</h4>
+            <div class="mt-3 space-y-3 text-slate-600 leading-relaxed">
+              <p>🌋 Lanzarote, Islas Canarias</p>
+
+              <div class="panel-soft">
+                <p class="h3-card">Hecho para evitar sorpresas</p>
+                <p class="mt-1 text-xs text-slate-600">
+                  Calendario real, guías verificados y gestión de cambios/cancelaciones clara.
+                </p>
+              </div>
+
+              <a href="{% url 'helpdesk:helpdesk' %}" class="btn btn-ghost w-full sm:w-auto">
+                Necesito ayuda
+              </a>
+            </div>
           </div>
         </div>
 
-        <div class="mt-10 border-t border-slate-200 pt-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-xs text-slate-500">
+        <!-- Bottom bar -->
+        <div class="mt-10 border-t border-slate-200 pt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-micro">
           <p>© {{ current_year }} LanzaXperience · Todos los derechos reservados</p>
-          <p class="flex items-center justify-center gap-2">
-            Hecho en Canarias <span class="text-red-500">♥</span>
+
+          <div class="flex flex-wrap items-center gap-3 justify-center sm:justify-end">
+            <a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-700 transition">Privacidad</a>
             <span class="text-slate-300">·</span>
-            <a href="#" class="hover:text-slate-700 transition">Volver arriba</a>
-          </p>
+            <a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-slate-700 transition">Términos</a>
+            <span class="text-slate-300">·</span>
+          </div>
         </div>
       </div>
     </footer>
 
-        <!-- Cookie Consent: Banner + Preferences Modal -->
+
+    <!-- Cookie Consent: Banner + Preferences Modal -->
     <div id="cookie-banner" class="fixed inset-x-0 bottom-0 z-60">
       <div class="mx-auto max-w-6xl px-4 pb-4 sm:px-6">
         <div class="card">
@@ -413,7 +489,7 @@
               </div>
             </div>
 
-            <p class="mt-3 text-xs text-slate-500">
+            <p class="mt-3 p-micro">
               Puedes cambiar tus preferencias cuando quieras desde el footer.
             </p>
           </div>
@@ -521,7 +597,7 @@
               </div>
             </div>
 
-            <p class="mt-4 text-xs text-slate-500">
+            <p class="mt-4 p-micro">
               Puedes cambiar esto cuando quieras. Para más info:
               <a href="{% url 'pages:cookie_policy' %}" class="font-semibold">Política de cookies</a>.
             </p>

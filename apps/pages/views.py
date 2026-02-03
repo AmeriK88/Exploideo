@@ -13,6 +13,13 @@ from decimal import Decimal
 from django.utils import timezone
 from datetime import timedelta
 
+from django.views.decorators.http import require_POST
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+
+from .models import NewsletterSubscriber
+
+
 
 def home_view(request):
     featured_experiences = (
@@ -257,3 +264,25 @@ def terms_and_conditions_view(request):
 
 def cookie_policy_view(request):
     return render(request, "pages/cookie_policy.html")
+
+@require_POST
+def newsletter_subscribe(request):
+    email = (request.POST.get("email") or "").strip().lower()
+
+    try:
+        validate_email(email)
+    except ValidationError:
+        messages.error(request, "Ese email no parece válido.")
+        return redirect(request.META.get("HTTP_REFERER", "/"))
+
+    obj, created = NewsletterSubscriber.objects.get_or_create(
+        email=email,
+        defaults={"source": request.POST.get("source") or "footer"},
+    )
+
+    if created:
+        messages.success(request, "¡Listo! Te avisaremos cuando haya novedades.")
+    else:
+        messages.info(request, "Ese email ya estaba registrado 😉")
+
+    return redirect(request.META.get("HTTP_REFERER", "/"))

@@ -118,18 +118,20 @@
                               ⏳ Tu solicitud está en revisión por el guía
                             </span>
                           {% else %}
-                            {% if b.extras.free_cancel_override and b.extras.free_cancel_override.reason == "change_rejected" %}
-                              <a href="{% url 'bookings:request_cancel' b.pk %}" class="btn btn-primary">
-                                Cancelar gratis
-                              </a>
-                            {% else %}
-                              <a href="{% url 'bookings:request_change' b.pk %}" class="btn btn-primary">
-                                Solicitar cambio
-                              </a>
-
-                              <a href="{% url 'bookings:request_cancel' b.pk %}" class="btn btn-ghost">
-                                Solicitar cancelación
-                              </a>
+                            {# Solo mostrar acciones si la fecha NO ha pasado (mínimo: por día) #}
+                            {% if b.date >= today %}
+                              {% if b.extras.free_cancel_override and b.extras.free_cancel_override.reason == "change_rejected" %}
+                                <a href="{% url 'bookings:request_cancel' b.pk %}" class="btn btn-primary">
+                                  Cancelar gratis
+                                </a>
+                              {% else %}
+                                <a href="{% url 'bookings:request_change' b.pk %}" class="btn btn-primary">
+                                  Solicitar cambio
+                                </a>
+                                <a href="{% url 'bookings:request_cancel' b.pk %}" class="btn btn-ghost">
+                                  Solicitar cancelación
+                                </a>
+                              {% endif %}
                             {% endif %}
                           {% endif %}
                         {% endif %}

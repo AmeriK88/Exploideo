@@ -124,7 +124,6 @@ USE_TZ = True
 
 
 
-
 # Email settings
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DEFAULT_FROM_EMAIL = "LanzaXperience <no-reply@lanzaxperience.com>"

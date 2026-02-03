@@ -16,6 +16,8 @@
     background: linear-gradient(to bottom, rgba(191,219,254,.70), transparent);
   }
 
+  .avatar { @apply rounded-full object-cover border-2 border-white shadow-lg bg-white; }
+
   /* Cards (hover suave + sin blur) */
   .card{
     @apply rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-sm

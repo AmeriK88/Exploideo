@@ -7,13 +7,15 @@
     <!-- Header -->
     <div class="card">
       <div class="card-body relative">
+        <!-- Subtle top gradient -->
+        <div class="hero-top-glow"></div>
 
         {# Avatar pequeño en la esquina #}
         {% if profile.avatar %}
           <img
             src="{{ profile.avatar.url }}"
             alt="{{ profile.display_name|default:guide_user.username }}"
-            class="absolute top-4 right-4 h-16 w-16 sm:h-20 sm:w-20 rounded-full object-cover border-2 border-white shadow-lg bg-white"
+            class="absolute top-4 right-4 h-16 w-16 sm:h-20 sm:w-20 avatar"
           />
         {% endif %}
 
