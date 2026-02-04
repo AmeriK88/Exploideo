@@ -1,10 +1,19 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+
 from django.conf import settings
 from django.db import models
 
 from apps.experiences.models import Experience
 
+if TYPE_CHECKING:
+    from apps.billing.models import Invoice
+
 
 class Booking(models.Model):
+    if TYPE_CHECKING:
+        invoice: "Invoice"
     class Language(models.TextChoices):
         CHOOSE = "", "Selecciona un idioma"
         ES = "es", "Español"
@@ -13,7 +22,7 @@ class Booking(models.Model):
         FR = "fr", "Français"
         IT = "it", "Italiano"
         PT = "pt", "Português"
-    
+
 
     preferred_language = models.CharField(
         max_length=5,
@@ -90,8 +99,8 @@ class Booking(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     responded_at = models.DateTimeField(null=True, blank=True)
 
-    pickup_time = models.TimeField(null=True, blank=True)  # hora confirmada por el guía
-    meeting_point = models.CharField(max_length=255, blank=True)  # opcional: punto exacto
+    pickup_time = models.TimeField(null=True, blank=True)
+    meeting_point = models.CharField(max_length=255, blank=True)
 
     @property
     def total_people(self) -> int:

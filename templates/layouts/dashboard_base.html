@@ -106,6 +106,16 @@
               </a>
             {% endif %}
           {% endif %}
+
+          <a href="{% url 'billing:my_invoices' %}"
+            class="block rounded-lg px-3 py-2 font-medium
+            {% if request.resolver_match.app_name == 'billing' %}
+              bg-blue-50 text-blue-700
+            {% else %}
+              text-slate-700 hover:bg-slate-100
+            {% endif %}">
+            {% if user.is_guide %}Facturación{% else %}Mis facturas{% endif %}
+          </a>
         </nav>
 
         <div class="mt-4 border-t border-slate-200 pt-4 space-y-2">

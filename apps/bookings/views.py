@@ -1,5 +1,4 @@
 from decimal import Decimal
-from urllib import request
 from datetime import date, datetime, timedelta, time
 from django.urls import reverse
 
@@ -15,6 +14,10 @@ from .emails import send_booking_status_email
 from .forms import BookingForm, BookingDecisionForm
 from .models import Booking
 from .forms import BookingChangeRequestForm
+from apps.billing.services import create_invoice_from_booking
+from apps.billing.models import Invoice
+from apps.bookings.services import rectificate_booking_invoice_if_needed
+
 
 def booking_start_dt_local(booking):
     """
@@ -61,14 +64,13 @@ def can_cancel_free(booking) -> bool:
         - si no hay pickup_time (legacy), gratis SOLO si no ha pasado (no infinito)
     """
 
-    # 🔒 Guard absoluto: si ya empezó/pasó, NO hay cancelación gratis (ni overrides)
+    # 🔒 Guard absoluto: si ya empezó/pasó, NO hay cancelación gratis
     if booking_has_started(booking):
         return False
 
     # Override: si un cambio fue rechazado por el guía, el viajero puede cancelar gratis
     override = (booking.extras or {}).get("free_cancel_override")
     if override and override.get("reason") == "change_rejected":
-        # Permitimos el override hasta antes del inicio real (o antes del fin del día si legacy).
         return True
 
     if booking.status == Booking.Status.PENDING:
@@ -77,8 +79,7 @@ def can_cancel_free(booking) -> bool:
     if booking.status == Booking.Status.ACCEPTED:
         start_dt = booking_start_dt_local(booking)
         if start_dt is None:
-            # legacy: permitido solo si no ha pasado (ya lo cubre booking_has_started)
-            return True
+            return True  # legacy: permitido solo si no ha pasado
         return timezone.now() <= (start_dt - timedelta(hours=48))
 
     return False
@@ -272,6 +273,11 @@ def accept_booking(request, pk):
                 booking.responded_at = timezone.now()
 
             booking.save()
+
+            try:
+                booking.invoice
+            except Invoice.DoesNotExist:
+                create_invoice_from_booking(booking)
 
             send_booking_status_email(
                 to_email=booking.traveler.email,
@@ -575,6 +581,11 @@ def decide_cancel_request(request, pk, decision):
             "seen_by_traveler", "seen_by_guide", "updated_at"
         ])
 
+        rectificate_booking_invoice_if_needed(
+            booking,
+            reason="Cancelación aprobada por el guía",
+        )
+
         send_booking_status_email(
             to_email=booking.traveler.email,
             subject="Solicitud de cancelación rechazada - LanzaXperience",
@@ -677,6 +688,11 @@ def request_booking_cancel(request, pk):
                 "seen_by_guide", "seen_by_traveler",
                 "extras", "updated_at"
             ])
+
+            rectificate_booking_invoice_if_needed(
+                booking,
+                reason="Cancelación gratis (48h) por el viajero",
+            )
 
             # Email al viajero confirmando su cancelación
             send_booking_status_email(

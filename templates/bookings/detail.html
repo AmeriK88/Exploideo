@@ -128,7 +128,6 @@
       {# Acciones del viajero (solo si no está cancelada/rechazada y no hay solicitud ya pendiente) #}
       {% if request.user == booking.traveler %}
         <div class="mt-4 flex flex-wrap gap-2">
-
           {% if show_free_cancel %}
             <a href="{% url 'bookings:request_cancel' booking.pk %}" class="btn btn-primary">
               Cancelar gratis
@@ -145,6 +144,12 @@
                 Solicitar cancelación
               </a>
             {% endif %}
+          {% endif %}
+
+          {% if booking.status == "accepted" %}
+            <a href="{% url 'billing:invoice_by_booking' booking.pk %}" class="btn btn-ghost">
+              Ver factura
+            </a>
           {% endif %}
 
           <a href="{% url 'bookings:traveler_list' %}" class="btn btn-ghost">

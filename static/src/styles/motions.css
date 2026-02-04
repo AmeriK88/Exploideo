@@ -3,6 +3,7 @@
   opacity: 0;
   transform: translateY(10px);
   transition: opacity .25s ease, transform .25s ease;
+  overflow-x: clip;
 }
 
 .page-enter.is-ready{
@@ -10,6 +11,9 @@
   transform: none; /* no translateY(0) */
 }
 
+@supports not (overflow: clip) {
+  .page-enter{ overflow-x: hidden; }
+}
 
 
 
