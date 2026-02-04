@@ -1,0 +1,79 @@
+{% extends "layouts/dashboard_base.html" %}
+{% block title %}Mis facturas{% endblock %}
+
+{% block dashboard_content %}
+<div class="flex flex-col gap-6">
+
+  <div data-animate="fade-up">
+    <h1 class="h1-page">Mis facturas</h1>
+    <p class="mt-1 p-muted">Consulta tus facturas emitidas.</p>
+  </div>
+
+  {% if invoices %}
+    <div class="space-y-3" data-stagger>
+      {% for inv in invoices %}
+        <div class="card" data-animate="scale-in">
+          <div class="card-body flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="badge badge-neutral">🧾 {{ inv.number|default:"(Draft)" }}</span>
+
+                {% if inv.kind == "rectificative" %}
+                  <span class="badge badge-red">Rectificativa</span>
+                {% endif %}
+
+                {% if inv.status == "issued" %}
+                  <span class="badge badge-emerald">Emitida</span>
+                {% elif inv.status == "draft" %}
+                  <span class="badge badge-amber">Borrador</span>
+                {% else %}
+                  <span class="badge badge-red">Anulada</span>
+                {% endif %}
+              </div>
+
+              <p class="mt-2 text-sm text-slate-700">
+                Total: <span class="font-semibold">{{ inv.total }} {{ inv.currency }}</span>
+                {% if inv.issued_at %} · Emitida: {{ inv.issued_at|date:"d/m/Y H:i" }}{% endif %}
+              </p>
+
+              {# Booking directo (factura normal) o booking de la original (rectificativa) #}
+              {% if inv.booking %}
+                <p class="mt-1 text-xs text-slate-500">
+                  Reserva: {{ inv.booking.experience.title }} · {{ inv.booking.date }}
+                </p>
+              {% elif inv.rectifies and inv.rectifies.booking %}
+                <p class="mt-1 text-xs text-slate-500">
+                  Reserva: {{ inv.rectifies.booking.experience.title }} · {{ inv.rectifies.booking.date }}
+                </p>
+                <p class="mt-1 text-xs text-slate-500">
+                  Rectifica a: <span class="font-medium">{{ inv.rectifies.number }}</span>
+                </p>
+              {% endif %}
+            </div>
+
+            <div class="flex flex-wrap gap-2">
+              {% if inv.booking %}
+                <a class="btn btn-ghost" href="{% url 'bookings:detail' inv.booking.pk %}">Ver reserva</a>
+              {% elif inv.rectifies and inv.rectifies.booking %}
+                <a class="btn btn-ghost" href="{% url 'bookings:detail' inv.rectifies.booking.pk %}">Ver reserva</a>
+              {% endif %}
+
+              <a class="btn btn-primary" href="{% url 'billing:invoice_detail' inv.pk %}">Ver factura</a>
+            </div>
+
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="card" data-animate="scale-in">
+      <div class="card-body">
+        <h2 class="h2-section">Aún no tienes facturas</h2>
+        <p class="mt-1 p-muted">Cuando se emita una factura aparecerá aquí.</p>
+      </div>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}
