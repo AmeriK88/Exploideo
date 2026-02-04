@@ -13,6 +13,8 @@ urlpatterns = [
     path("availability/", include("apps.availability.urls")),
     path("reviews/", include("apps.reviews.urls")),
     path("help/", include("apps.helpdesk.urls")),
+    path("billing/", include("apps.billing.urls", namespace="billing")),
+
 ]
 
 if settings.DEBUG:
