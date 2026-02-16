@@ -50,186 +50,52 @@
     {% block extra_head %}{% endblock %}
   </head>
 
-  <body class="min-h-screen bg-slate-50 text-slate-800 antialiased font-sans overflow-x-hidden">
+<body class="home-landing min-h-screen bg-slate-50 text-slate-800 antialiased font-sans {% block body_class %}{% endblock %}">
 
-    <!-- Topbar -->
+    <!-- =========================================================
+      NAVBAR (minimal, sin links a la app)
+    ========================================================== -->
     <header class="nav-grain">
-      <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+      <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6" data-stagger>
+        <!-- Brand -->
+        <a href="{% url 'pages:home' %}" class="flex min-w-0 items-center gap-2" data-animate="fade-down">
+          <img
+            src="{% static 'img/logo-lanzaxperience-512.png' %}"
+            alt="LanzaXperience"
+            width="80"
+            height="80"
+            fetchpriority="high"
+            decoding="async"
+            class="h-10 w-auto sm:h-12 md:h-14 lg:h-16 shrink-0 transition-transform hover:scale-105 drop-shadow-md"
+          />
 
-        <!-- Left: Brand + Desktop nav -->
-        <div class="flex items-center gap-4">
-          <a href="{% url 'pages:home' %}" class="flex items-center gap-0">
-            <img
-              src="{% static 'img/logo-lanzaxperience-512.png' %}"
-              alt="LanzaXperience"
-              width="80"
-              height="80"
-              fetchpriority="high"
-              decoding="async"
-              class="h-12 sm:h-14 md:h-16 lg:h-20 w-auto transition-transform hover:scale-105 drop-shadow-md"
-            />
+          <!-- En móvil se oculta para que no se solape -->
+          <span
+            class="hidden sm:inline-flex px-3 py-1.5 rounded-xl text-sm sm:text-base font-semibold text-slate-900
+                   bg-linear-to-r from-white via-blue-500 to-yellow-400 shadow-sm border border-slate-200/60
+                   whitespace-nowrap"
+          >
+            LanzaXperience
+          </span>
+        </a>
 
-            <span class="px-3 py-1.5 rounded-xl text-sm sm:text-base font-semibold text-slate-900
-                        bg-linear-to-r from-white via-blue-500 to-yellow-400
-                        shadow-sm border border-slate-200/60">
-              LanzaXperience
-            </span>
+        <!-- CTA -->
+        <div class="flex shrink-0 items-center gap-2 sm:gap-3" data-animate="fade-down">
+          <span class="hidden sm:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700">
+            <span class="inline-block h-2 w-2 rounded-full bg-emerald-500"></span>
+            Lista de espera abierta
+          </span>
+
+          <a
+            href="{% url 'pages:home' %}#waitlist"
+            class="inline-flex items-center justify-center rounded-2xl bg-indigo-600 px-3 py-2 text-xs font-semibold text-white shadow-sm
+                   hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/50
+                   sm:px-4 sm:text-sm"
+          >
+            <span class="sm:hidden">Acceso anticipado</span>
+            <span class="hidden sm:inline">Quiero acceso anticipado</span>
           </a>
-
-          <nav class="hidden md:flex items-center gap-1 text-sm">
-            <a href="{% url 'experiences:list' %}"
-              class="rounded-xl px-3 py-2 font-medium text-white/75 hover:text-white hover:bg-white/10 transition">
-              Explorar
-            </a>
-
-            {% if user.is_authenticated %}
-              <a href="{% url 'pages:dashboard' %}"
-                class="rounded-xl px-3 py-2 font-medium text-white/75 hover:text-white hover:bg-white/10 transition">
-                Mi panel
-              </a>
-            {% endif %}
-          </nav>
         </div>
-
-        <!-- Right: Actions (Desktop) -->
-        <div class="hidden md:flex items-center gap-2 text-sm">
-          {% if user.is_authenticated %}
-            {# Reservas siempre redirige por ROL (no por unseen) #}
-            <a
-              href="{% if user.is_guide %}{% url 'bookings:guide_list' %}{% else %}{% url 'bookings:traveler_list' %}{% endif %}"
-              class="inline-flex items-center gap-2 rounded-xl px-3 py-2 font-medium text-white/75 hover:text-white hover:bg-white/10 transition"
-              title="Reservas"
-            >
-              Reservas
-
-              {# Badge solo del rol correspondiente #}
-              {% if user.is_guide and unseen_guide_bookings|default:0 %}
-                <span class="inline-flex items-center rounded-full bg-blue-600 px-2 py-0.5 text-xs font-semibold text-white">
-                  {{ unseen_guide_bookings }}
-                </span>
-              {% elif not user.is_guide and unseen_traveler_bookings|default:0 %}
-                <span class="inline-flex items-center rounded-full bg-blue-600 px-2 py-0.5 text-xs font-semibold text-white">
-                  {{ unseen_traveler_bookings }}
-                </span>
-              {% endif %}
-            </a>
-
-          <!-- Account dropdown -->
-          <details class="relative account-dd">
-            <summary class="list-none cursor-pointer">
-              <div class="group flex items-center gap-2 rounded-xl px-2 py-1.5 hover:bg-slate-100 transition-colors">
-                <div class="h-8 w-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-semibold text-slate-700">
-                  {{ user.username|slice:":2"|upper }}
-                </div>
-
-                <span class="hidden lg:inline text-white/80 font-medium group-hover:text-slate-800">
-                  {{ user.username }}
-                </span>
-
-                <span class="chev text-slate-500 group-hover:text-slate-700 transition-transform duration-200">▾</span>
-              </div>
-            </summary>
-
-            <!-- Panel -->
-            <div class="account-dd__panel absolute right-0 mt-2 w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">
-              <div class="px-4 py-3">
-                <p class="p-micro">Sesión iniciada como</p>
-                <p class="h3-card truncate">{{ user.username }}</p>
-              </div>
-
-              <div class="h-px bg-slate-200"></div>
-
-              <div class="p-2 text-sm">
-                <a href="{% url 'pages:dashboard' %}"
-                  class="block rounded-xl px-3 py-2 text-slate-700 hover:bg-slate-100">
-                  Mi panel
-                </a>
-
-                {# Reservas por rol también aquí #}
-                <a href="{% if user.is_guide %}{% url 'bookings:guide_list' %}{% else %}{% url 'bookings:traveler_list' %}{% endif %}"
-                  class="block rounded-xl px-3 py-2 text-slate-700 hover:bg-slate-100">
-                  Reservas
-                </a>
-
-                <a href="{% url 'accounts:logout' %}"
-                  class="mt-1 block rounded-xl bg-slate-900 px-3 py-2 font-medium text-white hover:bg-slate-800">
-                  Salir
-                </a>
-              </div>
-            </div>
-          </details>
-
-          {% else %}
-            <a href="{% url 'accounts:login' %}"
-              class="rounded-xl px-3 py-2 font-medium text-white/75 hover:text-white hover:bg-white/10 transition">
-              Login
-            </a>
-            <a href="{% url 'accounts:register' %}"
-              class="rounded-xl bg-blue-600 px-3 py-2 font-medium text-white hover:bg-blue-500">
-              Registro
-            </a>
-          {% endif %}
-        </div>
-
-        <!-- Mobile: Menu -->
-        <div class="md:hidden">
-          <details class="relative">
-            <summary class="list-none cursor-pointer">
-              <div class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50">
-                Menú
-                <span class="ml-2 text-slate-500">▾</span>
-              </div>
-            </summary>
-
-            <div class="mobile-menu absolute right-0 mt-2 w-64 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">
-              <div class="p-2 text-sm">
-                <a href="{% url 'experiences:list' %}" class="block rounded-xl px-3 py-2 text-slate-700 hover:bg-slate-100">
-                  Explorar
-                </a>
-
-                {% if user.is_authenticated %}
-                  <a href="{% url 'pages:dashboard' %}" class="block rounded-xl px-3 py-2 text-slate-700 hover:bg-slate-100">
-                    Mi panel
-                  </a>
-
-                  {# Reservas por rol (mobile) #}
-                  <a
-                    href="{% if user.is_guide %}{% url 'bookings:guide_list' %}{% else %}{% url 'bookings:traveler_list' %}{% endif %}"
-                    class="flex items-center justify-between rounded-xl px-3 py-2 text-slate-700 hover:bg-slate-100"
-                  >
-                    Reservas
-
-                    {% if user.is_guide and unseen_guide_bookings|default:0 %}
-                      <span class="inline-flex items-center rounded-full bg-blue-600 px-2 py-0.5 text-xs font-semibold text-white">
-                        {{ unseen_guide_bookings }}
-                      </span>
-                    {% elif not user.is_guide and unseen_traveler_bookings|default:0 %}
-                      <span class="inline-flex items-center rounded-full bg-blue-600 px-2 py-0.5 text-xs font-semibold text-white">
-                        {{ unseen_traveler_bookings }}
-                      </span>
-                    {% endif %}
-                  </a>
-
-                  <div class="my-2 h-px bg-slate-200"></div>
-
-                  <a href="{% url 'accounts:logout' %}" class="block rounded-xl bg-slate-900 px-3 py-2 font-medium text-white hover:bg-slate-800">
-                    Salir
-                  </a>
-                {% else %}
-                  <div class="my-1 h-px bg-slate-200"></div>
-
-                  <a href="{% url 'accounts:login' %}" class="block rounded-xl px-3 py-2 font-medium text-slate-700 hover:bg-slate-100">
-                    Login
-                  </a>
-                  <a href="{% url 'accounts:register' %}" class="mt-1 block rounded-xl bg-blue-600 px-3 py-2 font-medium text-white hover:bg-blue-500">
-                    Registro
-                  </a>
-                {% endif %}
-              </div>
-            </div>
-          </details>
-        </div>
-
       </div>
     </header>
 
@@ -271,19 +137,19 @@
 
 
     {% block body %}
-      <main id="page" class="mx-auto max-w-6xl flex-1 w-full px-4 py-6 sm:px-6 pb-16" data-page>
-        <div class="page-enter">
+      <main id="page"  class="page-enter mx-auto max-w-6xl flex-1 w-full px-4 py-6 sm:px-6 pb-16" data-page>
+
           {% block content %}{% endblock %}
-        </div>
+
       </main>
     {% endblock %}
 
     <!-- Footer -->
-    <footer class="mt-16 border-t border-slate-200 bg-linear-to-b from-white to-slate-50">
+    <footer class="mt-16 border-t border-slate-200 bg-linear-to-b from-white to-slate-50" data-stagger>
       <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
 
         <!-- Top CTA strip -->
-        <div class="card mb-8">
+        <div class="card mb-8" data-animate="fade-up">
           <div class="card-body flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p class="text-base font-semibold text-slate-900 tracking-tight">
@@ -317,10 +183,10 @@
         </div>
 
         <!-- Main grid -->
-        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm">
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm" data-stagger>
 
           <!-- Brand -->
-          <div class="space-y-4">
+          <div class="space-y-4" data-animate="fade-up">
             <a href="{% url 'pages:home' %}" class="inline-flex items-center gap-3 group">
               <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm group-hover:shadow-md transition overflow-hidden">
                 <img
@@ -353,7 +219,6 @@
 
             <!-- Social -->
             <div class="flex items-center gap-3 pt-1">
-              {# Pon tus URLs reales cuando las tengas #}
               <a href="#" class="badge badge-neutral hover-lift" aria-label="Instagram">📸</a>
               <a href="#" class="badge badge-neutral hover-lift" aria-label="TikTok">🎵</a>
               <a href="#" class="badge badge-neutral hover-lift" aria-label="YouTube">▶️</a>
@@ -361,17 +226,24 @@
           </div>
 
           <!-- Producto -->
-          <div>
+          <div data-animate="fade-up">
             <h4 class="h3-card uppercase tracking-wide">Producto</h4>
             <ul class="mt-3 space-y-2 text-slate-600">
               <li>
-                <a href="{% url 'experiences:list' %}" class="hover:text-slate-900 transition">
+                <a href="#"
+                  onclick="return false;"
+                  class="hover:text-slate-900 transition cursor-default"
+                  aria-disabled="true">
                   Explorar experiencias
                 </a>
                 <p class="p-micro">Encuentra planes con disponibilidad real.</p>
               </li>
+
               <li>
-                <a href="{% url 'accounts:register' %}" class="hover:text-slate-900 transition">
+                <a href="#"
+                  onclick="return false;"
+                  class="hover:text-slate-900 transition cursor-default"
+                  aria-disabled="true">
                   Convertirme en guía
                 </a>
                 <p class="p-micro">Publica y gestiona reservas desde tu panel.</p>
@@ -379,14 +251,20 @@
 
               {% if user.is_authenticated %}
                 <li>
-                  <a href="{% url 'pages:dashboard' %}" class="hover:text-slate-900 transition">
+                  <a href="#"
+                    onclick="return false;"
+                    class="hover:text-slate-900 transition cursor-default"
+                    aria-disabled="true">
                     Mi panel
                   </a>
                   <p class="p-micro">Reservas, notificaciones y solicitudes.</p>
                 </li>
               {% else %}
                 <li>
-                  <a href="{% url 'accounts:login' %}" class="hover:text-slate-900 transition">
+                  <a href="#"
+                    onclick="return false;"
+                    class="hover:text-slate-900 transition cursor-default"
+                    aria-disabled="true">
                     Acceder
                   </a>
                   <p class="p-micro">Entra para ver y gestionar tus reservas.</p>
@@ -396,7 +274,7 @@
           </div>
 
           <!-- Soporte -->
-          <div>
+          <div data-animate="fade-up">
             <h4 class="h3-card uppercase tracking-wide">Soporte</h4>
             <ul class="mt-3 space-y-2 text-slate-600">
               <li><a href="{% url 'helpdesk:helpdesk' %}" class="hover:text-slate-900 transition">Centro de ayuda</a></li>
@@ -423,7 +301,7 @@
           </div>
 
           <!-- Local -->
-          <div>
+          <div data-animate="fade-up">
             <h4 class="h3-card uppercase tracking-wide">Ubicación</h4>
             <div class="mt-3 space-y-3 text-slate-600 leading-relaxed">
               <p>🌋 Lanzarote, Islas Canarias</p>
@@ -443,7 +321,7 @@
         </div>
 
         <!-- Bottom bar -->
-        <div class="mt-10 border-t border-slate-200 pt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-micro">
+        <div class="mt-10 border-t border-slate-200 pt-5 pb-24 sm:pb-0 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-micro">
           <p>© {{ current_year }} LanzaXperience · Todos los derechos reservados</p>
 
           <div class="flex flex-wrap items-center gap-3 justify-center sm:justify-end">
@@ -455,7 +333,6 @@
         </div>
       </div>
     </footer>
-
 
     <!-- Cookie Consent: Banner + Preferences Modal -->
     <div id="cookie-banner" class="fixed inset-x-0 bottom-0 z-60">

@@ -1,4 +1,3 @@
-/* static/js/cookies/consent.js */
 (() => {
   "use strict";
 
