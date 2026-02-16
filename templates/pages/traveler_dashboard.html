@@ -123,7 +123,7 @@
                     {% elif s == "rejected" %}
                       <span class="badge badge-status-rejected">Rechazada</span>
                     {% elif s == "canceled" %}
-                      <span class="badge status-banner-update-rejected ">Cancelada</span>
+                      <span class="badge badge-status-canceled">Cancelada</span>
                     {% else %}
                       <span class="badge">{{ next_booking.status }}</span>
                     {% endif %}
@@ -209,13 +209,13 @@
                           {% elif s == "pending" %}
                             <span class="badge badge-status-pending">Pendiente</span>
                           {% elif s == "change_requested" %}
-                            <span class="badge badge-status-change">Cambio solicitado</span>
+                            <span class="badge badge-status-change_requested">Cambio solicitado</span>
                           {% elif s == "cancel_requested" %}
-                            <span class="badge badge-status-cancel">Cancelación solicitada</span>
+                            <span class="badge badge-status-cancel_requested">Cancelación solicitada</span>
                           {% elif s == "rejected" %}
                             <span class="badge badge-status-rejected">Rechazada</span>
                           {% elif s == "canceled" %}
-                            <span class="badge status-banner-update-rejected ">Cancelada</span>
+                            <span class="badge badge-neutral">Cancelada</span>
                           {% else %}
                             <span class="badge">{{ b.status }}</span>
                           {% endif %}

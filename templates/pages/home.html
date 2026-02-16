@@ -1,92 +1,103 @@
 {% extends "layouts/base.html" %}
 {% load static %}
+
+{% block body_class %}home-landing{% endblock %}
+{% block main_class %}max-w-none px-0 py-0{% endblock %}
 {% block title %}LanzaXperience{% endblock %}
 
 {% block content %}
   {% url 'experiences:list' as experiences_list_url %}
 
-  <!-- Hero -->
-  <section data-animate="fade-up">
-    <div class="card overflow-hidden relative">
-      <div class="card-body relative">
-        <!-- Subtle top gradient -->
-        <div class="hero-top-glow"></div>
+  <!-- HERO (YA NO es una .card gigante) -->
+  <section class="home-hero" data-animate="fade-up">
+    <!-- blobs -->
+    <div class="home-hero-bg" aria-hidden="true">
+      <div class="home-blob home-blob-a"></div>
+      <div class="home-blob home-blob-b"></div>
+    </div>
 
-        <div class="grid gap-10 lg:grid-cols-2 lg:items-center" data-stagger>
+    <div class="home-container">
+      <div class="home-hero-grid" data-stagger>
 
-          <!-- LEFT: copy -->
-          <div class="relative" data-animate="fade-up">
-            <div class="inline-flex flex-wrap items-center gap-2">
-              <span class="badge badge-neutral hover-lift">📍 Lanzarote</span>
-              <span class="badge badge-neutral hover-lift">✅ Guías verificados</span>
-              <span class="badge badge-neutral hover-lift">🗓 Disponibilidad real</span>
-              <span class="badge badge-amber hover-lift">🌋 Timanfaya vibes</span>
-            </div>
-
-            <h1 class="h1-hero">
-              Experiencias auténticas en Lanzarote,
-              <span class="blue-hero-span">con reserva sin sorpresas</span>
-            </h1>
-
-            <p class="p-lead">
-              Aquí no hay “te confirmo por WhatsApp”.
-              Ves opciones claras, guías locales verificados y un calendario que
-              <span class="p-secondary">solo te deja reservar días disponibles</span>.
-            </p>
-
-            <div class="cta-actions">
-              <a href="{{ experiences_list_url }}" class="btn btn-primary">
-                Explorar experiencias
-              </a>
-
-              {% if not user.is_authenticated %}
-                <a href="{% url 'accounts:register' %}" class="btn btn-ghost">
-                  Soy guía / Crear cuenta
-                </a>
-              {% else %}
-                <a href="{% url 'pages:dashboard' %}" class="btn btn-ghost">
-                  Ir a mi panel
-                </a>
-              {% endif %}
-            </div>
-
-            <!-- Trust strip -->
-            <div class="trust-strip">
-              {% include "components/trust_tips.html" with in_hero=True %}
-            </div>
+        <!-- LEFT -->
+        <div class="home-hero-copy" data-animate="fade-up">
+          <div class="inline-flex flex-wrap items-center gap-2">
+            <span class="home-pill">🚀 Nuevo</span>
+            <span class="home-pill home-pill-neutral">🏝️ Lanzarote</span>
+            <span class="home-pill home-pill-neutral">✅ Guías verificados</span>
           </div>
 
-        <!-- RIGHT: Image hero + search -->
-        <div class="relative" data-animate="fade-up">
+          <h1 class="home-hero-title">
+            Lanzarote sin filtro
+            <span class="home-hero-title-accent">La isla se vive mejor</span>
+            cuando alguien te la cuenta.
+          </h1>
 
-          <!-- Imagen hero -->
-          <div class="hero-panel ">
-            <img
-              src="{% static 'img/hero/img-hero.png' %}"
-              alt="Paisaje volcánico de Lanzarote"
-              class="absolute inset-0 h-full w-full object-cover object-center"
-              loading="lazy"
-              decoding="async"
-            />
-            <!-- Overlay para legibilidad -->
-            <div class="absolute inset-0 bg-linear-to-t from-white/80 via-white/20 to-transparent"></div>
+          <p class="home-hero-lead">
+            Lanzaxperience conecta <span class="home-hero-lead-strong">viajeros</span> con <span class="home-hero-lead-strong">guías</span> locales para <span class="home-hero-lead-strong">rutas</span>, 
+            <span class="home-hero-lead-strong">aventuras</span> y <span class="home-hero-lead-strong">experiencias</span> únicas. Gestión de disponibilidad, 
+            reserva rápida y Lanzarote como nunca antes.
+          </p>
 
-            <!-- Search card: en móvil va en flujo; en lg se superpone -->
-            <div class="hidden lg:block absolute inset-x-0 top-6 px-6">
+          <div class="home-hero-cta">
+            <a href="{{ experiences_list_url }}" class="btn btn-primary">
+              Explorar experiencias
+            </a>
+
+            {% if not user.is_authenticated %}
+              <a href="{% url 'accounts:register' %}" class="btn btn-ghost">
+                Soy guía / Crear cuenta
+              </a>
+            {% else %}
+              <a href="{% url 'pages:dashboard' %}" class="btn btn-ghost">
+                Ir a mi panel
+              </a>
+            {% endif %}
+          </div>
+
+          <!-- Trust strip (lo mantienes) -->
+          <div class="home-hero-trust">
+            {% include "components/trust_tips.html" with in_hero=True %}
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="home-hero-visual" data-animate="scale-in">
+          <div class="home-visual-card">
+            <div class="home-visual-media">
+              <img
+                src="{% static 'img/hero/img-hero.png' %}"
+                alt="Paisaje volcánico de Lanzarote"
+                class="home-visual-img"
+                loading="eager"
+                decoding="async"
+              />
+              <div class="home-visual-overlay"></div>
+
+              <!-- mini chip (estilo landing) -->
+              <div class="home-visual-chip">
+                🔥 Top esta semana · Ruta Volcánica
+              </div>
+
+              <!-- mini barra abajo -->
+              <div class="home-visual-mini">
+                <div>
+                  <p class="home-mini-title">Disponibilidad real</p>
+                  <p class="home-mini-sub">Reserva confirmada en 2 clicks</p>
+                </div>
+                <span class="home-mini-badge">Confirmado</span>
+              </div>
+            </div>
+
+            <!-- buscador DENTRO del card (como landing snapshot) -->
+            <div class="home-visual-search">
               {% with action_url=experiences_list_url %}
                 {% include "components/experience_search_card.html" %}
               {% endwith %}
             </div>
           </div>
 
-          <!-- Search card (móvil/tablet) en flujo -->
-          <div class="mt-4 lg:hidden">
-            {% with action_url=experiences_list_url %}
-              {% include "components/experience_search_card.html" %}
-            {% endwith %}
-          </div>
-
-          <!-- Small highlight -->
+          <!-- highlight (lo mantienes) -->
           <div class="mt-4">
             {% with title="🧠 Reserva inteligente" text="Nuestro sistema deshabilita automáticamente los días no disponibles (reglas semanales, bloqueos y plazas)." %}
               {% include "components/cta_yes.html" %}
@@ -94,225 +105,243 @@
           </div>
 
         </div>
-
-        </div>
       </div>
     </div>
   </section>
 
-  <!-- Value props -->
-  <section class="mt-8" data-animate="fade-up">
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {% with title="Disponibilidad real" text="Solicitas tu plaza con fechas reales. El guía confirma y no pagas hasta que esté aceptada." %}
-        {% include "components/info_card.html" %}
-      {% endwith %}
 
-      {% with title="Guías verificados" text="Perfiles públicos, documentos y estado de verificación. Confianza primero." %}
-        {% include "components/info_card.html" %}
-      {% endwith %}
-
-      {% with title="Condiciones claras" text="Duración, precio, plazas, punto de encuentro y políticas sin letra pequeña." %}
-        {% include "components/info_card.html" %}
-      {% endwith %}
-
-      {% with title="Notificaciones" text="Panel + emails cuando el guía acepta, rechaza, cambia o cancela. Cero incertidumbre." %}
-        {% include "components/info_card.html" %}
-      {% endwith %}
-    </div>
-  </section>
-
-
-  <!-- Two audiences -->
-  <section class="mt-8 grid gap-4 lg:grid-cols-2" data-animate="fade-up">
-    <!-- Traveler -->
-    <div class="card">
-      <div class="card-body relative">
-        <!-- Subtle top gradient -->
-        <div class="hero-top-glow"></div>
-        <div class="flex items-start justify-between gap-4">
-          <div>
-            <h2 class="h2-section">Si buscas un guía</h2>
-            <p class="mt-2 p-muted">
-              Planes reales, detalles claros y reserva en pocos pasos.
-              Verás duración, plazas y precio sin sorpresas.
-            </p>
-          </div>
-          <span class="badge badge-neutral hover-lift">🧳 Viajero</span>
-        </div>
-
-        <ul class="mt-4 space-y-2 p-body list-bullets">
-          <li>Explora por zona, precio y duración.</li>
-          <li>Perfiles públicos, idiomas y experiencia del guía.</li>
-          <li>Reserva con disponibilidad real y políticas claras.</li>
-        </ul>
-
-        <div class="mt-5 flex flex-col gap-2 sm:flex-row">
-          <a href="{{ experiences_list_url }}" class="btn btn-primary">Explorar experiencias</a>
-          {% if not user.is_authenticated %}
-            <a href="{% url 'accounts:register' %}" class="btn btn-ghost text-center">Crear cuenta</a>
-          {% endif %}
-        </div>
-
-        <p class="mt-3 p-micro">
-          Ideal para viajeros que quieren vivir Lanzarote “de verdad”.
-        </p>
-      </div>
-    </div>
-
-    <!-- Guide -->
-    <div class="card">
-      <div class="card-body relative">
-        <!-- Subtle top gradient -->
-        <div class="hero-top-glow"></div>
-        <div class="flex items-start justify-between gap-4">
-          <div>
-            <h2 class="text-lg font-semibold">Si eres guía</h2>
-            <p class="mt-2 p-muted">
-              Publica tus rutas y gestiona reservas sin perder tiempo.
-              Tú decides precio, plazas, disponibilidad y reglas.
-            </p>
-          </div>
-          <span class="badge badge-neutral hover-lift">🧭 Guía</span>
-        </div>
-
-        <ul class="mt-4 space-y-2 p-body list-bullets">
-          <li>Crea experiencias con fotos, duración y condiciones.</li>
-          <li>Calendario para bloquear fechas y controlar plazas.</li>
-          <li>Panel de reservas con estados y notificaciones.</li>
-        </ul>
-
-        <div class="mt-5 flex flex-col gap-2 sm:flex-row">
-          {% if not user.is_authenticated %}
-            <a href="{% url 'accounts:register' %}" class="btn btn-primary">Crear cuenta de guía</a>
-            <a href="{% url 'accounts:login' %}" class="btn btn-ghost text-center">Ya soy guía</a>
-          {% else %}
-            <a href="{% url 'pages:dashboard' %}" class="btn btn-primary">Ir a mi panel</a>
-          {% endif %}
-        </div>
-
-        <p class="mt-3 p-micro">
-          Comisión por excursión completada. Sin cuotas fijas (por ahora 😉).
-        </p>
+  <!-- VALUE PROPS (banda tipo landing: blanco con borde arriba/abajo) -->
+  <section class="home-band home-band-white" data-animate="fade-up">
+    <div class="home-container">
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {% with title="Disponibilidad real" text="Solicitas tu plaza con fechas reales. El guía confirma y no pagas hasta que esté aceptada." %}
+          {% include "components/info_card.html" %}
+        {% endwith %}
+        {% with title="Guías verificados" text="Perfiles públicos, documentos y estado de verificación. Confianza primero." %}
+          {% include "components/info_card.html" %}
+        {% endwith %}
+        {% with title="Condiciones claras" text="Duración, precio, plazas, punto de encuentro y políticas sin letra pequeña." %}
+          {% include "components/info_card.html" %}
+        {% endwith %}
+        {% with title="Notificaciones" text="Panel + emails cuando el guía acepta, rechaza, cambia o cancela. Cero incertidumbre." %}
+          {% include "components/info_card.html" %}
+        {% endwith %}
       </div>
     </div>
   </section>
 
-  <!-- How it works -->
-  <section class="mt-8" data-animate="fade-up">
-    {% with title="Cómo funciona" subtitle="Simple, claro y sin vueltas." cta_url=experiences_list_url cta_label="Explorar →" %}
-      {% include "components/section_header.html" %}
-    {% endwith %}
 
-    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {% with title="1) Explora" text="Filtra por lo que te apetezca: volcanes, costa, atardeceres, senderismo…" %}
-        {% include "components/info_card.html" %}
-      {% endwith %}
+  <!-- TWO AUDIENCES -->
+  <section class="home-band" data-animate="fade-up">
+    <div class="home-container">
+      <div class="grid gap-4 lg:grid-cols-2">
 
-      {% with title="2) Reserva" text="Elige fecha según disponibilidad real y solicita tu plaza en minutos." %}
-        {% include "components/info_card.html" %}
-      {% endwith %}
+        <div class="card">
+          <div class="card-body relative">
+            <div class="hero-top-glow"></div>
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h2 class="h2-section">Si buscas un guía</h2>
+                <p class="mt-2 p-muted">
+                  Planes reales, detalles claros y reserva en pocos pasos.
+                  Verás duración, plazas y precio sin sorpresas.
+                </p>
+              </div>
+              <span class="badge badge-neutral hover-lift">🧳 Viajero</span>
+            </div>
 
-      {% with title="3) Disfruta" text="El guía confirma y tú solo te ocupas de vivir la isla como un local." %}
-        {% include "components/info_card.html" %}
-      {% endwith %}
-    </div>
-
-
-    <!-- Micro-proof line -->
-    <div class="mt-4 cta-yes">
-      <p class="cta-yes-text">
-        <span class="cta-yes-title">Bonus:</span>
-        experiencias más personales: rutas poco conocidas, planes a tu ritmo y guías que adaptan la aventura.
-        Menos líos. Más Lanzarote de verdad.
-      </p>
-    </div>
-  </section>
-
-  <!-- Featured experiences -->
-  <section class="mt-10" data-animate="fade-up">
-    {% with title="Experiencias destacadas" subtitle="Ideas para empezar si no sabes qué elegir." cta_url=experiences_list_url cta_label="Ver todas →" %}
-      {% include "components/section_header.html" %}
-    {% endwith %}
-
-    {% if featured_experiences %}
-      <div class="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[1fr] items-stretch" data-animate="fade-up">
-        {% for experience in featured_experiences %}
-          {% include "components/experience_card.html" with experience=experience %}
-        {% endfor %}
-      </div>
-    {% else %}
-      <div class="mt-5 card">
-        <div class="card-body">
-          <p class="p-muted">
-            Aún no hay experiencias destacadas. Puedes empezar explorando el listado completo.
-          </p>
-
-          <div class="mt-4 flex flex-col gap-2 sm:flex-row">
-            <a href="{{ experiences_list_url }}" class="btn btn-primary">
-              Explorar ahora
-            </a>
-
-            {% if not user.is_authenticated %}
-              <a href="{% url 'accounts:register' %}" class="btn btn-ghost text-center">
-                Crear cuenta
-              </a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    {% endif %}
-  </section>
-
-  <!-- Final CTA -->
-  <section class="mt-10" data-animate="fade-up">
-    <div class="card">
-      <div class="card-body relative">
-        <!-- Subtle top gradient -->
-        <div class="hero-top-glow"></div>
-        <div class="grid gap-6 lg:grid-cols-2 lg:items-center">
-          <div>
-            <h2 class="text-xl font-semibold tracking-tight">
-              Reserva Lanzarote como se debe: <span class="text-blue-700">claro y sin fricción</span>
-            </h2>
-            <p class="mt-2 p-muted">
-              Experiencias auténticas con guías locales verificados y un sistema de disponibilidad que evita líos.
-            </p>
+            <ul class="mt-4 space-y-2 p-body list-bullets">
+              <li>Explora por zona, precio y duración.</li>
+              <li>Perfiles públicos, idiomas y experiencia del guía.</li>
+              <li>Reserva con disponibilidad real y políticas claras.</li>
+            </ul>
 
             <div class="mt-5 flex flex-col gap-2 sm:flex-row">
-              <a href="{{ experiences_list_url }}" class="btn btn-primary">
-                Ver experiencias
-              </a>
+              <a href="{{ experiences_list_url }}" class="btn btn-primary">Explorar experiencias</a>
               {% if not user.is_authenticated %}
-                <a href="{% url 'accounts:register' %}" class="btn btn-ghost text-center">
-                  Quiero ser guía
-                </a>
-              {% else %}
-                <a href="{% url 'pages:dashboard' %}" class="btn btn-ghost text-center">
-                  Ir a mi panel
-                </a>
+                <a href="{% url 'accounts:register' %}" class="btn btn-ghost text-center">Crear cuenta</a>
               {% endif %}
             </div>
 
             <p class="mt-3 p-micro">
-              Hecho en Lanzarote. Pensado para viajeros que quieren calidad y para guías que quieren control.
+              Ideal para viajeros que quieren vivir Lanzarote “de verdad”.
             </p>
           </div>
+        </div>
 
-          <div class="cta-box">
-            <p class="label-title">Por qué apetece reservar aquí</p>
+        <div class="card">
+          <div class="card-body relative">
+            <div class="hero-top-glow"></div>
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h2 class="h2-section">Si eres guía</h2>
+                <p class="mt-2 p-muted">
+                  Publica tus rutas y gestiona reservas sin perder tiempo.
+                  Tú decides precio, plazas, disponibilidad y reglas.
+                </p>
+              </div>
+              <span class="badge badge-neutral hover-lift">🧭 Guía</span>
+            </div>
 
-            <ul class="mt-3 space-y-2 p-body list-bullets">
-              <li>Experiencias únicas y personalizables (a pie, en bici o en tu propio coche).</li>
-              <li>Guías locales verificados: sabes con quién vas antes de solicitar.</li>
-              <li>Fechas y plazas reales: menos cambios de última hora y menos estrés.</li>
+            <ul class="mt-4 space-y-2 p-body list-bullets">
+              <li>Crea experiencias con fotos, duración y condiciones.</li>
+              <li>Calendario para bloquear fechas y controlar plazas.</li>
+              <li>Panel de reservas con estados y notificaciones.</li>
             </ul>
 
-            {% with title="Lo mejor" text="Solicitas tu plaza, el guía confirma y tú te vas a la aventura: rutas secretas, miradores y planes que no salen en los tours típicos." %}
-              {% include "components/cta_yes.html" %}
-            {% endwith %}
+            <div class="mt-5 flex flex-col gap-2 sm:flex-row">
+              {% if not user.is_authenticated %}
+                <a href="{% url 'accounts:register' %}" class="btn btn-primary">Crear cuenta de guía</a>
+                <a href="{% url 'accounts:login' %}" class="btn btn-ghost text-center">Ya soy guía</a>
+              {% else %}
+                <a href="{% url 'pages:dashboard' %}" class="btn btn-primary">Ir a mi panel</a>
+              {% endif %}
+            </div>
+
+            <p class="mt-3 p-micro">
+              Comisión por excursión completada. Sin cuotas fijas.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- RESTO igual, pero con container + ritmo landing -->
+  <section class="home-band home-band-white" data-animate="fade-up">
+    <div class="home-container">
+      {% with title="Cómo funciona" subtitle="Simple, claro y sin vueltas." cta_url=experiences_list_url cta_label="Explorar →" %}
+        {% include "components/section_header.html" %}
+      {% endwith %}
+
+      <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {% with title="1) Explora" text="Filtra por lo que te apetezca: volcanes, costa, atardeceres, senderismo…" %}
+          {% include "components/info_card.html" %}
+        {% endwith %}
+        {% with title="2) Reserva" text="Elige fecha según disponibilidad real y solicita tu plaza en minutos." %}
+          {% include "components/info_card.html" %}
+        {% endwith %}
+        {% with title="3) Disfruta" text="El guía confirma y tú solo te ocupas de vivir la isla como un local." %}
+          {% include "components/info_card.html" %}
+        {% endwith %}
+      </div>
+
+      <div class="mt-6 cta-yes">
+        <p class="cta-yes-text">
+          <span class="cta-yes-title">Bonus:</span>
+          experiencias más personales: rutas poco conocidas, planes a tu ritmo y guías que adaptan la aventura.
+          Menos líos. Más Lanzarote de verdad.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+    TESTIMONIOS
+  ========================================================== -->
+  {% if home_reviews %}
+  <section class="home-band home-band-white" data-animate="fade-up">
+    <div class="home-container">
+
+      <div class="text-center">
+        <p class="testimonial-quote">Testimonios</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight">
+          Historias que queremos que se repitan.
+        </h2>
+        <p class="mx-auto mt-3 max-w-2xl text-slate-600">
+          Reseñas reales de viajeros que reservaron experiencias auténticas.
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {% for r in home_reviews %}
+          {% include "components/review_quote_card.html" with r=r accent="indigo" %}
+        {% endfor %}
+      </div>
+
+    </div>
+  </section>
+  {% endif %}
+
+
+  <section class="home-band" data-animate="fade-up">
+    <div class="home-container">
+      {% with title="Experiencias destacadas" subtitle="Ideas para empezar si no sabes qué elegir." cta_url=experiences_list_url cta_label="Ver todas →" %}
+        {% include "components/section_header.html" %}
+      {% endwith %}
+
+      {% if featured_experiences %}
+        <div class="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[1fr] items-stretch">
+          {% for experience in featured_experiences %}
+            {% include "components/experience_card.html" with experience=experience %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="mt-5 card">
+          <div class="card-body">
+            <p class="p-muted">
+              Aún no hay experiencias destacadas. Puedes empezar explorando el listado completo.
+            </p>
+
+            <div class="mt-4 flex flex-col gap-2 sm:flex-row">
+              <a href="{{ experiences_list_url }}" class="btn btn-primary">Explorar ahora</a>
+              {% if not user.is_authenticated %}
+                <a href="{% url 'accounts:register' %}" class="btn btn-ghost text-center">Crear cuenta</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+
+  <section class="home-band home-band-white" data-animate="fade-up">
+    <div class="home-container">
+      <div class="card">
+        <div class="card-body relative">
+          <div class="hero-top-glow"></div>
+          <div class="grid gap-6 lg:grid-cols-2 lg:items-center">
+            <div>
+              <h2 class="text-xl font-semibold tracking-tight">
+                Reserva Lanzarote como se debe: <span class="text-blue-700">claro y sin fricción</span>
+              </h2>
+              <p class="mt-2 p-muted">
+                Experiencias auténticas con guías locales verificados y un sistema de disponibilidad que evita líos.
+              </p>
+
+              <div class="mt-5 flex flex-col gap-2 sm:flex-row">
+                <a href="{{ experiences_list_url }}" class="btn btn-primary">Ver experiencias</a>
+                {% if not user.is_authenticated %}
+                  <a href="{% url 'accounts:register' %}" class="btn btn-ghost text-center">Quiero ser guía</a>
+                {% else %}
+                  <a href="{% url 'pages:dashboard' %}" class="btn btn-ghost text-center">Ir a mi panel</a>
+                {% endif %}
+              </div>
+
+              <p class="mt-3 p-micro">
+                Hecho en Lanzarote. Pensado para viajeros que quieren calidad y para guías que quieren control.
+              </p>
+            </div>
+
+            <div class="cta-box">
+              <p class="label-title">Por qué apetece reservar aquí</p>
+              <ul class="mt-3 space-y-2 p-body list-bullets">
+                <li>Experiencias únicas y personalizables (a pie, en bici o en tu propio coche).</li>
+                <li>Guías locales verificados: sabes con quién vas antes de solicitar.</li>
+                <li>Fechas y plazas reales: menos cambios de última hora y menos estrés.</li>
+              </ul>
+
+              {% with title="Lo mejor" text="Solicitas tu plaza, el guía confirma y tú te vas a la aventura: rutas secretas, miradores y planes que no salen en los tours típicos." %}
+                {% include "components/cta_yes.html" %}
+              {% endwith %}
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
 {% endblock %}
