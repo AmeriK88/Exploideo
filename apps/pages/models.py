@@ -1,5 +1,6 @@
 from django.db import models
 
+# Modelo para almacenar los suscriptores del newsletter
 class NewsletterSubscriber(models.Model):
     email = models.EmailField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -20,7 +20,6 @@ from django.core.exceptions import ValidationError
 from .models import NewsletterSubscriber
 
 
-
 def home_view(request):
     featured_experiences = (
         Experience.objects
@@ -29,8 +28,16 @@ def home_view(request):
         .order_by("-created_at")[:6]
     )
 
+    home_reviews = (
+        Review.objects
+        .filter(status=Review.Status.PUBLISHED)
+        .select_related("traveler", "experience", "experience__guide")
+        .order_by("-created_at")[:6]
+    )
+
     return render(request, "pages/home.html", {
         "featured_experiences": featured_experiences,
+        "home_reviews": home_reviews,
     })
 
 
@@ -286,3 +293,7 @@ def newsletter_subscribe(request):
         messages.info(request, "Ese email ya estaba registrado 😉")
 
     return redirect(request.META.get("HTTP_REFERER", "/"))
+
+
+def landing_view(request):
+    return render(request, "pages/landing/landing.html")
