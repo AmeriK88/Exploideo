@@ -2,15 +2,15 @@
 .page-enter{
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity .25s ease, transform .25s ease;
+  transition: opacity .55s cubic-bezier(.2,.8,.2,1), transform .55s cubic-bezier(.2,.8,.2,1);
+  overflow-x: clip;
 }
 
 .page-enter.is-ready{
   opacity: 1;
-  transform: none; /* no translateY(0) */
+  transform: none;
 }
 
-
-
-
-
+@supports not (overflow: clip) {
+  .page-enter{ overflow-x: hidden; }
+}

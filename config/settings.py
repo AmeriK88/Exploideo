@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'apps.bookings.apps.BookingsConfig',
     'apps.availability.apps.AvailabilityConfig',
     'apps.reviews.apps.ReviewsConfig',
-    "apps.helpdesk.apps.HelpdeskConfig",
+    'apps.helpdesk.apps.HelpdeskConfig',
+    'apps.billing.apps.BillingConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -121,7 +123,6 @@ TIME_ZONE = "Atlantic/Canary"
 USE_I18N = True
 
 USE_TZ = True
-
 
 
 

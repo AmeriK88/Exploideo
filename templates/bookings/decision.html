@@ -11,7 +11,7 @@
           {% if action == "accept" %}Aceptar reserva{% else %}Rechazar reserva{% endif %}
         </h1>
 
-        <span class="badge hover-lift">
+        <span class="badge badge-neutral hover-lift">
           {{ booking.get_status_display }}
         </span>
       </div>
@@ -45,17 +45,17 @@
         </div>
 
         <div class="mt-4 flex flex-wrap gap-2">
-          <span class="badge hover-lift">👤 {{ booking.adults }} adultos</span>
-          <span class="badge hover-lift">🧒 {{ booking.children }} niños</span>
-          <span class="badge hover-lift">👶 {{ booking.infants }} bebés</span>
-          <span class="badge hover-lift">🚐 {{ booking.get_transport_mode_display }}</span>
+          <span class="badge badge-neutral hover-lift">👤 {{ booking.adults }} adultos</span>
+          <span class="badge badge-neutral hover-lift">🧒 {{ booking.children }} niños</span>
+          <span class="badge badge-neutral hover-lift">👶 {{ booking.infants }} bebés</span>
+          <span class="badge badge-neutral hover-lift">🚐 {{ booking.get_transport_mode_display }}</span>
 
           {% if booking.preferred_language %}
-            <span class="badge hover-lift">🗣 {{ booking.get_preferred_language_display }}</span>
+            <span class="badge badge-neutral hover-lift">🗣 {{ booking.get_preferred_language_display }}</span>
           {% endif %}
 
           {% if booking.pickup_notes %}
-            <span class="badge hover-lift">📍 {{ booking.pickup_notes }}</span>
+            <span class="badge badge-neutral hover-lift">📍 {{ booking.pickup_notes }}</span>
           {% endif %}
         </div>
 

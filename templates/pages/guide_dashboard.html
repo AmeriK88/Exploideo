@@ -27,7 +27,9 @@
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
       <div data-animate="fade-up">
         <div class="card">
-          <div class="card-body">
+      <div class="card-body relative">
+        <!-- Subtle top gradient -->
+        <div class="hero-top-glow"></div>
             <p class="p-muted">Experiencias</p>
             <p class="mt-2 p-large">
               {{ kpis.experiences|default:"—" }}
@@ -39,7 +41,9 @@
 
       <div data-animate="fade-up">
         <div class="card">
-          <div class="card-body">
+      <div class="card-body relative">
+        <!-- Subtle top gradient -->
+        <div class="hero-top-glow"></div>
             <p class="p-muted">Reservas (30 días)</p>
             <p class="mt-2 p-large">
               {{ kpis.bookings_30d|default:"—" }}
@@ -51,7 +55,9 @@
 
       <div data-animate="fade-up">
         <div class="card">
-          <div class="card-body">
+      <div class="card-body relative">
+        <!-- Subtle top gradient -->
+        <div class="hero-top-glow"></div>
             <p class="p-muted">Pendientes</p>
             <p class="mt-2 p-large">
               {{ kpis.pending|default:"—" }}
@@ -70,7 +76,9 @@
 
       <div data-animate="fade-up">
         <div class="card">
-          <div class="card-body">
+      <div class="card-body relative">
+        <!-- Subtle top gradient -->
+        <div class="hero-top-glow"></div>
             <p class="p-muted">Ingresos</p>
             <p class="mt-2 p-large">
               {{ kpis.revenue_30d|default:"—" }} €
@@ -85,7 +93,9 @@
     <div data-animate="fade-up">
       <a href="{% url 'reviews:guide_list' %}"
          class="block card hover-lift soft-shadow">
-        <div class="card-body">
+        <div class="card-body relative">
+          <!-- Subtle top gradient -->
+          <div class="hero-top-glow"></div>
           <p class="p-muted">Reseñas</p>
           <p class="mt-2 p-large">
             {{ kpis.reviews|default:"—" }}
@@ -158,7 +168,9 @@
     {% if recent_bookings %}
       <div data-animate="fade-up">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body relative">
+            <!-- Subtle top gradient -->
+            <div class="hero-top-glow"></div>
             <div class="flex items-center justify-between">
               <h2 class="h2-section">Reservas recientes</h2>
               <a href="{% url 'bookings:guide_list' %}" class="btn btn-ghost">Ver todas →</a>
@@ -184,19 +196,19 @@
                       <td class="py-3 pr-3">
                         {% with s=b.status|lower %}
                           {% if s == "accepted" %}
-                            <span class="badge badge-status-accepted hover-lift">Aceptada</span>
+                            <span class="badge badge-status-accepted">Aceptada</span>
                           {% elif s == "pending" %}
-                            <span class="badge badge-status-pending hover-lift">Pendiente</span>
+                            <span class="badge badge-status-pending">Pendiente</span>
                           {% elif s == "change_requested" %}
-                            <span class="badge badge-status-change hover-lift">Cambio solicitado</span>
+                            <span class="badge badge-status-change_requested">Cambio solicitado</span>
                           {% elif s == "cancel_requested" %}
-                            <span class="badge badge-status-cancel hover-lift">Cancelación solicitada</span>
+                            <span class="badge badge-status-cancel_requested">Cancelación solicitada</span>
                           {% elif s == "rejected" %}
-                            <span class="badge badge-status-rejected hover-lift">Rechazada</span>
+                            <span class="badge badge-status-rejected">Rechazada</span>
                           {% elif s == "canceled" %}
-                            <span class="badge update-decision-rejected hover-lift">Cancelada</span>
+                            <span class="badge status-banner-update-rejected">Cancelada</span>
                           {% else %}
-                            <span class="badge badge-neutral hover-lift">{{ b.status }}</span>
+                            <span class="badge badge-neutral">{{ b.status }}</span>
                           {% endif %}
                         {% endwith %}
                       </td>

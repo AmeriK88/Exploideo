@@ -3,7 +3,6 @@
 
 {% block dashboard_content %}
   <div class="flex flex-col gap-6">
-
     <!-- Header -->
     <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between" data-animate="fade-up">
       <div>
@@ -34,7 +33,9 @@
     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
       <div data-animate="fade-up">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body relative">
+            <!-- Subtle top gradient -->
+            <div class="hero-top-glow"></div>
             <p class="p-muted">Reservas (30 días)</p>
             <p class="mt-2 p-large">
               {{ kpis.bookings_30d|default:"—" }}
@@ -46,7 +47,9 @@
 
       <div data-animate="fade-up">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body relative">
+            <!-- Subtle top gradient -->
+            <div class="hero-top-glow"></div>
             <p class="p-muted">Gastado (30 días)</p>
             <p class="mt-2 p-large">
               {{ kpis.spent_30d|default:"—" }}
@@ -58,7 +61,9 @@
 
       <div data-animate="fade-up">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body relative">
+            <!-- Subtle top gradient -->
+            <div class="hero-top-glow"></div>
             <p class="p-muted">Aceptadas</p>
             <p class="mt-2 p-large">
               {{ kpis.accepted|default:"—" }}
@@ -70,7 +75,9 @@
 
       <div data-animate="fade-up">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body relative">
+            <!-- Subtle top gradient -->
+            <div class="hero-top-glow"></div>
             <p class="p-muted">Rechazadas</p>
             <p class="mt-2 p-large">
               {{ kpis.rejected|default:"—" }}
@@ -116,7 +123,7 @@
                     {% elif s == "rejected" %}
                       <span class="badge badge-status-rejected">Rechazada</span>
                     {% elif s == "canceled" %}
-                      <span class="badge status-banner-update-rejected ">Cancelada</span>
+                      <span class="badge badge-status-canceled">Cancelada</span>
                     {% else %}
                       <span class="badge">{{ next_booking.status }}</span>
                     {% endif %}
@@ -170,7 +177,9 @@
     {% if recent_bookings %}
       <div data-animate="fade-up">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body relative">
+            <!-- Subtle top gradient -->
+            <div class="hero-top-glow"></div>
             <div class="flex items-center justify-between">
               <h2 class="h2-section">Tus reservas recientes</h2>
               <a href="{% url 'bookings:traveler_list' %}" class="btn btn-ghost">Ver todas</a>
@@ -200,13 +209,13 @@
                           {% elif s == "pending" %}
                             <span class="badge badge-status-pending">Pendiente</span>
                           {% elif s == "change_requested" %}
-                            <span class="badge badge-status-change">Cambio solicitado</span>
+                            <span class="badge badge-status-change_requested">Cambio solicitado</span>
                           {% elif s == "cancel_requested" %}
-                            <span class="badge badge-status-cancel">Cancelación solicitada</span>
+                            <span class="badge badge-status-cancel_requested">Cancelación solicitada</span>
                           {% elif s == "rejected" %}
                             <span class="badge badge-status-rejected">Rechazada</span>
                           {% elif s == "canceled" %}
-                            <span class="badge status-banner-update-rejected ">Cancelada</span>
+                            <span class="badge badge-neutral">Cancelada</span>
                           {% else %}
                             <span class="badge">{{ b.status }}</span>
                           {% endif %}
@@ -248,21 +257,22 @@
     <!-- Categories -->
     <div data-animate="fade-up">
       <div class="card">
-        <div class="card-body">
+        <div class="card-body relative">
+          <!-- Subtle top gradient -->
+          <div class="hero-top-glow"></div>
           <div class="flex items-center justify-between gap-4">
             <div>
               <h2 class="h2-section">Categorías</h2>
               <p class="mt-1 p-muted">Explora por tipo de experiencia.</p>
             </div>
-            <a href="{% url 'experiences:list' %}" class="btn btn-ghost">Ver todo</a>
+            <a href="{% url 'experiences:list' %}" class="btn btn-ghost">Ver todo →</a>
           </div>
 
           {% if categories %}
-            <div class="mt-4 flex flex-wrap gap-2" data-stagger>
+            <div class="mt-4 flex flex-wrap gap-2 hover-lift" data-stagger>
               {% for c in categories %}
                 <a href="{% url 'experiences:list' %}?category={{ c.slug }}"
-                  class="badge"
-                  data-animate="fade-up">
+                  class="badge badge-neutral hover-lift" data-animate="fade-up">
                   {{ c.name }}
                 </a>
               {% endfor %}

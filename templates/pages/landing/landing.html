@@ -1,0 +1,1209 @@
+{% load static %}
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+    <title>{% block title %}Lanzaxperience — Acceso anticipado{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Vive Lanzarote como un local. Lanzaxperience conecta viajeros con guías verificados para experiencias auténticas. Únete a la lista y recibe acceso anticipado.{% endblock %}">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#312e81">
+
+    {# Open Graph #}
+    <meta property="og:site_name" content="Lanzaxperience">
+    <meta property="og:title" content="{% block og_title %}Lanzaxperience — Acceso anticipado{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Experiencias auténticas con guías locales verificados. Únete a la lista y recibe acceso anticipado.{% endblock %}">
+    <meta property="og:type" content="website">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Favicon -->
+    <link rel="manifest" href="{% static 'site.webmanifest' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+    <meta name="theme-color" content="#312e81">
+
+    <link rel="mask-icon" href="{% static 'img/logo-lanzaxperience.svg' %}" color="#312e81">
+    <link rel="shortcut icon" href="{% static 'img/favicon-32.png' %}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+    <!-- Preload del logo del navbar -->
+    <link rel="preload" as="image" href="{% static 'img/logo-lanzaxperience-512.png' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+
+    {% block extra_head %}{% endblock %}
+  </head>
+
+  <body class="min-h-screen bg-slate-50 text-slate-900 selection:bg-indigo-200 selection:text-indigo-900">
+
+    <!-- =========================================================
+      NAVBAR (minimal, sin links a la app)
+    ========================================================== -->
+    <header class="nav-grain">
+      <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6" data-stagger>
+        <!-- Brand -->
+        <a href="{% url 'pages:home' %}" class="flex min-w-0 items-center gap-2" data-animate="fade-down">
+          <img
+            src="{% static 'img/logo-lanzaxperience-512.png' %}"
+            alt="LanzaXperience"
+            width="80"
+            height="80"
+            fetchpriority="high"
+            decoding="async"
+            class="h-10 w-auto sm:h-12 md:h-14 lg:h-16 shrink-0 transition-transform hover:scale-105 drop-shadow-md"
+          />
+
+          <!-- En móvil se oculta para que no se solape -->
+          <span
+            class="hidden sm:inline-flex px-3 py-1.5 rounded-xl text-sm sm:text-base font-semibold text-slate-900
+                   bg-linear-to-r from-white via-blue-500 to-yellow-400 shadow-sm border border-slate-200/60
+                   whitespace-nowrap"
+          >
+            LanzaXperience
+          </span>
+        </a>
+
+        <!-- CTA -->
+        <div class="flex shrink-0 items-center gap-2 sm:gap-3" data-animate="fade-down">
+          <span class="hidden sm:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700">
+            <span class="inline-block h-2 w-2 rounded-full bg-emerald-500"></span>
+            Lista de espera abierta
+          </span>
+
+          <a
+            href="#waitlist"
+            class="inline-flex items-center justify-center rounded-2xl bg-indigo-600 px-3 py-2 text-xs font-semibold text-white shadow-sm
+                   hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/50
+                   sm:px-4 sm:text-sm"
+          >
+            <span class="sm:hidden">Acceso anticipado</span>
+            <span class="hidden sm:inline">Quiero acceso anticipado</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    {% if messages %}
+      <div class="mx-auto max-w-7xl px-4 pt-4" aria-live="polite" aria-atomic="true">
+        <div class="space-y-2" data-stagger>
+          {% for message in messages %}
+            {% if message.tags == "success" %}
+              <div data-animate="fade-down" class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
+                {{ message }}
+              </div>
+            {% elif message.tags == "error" %}
+              <div data-animate="fade-down" class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
+                {{ message }}
+              </div>
+            {% else %}
+              <div data-animate="fade-down" class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700">
+                {{ message }}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- =========================================================
+      PAGE WRAPPER (para page-enter + scroll reveal)
+      IMPORTANTE: data-page en el mismo nodo que .page-enter para que tu CSS funcione
+    ========================================================== -->
+    <main id="page" class="mx-auto w-full" aria-label="Contenido principal">
+      <div class="page-enter" data-page>
+
+        <!-- =========================================================
+          HERO (NO TOCAR TEXTO)
+        ========================================================== -->
+        <section class="relative overflow-hidden z-0 pt-10">
+          <div class="pointer-events-none absolute inset-0 z-0">
+            <div class="absolute -top-24 left-1/2 h-72 w-152 -translate-x-1/2 rounded-full bg-indigo-200/70 blur-3xl"></div>
+            <div class="absolute -bottom-32 left-1/3 h-72 w-160 rounded-full bg-sky-200/60 blur-3xl"></div>
+          </div>
+
+          <div class="relative z-10 mx-auto max-w-7xl px-4 pt-14 pb-10 sm:pt-20 sm:pb-16">
+            <div class="grid items-center gap-10 lg:grid-cols-2">
+              <!-- Copy -->
+              <div data-stagger>
+                <div class="inline-flex flex-wrap items-center gap-2" data-animate="fade-up">
+                  <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-indigo-700 ring-1 ring-indigo-200">
+                    🚀 Pre-lanzamiento
+                  </span>
+                  <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
+                    🏝️ Lanzarote
+                  </span>
+                  <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
+                    ✅ Guías verificados
+                  </span>
+                </div>
+
+                <h1 class="mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl" data-animate="fade-up">
+                  Lanzarote sin filtro
+                  <span class="block text-indigo-700">La isla se vive mejor</span>
+                  cuando alguien te la cuenta.
+                </h1>
+
+                <p class="mt-4 text-lg text-slate-600" data-animate="fade-up">
+                  Lanzaxperience conecta <span class="font-semibold text-slate-800">viajeros</span> con <span class="font-semibold text-slate-800">guías locales</span> para <span class="font-semibold text-slate-800">rutas</span>, <span class="font-semibold text-slate-800">aventuras</span> y <span class="font-semibold text-slate-800">experiencias</span> únicas. Gestión de disponibilidad, reserva rápida y Lanzarote como nunca antes.
+                </p>
+
+                <!-- CTAs -->
+                <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center" data-animate="fade-up">
+                  <a
+                    href="#waitlist"
+                    class="inline-flex items-center justify-center rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                  >
+                    Unirme a la lista (gratis)
+                    <span class="ml-2 text-white/80">→</span>
+                  </a>
+                  <a
+                    href="#how"
+                    class="inline-flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-800 ring-1 ring-slate-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+                  >
+                    Ver cómo funciona
+                  </a>
+                </div>
+
+                <p class="mt-3 help-secondary" data-animate="fade-up">
+                  ✨ Acceso anticipado · 0 spam · Un email cuando abramos plazas.
+                </p>
+
+                <!-- Trust bullets  -->
+                <div class="mt-6 grid gap-3 sm:grid-cols-3" data-stagger>
+                  <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" data-animate="scale-in">
+                    <p class="text-sm font-semibold">Reserva en minutos</p>
+                    <p class="mt-1 p-micro">Dos clicks y confirmación.</p>
+                  </div>
+                  <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" data-animate="scale-in">
+                    <p class="text-sm font-semibold">Cancelación simple</p>
+                    <p class="mt-1 p-micro">Gratis hasta 48h antes.</p>
+                  </div>
+                  <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" data-animate="scale-in">
+                    <p class="text-sm font-semibold">Pagas solo la excursión</p>
+                    <p class="mt-1 p-micro">Sin gastos de gestión.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Visual -->
+              <div class="relative" data-stagger>
+                <div class="home-visual-card" data-animate="scale-in">
+                  <div class="aspect-16/11 overflow-hidden rounded-3xl bg-slate-100 relative ring-1 ring-slate-200 shadow-sm">
+                    <img
+                      src="{% static 'img/landing/img-hero.png' %}"
+                      alt="Acantilados y costa de Lanzarote"
+                      class="h-full w-full object-cover"
+                      loading="eager"
+                      fetchpriority="high"
+                    />
+                    <div class="pointer-events-none absolute inset-0 bg-linear-to-tr from-slate-950/45 via-slate-900/10 to-transparent"></div>
+                    <div class="pointer-events-none absolute inset-0 bg-linear-to-t from-slate-950/35 via-transparent to-transparent"></div>
+
+                    <div class="absolute left-4 top-4 rounded-2xl bg-white/85 px-3 py-2 text-xs text-slate-800 backdrop-blur ring-1 ring-white/60">
+                      🔥 Top esta semana · Ruta Volcánica
+                    </div>
+
+                    <div class="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/85 px-4 py-3 backdrop-blur ring-1 ring-white/60">
+                      <div class="flex items-center justify-between gap-3">
+                        <div>
+                          <p class="text-xs font-semibold text-slate-900">Experiencias curadas</p>
+                          <p class="mt-1 p-muted">Calidad antes que cantidad</p>
+                        </div>
+                        <span class="badge update-decision-accepted">
+                          Confirmado
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="mt-4 grid gap-3 sm:grid-cols-3" data-stagger>
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3" data-animate="fade-up">
+                      <p class="text-xs font-semibold">Categorías</p>
+                      <p class="mt-1 p-micro">Rutas con intención</p>
+                    </div>
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3" data-animate="fade-up">
+                      <p class="text-xs font-semibold">Reseñas</p>
+                      <p class="mt-1 p-micro">Opiniones de reservas reales</p>
+                    </div>
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3" data-animate="fade-up">
+                      <p class="text-xs font-semibold">Detalles</p>
+                      <p class="mt-1 p-micro">Incluye, contacto directo y recomendaciones.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /Visual -->
+            </div>
+          </div>
+        </section>
+
+       <!-- =========================================================
+          PRODUCT SNAPSHOT (NUEVO COPY) — COMPACT + ICON FIX
+        ========================================================== -->
+        <section class="mx-auto max-w-7xl px-4 py-14">
+          <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
+            <div data-stagger>
+              <h2 class="text-3xl font-bold tracking-tight" data-animate="fade-up">
+                Experiencias reales, sin el caos de siempre.
+              </h2>
+              <p class="p-lead" data-animate="fade-up">
+                Todo en un mismo lugar, sin perder el hilo entre mensajes, cambios y estados de reserva.
+                Lanzaxperience pone orden: <span class="font-semibold text-slate-800">claridad antes de reservar</span>,
+                <span class="font-semibold text-slate-800"> gestión en un solo sitio</span> y
+                <span class="font-semibold text-slate-800">confianza verificable</span> para viajeros y guías.
+              </p>
+
+              <div class="mt-6 space-y-3" data-stagger>
+                <div class="flex gap-3" data-animate="fade-up">
+                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 leading-none">✓</div>
+                  <div>
+                    <p class="font-semibold">Reserva con contexto</p>
+                    <p class="p-muted">Incluye, duración, dificultad, idioma, meeting point y qué llevar.</p>
+                  </div>
+                </div>
+
+                <div class="flex gap-3" data-animate="fade-up">
+                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 leading-none">✓</div>
+                  <div>
+                    <p class="font-semibold">Comunicación dentro de la app</p>
+                    <p class="p-muted">Cuando la reserva se acepta, viajero y guía coordinan sin perder el hilo.</p>
+                  </div>
+                </div>
+
+                <div class="flex gap-3" data-animate="fade-up">
+                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 leading-none">✓</div>
+                  <div>
+                    <p class="font-semibold">Calidad controlada</p>
+                    <p class="p-muted">Guías verificados + reseñas de reservas reales (y moderación).</p>
+                  </div>
+                </div>
+
+                <div class="flex gap-3" data-animate="fade-up">
+                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 leading-none">✓</div>
+                  <div>
+                    <p class="font-semibold">Todo queda registrado</p>
+                    <p class="p-muted">Solicitud, confirmación, cambios y cancelaciones, siempre con estado visible.</p>
+                  </div>
+                </div>
+
+                <div class="flex gap-3" data-animate="fade-up">
+                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 leading-none">✓</div>
+                  <div>
+                    <p class="font-semibold">Modelo simple</p>
+                    <p class="p-muted">Viajeros sin gastos de gestión. Guías sin cuota fija: comisión por excursión.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right card -->
+            <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm" data-stagger>
+
+              <!-- Header + CTA -->
+              <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between" data-stagger>
+                <div>
+                  <p class="testimonial-quote" data-animate="fade-up">Para viajeros</p>
+                  <h3 class="mt-2 text-2xl font-bold tracking-tight" data-animate="fade-up">
+                    Elige bien. Reserva fácil. Todo claro.
+                  </h3>
+                  <p class="mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
+                    Experiencias únicas creadas por guías verificados, con información completa y un panel donde lo tienes todo:
+                    detalles, estados, cambios y contacto directo cuando está aceptada.
+                  </p>
+                </div>
+
+                <a
+                  href="#waitlist"
+                  class="mt-4 inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 sm:mt-0 sm:w-auto"
+                  data-animate="fade-up"
+                >
+                  Ser de los primeros
+                </a>
+              </div>
+
+              <!-- Grid 6 cards — COMPACT + ICON LEFT -->
+              <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-stretch" data-stagger>
+
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
+                  <div class="flex items-start gap-3">
+                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 text-base leading-none">⚡</div>
+                    <div>
+                      <h3 class="font-semibold leading-tight">Experiencias únicas</h3>
+                      <p class="mt-1 text-sm text-slate-600">Cada guía crea su plan: no hay “copias”.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
+                  <div class="flex items-start gap-3">
+                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 text-base leading-none">🧭</div>
+                    <div>
+                      <h3 class="font-semibold leading-tight">Contexto antes de pagar</h3>
+                      <p class="mt-1 text-sm text-slate-600">Incluye, dificultad, duración y meeting point claros.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
+                  <div class="flex items-start gap-3">
+                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 text-base leading-none">⭐</div>
+                    <div>
+                      <h3 class="font-semibold leading-tight">Reseñas verificadas</h3>
+                      <p class="mt-1 text-sm text-slate-600">Solo de reservas reales, sin postureo.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
+                  <div class="flex items-start gap-3">
+                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 text-base leading-none">💬</div>
+                    <div>
+                      <h3 class="font-semibold leading-tight">Contacto directo</h3>
+                      <p class="mt-1 text-sm text-slate-600">Cuando se acepta: chat y coordinación dentro de la app.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
+                  <div class="flex items-start gap-3">
+                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 text-base leading-none">🧾</div>
+                    <div>
+                      <h3 class="font-semibold leading-tight">Panel y facturas</h3>
+                      <p class="mt-1 text-sm text-slate-600">Todo en tu dashboard: reservas, detalles y recibos.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
+                  <div class="flex items-start gap-3">
+                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 text-base leading-none">🛡️</div>
+                    <div>
+                      <h3 class="font-semibold leading-tight">Reglas claras</h3>
+                      <p class="mt-1 text-sm text-slate-600">Cambios y cancelación gratis hasta 48h (según condiciones).</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+          BENEFICIOS VIAJEROS (NUEVO COPY) — COMPACT
+        ========================================================== -->
+        <section class="border-y border-slate-200 bg-white">
+          <div class="mx-auto max-w-7xl px-4 py-14">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between" data-stagger>
+              <div>
+                <p class="testimonial-quote" data-animate="fade-up">Colecciones</p>
+                <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">
+                  Elige tu mood del día
+                </h2>
+                <p class="mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
+                  Ideas rápidas para inspirarte (sin abrir la plataforma todavía).
+                </p>
+              </div>
+            </div>
+
+            <!-- IMPORTANTE: ahora son CARDS (no links) -->
+            <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-stretch" data-stagger>
+              <div
+                class="group rounded-3xl border border-slate-200 bg-slate-50 p-5 hover:bg-white transition"
+                data-animate="scale-in"
+                role="article"
+                aria-label="Costa y calas"
+              >
+                <div class="flex items-start gap-3">
+                  <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-900/5 text-base leading-none">🌊</div>
+                  <div>
+                    <h3 class="font-semibold leading-tight">Costa & calas</h3>
+                    <p class="mt-1 text-sm text-slate-600">Paseos, miradores, baños y brisa.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="group rounded-3xl border border-slate-200 bg-slate-50 p-5 hover:bg-white transition"
+                data-animate="scale-in"
+                role="article"
+                aria-label="Volcán y paisaje"
+              >
+                <div class="flex items-start gap-3">
+                  <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-900/5 text-base leading-none">🌋</div>
+                  <div>
+                    <h3 class="font-semibold leading-tight">Volcán & paisaje</h3>
+                    <p class="mt-1 text-sm text-slate-600">Lava, panorámicas y “wow” asegurado.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="group rounded-3xl border border-slate-200 bg-slate-50 p-5 hover:bg-white transition"
+                data-animate="scale-in"
+                role="article"
+                aria-label="Atardecer tranquilo"
+              >
+                <div class="flex items-start gap-3">
+                  <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-900/5 text-base leading-none">🌅</div>
+                  <div>
+                    <h3 class="font-semibold leading-tight">Atardecer tranquilo</h3>
+                    <p class="mt-1 text-sm text-slate-600">Plan lento, fotos y buen rollo.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="group rounded-3xl border border-slate-200 bg-slate-50 p-5 hover:bg-white transition"
+                data-animate="scale-in"
+                role="article"
+                aria-label="Familia"
+              >
+                <div class="flex items-start gap-3">
+                  <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-900/5 text-base leading-none">👨‍👩‍👧‍👦</div>
+                  <div>
+                    <h3 class="font-semibold leading-tight">Familia</h3>
+                    <p class="mt-1 text-sm text-slate-600">Fácil, bonito y sin complicaciones.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="group rounded-3xl border border-slate-200 bg-slate-50 p-5 hover:bg-white transition"
+                data-animate="scale-in"
+                role="article"
+                aria-label="Aventura"
+              >
+                <div class="flex items-start gap-3">
+                  <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-900/5 text-base leading-none">🧗</div>
+                  <div>
+                    <h3 class="font-semibold leading-tight">Aventura</h3>
+                    <p class="mt-1 text-sm text-slate-600">Ritmo, desnivel y “vamos a darle”.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="group rounded-3xl border border-slate-200 bg-slate-50 p-5 hover:bg-white transition"
+                data-animate="scale-in"
+                role="article"
+                aria-label="Gastro local"
+              >
+                <div class="flex items-start gap-3">
+                  <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-900/5 text-base leading-none">🍷</div>
+                  <div>
+                    <h3 class="font-semibold leading-tight">Gastro local</h3>
+                    <p class="mt-1 text-sm text-slate-600">Sitios con historia y sabor real.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="mt-6 p-micro text-slate-500" data-animate="fade-up">
+              *Estas colecciones son inspiración. El acceso a experiencias estará disponible cuando abramos plazas.
+            </p>
+          </div>
+        </section>
+
+
+        <!-- =========================================================
+          BENEFICIOS GUÍAS (NO TOCAR)
+        ========================================================== -->
+        <section class="mx-auto max-w-7xl px-4 py-14">
+          <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
+            <div class="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm" data-stagger>
+              <p class="testimonial-quote" data-animate="fade-up">Para guías</p>
+              <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">Tu trabajo merece una plataforma a tu nivel.</h2>
+              <p class="mt-3 text-slate-600" data-animate="fade-up">
+                Publica experiencias, controla disponibilidad, acepta o rechaza reservas,
+                entiende tus ingresos y todo desde un lugar.
+              </p>
+
+              <div class="mt-6 space-y-4" data-stagger>
+                <div class="flex gap-3" data-animate="fade-up">
+                  <div class="mt-1 grid h-7 w-7 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700">✓</div>
+                  <div>
+                    <p class="font-semibold">Sin cuotas fijas</p>
+                    <p class="p-muted">Solo comisión por excursión 14%.</p>
+                  </div>
+                </div>
+                <div class="flex gap-3" data-animate="fade-up">
+                  <div class="mt-1 grid h-7 w-7 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700">✓</div>
+                  <div>
+                    <p class="font-semibold">Reservas sin caos</p>
+                    <p class="p-muted">Acepta/rechaza con mensajes automáticos.</p>
+                  </div>
+                </div>
+                <div class="flex gap-3" data-animate="fade-up">
+                  <div class="mt-1 grid h-7 w-7 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700">✓</div>
+                  <div>
+                    <p class="font-semibold">Perfil verificado</p>
+                    <p class="p-muted">Más confianza → más conversiones.</p>
+                  </div>
+                </div>
+                <div class="flex gap-3" data-animate="fade-up">
+                  <div class="mt-1 grid h-7 w-7 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700">✓</div>
+                  <div>
+                    <p class="font-semibold">Panel de ingresos</p>
+                    <p class="p-muted">Control de facturación y rendimiento.</p>
+                  </div>
+                </div>
+              </div>
+
+              <a
+                href="#waitlist"
+                class="mt-8 inline-flex w-full items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/40"
+                data-animate="fade-up"
+              >
+                Soy guía · Quiero entrar primero
+              </a>
+              <p class="mt-3 p-micro" data-animate="fade-up">
+                Primero abrimos plazas limitadas para perfiles verificados.
+              </p>
+            </div>
+
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-stagger>
+              <div class="flex items-center justify-between" data-animate="fade-up">
+                <h3 class="text-lg font-bold">Lo que tendrás desde el día 1</h3>
+                <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">Roadmap</span>
+              </div>
+
+              <div class="mt-5 grid gap-3 sm:grid-cols-2" data-stagger>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="fade-up">
+                  <p class="text-sm font-semibold">Editor de experiencias</p>
+                  <p class="mt-1 p-muted">Fotos, rutas, detalles, idiomas, extras.</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="fade-up">
+                  <p class="text-sm font-semibold">Calendario simple</p>
+                  <p class="mt-1 p-muted">Bloquea fechas y ajusta capacidad.</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="fade-up">
+                  <p class="text-sm font-semibold">Mensajería clara</p>
+                  <p class="mt-1 p-muted">Menos idas y vueltas, más reservas.</p>
+                </div>
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="fade-up">
+                  <p class="text-sm font-semibold">Facturas y control</p>
+                  <p class="mt-1 p-muted">Ingresos por mes, rectificaciones, etc.</p>
+                </div>
+              </div>
+
+              <div class="mt-6 rounded-2xl bg-indigo-50 p-4 ring-1 ring-indigo-100" data-animate="fade-up">
+                <p class="text-sm font-semibold text-indigo-900">Idea central</p>
+                <p class="mt-1 text-sm text-indigo-900/80">“Tu experiencia es premium. La gestión también debe serlo.”</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+          CÓMO FUNCIONA (NUEVO SUBCOPY)
+        ========================================================== -->
+        <section id="how" class="border-y border-slate-200 bg-white">
+          <div class="mx-auto max-w-7xl px-4 py-14">
+            <div class="text-center" data-stagger>
+              <p class="testimonial-quote" data-animate="fade-up">Cómo funciona</p>
+              <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">Reserva con contexto. Confirma con tranquilidad.</h2>
+              <p class="mx-auto mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
+                Elige una experiencia con información completa, solicita fecha y sigue todo el estado desde tu panel.
+              </p>
+            </div>
+
+            <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
+              <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
+                <p class="text-xs font-semibold text-slate-500">Paso 1</p>
+                <h3 class="mt-2 font-bold">Explora</h3>
+                <p class="mt-2 p-muted">Encuentra tu plan por tipo, idioma, dificultad y duración.</p>
+              </div>
+              <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
+                <p class="text-xs font-semibold text-slate-500">Paso 2</p>
+                <h3 class="mt-2 font-bold">Solicita</h3>
+                <p class="mt-2 p-muted">Elige fecha, grupo y preferencias. El guía revisa tu solicitud.</p>
+              </div>
+              <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
+                <p class="text-xs font-semibold text-slate-500">Paso 3</p>
+                <h3 class="mt-2 font-bold">Confirma</h3>
+                <p class="mt-2 p-muted">Si se acepta, recibes detalles y acceso al contacto directo.</p>
+              </div>
+              <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
+                <p class="text-xs font-semibold text-slate-500">Paso 4</p>
+                <h3 class="mt-2 font-bold">Vive y valora</h3>
+                <p class="mt-2 p-muted">Disfruta y deja tu reseña: calidad basada en reservas reales.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+          FEATURES (NUEVO COPY, MÁS “PRODUCTO”)
+        ========================================================== -->
+        <section class="mx-auto max-w-7xl px-4 py-14">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between" data-stagger>
+            <div>
+              <p class="testimonial-quote" data-animate="fade-up">Features</p>
+              <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">Diseñada para que funcione en el mundo real.</h2>
+              <p class="mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
+                Menos promesas genéricas, más sistema: claridad, control y confianza para ambos lados.
+              </p>
+            </div>
+            <a
+              href="#waitlist"
+              class="mt-4 inline-flex w-full items-center justify-center rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 sm:mt-0 sm:w-auto"
+              data-animate="fade-up"
+            >
+              Apuntarme ahora
+            </a>
+          </div>
+
+          <div class="mt-10 grid gap-4 lg:grid-cols-3" data-stagger>
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-animate="fade-up">
+              <div class="grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600/10 text-indigo-700 font-bold">🧠</div>
+              <h3 class="mt-4 font-bold">Curación con estándar</h3>
+              <p class="mt-2 p-muted">Publicación con estructura: lo que se promete, se especifica.</p>
+            </div>
+
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-animate="fade-up">
+              <div class="grid h-10 w-10 place-items-center rounded-2xl bg-slate-900/10 text-slate-900 font-bold">🧭</div>
+              <h3 class="mt-4 font-bold">Detalles que evitan dudas</h3>
+              <p class="mt-2 p-muted">Incluye, duración, meeting point, idioma, qué llevar y recomendaciones.</p>
+            </div>
+
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-animate="fade-up">
+              <div class="grid h-10 w-10 place-items-center rounded-2xl bg-amber-500/15 text-amber-800 font-bold">✨</div>
+              <h3 class="mt-4 font-bold">Experiencias con autor</h3>
+              <p class="mt-2 p-muted">Cada guía aporta su estilo: ruta, ritmo, enfoque y trato personalizado.</p>
+            </div>
+
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-animate="fade-up">
+              <div class="grid h-10 w-10 place-items-center rounded-2xl bg-sky-600/10 text-sky-700 font-bold">📌</div>
+              <h3 class="mt-4 font-bold">Estados y trazabilidad</h3>
+              <p class="mt-2 p-muted">Solicitud, aceptación, cambios y cancelación con historial y estado visible.</p>
+            </div>
+
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-animate="fade-up">
+              <div class="grid h-10 w-10 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700 font-bold">🛡️</div>
+              <h3 class="mt-4 font-bold">Verificación real</h3>
+              <p class="mt-2 p-muted">Solo guías con documentación y seguros vigentes. Perfiles públicos.</p>
+            </div>
+
+            <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-animate="fade-up">
+              <div class="grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600/10 text-indigo-700 font-bold">📊</div>
+              <h3 class="mt-4 font-bold">Dashboards útiles</h3>
+              <p class="mt-2 p-muted">Viajeros con panel + facturas. Guías con métricas, reservas y facturación.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+          TESTIMONIOS (NUEVO COPY)
+        ========================================================== -->
+        <section class="border-y border-slate-200 bg-white">
+          <div class="mx-auto max-w-7xl px-4 py-14">
+            <div class="text-center" data-stagger>
+              <p class="testimonial-quote" data-animate="fade-up">Testimonios</p>
+              <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">Historias que queremos que se repitan.</h2>
+              <p class="mx-auto mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
+                (Ficticios para diseño, basados en fricciones reales que buscamos resolver.)
+              </p>
+            </div>
+
+            <div class="mt-10 grid gap-4 lg:grid-cols-3" data-stagger>
+              <figure class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
+                <blockquote class="text-sm text-slate-700">
+                  “Todo venía explicado: duración, meeting point y qué llevar. Reservé sin mensajes eternos.”
+                </blockquote>
+                <figcaption class="mt-4 flex items-center gap-3">
+                  <div class="grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600/10 text-indigo-700 font-bold">A</div>
+                  <div>
+                    <p class="text-sm font-semibold">Ana · Madrid</p>
+                    <p class="p-micro">Viajera · Ruta volcánica</p>
+                  </div>
+                </figcaption>
+              </figure>
+
+              <figure class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
+                <blockquote class="text-sm text-slate-700">
+                  “Dejé atrás el caos: solicitudes, aceptación, cambios y facturas en un solo sitio.”
+                </blockquote>
+                <figcaption class="mt-4 flex items-center gap-3">
+                  <div class="grid h-10 w-10 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700 font-bold">J</div>
+                  <div>
+                    <p class="text-sm font-semibold">Javier · Lanzarote</p>
+                    <p class="p-micro">Guía · Senderismo</p>
+                  </div>
+                </figcaption>
+              </figure>
+
+              <figure class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
+                <blockquote class="text-sm text-slate-700">
+                  “Pude elegir por idioma y estilo. Y cuando aceptaron, coordiné todo desde el panel.”
+                </blockquote>
+                <figcaption class="mt-4 flex items-center gap-3">
+                  <div class="grid h-10 w-10 place-items-center rounded-2xl bg-sky-600/10 text-sky-700 font-bold">L</div>
+                  <div>
+                    <p class="text-sm font-semibold">Luca · Italia</p>
+                    <p class="p-micro">Viajero · Mar & costa</p>
+                  </div>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+          WAITLIST / FORM (MINI RETOQUE CREÍBLE)
+        ========================================================== -->
+        <section id="waitlist" class="mx-auto max-w-7xl px-4 py-14">
+          <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+            <div class="pointer-events-none absolute inset-0">
+              <div class="absolute -top-28 right-0 h-72 w-72 rounded-full bg-indigo-200/70 blur-3xl"></div>
+              <div class="absolute -bottom-28 left-0 h-72 w-72 rounded-full bg-emerald-200/60 blur-3xl"></div>
+            </div>
+
+            <div class="relative grid gap-8 lg:grid-cols-2 lg:items-center">
+              <div data-stagger>
+                <p class="testimonial-quote" data-animate="fade-up">Acceso anticipado</p>
+                <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">Sé de los primeros en entrar.</h2>
+                <p class="mt-3 text-slate-600" data-animate="fade-up">
+                  Abriremos plazas por fases. Si estás en la lista, te avisamos antes que al resto.
+                  <span class="font-semibold text-slate-800">Un email cuando abramos acceso.</span>
+                </p>
+
+                <div class="mt-6 grid gap-3 sm:grid-cols-2" data-stagger>
+                  <div class="rounded-2xl bg-white/70 p-4 ring-1 ring-slate-200" data-animate="fade-up">
+                    <p class="text-sm font-semibold">Viajeros</p>
+                    <p class="mt-1 p-muted">Panel + facturas · cambios y cancelación hasta 48h</p>
+                  </div>
+                  <div class="rounded-2xl bg-white/70 p-4 ring-1 ring-slate-200" data-animate="fade-up">
+                    <p class="text-sm font-semibold">Guías</p>
+                    <p class="mt-1 p-muted">Reservas, métricas y facturación · sin cuota fija</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-stagger>
+                <form method="post" action="{% url 'pages:newsletter_subscribe' %}" class="space-y-4" data-animate="fade-up">
+                  {% csrf_token %}
+                  <input type="hidden" name="source" value="landing" />
+                  <input type="hidden" name="next" value="{% url 'pages:home' %}#waitlist" />
+
+                  <div>
+                    <label class="text-sm font-semibold text-slate-800" for="waitlist_email">Email</label>
+                    <p class="mt-1 p-micro">Te avisaremos cuando abramos acceso. Nada más.</p>
+                    <input
+                      id="waitlist_email"
+                      type="email"
+                      name="email"
+                      required
+                      placeholder="tu@email.com"
+                      class="mt-3 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/40"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    class="w-full rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                  >
+                    Acceso anticipado
+                  </button>
+
+                  <p class="p-micro">
+                    Al apuntarte aceptas recibir novedades de Lanzaxperience. Puedes darte de baja cuando quieras.
+                  </p>
+                </form>
+
+                <div class="mt-5 rounded-2xl bg-white p-4 ring-1 ring-slate-200" data-animate="fade-up">
+                  <p class="text-sm font-semibold text-slate-900">Pequeña promesa</p>
+                  <p class="mt-1 p-muted">
+                    Cero humo: si no hay algo sólido que contar, no te escribimos.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================================================
+          FOOTER
+        ========================================================== -->
+        <footer class="mt-16 border-t border-slate-200 bg-linear-to-b from-white to-slate-50" data-stagger>
+          <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+
+            <!-- Top CTA strip -->
+            <div class="card mb-8" data-animate="fade-up">
+              <div class="card-body flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p class="text-base font-semibold text-slate-900 tracking-tight">
+                    ¿Quieres enterarte de experiencias nuevas antes que nadie?
+                  </p>
+                  <p class="mt-1 p-muted">
+                    Novedades reales, sin spam. 1 email cuando haya algo bueno.
+                  </p>
+                </div>
+
+                <form method="post" action="{% url 'pages:newsletter_subscribe' %}"
+                      class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
+                  {% csrf_token %}
+                  <input type="hidden" name="source" value="footer" />
+
+                  <label class="sr-only" for="footer_email">Email</label>
+                  <input
+                    id="footer_email"
+                    type="email"
+                    name="email"
+                    class="input sm:w-72"
+                    placeholder="tu@email.com"
+                    autocomplete="email"
+                    required
+                  />
+                  <button class="btn btn-primary whitespace-nowrap" type="submit">
+                    Avisarme
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Main grid -->
+            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm" data-stagger>
+
+              <!-- Brand -->
+              <div class="space-y-4" data-animate="fade-up">
+                <a href="{% url 'pages:home' %}" class="inline-flex items-center gap-3 group">
+                  <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm group-hover:shadow-md transition overflow-hidden">
+                    <img
+                      src="{% static 'img/logo-lanzaxperience-192.png' %}"
+                      alt="LanzaXperience"
+                      class="h-8 w-auto object-contain"
+                    />
+                  </span>
+
+                  <div class="leading-tight">
+                    <p class="text-base font-semibold text-slate-900 tracking-tight">
+                      LanzaXperience
+                    </p>
+                    <p class="p-micro">
+                      Guías verificados · Experiencias reales
+                    </p>
+                  </div>
+                </a>
+
+                <p class="text-slate-600 leading-relaxed">
+                  Plataforma de experiencias auténticas en Lanzarote con guías locales verificados.
+                </p>
+
+                <!-- Trust chips -->
+                <div class="flex flex-wrap gap-2">
+                  <span class="badge badge-neutral">📍 Lanzarote</span>
+                  <span class="badge badge-neutral">⭐ Reseñas reales</span>
+                  <span class="badge badge-neutral">🧭 Local guides</span>
+                </div>
+
+                <!-- Social -->
+                <div class="flex items-center gap-3 pt-1">
+                  <a href="#" class="badge badge-neutral hover-lift" aria-label="Instagram">📸</a>
+                  <a href="#" class="badge badge-neutral hover-lift" aria-label="TikTok">🎵</a>
+                  <a href="#" class="badge badge-neutral hover-lift" aria-label="YouTube">▶️</a>
+                </div>
+              </div>
+
+              <!-- Producto -->
+              <div data-animate="fade-up">
+                <h4 class="h3-card uppercase tracking-wide">Producto</h4>
+                <ul class="mt-3 space-y-2 text-slate-600">
+                  <li>
+                    <a href="#"
+                      onclick="return false;"
+                      class="hover:text-slate-900 transition cursor-default"
+                      aria-disabled="true">
+                      Explorar experiencias
+                    </a>
+                    <p class="p-micro">Encuentra planes con disponibilidad real.</p>
+                  </li>
+
+                  <li>
+                    <a href="#"
+                      onclick="return false;"
+                      class="hover:text-slate-900 transition cursor-default"
+                      aria-disabled="true">
+                      Convertirme en guía
+                    </a>
+                    <p class="p-micro">Publica y gestiona reservas desde tu panel.</p>
+                  </li>
+
+                  {% if user.is_authenticated %}
+                    <li>
+                      <a href="#"
+                        onclick="return false;"
+                        class="hover:text-slate-900 transition cursor-default"
+                        aria-disabled="true">
+                        Mi panel
+                      </a>
+                      <p class="p-micro">Reservas, notificaciones y solicitudes.</p>
+                    </li>
+                  {% else %}
+                    <li>
+                      <a href="#"
+                        onclick="return false;"
+                        class="hover:text-slate-900 transition cursor-default"
+                        aria-disabled="true">
+                        Acceder
+                      </a>
+                      <p class="p-micro">Entra para ver y gestionar tus reservas.</p>
+                    </li>
+                  {% endif %}
+                </ul>
+              </div>
+
+              <!-- Soporte -->
+              <div data-animate="fade-up">
+                <h4 class="h3-card uppercase tracking-wide">Soporte</h4>
+                <ul class="mt-3 space-y-2 text-slate-600">
+                  <li><a href="{% url 'helpdesk:helpdesk' %}" class="hover:text-slate-900 transition">Centro de ayuda</a></li>
+                  <li><a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-slate-900 transition">Términos y condiciones</a></li>
+                  <li><a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-900 transition">Política de privacidad</a></li>
+                  <li><a href="{% url 'pages:cookie_policy' %}" class="hover:text-slate-900 transition">Política de cookies</a></li>
+                  <li>
+                    <button
+                      type="button"
+                      class="text-left hover:text-slate-900 transition underline decoration-dotted underline-offset-4"
+                      data-lx-landing-cookie-open
+                    >
+                      Preferencias de cookies
+                    </button>
+                  </li>
+
+                  <li class="pt-2">
+                    <p class="p-micro">¿Algo urgente?</p>
+                    <a href="mailto:support@lanzaxperience.com" class="hover:text-slate-900 transition">
+                      support@lanzaxperience.com
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Local -->
+              <div data-animate="fade-up">
+                <h4 class="h3-card uppercase tracking-wide">Ubicación</h4>
+                <div class="mt-3 space-y-3 text-slate-600 leading-relaxed">
+                  <p>🌋 Lanzarote, Islas Canarias</p>
+
+                  <div class="panel-soft">
+                    <p class="h3-card">Hecho para evitar sorpresas</p>
+                    <p class="mt-1 text-xs text-slate-600">
+                      Calendario real, guías verificados y gestión de cambios/cancelaciones clara.
+                    </p>
+                  </div>
+
+                  <a href="{% url 'helpdesk:helpdesk' %}" class="btn btn-ghost w-full sm:w-auto">
+                    Necesito ayuda
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom bar -->
+            <div class="mt-10 border-t border-slate-200 pt-5 pb-24 sm:pb-0 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-micro">
+              <p>© {{ current_year }} LanzaXperience · Todos los derechos reservados</p>
+
+              <div class="flex flex-wrap items-center gap-3 justify-center sm:justify-end">
+                <a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-700 transition">Privacidad</a>
+                <span class="text-slate-300">·</span>
+                <a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-slate-700 transition">Términos</a>
+                <span class="text-slate-300">·</span>
+              </div>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+    </main>
+
+    <!-- Cookie Consent (LANDING): Banner + Preferences Modal -->
+    <div id="lx-landing-cookie-banner" class="fixed inset-x-0 bottom-0 z-9998" hidden>
+      <div class="mx-auto max-w-6xl px-4 pb-4 sm:px-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div class="min-w-0">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="badge">🍪 Cookies</span>
+                  <span class="badge badge-blue">Preferencias</span>
+                </div>
+
+                <p class="mt-3 text-sm text-slate-700 leading-relaxed">
+                  Usamos cookies necesarias para que la plataforma funcione (login, seguridad).
+                  Puedes aceptar cookies opcionales para mejorar la experiencia y medir uso.
+                  <a href="{% url 'pages:cookie_policy' %}" class="font-semibold">Ver política</a>.
+                </p>
+              </div>
+
+              <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end sm:shrink-0">
+                <button type="button" class="btn btn-ghost" data-lx-landing-cookie-action="reject">
+                  Rechazar
+                </button>
+                <button type="button" class="btn btn-ghost" data-lx-landing-cookie-action="manage">
+                  Configurar
+                </button>
+                <button type="button" class="btn btn-primary" data-lx-landing-cookie-action="accept">
+                  Aceptar
+                </button>
+              </div>
+            </div>
+
+            <p class="mt-3 p-micro">
+              Puedes cambiar tus preferencias cuando quieras desde el footer.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal (LANDING) -->
+    <div id="lx-landing-cookie-modal" class="fixed inset-0 z-9999" hidden aria-hidden="true">
+      <div class="absolute inset-0 bg-slate-900/50" data-lx-landing-cookie-backdrop></div>
+
+      <div class="cookie-modal__wrap">
+        <div class="cookie-modal__card">
+
+          <!-- HEADER (fijo) -->
+          <div class="cookie-modal__header">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="badge">🍪 Preferencias</span>
+                  <span class="badge">Control total</span>
+                </div>
+                <h2 class="mt-3 text-xl font-semibold text-slate-900">Gestiona tus cookies</h2>
+                <p class="mt-1 p-muted">
+                  Elige qué cookies opcionales permites. Las necesarias siempre están activas.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                class="btn btn-ghost"
+                data-lx-landing-cookie-action="close"
+                aria-label="Cerrar"
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
+
+          <!-- BODY (scrollea) -->
+          <div class="cookie-modal__body">
+            <div class="space-y-4">
+              <!-- Necessary -->
+              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <p class="label-title">Cookies necesarias</p>
+                    <p class="mt-1 p-muted">
+                      Esenciales para seguridad, sesiones y formularios. No se pueden desactivar.
+                    </p>
+                  </div>
+                  <span class="badge badge-emerald">Siempre activas</span>
+                </div>
+              </div>
+
+              <!-- Functional -->
+              <div class="rounded-2xl border border-slate-200 bg-white p-5">
+                <div class="flex items-start justify-between gap-4">
+                  <div class="min-w-0">
+                    <p class="label-title">Cookies funcionales</p>
+                    <p class="mt-1 p-muted">
+                      Mejoran la experiencia (preferencias básicas, UX).
+                    </p>
+                  </div>
+
+                  <label class="inline-flex items-center gap-2">
+                    <input type="checkbox" class="h-4 w-4" data-lx-landing-cookie-toggle="functional">
+                    <span class="text-sm text-slate-700">Activar</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Analytics -->
+              <div class="rounded-2xl border border-slate-200 bg-white p-5">
+                <div class="flex items-start justify-between gap-4">
+                  <div class="min-w-0">
+                    <p class="label-title">Analítica</p>
+                    <p class="mt-1 p-muted">
+                      Nos ayuda a entender el uso de la plataforma para mejorarla (sin publicidad).
+                    </p>
+                  </div>
+
+                  <label class="inline-flex items-center gap-2">
+                    <input type="checkbox" class="h-4 w-4" data-lx-landing-cookie-toggle="analytics">
+                    <span class="text-sm text-slate-700">Activar</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Marketing -->
+              <div class="rounded-2xl border border-slate-200 bg-white p-5">
+                <div class="flex items-start justify-between gap-4">
+                  <div class="min-w-0">
+                    <p class="label-title">Marketing</p>
+                    <p class="mt-1 p-muted">
+                      Personalización y campañas. (Ahora mismo no usamos cookies de marketing.)
+                    </p>
+                  </div>
+
+                  <label class="inline-flex items-center gap-2">
+                    <input type="checkbox" class="h-4 w-4" data-lx-landing-cookie-toggle="marketing">
+                    <span class="text-sm text-slate-700">Activar</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <p class="mt-4 p-micro">
+              Puedes cambiar esto cuando quieras. Para más info:
+              <a href="{% url 'pages:cookie_policy' %}" class="font-semibold">Política de cookies</a>.
+            </p>
+          </div>
+
+          <!-- FOOTER (fijo, botones siempre visibles) -->
+          <div class="cookie-modal__footer">
+            <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+              <button type="button" class="btn btn-ghost" data-lx-landing-cookie-action="reject">
+                Rechazar todo
+              </button>
+              <button type="button" class="btn btn-ghost" data-lx-landing-cookie-action="accept">
+                Aceptar todo
+              </button>
+              <button type="button" class="btn btn-primary" data-lx-landing-cookie-action="save">
+                Guardar preferencias
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Script cookies LANDING (aislado) -->
+    <script src="{% static 'js/landing/landingConsent.js' %}"></script>
+
+    <!-- =========================================================
+      JS: landing + animaciones (IMPORTANTE)
+    ========================================================== -->
+    <script defer src="{% static 'js/landing/landing.js' %}"></script>
+
+    {# IMPORTANTE: esto activa page enter + scroll reveal #}
+    <script type="module" src="{% static 'js/animations/index.js' %}"></script>
+
+  </body>
+</html>

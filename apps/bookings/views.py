@@ -1,6 +1,5 @@
 from decimal import Decimal
-from urllib import request
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, time
 from django.urls import reverse
 
 from django.contrib import messages
@@ -15,6 +14,10 @@ from .emails import send_booking_status_email
 from .forms import BookingForm, BookingDecisionForm
 from .models import Booking
 from .forms import BookingChangeRequestForm
+from apps.billing.services import create_invoice_from_booking
+from apps.billing.models import Invoice
+from apps.bookings.services import rectificate_booking_invoice_if_needed
+
 
 def booking_start_dt_local(booking):
     """
@@ -26,23 +29,49 @@ def booking_start_dt_local(booking):
     naive = datetime.combine(booking.date, booking.pickup_time)
     return timezone.make_aware(naive, timezone.get_current_timezone())
 
+def booking_end_dt_local(booking):
+    """
+    Devuelve un datetime (timezone-aware) que marca el "fin" válido de la reserva para acciones.
+    Si hay pickup_time, usamos ese inicio como referencia (acción permitida hasta antes del inicio).
+    Si NO hay pickup_time (casos legacy), usamos el final del día local (23:59:59).
+    """
+    tz = timezone.get_current_timezone()
+
+    start_dt = booking_start_dt_local(booking)
+    if start_dt is not None:
+        return start_dt
+
+    # Legacy fallback: final del día de la fecha reservada
+    naive_end = datetime.combine(booking.date, time.max)
+    return timezone.make_aware(naive_end, tz)
+
+
+def booking_has_started(booking) -> bool:
+    """
+    True si ya no se permiten cambios/cancelaciones: ya empezó o la fecha ya pasó.
+    """
+    end_dt = booking_end_dt_local(booking)
+    return timezone.now() >= end_dt
+
 
 def can_cancel_free(booking) -> bool:
     """
     Reglas:
-    - PENDING: siempre cancelable (no hay compromiso real)
+    - Nunca se puede cancelar gratis si la experiencia ya empezó / ya pasó.
+    - PENDING: cancelable gratis SOLO si no ha pasado.
     - ACCEPTED:
-        - si no hay pickup_time: cancelable (no se puede aplicar 48h exactas)
-        - si hay pickup_time: gratis si faltan >= 48h
+        - gratis si faltan >= 48h (con pickup_time)
+        - si no hay pickup_time (legacy), gratis SOLO si no ha pasado (no infinito)
     """
+
+    # 🔒 Guard absoluto: si ya empezó/pasó, NO hay cancelación gratis
+    if booking_has_started(booking):
+        return False
+
     # Override: si un cambio fue rechazado por el guía, el viajero puede cancelar gratis
     override = (booking.extras or {}).get("free_cancel_override")
     if override and override.get("reason") == "change_rejected":
-        # Permitimos el override hasta el inicio real (si existe) para evitar abusos.
-        start_dt = booking_start_dt_local(booking)
-        if start_dt is None:
-            return True
-        return timezone.now() < start_dt
+        return True
 
     if booking.status == Booking.Status.PENDING:
         return True
@@ -50,11 +79,10 @@ def can_cancel_free(booking) -> bool:
     if booking.status == Booking.Status.ACCEPTED:
         start_dt = booking_start_dt_local(booking)
         if start_dt is None:
-            return True
+            return True  # legacy: permitido solo si no ha pasado
         return timezone.now() <= (start_dt - timedelta(hours=48))
 
     return False
-
 
 
 @login_required
@@ -140,7 +168,10 @@ def traveler_bookings(request):
         Booking.objects.filter(traveler=request.user)
         .select_related("experience", "experience__guide")
     )
-    return render(request, "bookings/traveler_list.html", {"bookings": bookings})
+    return render(request, "bookings/traveler_list.html", {
+        "bookings": bookings,
+        "today": timezone.localdate(),
+    })
 
 
 @guide_required
@@ -161,13 +192,11 @@ def booking_detail(request, pk):
 
     # Permisos: traveler dueño o guide dueño de la experience
     if request.user == booking.traveler:
-        # Marcar como visto por traveler
         if not booking.seen_by_traveler:
             booking.seen_by_traveler = True
             booking.save(update_fields=["seen_by_traveler"])
 
     elif request.user.is_guide() and booking.experience.guide == request.user:
-        # (Opcional) marcar como visto por guía si entras al detalle
         if not booking.seen_by_guide:
             booking.seen_by_guide = True
             booking.save(update_fields=["seen_by_guide"])
@@ -176,7 +205,36 @@ def booking_detail(request, pk):
         messages.error(request, "No tienes permiso para ver esta reserva.")
         return redirect("pages:dashboard")
 
-    return render(request, "bookings/detail.html", {"booking": booking})
+    # -------------------------
+    # Flags UX para botones
+    # -------------------------
+    is_closed = booking.status in [Booking.Status.REJECTED, Booking.Status.CANCELED]
+    has_started = booking_has_started(booking)
+
+    is_pending_review = booking.status in [
+        Booking.Status.CHANGE_REQUESTED,
+        Booking.Status.CANCEL_REQUESTED,
+    ]
+
+    # Solo tiene sentido permitir acciones si:
+    # - no está cerrada
+    # - no ha empezado/pasado
+    # - no hay otra solicitud pendiente
+    can_request_change = (not is_closed) and (not has_started) and (not is_pending_review)
+    can_request_cancel = (not is_closed) and (not has_started) and (not is_pending_review)
+
+    # Mostrar "cancelar gratis" SOLO si:
+    # - se puede solicitar cancelación
+    # - y el sistema dice que es gratis (incluye override pero ya protegido por has_started)
+    show_free_cancel = can_request_cancel and can_cancel_free(booking)
+
+    return render(request, "bookings/detail.html", {
+        "booking": booking,
+        "can_request_change": can_request_change,
+        "can_request_cancel": can_request_cancel,
+        "show_free_cancel": show_free_cancel,
+        "has_started": has_started,  
+    })
 
 
 @guide_required
@@ -215,6 +273,11 @@ def accept_booking(request, pk):
                 booking.responded_at = timezone.now()
 
             booking.save()
+
+            try:
+                booking.invoice
+            except Invoice.DoesNotExist:
+                create_invoice_from_booking(booking)
 
             send_booking_status_email(
                 to_email=booking.traveler.email,
@@ -301,6 +364,11 @@ def reject_booking(request, pk):
 @login_required
 def request_booking_change(request, pk):
     booking = get_object_or_404(Booking, pk=pk, traveler=request.user)
+    
+    # No permitir cambios si la experiencia ya empezó/pasó
+    if booking_has_started(booking):
+        messages.error(request, "Esta experiencia ya ha comenzado o ya pasó. No se puede solicitar un cambio.")
+        return redirect("bookings:detail", pk=booking.pk)
 
     # No permitir cambios si ya está finalizada
     if booking.status in [Booking.Status.REJECTED, Booking.Status.CANCELED]:
@@ -513,6 +581,11 @@ def decide_cancel_request(request, pk, decision):
             "seen_by_traveler", "seen_by_guide", "updated_at"
         ])
 
+        rectificate_booking_invoice_if_needed(
+            booking,
+            reason="Cancelación aprobada por el guía",
+        )
+
         send_booking_status_email(
             to_email=booking.traveler.email,
             subject="Solicitud de cancelación rechazada - LanzaXperience",
@@ -563,6 +636,11 @@ def decide_cancel_request(request, pk, decision):
 def request_booking_cancel(request, pk):
     booking = get_object_or_404(Booking, pk=pk, traveler=request.user)
 
+    # No permitir cancelación si la experiencia ya empezó/pasó
+    if booking_has_started(booking):
+        messages.error(request, "Esta experiencia ya ha comenzado o ya pasó. No se puede cancelar.")
+        return redirect("bookings:detail", pk=booking.pk)
+
     # No se puede cancelar si ya está cerrada
     if booking.status in [Booking.Status.REJECTED, Booking.Status.CANCELED]:
         messages.error(request, "Esta reserva no se puede cancelar.")
@@ -610,6 +688,11 @@ def request_booking_cancel(request, pk):
                 "seen_by_guide", "seen_by_traveler",
                 "extras", "updated_at"
             ])
+
+            rectificate_booking_invoice_if_needed(
+                booking,
+                reason="Cancelación gratis (48h) por el viajero",
+            )
 
             # Email al viajero confirmando su cancelación
             send_booking_status_email(

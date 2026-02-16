@@ -1,4 +1,3 @@
-/* static/js/cookies/consent.js */
 (() => {
   "use strict";
 
@@ -189,6 +188,6 @@
   });
 
   // Al cargar
-  close(modal); // asegúrate de que arranca cerrado (por si acaso)
+  close(modal);
   showBannerIfNeeded();
 })();

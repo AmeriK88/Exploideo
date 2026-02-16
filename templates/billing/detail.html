@@ -1,0 +1,7 @@
+{% if request.user == booking.traveler or request.user == booking.experience.guide %}
+  {% if booking.invoice %}
+    <a href="{% url 'billing:invoice_by_booking' booking.pk %}" class="btn btn-ghost">
+      Ver factura
+    </a>
+  {% endif %}
+{% endif %}

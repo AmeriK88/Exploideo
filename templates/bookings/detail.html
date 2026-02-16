@@ -3,7 +3,9 @@
 
 {% block dashboard_content %}
   <div class="card">
-    <div class="card-body">
+    <div class="card-body relative">
+      <!-- Subtle top gradient -->
+      <div class="hero-top-glow"></div>
       <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 class="h1-page">Detalle de reserva</h1>
@@ -11,7 +13,6 @@
             Aquí tienes todos los datos de tu solicitud y la respuesta del guía.
           </p>
         </div>
-
         <div class="flex items-center gap-2">
           {% with s=booking.status|lower %}
             {% if s == "accepted" %}
@@ -25,7 +26,7 @@
             {% elif s == "rejected" %}
               <span class="badge badge-status-rejected hover-lift">Rechazada</span>
             {% elif s == "canceled" %}
-              <span class="badge badge-status-canceled hover-lift">Cancelada</span>
+              <span class="badge update-decision-rejected hover-lift">Cancelada</span>
             {% else %}
               <span class="badge hover-lift">{{ booking.status }}</span>
             {% endif %}
@@ -67,7 +68,7 @@
         {% endif %}
       {% endwith %}
 
-      {# NUEVO: Banner de última actualización (solo útil para el viajero) #}
+      {# Banner de última actualización (solo útil para el viajero) #}
       {% if booking.extras.last_update and request.user == booking.traveler %}
         {% if booking.extras.last_update.type == "change" %}
           {% if booking.extras.last_update.decision == "accepted" %}
@@ -96,7 +97,7 @@
 
       {# NUEVO: Si el guía rechazó un cambio, permitir cancelación gratis y guiar al viajero #}
       {% if request.user == booking.traveler %}
-        {% if booking.extras.free_cancel_override and booking.extras.free_cancel_override.reason == "change_rejected" %}
+        {% if booking.extras.free_cancel_override and booking.extras.free_cancel_override.reason == "change_rejected" and show_free_cancel %}
           <div class="status-banner status-banner-update-rejected">
             ❌ El guía ha rechazado tu solicitud de cambio.
             <div class="mt-2">
@@ -115,23 +116,41 @@
         {% endif %}
       {% endif %}
 
+      {% if request.user == booking.traveler and has_started %}
+        <div class="alert alert-info mt-4">
+          <p class="p-body">
+            Esta experiencia ya ha comenzado o ha finalizado. Las modificaciones y cancelaciones están deshabilitadas.
+          </p>
+        </div>
+      {% endif %}
+
+
       {# Acciones del viajero (solo si no está cancelada/rechazada y no hay solicitud ya pendiente) #}
       {% if request.user == booking.traveler %}
         <div class="mt-4 flex flex-wrap gap-2">
-          {% with s=booking.status|lower %}
-            {% if s != "rejected" and s != "canceled" %}
-              {% if s != "change_requested" and s != "cancel_requested" %}
-                {% if not booking.extras.free_cancel_override %}
-                  <a href="{% url 'bookings:request_change' booking.pk %}" class="btn btn-primary">
-                    Solicitar cambio
-                  </a>
-                  <a href="{% url 'bookings:request_cancel' booking.pk %}" class="btn btn-ghost">
-                    Solicitar cancelación
-                  </a>
-                {% endif %}
-              {% endif %}
+          {% if show_free_cancel %}
+            <a href="{% url 'bookings:request_cancel' booking.pk %}" class="btn btn-primary">
+              Cancelar gratis
+            </a>
+          {% else %}
+            {% if can_request_change %}
+              <a href="{% url 'bookings:request_change' booking.pk %}" class="btn btn-primary">
+                Solicitar cambio
+              </a>
             {% endif %}
-          {% endwith %}
+
+            {% if can_request_cancel %}
+              <a href="{% url 'bookings:request_cancel' booking.pk %}" class="btn btn-ghost">
+                Solicitar cancelación
+              </a>
+            {% endif %}
+          {% endif %}
+
+          {% if booking.status == "accepted" %}
+            <a href="{% url 'billing:invoice_by_booking' booking.pk %}" class="btn btn-ghost">
+              Ver factura
+            </a>
+          {% endif %}
 
           <a href="{% url 'bookings:traveler_list' %}" class="btn btn-ghost">
             ← Volver a mis reservas
@@ -149,17 +168,17 @@
 
           {% with cr=booking.extras.change_request %}
             <div class="mt-3 flex flex-wrap gap-2">
-              {% if cr.date %}<span class="badge hover-lift">📅 {{ cr.date }}</span>{% endif %}
-              {% if cr.adults is not None %}<span class="badge hover-lift">👤 {{ cr.adults }} adultos</span>{% endif %}
-              {% if cr.children is not None %}<span class="badge hover-lift">🧒 {{ cr.children }} niños</span>{% endif %}
-              {% if cr.infants is not None %}<span class="badge hover-lift">👶 {{ cr.infants }} bebés</span>{% endif %}
+              {% if cr.date %}<span class="badge badge-neutral hover-lift">📅 {{ cr.date }}</span>{% endif %}
+              {% if cr.adults is not None %}<span class="badge badge-neutral hover-lift">👤 {{ cr.adults }} adultos</span>{% endif %}
+              {% if cr.children is not None %}<span class="badge badge-neutral hover-lift">🧒 {{ cr.children }} niños</span>{% endif %}
+              {% if cr.infants is not None %}<span class="badge badge-neutral hover-lift">👶 {{ cr.infants }} bebés</span>{% endif %}
               {% if cr.transport_mode_label %}
-                <span class="badge hover-lift">🚐 {{ cr.transport_mode_label }}</span>
+                <span class="badge badge-neutral hover-lift">🚐 {{ cr.transport_mode_label }}</span>
               {% elif cr.transport_mode %}
-                <span class="badge hover-lift">🚐 {{ cr.transport_mode }}</span>
+                <span class="badge badge-neutral hover-lift">🚐 {{ cr.transport_mode }}</span>
               {% endif %}
-              {% if cr.preferred_language %}<span class="badge hover-lift">🗣 {{ cr.preferred_language }}</span>{% endif %}
-              {% if cr.pickup_notes %}<span class="badge hover-lift">📍 {{ cr.pickup_notes }}</span>{% endif %}
+              {% if cr.preferred_language %}<span class="badge badge-neutral hover-lift">🗣 {{ cr.preferred_language }}</span>{% endif %}
+              {% if cr.pickup_notes %}<span class="badge badge-neutral hover-lift">📍 {{ cr.pickup_notes }}</span>{% endif %}
             </div>
 
             {% if cr.notes %}
@@ -182,7 +201,7 @@
       {% endif %}
 
       <!-- Tiempos -->
-      <div class="panel-detail">
+      <div class="mt-5 cta-box">
         <h2 class="label-title">Tiempos</h2>
         <p class="mt-1 text-xs p-micro">
           Referencia de cuándo se solicitó y cuándo se respondió.
@@ -219,27 +238,27 @@
         </p>
 
         <div class="mt-3 flex flex-wrap gap-2">
-          <span class="badge hover-lift">📅 {{ booking.date }}</span>
+          <span class="badge badge-neutral hover-lift">📅 {{ booking.date }}</span>
 
           {% if booking.total_price %}
-            <span class="badge hover-lift">💶 {{ booking.total_price }}€</span>
+            <span class="badge badge-neutral hover-lift">💶 {{ booking.total_price }}€</span>
           {% endif %}
 
           {% if booking.experience.location %}
-            <span class="badge hover-lift">📍 {{ booking.experience.location }}</span>
+            <span class="badge badge-neutral hover-lift">📍 {{ booking.experience.location }}</span>
           {% endif %}
 
           {% if booking.experience.duration_minutes %}
-            <span class="badge hover-lift">⏱ {{ booking.experience.duration_minutes }} min</span>
+            <span class="badge badge-neutral hover-lift">⏱ {{ booking.experience.duration_minutes }} min</span>
           {% endif %}
           {% if booking.preferred_language %}
-            <span class="badge hover-lift">🗣 {{ booking.get_preferred_language_display }}</span>
+            <span class="badge badge-neutral hover-lift">🗣 {{ booking.get_preferred_language_display }}</span>
           {% endif %}
         </div>
       </div>
 
       <!-- Guía -->
-      <div class="mt-5 border-t border-slate-200 pt-5">
+      <div class="mt-5 cta-yes">
         <h2 class="label-title">Guía</h2>
         <p class="mt-2 p-body">
           <a href="{% url 'profiles:public_guide' booking.experience.guide.pk %}" class="font-medium hover:underline">
@@ -251,7 +270,7 @@
       <!-- Hora y punto (solo si está aceptada) -->
       {% with s=booking.status|lower %}
         {% if s == "accepted" %}
-          <div class="panel-detail">
+          <div class="mt-5 cta-box">
             <h2 class="label-title">Hora y punto de encuentro</h2>
             <p class="mt-1 text-xs p-micro">
               Información final confirmada por el guía.
@@ -259,7 +278,7 @@
 
             <div class="mt-4 flex flex-wrap gap-2">
               {% if booking.pickup_time %}
-                <span class="badge hover-lift">
+                <span class="badge badge-neutral hover-lift">
                   {% if booking.transport_mode == "own_vehicle" %}
                     ⏰ Hora de encuentro: {{ booking.pickup_time|time:"H:i" }}
                   {% else %}
@@ -272,7 +291,7 @@
                 </span>
               {% endif %}
               {% if booking.meeting_point %}
-                <span class="badge hover-lift">📍 {{ booking.meeting_point }}</span>
+                <span class="badge badge-neutral hover-lift">📍 {{ booking.meeting_point }}</span>
               {% endif %}
             </div>
           </div>
@@ -280,22 +299,22 @@
       {% endwith %}
 
       <!-- Personas + Transporte -->
-      <div class="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+      <div class="mt-5 cta-yes">
         <h2 class="label-title">Participantes y logística</h2>
 
         <div class="mt-3 flex flex-wrap gap-2">
-          <span class="badge hover-lift">👤 {{ booking.adults }} adultos</span>
-          <span class="badge hover-lift">🧒 {{ booking.children }} niños</span>
-          <span class="badge hover-lift">👶 {{ booking.infants }} bebés</span>
+          <span class="badge badge-neutral hover-lift">👤 {{ booking.adults }} adultos</span>
+          <span class="badge badge-neutral hover-lift">🧒 {{ booking.children }} niños</span>
+          <span class="badge badge-neutral hover-lift">👶 {{ booking.infants }} bebés</span>
 
           {% if booking.transport_mode %}
-            <span class="badge hover-lift">
+            <span class="badge badge-neutral hover-lift">
               🚐 {{ booking.get_transport_mode_display|default:booking.transport_mode }}
             </span>
           {% endif %}
 
           {% if booking.pickup_notes %}
-            <span class="badge hover-lift">📝 {{ booking.pickup_notes }}</span>
+            <span class="badge badge-neutral hover-lift">📝 {{ booking.pickup_notes }}</span>
           {% endif %}
         </div>
 
@@ -320,7 +339,7 @@
           {% if booking.total_price %}
             <p>
               <span class="p-micro">Total:</span>
-              <span class="font-semibold text-slate-900">{{ booking.total_price }}€</span>
+              <span class="label-title-secondary">{{ booking.total_price }}€</span>
             </p>
           {% endif %}
         </div>

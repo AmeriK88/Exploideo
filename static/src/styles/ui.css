@@ -1,43 +1,42 @@
 @layer components {
-  /* Helpers */
-/* Helpers */
-.hover-lift { @apply transition-transform duration-200 ease-out hover:-translate-y-0.5; }
-.hover-text { @apply transition-colors hover:text-slate-700; }
-.soft-shadow { @apply shadow-sm hover:shadow-md transition-shadow duration-200; }
-.focus-ring {
-  @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60
-         focus-visible:ring-offset-2 focus-visible:ring-offset-white;
-}
+  /* =========================
+     Helpers
+  ========================== */
+  .hover-lift { @apply transition-transform duration-300 ease-out hover:-translate-y-0.5; }
+  .hover-text { @apply transition-colors hover:text-slate-700; }
+  .soft-shadow { @apply shadow-sm hover:shadow-md transition-shadow duration-200; }
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60
+           focus-visible:ring-offset-2 focus-visible:ring-offset-white;
+  }
 
-
-  /* Hero glow (Home) */
+  /* Hero glow (Home legacy) */
   .hero-top-glow {
     @apply pointer-events-none absolute inset-x-0 -top-24 h-48;
     background: linear-gradient(to bottom, rgba(191,219,254,.70), transparent);
   }
 
-  /* Cards (hover suave + sin blur) */
+  .avatar { @apply rounded-full object-cover border-2 border-white shadow-lg bg-white; }
+
+  /* =========================
+     Cards
+  ========================== */
   .card{
     @apply rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-sm
            transition duration-200 ease-out
            hover:-translate-y-0.5 hover:shadow-md;
     backface-visibility: hidden;
   }
-
   .card-body { @apply p-6; }
 
   /* Booking card with soft background image */
-  .booking-card{
-    @apply relative overflow-hidden;
-  }
-
+  .booking-card{ @apply relative overflow-hidden; }
   .booking-card-bg{
     @apply absolute inset-0 bg-center bg-cover;
-    opacity: .45;
+    opacity: .48;
     transform: scale(1.05);
     filter: saturate(.95) contrast(.95);
   }
-
   .booking-card-overlay{
     @apply absolute inset-0;
     background: linear-gradient(
@@ -46,13 +45,11 @@
       rgba(255,255,255,.55)
     );
   }
+  .booking-card-content{ @apply relative; }
 
-  .booking-card-content{
-    @apply relative;
-  }
-
-
-  /* Panels */
+  /* =========================
+     Panels
+  ========================== */
   .panel { @apply rounded-2xl border border-slate-200 bg-white px-5 py-4; }
   .panel-soft {
     @apply rounded-2xl border border-slate-200/60
@@ -75,7 +72,9 @@
   .clamp-3 { -webkit-line-clamp: 3; }
   .clamp-4 { -webkit-line-clamp: 4; }
 
-  /* Typography */
+  /* =========================
+     Typography helpers
+  ========================== */
   .p-body{ @apply text-sm text-slate-700 leading-relaxed; }
   .p-blue{ @apply text-sm text-blue-900 leading-relaxed; }
   .label-title{ @apply text-sm font-semibold text-slate-900; }
@@ -86,7 +85,22 @@
   .p-blue-update { @apply text-xs font-medium text-blue-700; }
   .blue-hero-span{ @apply text-blue-700; }
 
-  /* Buttons */
+  .h1-hero{ @apply mt-4 text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-slate-900; }
+  .h1-page{ @apply text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900; }
+  .h2-section{ @apply text-lg font-semibold text-slate-900; }
+  .h3-card{ @apply text-sm font-semibold text-slate-900; }
+  .h3-card-experience{ @apply text-lg font-semibold leading-tight text-slate-900; }
+  .h3-card-blue{ @apply text-sm font-semibold text-blue-900; }
+  .p-lead{ @apply mt-4 text-slate-600 text-base sm:text-lg leading-relaxed; }
+  .p-muted{ @apply text-sm text-slate-600; }
+  .p-micro{ @apply text-xs text-slate-500; }
+  .p-large{ @apply text-2xl font-semibold text-slate-900; }
+  .p-card-experience{ @apply mt-1 text-slate-600; }
+  .testimonial-quote{ @apply text-sm font-semibold text-indigo-700; }
+
+  /* =========================
+     Buttons
+  ========================== */
   .btn {
     @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2
            text-sm font-medium transition-all duration-200 hover:-translate-y-0.5
@@ -106,7 +120,9 @@
   .btn-ghost { @apply bg-transparent text-slate-700 hover:bg-slate-100; }
   .btn-danger { @apply bg-red-600 text-white hover:bg-red-700; }
 
-  /* Inputs */
+  /* =========================
+     Inputs
+  ========================== */
   .input {
     @apply w-full max-w-full min-w-0 rounded-lg border border-slate-300 bg-white
            px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 transition
@@ -127,7 +143,7 @@
   .file-upload { @apply min-w-0 rounded-lg border border-dashed border-slate-300 p-4 text-sm text-slate-600; }
   .account-input { @apply font-medium text-blue-600 hover:text-blue-700; }
 
-  /* Cards */
+  /* Cards (special) */
   .card-warning { @apply rounded-xl border border-amber-200 bg-amber-50; }
 
   /* Document items */
@@ -146,24 +162,23 @@
   .content-box-blue { @apply rounded-2xl border border-blue-200 bg-blue-50 px-5 py-4; }
   .contact-box { @apply flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4; }
 
-  /* Badges (ÚNICO sistema para tags + estados) */
+  /* =========================
+     Badges (sistema único)
+  ========================== */
   .badge,
   .badge-neutral,
   .badge-emerald,
   .badge-amber,
   .badge-red,
   .badge-blue{
-    @apply inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium leading-none;
+    @apply inline-flex items-center gap-1 whitespace-nowrap rounded-full border px-2.5 py-1 text-xs font-medium leading-none;
     backface-visibility: hidden;
   }
 
-  /* Neutral */
   .badge-neutral{
     @apply border-slate-200 bg-slate-50 text-slate-700
-           hover:bg-slate-100 hover:border-slate-300 hover:shadow-sm ;
+           hover:bg-slate-100 hover:border-slate-300 hover:shadow-sm;
   }
-
-  /* Semantic colors */
   .badge-emerald{
     @apply border-emerald-200 bg-emerald-50 text-emerald-800
            hover:bg-emerald-100 hover:border-emerald-300 hover:shadow-sm;
@@ -185,49 +200,29 @@
     @apply border-slate-200 bg-slate-50 text-slate-700
            hover:bg-slate-100 hover:border-slate-300;
   }
-
   .badge-status-accepted{
     @apply border-emerald-200 bg-emerald-50 text-emerald-800
            hover:bg-emerald-100 hover:border-emerald-300;
   }
 
-  .badge-status-change_requested,
-  .badge-status-cancel_requested{
-    @apply inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium
-           border-amber-200 bg-amber-50 text-amber-800
-           hover:bg-amber-100;
-    transition: transform .2s ease-out, background-color .2s ease, border-color .2s ease, color .2s ease;
-  }
-
-  /* OJO: soporta los dos nombres */
+  /* Change/Cancel requested (unificado) */
   .badge-status-change,
   .badge-status-cancel,
   .badge-status-change_requested,
   .badge-status-cancel_requested{
-    @apply border-amber-200 bg-amber-50 text-amber-800
+    @apply inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-medium
+           border-amber-200 bg-amber-50 text-amber-800
            hover:bg-amber-100 hover:border-amber-300;
+    transition: transform .2s ease-out, background-color .2s ease, border-color .2s ease, color .2s ease;
   }
-
-  .label-title-secondary { @apply font-semibold text-slate-900; }
 
   /* Update decision messages */
   .update-decision-accepted { @apply text-xs font-medium text-emerald-700; }
   .update-decision-rejected { @apply text-xs font-medium text-red-700; }
 
-  /* Typography */
-  .h1-hero{ @apply mt-4 text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-slate-900; }
-  .h1-page{ @apply text-2xl sm:text-3xl font-semibold tracking-tight text-slate-900; }
-  .h2-section{ @apply text-lg font-semibold text-slate-900; }
-  .h3-card{ @apply text-sm font-semibold text-slate-900; }
-  .h3-card-experience{ @apply text-lg font-semibold leading-tight text-slate-900; }
-  .h3-card-blue{ @apply text-sm font-semibold text-blue-900; }
-  .p-lead{ @apply mt-4 text-slate-600 text-base sm:text-lg leading-relaxed; }
-  .p-muted{ @apply text-sm text-slate-600; }
-  .p-micro{ @apply text-xs text-slate-500; }
-  .p-large{ @apply text-2xl font-semibold text-slate-900; }
-  .p-card-experience{ @apply mt-1 text-slate-600; }
-
-  /* Alerts */
+  /* =========================
+     Alerts
+  ========================== */
   .alert { @apply rounded-2xl border px-5 py-4 text-sm shadow-sm; }
   .alert-info    { @apply border-blue-200 bg-blue-50 text-blue-900; }
   .alert-success { @apply border-emerald-200 bg-emerald-50 text-emerald-900; }
@@ -252,41 +247,68 @@
   .danger-title{ @apply text-lg font-semibold text-red-700; }
   .danger-text{ @apply mt-1 text-sm text-red-700/80; }
 
-  /* -----------------------------
-     Anim / Reveal helpers (estables)
-  ------------------------------ */
-  [data-animate]{
-    backface-visibility: hidden;
+  /* =========================================================
+     HOME LANDING (SCOPED)
+     Solo aplica si el BODY tiene la clase "home-landing"
+  ========================================================== */
+  .home-landing .home-container{ @apply mx-auto max-w-7xl px-4; }
+
+  .home-landing .home-band{ @apply py-14; }
+  .home-landing .home-band-white{ @apply border-y border-slate-200 bg-white; }
+
+  /* HERO */
+  .home-landing .home-hero{ @apply relative overflow-hidden pt-12 pb-10 sm:pt-16 sm:pb-14; }
+  .home-landing .home-hero-bg{ @apply pointer-events-none absolute inset-0; }
+  .home-landing .home-blob{ @apply absolute rounded-full blur-3xl; }
+  .home-landing .home-blob-a{ @apply -top-24 left-1/2 h-72 w-152 -translate-x-1/2 bg-indigo-200/70; }
+  .home-landing .home-blob-b{ @apply -bottom-32 left-1/3 h-72 w-160 bg-sky-200/60; }
+
+  .home-landing .home-hero-grid{ @apply relative grid items-center gap-10 lg:grid-cols-2; }
+
+  /* Pills */
+  .home-landing .home-pill{
+    @apply inline-flex items-center rounded-full bg-white px-3 py-1 text-xs font-semibold
+           text-indigo-700 ring-1 ring-indigo-200;
+  }
+  .home-landing .home-pill-neutral{ @apply text-slate-700 ring-slate-200; }
+
+  .home-landing .home-hero-title{ @apply mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl text-slate-900; }
+  .home-landing .home-hero-title-accent{ @apply block text-indigo-700; }
+
+  .home-landing .home-hero-lead{ @apply mt-4 text-lg text-slate-600 leading-relaxed; }
+  .home-landing .home-hero-lead-strong{ @apply font-semibold text-slate-800; }
+
+  .home-landing .home-hero-cta{ @apply mt-7 flex flex-col gap-3 sm:flex-row sm:items-center; }
+
+  /* Visual card */
+  .home-landing .home-visual-card{ @apply rounded-3xl border border-slate-200 bg-white p-4 shadow-sm; }
+  .home-landing .home-visual-media{
+    @apply relative overflow-hidden rounded-2xl bg-slate-100;
+    aspect-ratio: 16 / 11;
+  }
+  .home-landing .home-visual-img{ @apply h-full w-full object-cover; }
+
+  .home-landing .home-visual-overlay{
+    @apply pointer-events-none absolute inset-0;
+    background: linear-gradient(60deg, rgba(2,6,23,.45), rgba(2,6,23,.10), transparent);
   }
 
-  /* will-change solo durante entrada de página */
-  .is-animating{
-    will-change: transform, opacity;
-    backface-visibility: hidden;
+  .home-landing .home-visual-chip{
+    @apply absolute left-4 top-4 rounded-2xl bg-white/85 px-3 py-2 text-xs text-slate-800
+           backdrop-blur ring-1 ring-white/60;
   }
 
-  /* will-change solo cuando realmente hay hover */
-  .card:hover,
-  .btn:hover,
-  .badge:hover,
-  .badge-neutral:hover,
-  .badge-emerald:hover,
-  .badge-amber:hover,
-  .badge-red:hover,
-  .badge-blue:hover{
-    will-change: transform;
+  .home-landing .home-visual-mini{
+    @apply absolute bottom-4 left-4 right-4 rounded-2xl bg-white/85 px-4 py-3
+           backdrop-blur ring-1 ring-white/60 flex items-center justify-between gap-3;
+  }
+  .home-landing .home-mini-title{ @apply text-xs font-semibold text-slate-900; }
+  .home-landing .home-mini-sub{ @apply text-xs text-slate-600; }
+  .home-landing .home-mini-badge{
+    @apply shrink-0 rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white;
   }
 
-  /* Estado final de entrada de página */
-  .page-enter.is-ready{
-    opacity: 1;
-    transform: none;
-  }
+  .home-landing .home-visual-search{ @apply mt-4; }
+  .home-landing .home-hero-trust{ @apply mt-6; }
 
-  /* Si una card también se anima (data-animate), refuerza transición del hover */
-  [data-animate].card{
-    transition-property: transform, box-shadow, opacity, background-color, border-color, color;
-    transition-duration: 200ms;
-    transition-timing-function: cubic-bezier(.2,.8,.2,1);
-  }
 }
