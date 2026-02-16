@@ -1,22 +1,46 @@
 :root{
   --ease-out: cubic-bezier(.2,.8,.2,1);
+
+  /* Ajusta aquí velocidades globales */
+  --page-enter: .6s;
+  --reveal: .8s;
+
+  /* Stagger step (si quieres más lento, sube a 90/110ms en JS) */
 }
 
-/* PAGE ENTER */
-[data-page]{ opacity: 1; transform: none; }
-[data-page].page-enter{ opacity: 0; transform: translateY(8px); }
+/* =========================
+   PAGE ENTER
+   Nota: el elemento debe tener data-page + class="page-enter"
+========================= */
+[data-page]{
+  opacity: 1;
+  transform: none;
+}
+
+[data-page].page-enter{
+  opacity: 0;
+  transform: translateY(8px);
+}
+
 [data-page].page-enter.is-ready{
   opacity: 1;
   transform: translateY(0);
-  transition: opacity .35s var(--ease-out), transform .35s var(--ease-out);
+  transition:
+    opacity var(--page-enter) var(--ease-out),
+    transform var(--page-enter) var(--ease-out);
 }
 
-/* SCROLL REVEAL */
+/* =========================
+   SCROLL REVEAL
+========================= */
 [data-animate]{
   opacity: 0;
   transform: translateY(14px);
-  transition: opacity .5s var(--ease-out), transform .5s var(--ease-out);
+  transition:
+    opacity var(--reveal) var(--ease-out),
+    transform var(--reveal) var(--ease-out);
   will-change: auto;
+  backface-visibility: hidden;
 }
 
 [data-animate="fade"]{ transform: none; }
@@ -31,24 +55,30 @@
   transform: none;
 }
 
+/* stagger: el JS setea --delay */
 [data-stagger] > [data-animate]{
   transition-delay: var(--delay, 0ms);
 }
 
-/* Reduce motion */
+/* =========================
+   Performance helpers
+========================= */
+.is-animating{
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Si quieres, deja solo cards (menos agresivo) */
+.card:hover{ will-change: transform; }
+
+/* =========================
+   Reduce motion
+========================= */
 @media (prefers-reduced-motion: reduce){
   [data-page],
   [data-animate]{
     transition: none !important;
     opacity: 1 !important;
     transform: none !important;
-  }
-
-  [data-animate].is-in,
-  [data-page].is-ready{
-    transform: none;
-    filter: none;
-    backface-visibility: hidden;
-    -webkit-font-smoothing: antialiased;
   }
 }
