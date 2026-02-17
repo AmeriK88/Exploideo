@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schema.railpack.com",
+
+  "packages": {
+    "python": "3.11",
+    "node": "20"
+  },
+
+  "steps": {
+    "build": {
+      "commands": [
+        "...",
+        "npm ci",
+        "npm run build"
+      ]
+    }
+  },
+
+  "deploy": {
+    "startCommand": "sh -c \"python manage.py migrate && python manage.py collectstatic --noinput && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 120\""
+  }
+}
