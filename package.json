@@ -4,6 +4,8 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
+    "dev": "npm run tw:dev",
+    "build": "npm run tw:build",
     "tw:dev": "tailwindcss -i ./static/src/input.css -o ./static/css/output.css --watch",
     "tw:build": "tailwindcss -i ./static/src/input.css -o ./static/css/output.css --minify"
   },
