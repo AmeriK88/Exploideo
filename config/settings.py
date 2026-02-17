@@ -27,6 +27,8 @@ IS_PROD = (ENVIRONMENT in ("prod", "production"))
 # Si vas a usar dominios https en prod, esto es MUY importante:
 CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
 
+CANONICAL_HOST = "exploideo.com" if IS_PROD else None
+
 # ===== Application =====
 INSTALLED_APPS = [
     "django.contrib.admin",
