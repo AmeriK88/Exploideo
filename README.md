@@ -1,7 +1,7 @@
 # 🚀 Exploria
 A modern SaaS platform connecting travelers with local guides for unforgettable experiences. Built with Django and styled with Tailwind CSS, this app empowers guides to showcase their expertise and travelers to discover authentic adventures.
 
-![Lanzaxperience Logo](https://img.shields.io/badge/Lanzaxperience-Experience%20Booking-blue?style=for-the-badge&logo=map&logoColor=white) ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![Exploideo](https://img.shields.io/badge/Lanzaxperience-Experience%20Booking-blue?style=for-the-badge&logo=map&logoColor=white) ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
 
 ## 🌟 Features
 
