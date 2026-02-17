@@ -51,6 +51,9 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
 
+    # Redirección a dominio canónico (si configuras CANONICAL_HOST)
+    "core.middlewares.redirection_middleware.CanonicalHostMiddleware",
+
     # WhiteNoise (sirve estáticos en prod sin líos)
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
