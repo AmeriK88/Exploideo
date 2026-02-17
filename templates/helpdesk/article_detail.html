@@ -20,11 +20,12 @@
         {% endif %}
       </div>
 
-      <h1 class="h1-hero">{{ article.title }}</h1>
+      <h1 class="mt-5 h1-page">{{ article.title }}</h1>
 
-      <div class="mt-5 p-body">
-        {{ article.content|linebreaks }}
+      <div class="mt-5 article-content">
+        {{ article.content|safe }}
       </div>
+
 
       {% if related %}
         <div class="mt-8 panel-soft">
@@ -57,7 +58,7 @@
 
       <div class="mt-6 alert alert-info">
         <p class="p-body">
-          ¿No se resolvió? Escríbenos a <strong>support@lanzaxperience.com</strong>
+          ¿No se resolvió? Escríbenos a <strong>support@lxpguides.com</strong>
         </p>
       </div>
 

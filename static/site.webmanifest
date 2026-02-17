@@ -1,7 +1,7 @@
 {
-  "name": "LanzaXperience",
-  "short_name": "LanzXperience",
-  "description": "Plataforma de experiencias auténticas en Lanzarote con guías locales verificados.",
+  "name": "Lxp-Guides",
+  "short_name": "Lxp-Guides",
+  "description": "Plataforma de experiencias auténticas en tu ciudad con guías locales verificados.",
   "lang": "es-ES",
   "start_url": "/",
   "scope": "/",
@@ -11,7 +11,7 @@
   "icons": [
     {
       "src": "/static/img/apple-touch-icon.png",
-      "sizes": "180x120",
+      "sizes": "180x180",
       "type": "image/png",
       "purpose": "any"
     },

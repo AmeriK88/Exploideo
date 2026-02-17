@@ -98,6 +98,20 @@
   .p-card-experience{ @apply mt-1 text-slate-600; }
   .testimonial-quote{ @apply text-sm font-semibold text-indigo-700; }
 
+  .article-content p { @apply mt-3 text-slate-700 leading-relaxed; }
+
+  .article-content ul { @apply mt-3 list-disc pl-6 text-slate-700; }
+  .article-content ol { @apply mt-3 list-decimal pl-6 text-slate-700; }
+  .article-content li { @apply mt-1; }
+
+  .article-content strong { @apply text-slate-900 font-semibold; }
+  .article-content a { @apply text-indigo-700 underline decoration-indigo-300 hover:decoration-indigo-500; }
+
+  .article-content h2 { @apply mt-6 text-xl font-bold text-slate-900; }
+  .article-content h3 { @apply mt-5 text-lg font-semibold text-slate-900; }
+
+  .article-content blockquote { @apply mt-4 border-l-4 border-slate-200 pl-4 text-slate-700; }
+
   /* =========================
      Buttons
   ========================== */

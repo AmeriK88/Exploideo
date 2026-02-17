@@ -275,6 +275,17 @@ def cookie_policy_view(request):
 @require_POST
 def newsletter_subscribe(request):
     email = (request.POST.get("email") or "").strip().lower()
+    source = (request.POST.get("source") or "footer").strip()
+
+    region = (request.POST.get("region") or "").strip()
+    island = (request.POST.get("island") or "").strip()
+    role = (request.POST.get("role") or "").strip()
+    is_official_guide = request.POST.get("is_official_guide") in ("1", "on", "true", "True")
+    consent = request.POST.get("consent") in ("1", "on", "true", "True")
+
+    if not consent:
+        messages.error(request, "Necesitamos tu consentimiento para poder avisarte por email.")
+        return redirect(request.META.get("HTTP_REFERER", "/"))
 
     try:
         validate_email(email)
@@ -284,13 +295,39 @@ def newsletter_subscribe(request):
 
     obj, created = NewsletterSubscriber.objects.get_or_create(
         email=email,
-        defaults={"source": request.POST.get("source") or "footer"},
+        defaults={
+            "source": source,
+            "region": region,
+            "island": island,
+            "role": role,
+            "is_official_guide": is_official_guide,
+            "consent": consent,
+        },
     )
+
+    # Si ya existía, puedes “enriquecer” el registro
+    if not created:
+        changed = False
+        if source and obj.source != source:
+            obj.source = source; changed = True
+        if region and obj.region != region:
+            obj.region = region; changed = True
+        if island and obj.island != island:
+            obj.island = island; changed = True
+        if role and obj.role != role:
+            obj.role = role; changed = True
+        if is_official_guide and not obj.is_official_guide:
+            obj.is_official_guide = True; changed = True
+        if consent and not obj.consent:
+            obj.consent = True; changed = True
+
+        if changed:
+            obj.save(update_fields=["source","region","island","role","is_official_guide","consent"])
 
     if created:
         messages.success(request, "¡Listo! Te avisaremos cuando haya novedades.")
     else:
-        messages.info(request, "Ese email ya estaba registrado 😉")
+        messages.info(request, "Ese email ya estaba registrado 😉 (si añadiste info extra, queda guardada)")
 
     return redirect(request.META.get("HTTP_REFERER", "/"))
 
