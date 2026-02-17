@@ -1,38 +1,32 @@
 /* -----------------------------
    NAV
 ------------------------------ */
-@layer components {
-  .nav-grain {
-    @apply sticky top-0 z-50 border-b border-white/10 backdrop-blur;
-    background:
-      radial-gradient(1200px 60% at 50% 0%, rgba(99,102,241,.18), transparent 60%),
-      linear-gradient(to bottom, rgba(49,46,129,.92), rgba(30,27,75,.88));
-  }
-  .nav-grain::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    opacity:.18;
-    mix-blend-mode:overlay;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
-  }
-}/* -----------------------------
+/* -----------------------------
    NAV
 ------------------------------ */
 @layer components {
   .nav-grain {
     @apply sticky top-0 z-50 border-b border-white/10 backdrop-blur;
+
     background:
-      radial-gradient(1200px 60% at 50% 0%, rgba(99,102,241,.18), transparent 60%),
-      linear-gradient(to bottom, rgba(49,46,129,.92), rgba(30,27,75,.88));
+      radial-gradient(
+        1200px 60% at 50% 0%,
+        rgba(47,140,255,.20), /* brand-500 */
+        transparent 60%
+      ),
+      linear-gradient(
+        to bottom,
+        #123c77, /* brand-900 */
+        #1858b8  /* brand-700 */
+      );
   }
+
   .nav-grain::before{
     content:"";
     position:absolute;
     inset:0;
     pointer-events:none;
-    opacity:.18;
+    opacity:.15;
     mix-blend-mode:overlay;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
   }
