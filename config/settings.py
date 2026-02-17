@@ -139,7 +139,7 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # WhiteNoise storage (hash + compresión)
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 MEDIA_URL = "/media/"        # ojo: te faltaba el "/" inicial
 MEDIA_ROOT = BASE_DIR / "media"
