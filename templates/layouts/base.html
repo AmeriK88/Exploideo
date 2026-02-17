@@ -7,18 +7,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-    <title>{% block title %}LanzaXperience{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}Plataforma de experiencias auténticas en Lanzarote con guías locales verificados. Reserva fácil, disponibilidad real y excursiones personalizadas.{% endblock %}">
+    <title>{% block title %}Lxp-Guides{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Plataforma de experiencias auténticas con guías locales verificados. Reserva fácil, disponibilidad real y excursiones personalizadas.{% endblock %}">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#312e81">
 
     {# Open Graph #}
-    <meta property="og:site_name" content="LanzaXperience">
-    <meta property="og:title" content="{% block og_title %}LanzaXperience{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}Experiencias auténticas en Lanzarote con guías locales verificados.{% endblock %}">
+    <meta property="og:site_name" content="Lxp-Guides">
+    <meta property="og:title" content="{% block og_title %}Lxp-Guides{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Experiencias auténticas con guías locales verificados.{% endblock %}">
     <meta property="og:type" content="website">
     {# cuando haya dominio og:url/og:image desde settings/context #}
 
+    <meta name="apple-mobile-web-app-title" content="Lxp-Guides">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -28,7 +29,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
     <meta name="theme-color" content="#312e81">
 
-    <link rel="mask-icon" href="{% static 'img/logo-lanzaxperience.svg' %}" color="#312e81">
+    <link rel="mask-icon" href="{% static 'img/lxp-guides.svg' %}" color="#312e81">
     <link rel="shortcut icon" href="{% static 'img/favicon-32.png' %}">
 
     <!-- Fonts -->
@@ -37,7 +38,7 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
     <!-- Preload del logo del navbar -->
-    <link rel="preload" as="image" href="{% static 'img/logo-lanzaxperience-512.png' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
+    <link rel="preload" as="image" href="{% static 'img/lxp-guides-logo.png' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -60,10 +61,8 @@
         <!-- Brand -->
         <a href="{% url 'pages:home' %}" class="flex min-w-0 items-center gap-2" data-animate="fade-down">
           <img
-            src="{% static 'img/logo-lanzaxperience-512.png' %}"
-            alt="LanzaXperience"
-            width="80"
-            height="80"
+            src="{% static 'img/lxp-guides-logo.png' %}"
+            alt="Lxp-Guides"
             fetchpriority="high"
             decoding="async"
             class="h-10 w-auto sm:h-12 md:h-14 lg:h-16 shrink-0 transition-transform hover:scale-105 drop-shadow-md"
@@ -71,11 +70,15 @@
 
           <!-- En móvil se oculta para que no se solape -->
           <span
-            class="hidden sm:inline-flex px-3 py-1.5 rounded-xl text-sm sm:text-base font-semibold text-slate-900
-                   bg-linear-to-r from-white via-blue-500 to-yellow-400 shadow-sm border border-slate-200/60
-                   whitespace-nowrap"
+            class="hidden sm:inline-flex px-4 py-1.5 rounded-full
+                  text-sm font-semibold tracking-wide
+                  text-white
+                  bg-linear-to-r from-indigo-600 to-blue-600
+                  shadow-[0_0_20px_rgba(99,102,241,0.35)]
+                  hover:shadow-[0_0_30px_rgba(99,102,241,0.55)]
+                  transition-all duration-300"
           >
-            LanzaXperience
+            Lxp – Guides
           </span>
         </a>
 
@@ -88,7 +91,7 @@
 
           <a
             href="{% url 'pages:home' %}#waitlist"
-            class="inline-flex items-center justify-center rounded-2xl bg-indigo-600 px-3 py-2 text-xs font-semibold text-white shadow-sm
+            class="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-indigo-600 to-blue-600 px-3 py-2 text-xs font-semibold text-white shadow-sm
                    hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/50
                    sm:px-4 sm:text-sm"
           >
@@ -190,15 +193,15 @@
             <a href="{% url 'pages:home' %}" class="inline-flex items-center gap-3 group">
               <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm group-hover:shadow-md transition overflow-hidden">
                 <img
-                  src="{% static 'img/favicon-512.png' %}"
-                  alt="LanzaXperience"
+                  src="{% static 'img/favicon-192.png' %}"
+                  alt="Lxp-Guides"
                   class="h-8 w-auto object-contain"
                 />
               </span>
 
               <div class="leading-tight">
                 <p class="text-base font-semibold text-slate-900 tracking-tight">
-                  LanzaXperience
+                  Lxp-Guides
                 </p>
                 <p class="p-micro">
                   Guías verificados · Experiencias reales
@@ -293,8 +296,8 @@
 
               <li class="pt-2">
                 <p class="p-micro">¿Algo urgente?</p>
-                <a href="mailto:support@lanzaxperience.com" class="hover:text-slate-900 transition">
-                  support@lanzaxperience.com
+                <a href="mailto:support@lxpguides.com" class="hover:text-slate-900 transition">
+                  support@lxpguides.com
                 </a>
               </li>
             </ul>
@@ -322,7 +325,7 @@
 
         <!-- Bottom bar -->
         <div class="mt-10 border-t border-slate-200 pt-5 pb-24 sm:pb-0 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-micro">
-          <p>© {{ current_year }} LanzaXperience · Todos los derechos reservados</p>
+          <p>© {{ current_year }} Lxp-Guides · Todos los derechos reservados</p>
 
           <div class="flex flex-wrap items-center gap-3 justify-center sm:justify-end">
             <a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-700 transition">Privacidad</a>

@@ -6,17 +6,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-    <title>{% block title %}Lanzaxperience — Acceso anticipado{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}Vive Lanzarote como un local. Lanzaxperience conecta viajeros con guías verificados para experiencias auténticas. Únete a la lista y recibe acceso anticipado.{% endblock %}">
+    <title>{% block title %}Lxp-Guides — Acceso anticipado{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Vive experiencias como un local. Lxp-Guides conecta viajeros con guías verificados para experiencias auténticas. Únete a la lista y recibe acceso anticipado.{% endblock %}">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#312e81">
 
     {# Open Graph #}
-    <meta property="og:site_name" content="Lanzaxperience">
-    <meta property="og:title" content="{% block og_title %}Lanzaxperience — Acceso anticipado{% endblock %}">
+    <meta property="og:site_name" content="Lxp-Guides">
+    <meta property="og:title" content="{% block og_title %}Lxp-Guides — Acceso anticipado{% endblock %}">
     <meta property="og:description" content="{% block og_description %}Experiencias auténticas con guías locales verificados. Únete a la lista y recibe acceso anticipado.{% endblock %}">
     <meta property="og:type" content="website">
 
+    <meta name="apple-mobile-web-app-title" content="Lxp-Guides">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -26,7 +27,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
     <meta name="theme-color" content="#312e81">
 
-    <link rel="mask-icon" href="{% static 'img/logo-lanzaxperience.svg' %}" color="#312e81">
+    <link rel="mask-icon" href="{% static 'img/lxp-guides.svg' %}" color="#312e81">
     <link rel="shortcut icon" href="{% static 'img/favicon-32.png' %}">
 
     <!-- Fonts -->
@@ -35,7 +36,7 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
     <!-- Preload del logo del navbar -->
-    <link rel="preload" as="image" href="{% static 'img/logo-lanzaxperience-512.png' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
+    <link rel="preload" as="image" href="{% static 'img/lxp-guides-logo.png' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -56,10 +57,8 @@
         <!-- Brand -->
         <a href="{% url 'pages:home' %}" class="flex min-w-0 items-center gap-2" data-animate="fade-down">
           <img
-            src="{% static 'img/logo-lanzaxperience-512.png' %}"
-            alt="LanzaXperience"
-            width="80"
-            height="80"
+            src="{% static 'img/lxp-guides-logo.png' %}"
+            alt="Lxp-Guides"
             fetchpriority="high"
             decoding="async"
             class="h-10 w-auto sm:h-12 md:h-14 lg:h-16 shrink-0 transition-transform hover:scale-105 drop-shadow-md"
@@ -67,12 +66,17 @@
 
           <!-- En móvil se oculta para que no se solape -->
           <span
-            class="hidden sm:inline-flex px-3 py-1.5 rounded-xl text-sm sm:text-base font-semibold text-slate-900
-                   bg-linear-to-r from-white via-blue-500 to-yellow-400 shadow-sm border border-slate-200/60
-                   whitespace-nowrap"
+            class="hidden sm:inline-flex px-4 py-1.5 rounded-full
+                  text-sm font-semibold tracking-wide
+                  text-white
+                  bg-linear-to-r from-indigo-600 to-blue-600
+                  shadow-[0_0_20px_rgba(99,102,241,0.35)]
+                  hover:shadow-[0_0_30px_rgba(99,102,241,0.55)]
+                  transition-all duration-300"
           >
-            LanzaXperience
+            Lxp – Guides
           </span>
+
         </a>
 
         <!-- CTA -->
@@ -84,10 +88,13 @@
 
           <a
             href="#waitlist"
-            class="inline-flex items-center justify-center rounded-2xl bg-indigo-600 px-3 py-2 text-xs font-semibold text-white shadow-sm
-                   hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/50
-                   sm:px-4 sm:text-sm"
-          >
+            class="inline-flex items-center justify-center rounded-2xl
+                  bg-linear-to-r from-indigo-600 to-blue-600
+                  hover:from-indigo-700 hover:to-blue-700
+                  transition-all duration-300
+                  px-3 py-2 text-xs font-semibold text-white shadow-sm
+                  focus:outline-none focus:ring-2 focus:ring-indigo-500/50
+                  sm:px-4 sm:text-sm">
             <span class="sm:hidden">Acceso anticipado</span>
             <span class="hidden sm:inline">Quiero acceso anticipado</span>
           </a>
@@ -142,7 +149,7 @@
                     🚀 Pre-lanzamiento
                   </span>
                   <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
-                    🏝️ Lanzarote
+                    🏝️ Lanzarote-release
                   </span>
                   <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
                     ✅ Guías verificados
@@ -150,13 +157,14 @@
                 </div>
 
                 <h1 class="mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl" data-animate="fade-up">
-                  Lanzarote sin filtro
-                  <span class="block text-indigo-700">La isla se vive mejor</span>
+                  Experiencias sin filtro
+                  <span class="block text-indigo-700">Tu ruta se vive mejor</span>
                   cuando alguien te la cuenta.
                 </h1>
 
-                <p class="mt-4 text-lg text-slate-600" data-animate="fade-up">
-                  Lanzaxperience conecta <span class="font-semibold text-slate-800">viajeros</span> con <span class="font-semibold text-slate-800">guías locales</span> para <span class="font-semibold text-slate-800">rutas</span>, <span class="font-semibold text-slate-800">aventuras</span> y <span class="font-semibold text-slate-800">experiencias</span> únicas. Gestión de disponibilidad, reserva rápida y Lanzarote como nunca antes.
+
+                <p class="mt-4 text-base text-slate-600" data-animate="fade-up">
+                  Lxp-Guides conecta <span class="font-semibold text-slate-800">viajeros</span> con <span class="font-semibold text-slate-800">guías locales</span> para <span class="font-semibold text-slate-800">rutas</span>, <span class="font-semibold text-slate-800">aventuras</span> y <span class="font-semibold text-slate-800">experiencias</span> únicas. Gestión de disponibilidad, reserva rápida y experiencias como nunca antes.
                 </p>
 
                 <!-- CTAs -->
@@ -260,7 +268,7 @@
               </h2>
               <p class="p-lead" data-animate="fade-up">
                 Todo en un mismo lugar, sin perder el hilo entre mensajes, cambios y estados de reserva.
-                Lanzaxperience pone orden: <span class="font-semibold text-slate-800">claridad antes de reservar</span>,
+                Lxp-Guides pone orden: <span class="font-semibold text-slate-800">claridad antes de reservar</span>,
                 <span class="font-semibold text-slate-800"> gestión en un solo sitio</span> y
                 <span class="font-semibold text-slate-800">confianza verificable</span> para viajeros y guías.
               </p>
@@ -413,7 +421,7 @@
                   Elige tu mood del día
                 </h2>
                 <p class="mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
-                  Ideas rápidas para inspirarte (sin abrir la plataforma todavía).
+                  Ideas rápidas para inspirarte.
                 </p>
               </div>
             </div>
@@ -634,7 +642,7 @@
               <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
                 <p class="text-xs font-semibold text-slate-500">Paso 3</p>
                 <h3 class="mt-2 font-bold">Confirma</h3>
-                <p class="mt-2 p-muted">Si se acepta, recibes detalles y acceso al contacto directo.</p>
+                <p class="mt-2 p-muted">Una vez aceptada, recibes detalles y acceso al contacto directo.</p>
               </div>
               <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
                 <p class="text-xs font-semibold text-slate-500">Paso 4</p>
@@ -721,7 +729,8 @@
             <div class="mt-10 grid gap-4 lg:grid-cols-3" data-stagger>
               <figure class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
                 <blockquote class="text-sm text-slate-700">
-                  “Todo venía explicado: duración, meeting point y qué llevar. Reservé sin mensajes eternos.”
+                  “Experiencia premium de verdad. Guía privado, ruta personalizada y toda la información antes de reservar.
+                  Mejor a mi aire y sin esperas inecesarias de otros viajeros”
                 </blockquote>
                 <figcaption class="mt-4 flex items-center gap-3">
                   <div class="grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600/10 text-indigo-700 font-bold">A</div>
@@ -734,7 +743,7 @@
 
               <figure class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
                 <blockquote class="text-sm text-slate-700">
-                  “Dejé atrás el caos: solicitudes, aceptación, cambios y facturas en un solo sitio.”
+                  “Dejé atrás el caos: solicitudes, aceptación, cambios y facturas en un solo sitio. Yo decido disponibilidad y cupos.”
                 </blockquote>
                 <figcaption class="mt-4 flex items-center gap-3">
                   <div class="grid h-10 w-10 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700 font-bold">J</div>
@@ -747,7 +756,7 @@
 
               <figure class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
                 <blockquote class="text-sm text-slate-700">
-                  “Pude elegir por idioma y estilo. Y cuando aceptaron, coordiné todo desde el panel.”
+                  “Pude elegir por idioma, estilo y al guía. Reserva fácil y coordinación todo desde el panel. Lo mejor, vas a tu ritmo y en tu coche, no afinado en un autobús con otros viajeros.”
                 </blockquote>
                 <figcaption class="mt-4 flex items-center gap-3">
                   <div class="grid h-10 w-10 place-items-center rounded-2xl bg-sky-600/10 text-sky-700 font-bold">L</div>
@@ -798,6 +807,7 @@
                   <input type="hidden" name="source" value="landing" />
                   <input type="hidden" name="next" value="{% url 'pages:home' %}#waitlist" />
 
+                  <!-- Email -->
                   <div>
                     <label class="text-sm font-semibold text-slate-800" for="waitlist_email">Email</label>
                     <p class="mt-1 p-micro">Te avisaremos cuando abramos acceso. Nada más.</p>
@@ -811,6 +821,85 @@
                     />
                   </div>
 
+                  <!-- Location + Role -->
+                  <div class="grid gap-3 sm:grid-cols-2">
+                    <div>
+                      <label class="text-sm font-semibold text-slate-800" for="waitlist_region">¿Dónde estás?</label>
+                      <select
+                        id="waitlist_region"
+                        name="region"
+                        class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/40"
+                      >
+                        <option value="">Prefiero no decirlo</option>
+                        <option value="canarias">Canarias</option>
+                        <option value="peninsula">Península</option>
+                        <option value="baleares">Baleares</option>
+                        <option value="extranjero">Extranjero</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label class="text-sm font-semibold text-slate-800" for="waitlist_role">¿Eres…?</label>
+                      <select
+                        id="waitlist_role"
+                        name="role"
+                        class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/40"
+                      >
+                        <option value="">Prefiero no decirlo</option>
+                        <option value="traveler">Viajero</option>
+                        <option value="guide">Guía</option>
+                        <option value="both">Ambos</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <!-- Island (only if Canarias) -->
+                  <div id="waitlist_island_wrap" class="hidden">
+                    <label class="text-sm font-semibold text-slate-800" for="waitlist_island">¿Qué isla?</label>
+                    <select
+                      id="waitlist_island"
+                      name="island"
+                      class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/40"
+                    >
+                      <option value="">Elige una</option>
+                      <option value="lanzarote">Lanzarote</option>
+                      <option value="fuerteventura">Fuerteventura</option>
+                      <option value="gran_canaria">Gran Canaria</option>
+                      <option value="tenerife">Tenerife</option>
+                      <option value="la_gomera">La Gomera</option>
+                      <option value="la_palma">La Palma</option>
+                      <option value="el_hierro">El Hierro</option>
+                      <option value="la_graciosa">La Graciosa</option>
+                      <option value="otra">Otra</option>
+                    </select>
+                  </div>
+
+                  <!-- Official guide (only if role guide/both) -->
+                  <div id="waitlist_official_wrap" class="hidden">
+                    <label class="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3">
+                      <input id="waitlist_official" type="checkbox" name="is_official_guide" class="h-4 w-4" />
+                      <span class="text-sm text-slate-800">
+                        Soy guía oficial (lo verificaremos más adelante)
+                      </span>
+                    </label>
+                  </div>
+
+                  <!-- Consent -->
+                  <div>
+                    <label class="flex items-start gap-2">
+                      <input
+                        id="waitlist_consent"
+                        type="checkbox"
+                        name="consent"
+                        required
+                        class="mt-1 h-4 w-4"
+                      />
+                      <span class="p-micro text-slate-700">
+                        Acepto recibir un email cuando abramos acceso. Puedes darte de baja cuando quieras.
+                      </span>
+                    </label>
+                  </div>
+
                   <button
                     type="submit"
                     class="w-full rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
@@ -819,16 +908,9 @@
                   </button>
 
                   <p class="p-micro">
-                    Al apuntarte aceptas recibir novedades de Lanzaxperience. Puedes darte de baja cuando quieras.
+                    Cero spam: si no hay algo sólido que contar, no te escribimos.
                   </p>
                 </form>
-
-                <div class="mt-5 rounded-2xl bg-white p-4 ring-1 ring-slate-200" data-animate="fade-up">
-                  <p class="text-sm font-semibold text-slate-900">Pequeña promesa</p>
-                  <p class="mt-1 p-muted">
-                    Cero humo: si no hay algo sólido que contar, no te escribimos.
-                  </p>
-                </div>
               </div>
             </div>
           </div>
@@ -882,15 +964,15 @@
                 <a href="{% url 'pages:home' %}" class="inline-flex items-center gap-3 group">
                   <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm group-hover:shadow-md transition overflow-hidden">
                     <img
-                      src="{% static 'img/logo-lanzaxperience-192.png' %}"
-                      alt="LanzaXperience"
+                      src="{% static 'img/lxp-guides-192.png' %}"
+                      alt="Lxp-Guides"
                       class="h-8 w-auto object-contain"
                     />
                   </span>
 
                   <div class="leading-tight">
                     <p class="text-base font-semibold text-slate-900 tracking-tight">
-                      LanzaXperience
+                      Lxp-Guides
                     </p>
                     <p class="p-micro">
                       Guías verificados · Experiencias reales
@@ -899,12 +981,12 @@
                 </a>
 
                 <p class="text-slate-600 leading-relaxed">
-                  Plataforma de experiencias auténticas en Lanzarote con guías locales verificados.
+                  Plataforma de experiencias auténticas con guías locales verificados.
                 </p>
 
                 <!-- Trust chips -->
                 <div class="flex flex-wrap gap-2">
-                  <span class="badge badge-neutral">📍 Lanzarote</span>
+                  <span class="badge badge-neutral">📍 Canarias</span>
                   <span class="badge badge-neutral">⭐ Reseñas reales</span>
                   <span class="badge badge-neutral">🧭 Local guides</span>
                 </div>
@@ -985,8 +1067,8 @@
 
                   <li class="pt-2">
                     <p class="p-micro">¿Algo urgente?</p>
-                    <a href="mailto:support@lanzaxperience.com" class="hover:text-slate-900 transition">
-                      support@lanzaxperience.com
+                    <a href="mailto:support@lxpguides.com" class="hover:text-slate-900 transition">
+                      support@lxpguides.com
                     </a>
                   </li>
                 </ul>
@@ -996,7 +1078,7 @@
               <div data-animate="fade-up">
                 <h4 class="h3-card uppercase tracking-wide">Ubicación</h4>
                 <div class="mt-3 space-y-3 text-slate-600 leading-relaxed">
-                  <p>🌋 Lanzarote, Islas Canarias</p>
+                  <p>🌋 Desarrollado en las Islas Canarias</p>
 
                   <div class="panel-soft">
                     <p class="h3-card">Hecho para evitar sorpresas</p>
@@ -1014,7 +1096,7 @@
 
             <!-- Bottom bar -->
             <div class="mt-10 border-t border-slate-200 pt-5 pb-24 sm:pb-0 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-micro">
-              <p>© {{ current_year }} LanzaXperience · Todos los derechos reservados</p>
+              <p>© {{ current_year }} Lxp-Guides · Todos los derechos reservados</p>
 
               <div class="flex flex-wrap items-center gap-3 justify-center sm:justify-end">
                 <a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-700 transition">Privacidad</a>
@@ -1195,7 +1277,8 @@
     </div>
 
     <!-- Script cookies LANDING (aislado) -->
-    <script src="{% static 'js/landing/landingConsent.js' %}"></script>
+    <script defer src="{% static 'js/landing/landingConsent.js' %}"></script>
+    <script defer src="{% static 'js/landing/waitlist.js' %}"></script>
 
     <!-- =========================================================
       JS: landing + animaciones (IMPORTANTE)

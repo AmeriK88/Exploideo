@@ -1,4 +1,4 @@
-# 🚀 Lanzaxperience
+# 🚀 Lxp-Guides
 
 A modern SaaS platform connecting travelers with local guides for unforgettable experiences. Built with Django and styled with Tailwind CSS, this app empowers guides to showcase their expertise and travelers to discover authentic adventures.
 
@@ -54,7 +54,7 @@ A modern SaaS platform connecting travelers with local guides for unforgettable 
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/AmeriK88/lxp-guides.git
-   cd lanzaxperience
+   cd lx-guides
    ```
 
 2. **Set up Python virtual environment**:
@@ -157,4 +157,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Made by the Lanzaxperience team. Happy adventuring! 🌍✈️
+Made by the Lxp-Guides team. Happy adventuring! 🌍✈️
