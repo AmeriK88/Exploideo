@@ -19,14 +19,17 @@
 ------------------------------ */
 @layer base {
   html { @apply scroll-smooth; }
-  body { @apply bg-slate-50 text-slate-800 antialiased font-sans; }
+
+  /* Exploideo: fondo más "global" */
+  body { @apply bg-surface-50 text-slate-800 antialiased font-sans; }
 
   a { @apply transition-colors; }
 
   :focus-visible {
-    @apply outline-none ring-2 ring-brand-500/60 ring-offset-2 ring-offset-slate-50;
+    @apply outline-none ring-2 ring-brand-500/60 ring-offset-2 ring-offset-surface-50;
   }
 }
+
 
 /* Opcional: reduce motion */
 @media (prefers-reduced-motion: reduce) {

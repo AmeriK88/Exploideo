@@ -96,7 +96,7 @@
   .p-micro{ @apply text-xs text-slate-500; }
   .p-large{ @apply text-2xl font-semibold text-slate-900; }
   .p-card-experience{ @apply mt-1 text-slate-600; }
-  .testimonial-quote{ @apply text-sm font-semibold text-indigo-700; }
+  .testimonial-quote{ @apply text-sm font-semibold text-brand-700; }
 
   .article-content p { @apply mt-3 text-slate-700 leading-relaxed; }
 
@@ -105,7 +105,7 @@
   .article-content li { @apply mt-1; }
 
   .article-content strong { @apply text-slate-900 font-semibold; }
-  .article-content a { @apply text-indigo-700 underline decoration-indigo-300 hover:decoration-indigo-500; }
+  .article-content a { @apply text-brand-700 underline decoration-brand-300 hover:decoration-brand-500; }
 
   .article-content h2 { @apply mt-6 text-xl font-bold text-slate-900; }
   .article-content h3 { @apply mt-5 text-lg font-semibold text-slate-900; }
@@ -122,25 +122,64 @@
            focus-visible:ring-offset-2 focus-visible:ring-offset-white;
     backface-visibility: hidden;
   }
-  .btn-primary {
-    @apply text-white shadow-sm bg-linear-to-b from-brand-600 to-brand-700
-           hover:from-brand-500 hover:to-brand-700;
+  
+  .btn-primary{
+    @apply inline-flex items-center justify-center gap-2
+          rounded-2xl px-4 py-2.5 text-sm font-semibold
+          text-white shadow-sm
+          bg-brand-700 hover:bg-brand-800
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40
+          transition;
   }
-  .btn-accent {
-    @apply text-white shadow-sm bg-linear-to-b from-indigo-500 to-indigo-700
-           hover:from-indigo-400 hover:to-indigo-700;
+
+  /* Accent ahora es azul luminoso (más energético) */
+  .btn-accent{
+    @apply inline-flex items-center justify-center gap-2
+          rounded-2xl px-4 py-2.5 text-sm font-semibold
+          text-white shadow-sm
+          bg-brand-500 hover:bg-brand-600
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/40
+          transition;
   }
-  .btn-dark { @apply bg-slate-900 text-white hover:bg-slate-800; }
-  .btn-ghost { @apply bg-transparent text-slate-700 hover:bg-slate-100; }
-  .btn-danger { @apply bg-red-600 text-white hover:bg-red-700; }
+
+  /* Oscuro elegante */
+  .btn-dark{
+    @apply inline-flex items-center justify-center gap-2
+          rounded-2xl px-4 py-2.5 text-sm font-semibold
+          bg-slate-900 text-white shadow-sm
+          hover:bg-slate-800
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400/30
+          transition;
+  }
+
+  /* Ghost refinado */
+  .btn-ghost{
+    @apply inline-flex items-center justify-center gap-2
+          rounded-2xl px-4 py-2.5 text-sm font-medium
+          bg-transparent text-slate-700
+          hover:bg-brand-50 hover:text-brand-700
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-400/30
+          transition;
+  }
+
+  /* Danger más moderno */
+  .btn-danger{
+    @apply inline-flex items-center justify-center gap-2
+          rounded-2xl px-4 py-2.5 text-sm font-semibold
+          bg-red-600 text-white shadow-sm
+          hover:bg-red-700
+          focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400/40
+          transition;
+  }
+
 
   /* =========================
      Inputs
   ========================== */
   .input {
     @apply w-full max-w-full min-w-0 rounded-lg border border-slate-300 bg-white
-           px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 transition
-           focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20;
+          px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 transition
+          focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20;
   }
   .input-file{
     @apply w-full max-w-full min-w-0 text-sm text-slate-700
@@ -155,7 +194,7 @@
   .form-error { @apply rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900; }
   .field-error { @apply mt-1 text-xs text-red-600 break-all leading-snug; }
   .file-upload { @apply min-w-0 rounded-lg border border-dashed border-slate-300 p-4 text-sm text-slate-600; }
-  .account-input { @apply font-medium text-blue-600 hover:text-blue-700; }
+  .account-input { @apply font-medium text-brand-600 hover:text-brand-700; }
 
   /* Cards (special) */
   .card-warning { @apply rounded-xl border border-amber-200 bg-amber-50; }
@@ -274,20 +313,20 @@
   .home-landing .home-hero{ @apply relative overflow-hidden pt-12 pb-10 sm:pt-16 sm:pb-14; }
   .home-landing .home-hero-bg{ @apply pointer-events-none absolute inset-0; }
   .home-landing .home-blob{ @apply absolute rounded-full blur-3xl; }
-  .home-landing .home-blob-a{ @apply -top-24 left-1/2 h-72 w-152 -translate-x-1/2 bg-indigo-200/70; }
-  .home-landing .home-blob-b{ @apply -bottom-32 left-1/3 h-72 w-160 bg-sky-200/60; }
+  .home-landing .home-blob-a{ @apply -top-24 left-1/2 h-72 w-152 -translate-x-1/2 bg-brand-200/70; }
+  .home-landing .home-blob-b{ @apply -bottom-32 left-1/3 h-72 w-160 bg-solar-200/55; }
 
   .home-landing .home-hero-grid{ @apply relative grid items-center gap-10 lg:grid-cols-2; }
 
   /* Pills */
   .home-landing .home-pill{
     @apply inline-flex items-center rounded-full bg-white px-3 py-1 text-xs font-semibold
-           text-indigo-700 ring-1 ring-indigo-200;
+          text-brand-700 ring-1 ring-brand-200;
   }
   .home-landing .home-pill-neutral{ @apply text-slate-700 ring-slate-200; }
 
   .home-landing .home-hero-title{ @apply mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl text-slate-900; }
-  .home-landing .home-hero-title-accent{ @apply block text-indigo-700; }
+  .home-landing .home-hero-title-accent{ @apply block text-brand-700; }
 
   .home-landing .home-hero-lead{ @apply mt-4 text-lg text-slate-600 leading-relaxed; }
   .home-landing .home-hero-lead-strong{ @apply font-semibold text-slate-800; }

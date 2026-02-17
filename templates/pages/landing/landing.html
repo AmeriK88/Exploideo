@@ -6,18 +6,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-    <title>{% block title %}Lxp-Guides — Acceso anticipado{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}Vive experiencias como un local. Lxp-Guides conecta viajeros con guías verificados para experiencias auténticas. Únete a la lista y recibe acceso anticipado.{% endblock %}">
+    <title>{% block title %}Exploideo — Acceso anticipado{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Vive experiencias como un local. Exploideo conecta viajeros con guías verificados para experiencias auténticas. Únete a la lista y recibe acceso anticipado.{% endblock %}">
     <meta name="robots" content="index,follow">
-    <meta name="theme-color" content="#312e81">
+
+    {# Theme color (una sola vez) #}
+    <meta name="theme-color" content="#123c77">
 
     {# Open Graph #}
-    <meta property="og:site_name" content="Lxp-Guides">
-    <meta property="og:title" content="{% block og_title %}Lxp-Guides — Acceso anticipado{% endblock %}">
+    <meta property="og:site_name" content="Exploideo">
+    <meta property="og:title" content="{% block og_title %}Exploideo — Acceso anticipado{% endblock %}">
     <meta property="og:description" content="{% block og_description %}Experiencias auténticas con guías locales verificados. Únete a la lista y recibe acceso anticipado.{% endblock %}">
     <meta property="og:type" content="website">
 
-    <meta name="apple-mobile-web-app-title" content="Lxp-Guides">
+    <meta name="apple-mobile-web-app-title" content="Exploideo">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -25,9 +27,7 @@
     <!-- Favicon -->
     <link rel="manifest" href="{% static 'site.webmanifest' %}">
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
-    <meta name="theme-color" content="#312e81">
-
-    <link rel="mask-icon" href="{% static 'img/lxp-guides.svg' %}" color="#312e81">
+    <link rel="mask-icon" href="{% static 'img/exploideo.svg' %}" color="#123c77">
     <link rel="shortcut icon" href="{% static 'img/favicon-32.png' %}">
 
     <!-- Fonts -->
@@ -36,7 +36,13 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
     <!-- Preload del logo del navbar -->
-    <link rel="preload" as="image" href="{% static 'img/lxp-guides-logo.png' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
+    <link
+      rel="preload"
+      as="image"
+      href="{% static 'img/exploideo-logo.png' %}"
+      imagesizes="(max-width: 768px) 48px, 80px"
+      fetchpriority="high"
+    />
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -47,7 +53,7 @@
     {% block extra_head %}{% endblock %}
   </head>
 
-  <body class="min-h-screen bg-slate-50 text-slate-900 selection:bg-indigo-200 selection:text-indigo-900">
+  <body class="min-h-screen bg-surface-50 text-slate-900 selection:bg-brand-200 selection:text-brand-900">
 
     <!-- =========================================================
       NAVBAR (minimal, sin links a la app)
@@ -57,8 +63,8 @@
         <!-- Brand -->
         <a href="{% url 'pages:home' %}" class="flex min-w-0 items-center gap-2" data-animate="fade-down">
           <img
-            src="{% static 'img/lxp-guides-logo.png' %}"
-            alt="Lxp-Guides"
+            src="{% static 'img/exploideo-logo.png' %}"
+            alt="Exploideo"
             fetchpriority="high"
             decoding="async"
             class="h-10 w-auto sm:h-12 md:h-14 lg:h-16 shrink-0 transition-transform hover:scale-105 drop-shadow-md"
@@ -69,12 +75,12 @@
             class="hidden sm:inline-flex px-4 py-1.5 rounded-full
                   text-sm font-semibold tracking-wide
                   text-white
-                  bg-linear-to-r from-indigo-600 to-blue-600
-                  shadow-[0_0_20px_rgba(99,102,241,0.35)]
-                  hover:shadow-[0_0_30px_rgba(99,102,241,0.55)]
+                  bg-linear-to-r from-brand-700 to-brand-500
+                  shadow-[0_0_20px_rgba(47,140,255,0.25)]
+                  hover:shadow-[0_0_30px_rgba(47,140,255,0.40)]
                   transition-all duration-300"
           >
-            Lxp – Guides
+            Exploideo
           </span>
 
         </a>
@@ -89,12 +95,7 @@
           <a
             href="#waitlist"
             class="inline-flex items-center justify-center rounded-2xl
-                  bg-linear-to-r from-indigo-600 to-blue-600
-                  hover:from-indigo-700 hover:to-blue-700
-                  transition-all duration-300
-                  px-3 py-2 text-xs font-semibold text-white shadow-sm
-                  focus:outline-none focus:ring-2 focus:ring-indigo-500/50
-                  sm:px-4 sm:text-sm">
+                  btn btn-primary px-5 py-3">
             <span class="sm:hidden">Acceso anticipado</span>
             <span class="hidden sm:inline">Quiero acceso anticipado</span>
           </a>
@@ -136,8 +137,8 @@
         ========================================================== -->
         <section class="relative overflow-hidden z-0 pt-10">
           <div class="pointer-events-none absolute inset-0 z-0">
-            <div class="absolute -top-24 left-1/2 h-72 w-152 -translate-x-1/2 rounded-full bg-indigo-200/70 blur-3xl"></div>
-            <div class="absolute -bottom-32 left-1/3 h-72 w-160 rounded-full bg-sky-200/60 blur-3xl"></div>
+            <div class="absolute -top-24 left-1/2 h-72 w-152 -translate-x-1/2 rounded-full bg-brand-200/70 blur-3xl"></div>
+            <div class="absolute -bottom-32 left-1/3 h-72 w-160 rounded-full bg-solar-200/55 blur-3xl"></div>
           </div>
 
           <div class="relative z-10 mx-auto max-w-7xl px-4 pt-14 pb-10 sm:pt-20 sm:pb-16">
@@ -145,7 +146,7 @@
               <!-- Copy -->
               <div data-stagger>
                 <div class="inline-flex flex-wrap items-center gap-2" data-animate="fade-up">
-                  <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-indigo-700 ring-1 ring-indigo-200">
+                  <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-200">
                     🚀 Pre-lanzamiento
                   </span>
                   <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
@@ -158,27 +159,26 @@
 
                 <h1 class="mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl" data-animate="fade-up">
                   Experiencias sin filtro
-                  <span class="block text-indigo-700">Tu ruta se vive mejor</span>
+                  <span class="block text-brand-700">Tu ruta se vive mejor</span>
                   cuando alguien te la cuenta.
                 </h1>
 
-
                 <p class="mt-4 text-base text-slate-600" data-animate="fade-up">
-                  Lxp-Guides conecta <span class="font-semibold text-slate-800">viajeros</span> con <span class="font-semibold text-slate-800">guías locales</span> para <span class="font-semibold text-slate-800">rutas</span>, <span class="font-semibold text-slate-800">aventuras</span> y <span class="font-semibold text-slate-800">experiencias</span> únicas. Gestión de disponibilidad, reserva rápida y experiencias como nunca antes.
+                  Exploideo conecta <span class="font-semibold text-slate-800">viajeros</span> con <span class="font-semibold text-slate-800">guías locales</span> para <span class="font-semibold text-slate-800">rutas</span>, <span class="font-semibold text-slate-800">aventuras</span> y <span class="font-semibold text-slate-800">experiencias</span> únicas. Gestión de disponibilidad, reserva rápida y experiencias como nunca antes.
                 </p>
 
                 <!-- CTAs -->
                 <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center" data-animate="fade-up">
                   <a
                     href="#waitlist"
-                    class="inline-flex items-center justify-center rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                    class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-5 py-3"
                   >
                     Unirme a la lista (gratis)
                     <span class="ml-2 text-white/80">→</span>
                   </a>
                   <a
                     href="#how"
-                    class="inline-flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-800 ring-1 ring-slate-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+                    class="inline-flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-800 ring-1 ring-slate-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
                   >
                     Ver cómo funciona
                   </a>
@@ -268,14 +268,14 @@
               </h2>
               <p class="p-lead" data-animate="fade-up">
                 Todo en un mismo lugar, sin perder el hilo entre mensajes, cambios y estados de reserva.
-                Lxp-Guides pone orden: <span class="font-semibold text-slate-800">claridad antes de reservar</span>,
+                Exploideo pone orden: <span class="font-semibold text-slate-800">claridad antes de reservar</span>,
                 <span class="font-semibold text-slate-800"> gestión en un solo sitio</span> y
                 <span class="font-semibold text-slate-800">confianza verificable</span> para viajeros y guías.
               </p>
 
               <div class="mt-6 space-y-3" data-stagger>
                 <div class="flex gap-3" data-animate="fade-up">
-                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 leading-none">✓</div>
+                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-brand-600/10 text-brand-700 leading-none">✓</div>
                   <div>
                     <p class="font-semibold">Reserva con contexto</p>
                     <p class="p-muted">Incluye, duración, dificultad, idioma, meeting point y qué llevar.</p>
@@ -283,7 +283,7 @@
                 </div>
 
                 <div class="flex gap-3" data-animate="fade-up">
-                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 leading-none">✓</div>
+                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-brand-600/10 text-brand-700 leading-none">✓</div>
                   <div>
                     <p class="font-semibold">Comunicación dentro de la app</p>
                     <p class="p-muted">Cuando la reserva se acepta, viajero y guía coordinan sin perder el hilo.</p>
@@ -291,7 +291,7 @@
                 </div>
 
                 <div class="flex gap-3" data-animate="fade-up">
-                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 leading-none">✓</div>
+                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-brand-600/10 text-brand-700 leading-none">✓</div>
                   <div>
                     <p class="font-semibold">Calidad controlada</p>
                     <p class="p-muted">Guías verificados + reseñas de reservas reales (y moderación).</p>
@@ -299,7 +299,7 @@
                 </div>
 
                 <div class="flex gap-3" data-animate="fade-up">
-                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 leading-none">✓</div>
+                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-brand-600/10 text-brand-700 leading-none">✓</div>
                   <div>
                     <p class="font-semibold">Todo queda registrado</p>
                     <p class="p-muted">Solicitud, confirmación, cambios y cancelaciones, siempre con estado visible.</p>
@@ -307,7 +307,7 @@
                 </div>
 
                 <div class="flex gap-3" data-animate="fade-up">
-                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 leading-none">✓</div>
+                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-brand-600/10 text-brand-700 leading-none">✓</div>
                   <div>
                     <p class="font-semibold">Modelo simple</p>
                     <p class="p-muted">Viajeros sin gastos de gestión. Guías sin cuota fija: comisión por excursión.</p>
@@ -334,10 +334,10 @@
 
                 <a
                   href="#waitlist"
-                  class="mt-4 inline-flex w-full items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-slate-800 sm:mt-0 sm:w-auto"
+                  class="btn btn-primary px-5 py-3"
                   data-animate="fade-up"
                 >
-                  Ser de los primeros
+                  Acceder ahora
                 </a>
               </div>
 
@@ -346,7 +346,7 @@
 
                 <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
                   <div class="flex items-start gap-3">
-                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 text-base leading-none">⚡</div>
+                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600/10 text-brand-700 text-base leading-none">⚡</div>
                     <div>
                       <h3 class="font-semibold leading-tight">Experiencias únicas</h3>
                       <p class="mt-1 text-sm text-slate-600">Cada guía crea su plan: no hay “copias”.</p>
@@ -356,7 +356,7 @@
 
                 <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
                   <div class="flex items-start gap-3">
-                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 text-base leading-none">🧭</div>
+                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600/10 text-brand-700 text-base leading-none">🧭</div>
                     <div>
                       <h3 class="font-semibold leading-tight">Contexto antes de pagar</h3>
                       <p class="mt-1 text-sm text-slate-600">Incluye, dificultad, duración y meeting point claros.</p>
@@ -366,7 +366,7 @@
 
                 <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
                   <div class="flex items-start gap-3">
-                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 text-base leading-none">⭐</div>
+                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600/10 text-brand-700 text-base leading-none">⭐</div>
                     <div>
                       <h3 class="font-semibold leading-tight">Reseñas verificadas</h3>
                       <p class="mt-1 text-sm text-slate-600">Solo de reservas reales, sin postureo.</p>
@@ -376,7 +376,7 @@
 
                 <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
                   <div class="flex items-start gap-3">
-                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 text-base leading-none">💬</div>
+                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600/10 text-brand-700 text-base leading-none">💬</div>
                     <div>
                       <h3 class="font-semibold leading-tight">Contacto directo</h3>
                       <p class="mt-1 text-sm text-slate-600">Cuando se acepta: chat y coordinación dentro de la app.</p>
@@ -386,7 +386,7 @@
 
                 <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
                   <div class="flex items-start gap-3">
-                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 text-base leading-none">🧾</div>
+                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600/10 text-brand-700 text-base leading-none">🧾</div>
                     <div>
                       <h3 class="font-semibold leading-tight">Panel y facturas</h3>
                       <p class="mt-1 text-sm text-slate-600">Todo en tu dashboard: reservas, detalles y recibos.</p>
@@ -396,7 +396,7 @@
 
                 <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
                   <div class="flex items-start gap-3">
-                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-indigo-600/10 text-indigo-700 text-base leading-none">🛡️</div>
+                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600/10 text-brand-700 text-base leading-none">🛡️</div>
                     <div>
                       <h3 class="font-semibold leading-tight">Reglas claras</h3>
                       <p class="mt-1 text-sm text-slate-600">Cambios y cancelación gratis hasta 48h (según condiciones).</p>
@@ -607,9 +607,9 @@
                 </div>
               </div>
 
-              <div class="mt-6 rounded-2xl bg-indigo-50 p-4 ring-1 ring-indigo-100" data-animate="fade-up">
-                <p class="text-sm font-semibold text-indigo-900">Idea central</p>
-                <p class="mt-1 text-sm text-indigo-900/80">“Tu experiencia es premium. La gestión también debe serlo.”</p>
+              <div class="mt-6 rounded-2xl bg-brand-50 p-4 ring-1 ring-brand-100" data-animate="fade-up">
+                <p class="text-sm font-semibold text-brand-900">Idea central</p>
+                <p class="mt-1 text-sm text-brand-900/80">“Tu experiencia es premium. La gestión también debe serlo.”</p>
               </div>
             </div>
           </div>
@@ -667,7 +667,8 @@
             </div>
             <a
               href="#waitlist"
-              class="mt-4 inline-flex w-full items-center justify-center rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 sm:mt-0 sm:w-auto"
+              class="inline-flex items-center justify-center rounded-2xl
+                  btn btn-primary px-5 py-3"
               data-animate="fade-up"
             >
               Apuntarme ahora
@@ -676,7 +677,7 @@
 
           <div class="mt-10 grid gap-4 lg:grid-cols-3" data-stagger>
             <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-animate="fade-up">
-              <div class="grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600/10 text-indigo-700 font-bold">🧠</div>
+              <div class="grid h-10 w-10 place-items-center rounded-2xl bg-brand-600/10 text-brand-700 font-bold">🧠</div>
               <h3 class="mt-4 font-bold">Curación con estándar</h3>
               <p class="mt-2 p-muted">Publicación con estructura: lo que se promete, se especifica.</p>
             </div>
@@ -694,7 +695,7 @@
             </div>
 
             <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-animate="fade-up">
-              <div class="grid h-10 w-10 place-items-center rounded-2xl bg-sky-600/10 text-sky-700 font-bold">📌</div>
+              <div class="grid h-10 w-10 place-items-center rounded-2xl bg-brand-600/10 text-brand-700 font-bold">📌</div>
               <h3 class="mt-4 font-bold">Estados y trazabilidad</h3>
               <p class="mt-2 p-muted">Solicitud, aceptación, cambios y cancelación con historial y estado visible.</p>
             </div>
@@ -706,7 +707,7 @@
             </div>
 
             <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-animate="fade-up">
-              <div class="grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600/10 text-indigo-700 font-bold">📊</div>
+              <div class="grid h-10 w-10 place-items-center rounded-2xl bg-brand-600/10 text-brand-700 font-bold">📊</div>
               <h3 class="mt-4 font-bold">Dashboards útiles</h3>
               <p class="mt-2 p-muted">Viajeros con panel + facturas. Guías con métricas, reservas y facturación.</p>
             </div>
@@ -733,7 +734,7 @@
                   Mejor a mi aire y sin esperas inecesarias de otros viajeros”
                 </blockquote>
                 <figcaption class="mt-4 flex items-center gap-3">
-                  <div class="grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600/10 text-indigo-700 font-bold">A</div>
+                  <div class="grid h-10 w-10 place-items-center rounded-2xl bg-brand-600/10 text-brand-700 font-bold">A</div>
                   <div>
                     <p class="text-sm font-semibold">Ana · Madrid</p>
                     <p class="p-micro">Viajera · Ruta volcánica</p>
@@ -759,7 +760,7 @@
                   “Pude elegir por idioma, estilo y al guía. Reserva fácil y coordinación todo desde el panel. Lo mejor, vas a tu ritmo y en tu coche, no afinado en un autobús con otros viajeros.”
                 </blockquote>
                 <figcaption class="mt-4 flex items-center gap-3">
-                  <div class="grid h-10 w-10 place-items-center rounded-2xl bg-sky-600/10 text-sky-700 font-bold">L</div>
+                  <div class="grid h-10 w-10 place-items-center rounded-2xl bg-brand-600/10 text-brand-700 font-bold">L</div>
                   <div>
                     <p class="text-sm font-semibold">Luca · Italia</p>
                     <p class="p-micro">Viajero · Mar & costa</p>
@@ -776,7 +777,7 @@
         <section id="waitlist" class="mx-auto max-w-7xl px-4 py-14">
           <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
             <div class="pointer-events-none absolute inset-0">
-              <div class="absolute -top-28 right-0 h-72 w-72 rounded-full bg-indigo-200/70 blur-3xl"></div>
+              <div class="absolute -top-28 right-0 h-72 w-72 rounded-full bg-brand-200/70 blur-3xl"></div>
               <div class="absolute -bottom-28 left-0 h-72 w-72 rounded-full bg-emerald-200/60 blur-3xl"></div>
             </div>
 
@@ -817,7 +818,7 @@
                       name="email"
                       required
                       placeholder="tu@email.com"
-                      class="mt-3 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/40"
+                      class="mt-3 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-brand-500/30"
                     />
                   </div>
 
@@ -828,7 +829,7 @@
                       <select
                         id="waitlist_region"
                         name="region"
-                        class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/40"
+                        class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-brand-500/30"
                       >
                         <option value="">Prefiero no decirlo</option>
                         <option value="canarias">Canarias</option>
@@ -843,7 +844,7 @@
                       <select
                         id="waitlist_role"
                         name="role"
-                        class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/40"
+                        class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-brand-500/30"
                       >
                         <option value="">Prefiero no decirlo</option>
                         <option value="traveler">Viajero</option>
@@ -859,7 +860,7 @@
                     <select
                       id="waitlist_island"
                       name="island"
-                      class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-indigo-500/40"
+                      class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-brand-500/30"
                     >
                       <option value="">Elige una</option>
                       <option value="lanzarote">Lanzarote</option>
@@ -902,7 +903,7 @@
 
                   <button
                     type="submit"
-                    class="w-full rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                    class="w-full rounded-2xl btn btn-primary px-5 py-3"
                   >
                     Acceso anticipado
                   </button>
@@ -964,15 +965,15 @@
                 <a href="{% url 'pages:home' %}" class="inline-flex items-center gap-3 group">
                   <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm group-hover:shadow-md transition overflow-hidden">
                     <img
-                      src="{% static 'img/lxp-guides-192.png' %}"
-                      alt="Lxp-Guides"
+                      src="{% static 'img/exploideo-192.png' %}"
+                      alt="Exploideo"
                       class="h-8 w-auto object-contain"
                     />
                   </span>
 
                   <div class="leading-tight">
                     <p class="text-base font-semibold text-slate-900 tracking-tight">
-                      Lxp-Guides
+                      Exploideo
                     </p>
                     <p class="p-micro">
                       Guías verificados · Experiencias reales
@@ -1067,8 +1068,8 @@
 
                   <li class="pt-2">
                     <p class="p-micro">¿Algo urgente?</p>
-                    <a href="mailto:support@lxpguides.com" class="hover:text-slate-900 transition">
-                      support@lxpguides.com
+                    <a href="mailto:support@exploideo.com" class="hover:text-slate-900 transition">
+                      support@exploideo.com
                     </a>
                   </li>
                 </ul>
@@ -1096,7 +1097,7 @@
 
             <!-- Bottom bar -->
             <div class="mt-10 border-t border-slate-200 pt-5 pb-24 sm:pb-0 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-micro">
-              <p>© {{ current_year }} Lxp-Guides · Todos los derechos reservados</p>
+              <p>© {{ current_year }} Exploideo · Todos los derechos reservados</p>
 
               <div class="flex flex-wrap items-center gap-3 justify-center sm:justify-end">
                 <a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-700 transition">Privacidad</a>

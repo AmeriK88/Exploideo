@@ -10,7 +10,7 @@ sys.path.append(str(BASE_DIR / "apps"))
 env = environ.Env(
     DEBUG=(bool, False),
 )
-environ.Env.read_env(BASE_DIR / ".env")  # en Railway normalmente no existe, no pasa nada
+environ.Env.read_env(BASE_DIR / ".env") 
 
 # ===== Core =====
 SECRET_KEY = env("SECRET_KEY")
@@ -19,7 +19,7 @@ DEBUG = env.bool("DEBUG", default=False)
 # En prod: pon tu dominio/s en ALLOWED_HOSTS
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])
 
-# Para detectar prod sin inventos: Railway expone RAILWAY_ENVIRONMENT (normalmente)
+# Para detectar prod sin inventos: Railway expone RAILWAY_ENVIRONMENT
 # Si no, puedes usar tu propia variable: ENVIRONMENT=production
 ENVIRONMENT = env("ENVIRONMENT", default=os.getenv("RAILWAY_ENVIRONMENT", "local")).lower()
 IS_PROD = (ENVIRONMENT in ("prod", "production"))
@@ -130,7 +130,7 @@ else:
 
 DEFAULT_FROM_EMAIL = env(
     "DEFAULT_FROM_EMAIL",
-    default="LanzaXperience <no-reply@lanzaxperience.com>",
+    default="Exploideo <no-reply@exploideo.com>",
 )
 
 # ===== Static & Media =====
