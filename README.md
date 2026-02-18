@@ -149,9 +149,23 @@ We welcome contributions! Please follow these steps:
 - Ensure responsive design
 - Use semantic commit messages
 
-## 📄 License
+## 📄 Licencia
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+**© 2026 José Félix Gordo Castaño**
+
+Este proyecto está protegido bajo licencia **Elastic License 2.0**.
+
+**Permitido:**
+- ✅ Uso comercial (bajo acuerdo de licencia)
+- ✅ Modificación
+- ✅ Redistribución (con permiso)
+
+**Prohibido:**
+- ❌ Venta sin autorización
+- ❌ Remoción de créditos de autor
+- ❌ Uso para competencia directa
+
+Ver [LICENSE.TXT](LICENSE.TXT) para detalles completos.
 
 
 ---
