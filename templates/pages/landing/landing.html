@@ -27,7 +27,7 @@
     <!-- Favicon -->
     <link rel="manifest" href="{% static 'site.webmanifest' %}">
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
-    <link rel="mask-icon" href="{% static 'img/exploideo.svg' %}" color="#123c77">
+    <link rel="mask-icon" href="{% static 'img/exploideo-logo.png' %}" color="#123c77">
     <link rel="shortcut icon" href="{% static 'img/favicon-32.png' %}">
 
     <!-- Fonts -->
@@ -36,19 +36,14 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
     <!-- Preload del logo del navbar -->
-    <link
-      rel="preload"
-      as="image"
-      href="{% static 'img/exploideo-logo.webp' %}"
-      imagesizes="(max-width: 768px) 48px, 80px"
-      fetchpriority="high"
-    />
+    <link rel="preload" as="image" href="{% static 'img/exploideo-logo.webp' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
     <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/landing.output.css' %}">
 
     {% block extra_head %}{% endblock %}
   </head>
@@ -63,7 +58,7 @@
         <!-- Brand -->
         <a href="{% url 'pages:home' %}" class="flex min-w-0 items-center gap-2" data-animate="fade-down">
           <img
-            src="{% static 'img/exploideo-logo.png' %}"
+            src="{% static 'img/exploideo-logo.webp' %}"
             alt="Exploideo"
             fetchpriority="high"
             decoding="async"
@@ -132,279 +127,444 @@
     <main id="page" class="mx-auto w-full" aria-label="Contenido principal">
       <div class="page-enter" data-page>
 
-        <!-- =========================================================
-          HERO (NO TOCAR TEXTO)
-        ========================================================== -->
-        <section class="relative overflow-hidden z-0 pt-10">
-          <div class="pointer-events-none absolute inset-0 z-0">
-            <div class="absolute -top-24 left-1/2 h-72 w-152 -translate-x-1/2 rounded-full bg-brand-200/70 blur-3xl"></div>
-            <div class="absolute -bottom-32 left-1/3 h-72 w-160 rounded-full bg-solar-200/55 blur-3xl"></div>
-          </div>
+      <!-- =========================================================
+        HERO 
+      ========================================================== -->
+      <section class="relative overflow-hidden z-0 pt-10">
+        <!-- blobs -->
+        <div class="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
+          <div class="absolute -top-24 left-1/2 h-72 w-152 -translate-x-1/2 rounded-full bg-brand-200/70 blur-3xl"></div>
+          <div class="absolute -bottom-32 left-1/3 h-72 w-160 rounded-full bg-solar-200/55 blur-3xl"></div>
+        </div>
 
-          <div class="relative z-10 mx-auto max-w-7xl px-4 pt-14 pb-10 sm:pt-20 sm:pb-16">
-            <div class="grid items-center gap-10 lg:grid-cols-2">
-              <!-- Copy -->
-              <div data-stagger>
-                <div class="inline-flex flex-wrap items-center gap-2" data-animate="fade-up">
-                  <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-200">
-                    🚀 Pre-lanzamiento
-                  </span>
-                  <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
-                    🏝️ Lanzarote-release
-                  </span>
-                  <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
-                    ✅ Guías verificados
-                  </span>
-                </div>
-
-                <h1 class="mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl" data-animate="fade-up">
-                  Experiencias sin filtro
-                  <span class="block text-brand-700">Tu ruta se vive mejor</span>
-                  cuando alguien te la cuenta.
-                </h1>
-
-                <p class="mt-4 text-base text-slate-600" data-animate="fade-up">
-                  Exploideo conecta <span class="font-semibold text-slate-800">viajeros</span> con <span class="font-semibold text-slate-800">guías locales</span> para <span class="font-semibold text-slate-800">rutas</span>, <span class="font-semibold text-slate-800">aventuras</span> y <span class="font-semibold text-slate-800">experiencias</span> únicas. Gestión de disponibilidad, reserva rápida y experiencias como nunca antes.
-                </p>
-
-                <!-- CTAs -->
-                <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center" data-animate="fade-up">
-                  <a
-                    href="#waitlist"
-                    class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-5 py-3"
-                  >
-                    Unirme a la lista (gratis)
-                    <span class="ml-2 text-white/80">→</span>
-                  </a>
-                  <a
-                    href="#how"
-                    class="inline-flex items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-800 ring-1 ring-slate-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
-                  >
-                    Ver cómo funciona
-                  </a>
-                </div>
-
-                <p class="mt-3 help-secondary" data-animate="fade-up">
-                  ✨ Acceso anticipado · 0 spam · Un email cuando abramos plazas.
-                </p>
-
-                <!-- Trust bullets  -->
-                <div class="mt-6 grid gap-3 sm:grid-cols-3" data-stagger>
-                  <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" data-animate="scale-in">
-                    <p class="text-sm font-semibold">Reserva en minutos</p>
-                    <p class="mt-1 p-micro">Dos clicks y confirmación.</p>
-                  </div>
-                  <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" data-animate="scale-in">
-                    <p class="text-sm font-semibold">Cancelación simple</p>
-                    <p class="mt-1 p-micro">Gratis hasta 48h antes.</p>
-                  </div>
-                  <div class="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" data-animate="scale-in">
-                    <p class="text-sm font-semibold">Pagas solo la excursión</p>
-                    <p class="mt-1 p-micro">Sin gastos de gestión.</p>
-                  </div>
-                </div>
+        <div class="relative z-10 mx-auto max-w-7xl px-4 pt-14 pb-10 sm:pt-20 sm:pb-16">
+          <div class="grid items-center gap-10 lg:grid-cols-2">
+            <!-- Copy -->
+            <div data-stagger>
+              <div class="inline-flex flex-wrap items-center gap-2" data-animate="fade-up">
+                <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-200">
+                  🚀 Pre-lanzamiento
+                </span>
+                <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
+                  🏝️ Lanzarote-release
+                </span>
+                <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
+                  ✅ Guías verificados
+                </span>
               </div>
 
-              <!-- Visual -->
-              <div class="relative" data-stagger>
-                <div class="home-visual-card" data-animate="scale-in">
-                  <div class="aspect-16/11 overflow-hidden rounded-3xl bg-slate-100 relative ring-1 ring-slate-200 shadow-sm">
-                    <img
-                      src="{% static 'img/landing/img-hero.png' %}"
-                      alt="Acantilados y costa de Lanzarote"
-                      class="h-full w-full object-cover"
-                      loading="eager"
-                      fetchpriority="high"
-                    />
-                    <div class="pointer-events-none absolute inset-0 bg-linear-to-tr from-slate-950/45 via-slate-900/10 to-transparent"></div>
-                    <div class="pointer-events-none absolute inset-0 bg-linear-to-t from-slate-950/35 via-transparent to-transparent"></div>
+              <h1 class="mt-5 text-4xl font-extrabold tracking-tight leading-[1.05] sm:text-5xl" data-animate="fade-up">
+                Experiencias sin filtro
+                <span class="block text-brand-700">Tu ruta se vive mejor</span>
+                cuando alguien te la cuenta.
+              </h1>
 
-                    <div class="absolute left-4 top-4 rounded-2xl bg-white/85 px-3 py-2 text-xs text-slate-800 backdrop-blur ring-1 ring-white/60">
-                      🔥 Top esta semana · Ruta Volcánica
-                    </div>
+              <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600" data-animate="fade-up">
+                Exploideo conecta <span class="font-semibold text-slate-800">viajeros</span> con <span class="font-semibold text-slate-800">guías locales</span> para <span class="font-semibold text-slate-800">rutas</span>, <span class="font-semibold text-slate-800">aventuras</span> y <span class="font-semibold text-slate-800">experiencias</span> únicas. Gestión de disponibilidad, reserva rápida y experiencias como nunca antes.
+              </p>
 
-                    <div class="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/85 px-4 py-3 backdrop-blur ring-1 ring-white/60">
-                      <div class="flex items-center justify-between gap-3">
-                        <div>
-                          <p class="text-xs font-semibold text-slate-900">Experiencias curadas</p>
-                          <p class="mt-1 p-muted">Calidad antes que cantidad</p>
-                        </div>
-                        <span class="badge update-decision-accepted">
-                          Confirmado
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+              <!-- CTAs -->
+              <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center" data-animate="fade-up">
+                <a
+                  href="#waitlist"
+                  class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-6 py-3"
+                >
+                  Unirme a la lista (gratis)
+                  <span class="ml-2 text-white/80">→</span>
+                </a>
 
-                  <div class="mt-4 grid gap-3 sm:grid-cols-3" data-stagger>
-                    <div class="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3" data-animate="fade-up">
-                      <p class="text-xs font-semibold">Categorías</p>
-                      <p class="mt-1 p-micro">Rutas con intención</p>
-                    </div>
-                    <div class="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3" data-animate="fade-up">
-                      <p class="text-xs font-semibold">Reseñas</p>
-                      <p class="mt-1 p-micro">Opiniones de reservas reales</p>
-                    </div>
-                    <div class="rounded-2xl border border-slate-200 bg-slate-50 px-3 py-3" data-animate="fade-up">
-                      <p class="text-xs font-semibold">Detalles</p>
-                      <p class="mt-1 p-micro">Incluye, contacto directo y recomendaciones.</p>
-                    </div>
-                  </div>
+                <a
+                  href="#how"
+                  class="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-slate-800 ring-1 ring-slate-200 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/30"
+                >
+                  Ver cómo funciona
+                </a>
+              </div>
+
+              <p class="mt-3 help-secondary" data-animate="fade-up">
+                ✨ Acceso anticipado · 0 spam · Un email cuando abramos plazas.
+              </p>
+
+              <!-- Trust bullets -->
+              <div class="mt-6 grid gap-3 sm:grid-cols-3" data-stagger>
+                <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm" data-animate="scale-in">
+                  <p class="text-sm font-semibold text-slate-900">Reserva en minutos</p>
+                  <p class="mt-1 text-xs leading-relaxed text-slate-600">Dos clicks y confirmación.</p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm" data-animate="scale-in">
+                  <p class="text-sm font-semibold text-slate-900">Cancelación simple</p>
+                  <p class="mt-1 text-xs leading-relaxed text-slate-600">Gratis hasta 48h antes.</p>
+                </div>
+
+                <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm" data-animate="scale-in">
+                  <p class="text-sm font-semibold text-slate-900">Pagas solo la excursión</p>
+                  <p class="mt-1 text-xs leading-relaxed text-slate-600">Sin gastos de gestión.</p>
                 </div>
               </div>
-              <!-- /Visual -->
             </div>
+
+            <!-- Visual -->
+            <div class="relative" data-stagger>
+              <div class="home-visual-card" data-animate="scale-in">
+                <div class="aspect-16/11 overflow-hidden rounded-3xl bg-slate-100 relative ring-1 ring-slate-200 shadow-sm">
+                  <img
+                    src="{% static 'img/landing/img-hero.png' %}"
+                    alt="Acantilados y costa de Lanzarote"
+                    width="1600"
+                    height="1100"
+                    class="h-full w-full object-cover"
+                    loading="eager"
+                    fetchpriority="high"
+                  />
+
+                  <!-- overlays -->
+                  <div class="pointer-events-none absolute inset-0 bg-linear-to-tr from-slate-950/45 via-slate-900/10 to-transparent"></div>
+                  <div class="pointer-events-none absolute inset-0 bg-linear-to-t from-slate-950/35 via-transparent to-transparent"></div>
+
+                  <!-- top badge -->
+                  <div class="absolute left-4 top-4 rounded-2xl bg-white/85 px-3.5 py-2 text-xs font-medium text-slate-800 backdrop-blur ring-1 ring-white/60">
+                    🔥 Top esta semana · Ruta Volcánica
+                  </div>
+
+                  <!-- bottom card -->
+                  <div class="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/85 px-4 py-3 backdrop-blur ring-1 ring-white/60">
+                    <div class="flex items-center justify-between gap-3">
+                      <div>
+                        <p class="text-xs font-semibold text-slate-900">Experiencias curadas</p>
+                        <p class="mt-1 p-muted">Calidad antes que cantidad</p>
+                      </div>
+                      <span class="badge update-decision-accepted">
+                        Confirmado
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /Visual -->
           </div>
-        </section>
+        </div>
+      </section>
+
+
+      <!-- =========================================================
+        PRODUCT PREVIEW (CANAPÉS) — “Así se ve por dentro”
+        Colócalo justo después del HERO
+      ========================================================== -->
+      <section class="relative border-y border-slate-200 bg-white">
+        <!-- soft blobs -->
+        <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+          <div class="absolute -top-24 left-10 h-64 w-64 rounded-full bg-brand-200/55 blur-3xl"></div>
+          <div class="absolute -bottom-24 right-10 h-64 w-64 rounded-full bg-emerald-200/45 blur-3xl"></div>
+        </div>
+
+        <div class="relative mx-auto max-w-7xl px-4 py-14" data-animate="fade-up" data-animate="fade-up">
+          <!-- Header -->
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between" data-stagger>
+            <div>
+              <p class="testimonial-quote" data-animate="fade-up">Un vistazo rápido</p>
+              <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">
+                Así se ve Exploideo por dentro.
+              </h2>
+              <p class="mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
+                Pequeños “bocados” del producto: estados, detalle de experiencia y reseñas verificadas.
+              </p>
+            </div>
+
+            <a href="#waitlist" class="items-center justify-center rounded-2xl btn btn-primary ">
+              Quiero acceso
+            </a>
+          </div>
+
+          <!-- 3 previews -->
+          <div class="mt-10 grid gap-5 lg:grid-cols-3" data-stagger>
+
+            <!-- Preview 1: Dashboard + estados -->
+            <article class="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden" data-animate="scale-in">
+              <div class="flex items-center justify-between gap-3 border-b border-slate-200 bg-slate-50 px-5 py-4">
+                <div class="flex items-center gap-2">
+                  <span class="grid h-9 w-9 place-items-center rounded-2xl bg-brand-600/10 text-brand-700">📌</span>
+                  <div class="leading-tight">
+                    <p class="text-sm font-semibold text-slate-900">Estado visible</p>
+                    <p class="p-micro">Tu reserva siempre “en qué punto está”</p>
+                  </div>
+                </div>
+                <span class="badge badge-neutral">Dashboard</span>
+              </div>
+
+              <div class="p-5">
+                <!-- fake UI card -->
+                <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                  <div class="flex items-start justify-between gap-3">
+                    <div class="min-w-0">
+                      <p class="text-sm font-semibold text-slate-900 truncate">Ruta Volcánica (grupo reducido)</p>
+                      <p class="mt-1 text-xs text-slate-600">Sáb · 09:30 · 2 plazas · ES/EN</p>
+                    </div>
+                    <span class="badge update-decision-accepted">Aceptada</span>
+                  </div>
+
+                  <div class="mt-4 grid gap-2">
+                    <div class="flex items-center justify-between text-xs">
+                      <span class="text-slate-600">Solicitud</span>
+                      <span class="font-semibold text-slate-900">OK</span>
+                    </div>
+                    <div class="h-2 w-full rounded-full bg-slate-100 overflow-hidden">
+                      <div class="h-full w-3/4 rounded-full bg-brand-600/60"></div>
+                    </div>
+                    <p class="mt-2 text-xs text-slate-600">
+                      Mensajes y cambios quedan registrados en el historial.
+                    </p>
+                  </div>
+                </div>
+
+                <p class="mt-4 text-sm text-slate-600">
+                  No más “¿está confirmado?”: solicitud, aceptación, cambios y cancelación con trazabilidad.
+                </p>
+              </div>
+            </article>
+
+            <!-- Preview 2: Detalle experiencia -->
+            <article class="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden" data-animate="scale-in">
+              <div class="flex items-center justify-between gap-3 border-b border-slate-200 bg-slate-50 px-5 py-4">
+                <div class="flex items-center gap-2">
+                  <span class="grid h-9 w-9 place-items-center rounded-2xl bg-slate-900/5 text-slate-900">🧭</span>
+                  <div class="leading-tight">
+                    <p class="text-sm font-semibold text-slate-900">Contexto antes de pagar</p>
+                    <p class="p-micro">Incluye, dificultad, qué llevar, meeting point</p>
+                  </div>
+                </div>
+                <span class="badge badge-neutral">Detalle</span>
+              </div>
+
+              <div class="p-5">
+                <!-- fake experience snippet -->
+                <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                  <div class="flex items-start justify-between gap-3">
+                    <div>
+                      <p class="text-sm font-semibold text-slate-900">Costa & calas al atardecer</p>
+                      <p class="mt-1 text-xs text-slate-600">Duración: 2h · Dificultad: fácil</p>
+                    </div>
+                    <span class="rounded-full bg-amber-500/15 px-3 py-1 text-xs font-semibold text-amber-800">
+                      Recomendado
+                    </span>
+                  </div>
+
+                  <div class="mt-4 grid gap-2 text-xs">
+                    <div class="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2">
+                      <span class="text-slate-600">📍 Meeting point</span>
+                      <span class="font-semibold text-slate-900">Mirador (GPS)</span>
+                    </div>
+                    <div class="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2">
+                      <span class="text-slate-600">🎒 Qué llevar</span>
+                      <span class="font-semibold text-slate-900">Agua + calzado</span>
+                    </div>
+                    <div class="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2">
+                      <span class="text-slate-600">🗣️ Idiomas</span>
+                      <span class="font-semibold text-slate-900">ES / EN / DE</span>
+                    </div>
+                  </div>
+                </div>
+
+                <p class="mt-4 text-sm text-slate-600">
+                  Menos incertidumbre: sabes lo que compras y cómo será la experiencia antes de reservar.
+                </p>
+              </div>
+            </article>
+
+            <!-- Preview 3: Reseñas verificadas -->
+            <article class="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden" data-animate="scale-in">
+              <div class="flex items-center justify-between gap-3 border-b border-slate-200 bg-slate-50 px-5 py-4">
+                <div class="flex items-center gap-2">
+                  <span class="grid h-9 w-9 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700">⭐</span>
+                  <div class="leading-tight">
+                    <p class="text-sm font-semibold text-slate-900">Reseñas reales</p>
+                    <p class="p-micro">Solo de reservas verificadas</p>
+                  </div>
+                </div>
+                <span class="badge badge-neutral">Opiniones</span>
+              </div>
+
+              <div class="p-5">
+                <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                  <div class="flex items-start justify-between gap-3">
+                    <div class="min-w-0">
+                      <p class="text-sm font-semibold text-slate-900 truncate">“Todo clarísimo desde el inicio”</p>
+                      <p class="mt-1 text-xs text-slate-600">Viajera · 2h · Costa & calas</p>
+                    </div>
+                    <div class="text-xs font-semibold text-slate-700">★★★★★</div>
+                  </div>
+                  <p class="mt-3 text-sm text-slate-700 leading-relaxed text-center">
+                    Experiencia premium de verdad. Guía privado, ruta personalizada y toda la información antes de reservar.
+                        Mejor a mi aire y sin esperas inecesarias de otros viajeros
+                  </p>
+
+                  <div class="mt-4 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                      <span class="grid h-8 w-8 place-items-center rounded-2xl bg-brand-600/10 text-brand-700 font-bold">M</span>
+                      <span class="text-xs text-slate-600">María · BCN</span>
+                    </div>
+                    <span class="rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold text-slate-700">
+                      Verificada
+                    </span>
+                  </div>
+                </div>
+
+                <p class="mt-4 text-sm text-slate-600">
+                  Calidad basada en reservas reales: menos postureo, más confianza.
+                </p>
+              </div>
+            </article>
+
+          </div>
+
+          <!-- mini note -->
+          <p class="mt-8 p-micro text-slate-500" data-animate="fade-up">
+            *Estas vistas son una previsualización del producto. Acceso por fases cuando abramos plazas.
+          </p>
+        </div>
+      </section>
+
 
        <!-- =========================================================
           PRODUCT SNAPSHOT (NUEVO COPY) — COMPACT + ICON FIX
         ========================================================== -->
-        <section class="mx-auto max-w-7xl px-4 py-14">
-          <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
-            <div data-stagger>
-              <h2 class="text-3xl font-bold tracking-tight" data-animate="fade-up">
-                Experiencias reales, sin el caos de siempre.
-              </h2>
-              <p class="p-lead" data-animate="fade-up">
-                Todo en un mismo lugar, sin perder el hilo entre mensajes, cambios y estados de reserva.
-                Exploideo pone orden: <span class="font-semibold text-slate-800">claridad antes de reservar</span>,
-                <span class="font-semibold text-slate-800"> gestión en un solo sitio</span> y
-                <span class="font-semibold text-slate-800">confianza verificable</span> para viajeros y guías.
-              </p>
+        <section class="relative mx-auto max-w-7xl px-4 py-14 overflow-hidden">
+          <!-- Soft blobs (decor) -->
+          <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+            <div class="absolute -top-24 left-10 h-64 w-64 rounded-full bg-brand-200/45 blur-3xl"></div>
+            <div class="absolute -bottom-24 right-10 h-64 w-64 rounded-full bg-emerald-200/35 blur-3xl"></div>
+          </div>
 
-              <div class="mt-6 space-y-3" data-stagger>
-                <div class="flex gap-3" data-animate="fade-up">
-                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-brand-600/10 text-brand-700 leading-none">✓</div>
-                  <div>
-                    <p class="font-semibold">Reserva con contexto</p>
-                    <p class="p-muted">Incluye, duración, dificultad, idioma, meeting point y qué llevar.</p>
-                  </div>
+          <div class="relative" data-stagger>
+            <!-- Kicker -->
+            <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-xs font-semibold text-slate-700 backdrop-blur"
+                data-animate="fade-up">
+              <span class="grid h-6 w-6 place-items-center rounded-full bg-brand-600/10 text-brand-700">✨</span>
+              Antes vs Después
+            </div>
+
+            <h2 class="mt-4 text-3xl font-extrabold tracking-tight" data-animate="fade-up">
+              Del “a ver si está confirmado” al
+              <span class="text-brand-700">“lo tengo controlado”</span>.
+            </h2>
+
+            <p class="mt-3 max-w-2xl text-base leading-relaxed text-slate-600" data-animate="fade-up">
+              Exploideo convierte mensajes y dudas en un flujo claro:
+              <span class="font-semibold text-slate-800">contexto</span>,
+              <span class="font-semibold text-slate-800">estado</span> y
+              <span class="font-semibold text-slate-800">registro</span>.
+            </p>
+
+            <!-- Antes / Después -->
+            <div class="mt-7 grid gap-4 sm:grid-cols-2" data-stagger>
+
+              <!-- Antes -->
+              <div class="group rounded-3xl border border-slate-200 bg-white/70 p-6 shadow-sm backdrop-blur hover:shadow-md transition"
+                  data-animate="fade-up">
+                <div class="flex items-center justify-between">
+                  <p class="inline-flex items-center gap-2 text-xs font-semibold text-slate-600">
+                    <span class="grid h-7 w-7 place-items-center rounded-2xl bg-rose-500/10 text-rose-700">✕</span>
+                    Antes
+                  </p>
+                  <span class="rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold text-slate-700">Caos</span>
                 </div>
 
-                <div class="flex gap-3" data-animate="fade-up">
-                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-brand-600/10 text-brand-700 leading-none">✓</div>
-                  <div>
-                    <p class="font-semibold">Comunicación dentro de la app</p>
-                    <p class="p-muted">Cuando la reserva se acepta, viajero y guía coordinan sin perder el hilo.</p>
-                  </div>
+                <ul class="mt-4 space-y-2 text-sm text-slate-700">
+                  <li class="flex gap-3">
+                    <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-rose-500/10 text-rose-700">✕</span>
+                    <span>Mensajes sueltos y cambios por WhatsApp</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-rose-500/10 text-rose-700">✕</span>
+                    <span>Disponibilidad poco clara</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-rose-500/10 text-rose-700">✕</span>
+                    <span>“¿Dónde quedamos?” “¿Qué llevo?”</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-rose-500/10 text-rose-700">✕</span>
+                    <span>Sin historial ni trazabilidad</span>
+                  </li>
+                </ul>
+
+                <div class="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p class="text-xs font-semibold text-slate-700">Resultado</p>
+                  <p class="mt-1 text-xs text-slate-600">Más dudas → menos conversiones → peor experiencia.</p>
+                </div>
+              </div>
+
+              <!-- Con Exploideo -->
+              <div class="group rounded-3xl border border-brand-200 bg-brand-50/70 p-6 shadow-sm backdrop-blur hover:shadow-md transition"
+                  data-animate="fade-up">
+                <div class="flex items-center justify-between">
+                  <p class="inline-flex items-center gap-2 text-xs font-semibold text-brand-900">
+                    <span class="grid h-7 w-7 place-items-center rounded-2xl bg-emerald-600/15 text-emerald-800">✓</span>
+                    Con Exploideo
+                  </p>
+                  <span class="rounded-full bg-brand-600/10 px-3 py-1 text-xs font-semibold text-brand-800">Control</span>
                 </div>
 
-                <div class="flex gap-3" data-animate="fade-up">
-                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-brand-600/10 text-brand-700 leading-none">✓</div>
-                  <div>
-                    <p class="font-semibold">Calidad controlada</p>
-                    <p class="p-muted">Guías verificados + reseñas de reservas reales (y moderación).</p>
-                  </div>
-                </div>
+                <ul class="mt-4 space-y-2 text-sm text-brand-900/90">
+                  <li class="flex gap-3">
+                    <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-emerald-600/15 text-emerald-800">✓</span>
+                    <span>Detalles completos antes de reservar</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-emerald-600/15 text-emerald-800">✓</span>
+                    <span>Estados visibles (solicitud → aceptada)</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-emerald-600/15 text-emerald-800">✓</span>
+                    <span>Meeting point, qué llevar, idioma y duración</span>
+                  </li>
+                  <li class="flex gap-3">
+                    <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-emerald-600/15 text-emerald-800">✓</span>
+                    <span>Cambios/cancelación con historial</span>
+                  </li>
+                </ul>
 
-                <div class="flex gap-3" data-animate="fade-up">
-                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-brand-600/10 text-brand-700 leading-none">✓</div>
-                  <div>
-                    <p class="font-semibold">Todo queda registrado</p>
-                    <p class="p-muted">Solicitud, confirmación, cambios y cancelaciones, siempre con estado visible.</p>
-                  </div>
-                </div>
-
-                <div class="flex gap-3" data-animate="fade-up">
-                  <div class="mt-1 grid h-6 w-6 place-items-center rounded-xl bg-brand-600/10 text-brand-700 leading-none">✓</div>
-                  <div>
-                    <p class="font-semibold">Modelo simple</p>
-                    <p class="p-muted">Viajeros sin gastos de gestión. Guías sin cuota fija: comisión por excursión.</p>
-                  </div>
+                <div class="mt-5 rounded-2xl border border-brand-200 bg-white/70 p-4">
+                  <p class="text-xs font-semibold text-brand-900">Resultado</p>
+                  <p class="mt-1 text-xs text-brand-900/80">Más claridad → mejor decisión → más reservas buenas.</p>
                 </div>
               </div>
             </div>
 
-            <!-- Right card -->
-            <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm" data-stagger>
+            <!-- Mini métricas -->
+            <div class="mt-7 grid gap-3 sm:grid-cols-3" data-stagger>
 
-              <!-- Header + CTA -->
-              <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between" data-stagger>
-                <div>
-                  <p class="testimonial-quote" data-animate="fade-up">Para viajeros</p>
-                  <h3 class="mt-2 text-2xl font-bold tracking-tight" data-animate="fade-up">
-                    Elige bien. Reserva fácil. Todo claro.
-                  </h3>
-                  <p class="mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
-                    Experiencias únicas creadas por guías verificados, con información completa y un panel donde lo tienes todo:
-                    detalles, estados, cambios y contacto directo cuando está aceptada.
-                  </p>
+              <div class="group rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-sm backdrop-blur hover:shadow-md transition hover:-translate-y-0.5"
+                  data-animate="scale-in">
+                <div class="flex items-center justify-between">
+                  <p class="text-xs font-semibold text-slate-500">Decisión</p>
+                  <span class="grid h-9 w-9 place-items-center rounded-2xl bg-amber-500/15 text-amber-800">⚡</span>
                 </div>
-
-                <a
-                  href="#waitlist"
-                  class="btn btn-primary px-5 py-3"
-                  data-animate="fade-up"
-                >
-                  Acceder ahora
-                </a>
+                <p class="mt-2 text-lg font-bold">Más rápida</p>
+                <p class="mt-1 text-sm text-slate-600">Contexto claro desde el inicio.</p>
               </div>
 
-              <!-- Grid 6 cards — COMPACT + ICON LEFT -->
-              <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-stretch" data-stagger>
-
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
-                  <div class="flex items-start gap-3">
-                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600/10 text-brand-700 text-base leading-none">⚡</div>
-                    <div>
-                      <h3 class="font-semibold leading-tight">Experiencias únicas</h3>
-                      <p class="mt-1 text-sm text-slate-600">Cada guía crea su plan: no hay “copias”.</p>
-                    </div>
-                  </div>
+              <div class="group rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-sm backdrop-blur hover:shadow-md transition hover:-translate-y-0.5"
+                  data-animate="scale-in">
+                <div class="flex items-center justify-between">
+                  <p class="text-xs font-semibold text-slate-500">Gestión</p>
+                  <span class="grid h-9 w-9 place-items-center rounded-2xl bg-brand-600/10 text-brand-700">🧾</span>
                 </div>
-
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
-                  <div class="flex items-start gap-3">
-                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600/10 text-brand-700 text-base leading-none">🧭</div>
-                    <div>
-                      <h3 class="font-semibold leading-tight">Contexto antes de pagar</h3>
-                      <p class="mt-1 text-sm text-slate-600">Incluye, dificultad, duración y meeting point claros.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
-                  <div class="flex items-start gap-3">
-                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600/10 text-brand-700 text-base leading-none">⭐</div>
-                    <div>
-                      <h3 class="font-semibold leading-tight">Reseñas verificadas</h3>
-                      <p class="mt-1 text-sm text-slate-600">Solo de reservas reales, sin postureo.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
-                  <div class="flex items-start gap-3">
-                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600/10 text-brand-700 text-base leading-none">💬</div>
-                    <div>
-                      <h3 class="font-semibold leading-tight">Contacto directo</h3>
-                      <p class="mt-1 text-sm text-slate-600">Cuando se acepta: chat y coordinación dentro de la app.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
-                  <div class="flex items-start gap-3">
-                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600/10 text-brand-700 text-base leading-none">🧾</div>
-                    <div>
-                      <h3 class="font-semibold leading-tight">Panel y facturas</h3>
-                      <p class="mt-1 text-sm text-slate-600">Todo en tu dashboard: reservas, detalles y recibos.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="scale-in">
-                  <div class="flex items-start gap-3">
-                    <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-600/10 text-brand-700 text-base leading-none">🛡️</div>
-                    <div>
-                      <h3 class="font-semibold leading-tight">Reglas claras</h3>
-                      <p class="mt-1 text-sm text-slate-600">Cambios y cancelación gratis hasta 48h (según condiciones).</p>
-                    </div>
-                  </div>
-                </div>
-
+                <p class="mt-2 text-lg font-bold">En un sitio</p>
+                <p class="mt-1 text-sm text-slate-600">Panel + recibos + cambios.</p>
               </div>
+
+              <div class="group rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-sm backdrop-blur hover:shadow-md transition hover:-translate-y-0.5"
+                  data-animate="scale-in">
+                <div class="flex items-center justify-between">
+                  <p class="text-xs font-semibold text-slate-500">Confianza</p>
+                  <span class="grid h-9 w-9 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700">🛡️</span>
+                </div>
+                <p class="mt-2 text-lg font-bold">Verificable</p>
+                <p class="mt-1 text-sm text-slate-600">Reseñas reales + verificación.</p>
+              </div>
+
             </div>
           </div>
         </section>
@@ -667,10 +827,7 @@
             </div>
             <a
               href="#waitlist"
-              class="inline-flex items-center justify-center rounded-2xl
-                  btn btn-primary px-5 py-3"
-              data-animate="fade-up"
-            >
+              class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-5 py-3">
               Apuntarme ahora
             </a>
           </div>
@@ -715,67 +872,10 @@
         </section>
 
         <!-- =========================================================
-          TESTIMONIOS (NUEVO COPY)
-        ========================================================== -->
-        <section class="border-y border-slate-200 bg-white">
-          <div class="mx-auto max-w-7xl px-4 py-14">
-            <div class="text-center" data-stagger>
-              <p class="testimonial-quote" data-animate="fade-up">Testimonios</p>
-              <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">Historias que queremos que se repitan.</h2>
-              <p class="mx-auto mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
-                (Ficticios para diseño, basados en fricciones reales que buscamos resolver.)
-              </p>
-            </div>
-
-            <div class="mt-10 grid gap-4 lg:grid-cols-3" data-stagger>
-              <figure class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
-                <blockquote class="text-sm text-slate-700">
-                  “Experiencia premium de verdad. Guía privado, ruta personalizada y toda la información antes de reservar.
-                  Mejor a mi aire y sin esperas inecesarias de otros viajeros”
-                </blockquote>
-                <figcaption class="mt-4 flex items-center gap-3">
-                  <div class="grid h-10 w-10 place-items-center rounded-2xl bg-brand-600/10 text-brand-700 font-bold">A</div>
-                  <div>
-                    <p class="text-sm font-semibold">Ana · Madrid</p>
-                    <p class="p-micro">Viajera · Ruta volcánica</p>
-                  </div>
-                </figcaption>
-              </figure>
-
-              <figure class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
-                <blockquote class="text-sm text-slate-700">
-                  “Dejé atrás el caos: solicitudes, aceptación, cambios y facturas en un solo sitio. Yo decido disponibilidad y cupos.”
-                </blockquote>
-                <figcaption class="mt-4 flex items-center gap-3">
-                  <div class="grid h-10 w-10 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700 font-bold">J</div>
-                  <div>
-                    <p class="text-sm font-semibold">Javier · Lanzarote</p>
-                    <p class="p-micro">Guía · Senderismo</p>
-                  </div>
-                </figcaption>
-              </figure>
-
-              <figure class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
-                <blockquote class="text-sm text-slate-700">
-                  “Pude elegir por idioma, estilo y al guía. Reserva fácil y coordinación todo desde el panel. Lo mejor, vas a tu ritmo y en tu coche, no afinado en un autobús con otros viajeros.”
-                </blockquote>
-                <figcaption class="mt-4 flex items-center gap-3">
-                  <div class="grid h-10 w-10 place-items-center rounded-2xl bg-brand-600/10 text-brand-700 font-bold">L</div>
-                  <div>
-                    <p class="text-sm font-semibold">Luca · Italia</p>
-                    <p class="p-micro">Viajero · Mar & costa</p>
-                  </div>
-                </figcaption>
-              </figure>
-            </div>
-          </div>
-        </section>
-
-        <!-- =========================================================
           WAITLIST / FORM (MINI RETOQUE CREÍBLE)
         ========================================================== -->
         <section id="waitlist" class="mx-auto max-w-7xl px-4 py-14">
-          <div class="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+          <div class="relative overflow-hidden rounded-3xl border border-slate-200 text-slate-600 p-8 shadow-sm">
             <div class="pointer-events-none absolute inset-0">
               <div class="absolute -top-28 right-0 h-72 w-72 rounded-full bg-brand-200/70 blur-3xl"></div>
               <div class="absolute -bottom-28 left-0 h-72 w-72 rounded-full bg-emerald-200/60 blur-3xl"></div>

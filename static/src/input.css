@@ -1,6 +1,7 @@
 @config "../../tailwind.config.js";
 @import "tailwindcss";
 
+
 /* Layout + UI */
 @import "./styles/layout.css";
 @import "./styles/ui.css";
@@ -20,7 +21,6 @@
 @layer base {
   html { @apply scroll-smooth; }
 
-  /* Exploideo: fondo más "global" */
   body { @apply bg-surface-50 text-slate-800 antialiased font-sans; }
 
   a { @apply transition-colors; }
@@ -29,7 +29,6 @@
     @apply outline-none ring-2 ring-brand-500/60 ring-offset-2 ring-offset-surface-50;
   }
 }
-
 
 /* Opcional: reduce motion */
 @media (prefers-reduced-motion: reduce) {
