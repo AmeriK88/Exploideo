@@ -3,7 +3,7 @@
 
 {% block body_class %}home-landing{% endblock %}
 {% block main_class %}max-w-none px-0 py-0{% endblock %}
-{% block title %}Lxp-Guides{% endblock %}
+{% block title %}Exploideo{% endblock %}
 
 {% block content %}
   {% url 'experiences:list' as experiences_list_url %}
@@ -23,20 +23,20 @@
         <div class="home-hero-copy" data-animate="fade-up">
           <div class="inline-flex flex-wrap items-center gap-2">
             <span class="home-pill">🚀 Nuevo</span>
-            <span class="home-pill home-pill-neutral">🏝️ Lanzarote</span>
+            <span class="home-pill home-pill-neutral">🌍 Canary Islands · Beta</span>
             <span class="home-pill home-pill-neutral">✅ Guías verificados</span>
           </div>
 
-          <h1 class="home-hero-title">
-            Lanzarote sin filtro
-            <span class="home-hero-title-accent">La isla se vive mejor</span>
+          <h1 class="mt-5 text-4xl font-extrabold tracking-tight leading-[1.05] sm:text-5xl" data-animate="fade-up">
+            Experiencias sin filtro
+            <span class="block text-brand-700">Tu ruta se vive mejor</span>
             cuando alguien te la cuenta.
           </h1>
 
           <p class="home-hero-lead">
-            Lxp-Guides conecta <span class="home-hero-lead-strong">viajeros</span> con <span class="home-hero-lead-strong">guías</span> locales para <span class="home-hero-lead-strong">rutas</span>, 
+            Exploideo conecta <span class="home-hero-lead-strong">viajeros</span> con <span class="home-hero-lead-strong">guías</span> locales para <span class="home-hero-lead-strong">rutas</span>, 
             <span class="home-hero-lead-strong">aventuras</span> y <span class="home-hero-lead-strong">experiencias</span> únicas. Gestión de disponibilidad, 
-            reserva rápida y Lanzarote como nunca antes.
+            reserva rápida y experiencias como nunca antes.
           </p>
 
           <div class="home-hero-cta">
@@ -58,6 +58,13 @@
           <!-- Trust strip (lo mantienes) -->
           <div class="home-hero-trust">
             {% include "components/trust_tips.html" with in_hero=True %}
+          </div>
+
+          <!-- highlight (lo mantienes) -->
+          <div class="mt-5">
+            {% with title="🧠 Reserva inteligente" text="Nuestro sistema deshabilita automáticamente los días no disponibles (reglas semanales, bloqueos y plazas)." %}
+              {% include "components/cta_yes.html" %}
+            {% endwith %}
           </div>
         </div>
 
@@ -82,7 +89,7 @@
               <!-- mini barra abajo -->
               <div class="home-visual-mini">
                 <div>
-                  <p class="home-mini-title">Disponibilidad real</p>
+                  <p class="home-mini-title">Comprueba disponibilidad</p>
                   <p class="home-mini-sub">Reserva confirmada en 2 clicks</p>
                 </div>
                 <span class="home-mini-badge">Confirmado</span>
@@ -96,14 +103,6 @@
               {% endwith %}
             </div>
           </div>
-
-          <!-- highlight (lo mantienes) -->
-          <div class="mt-4">
-            {% with title="🧠 Reserva inteligente" text="Nuestro sistema deshabilita automáticamente los días no disponibles (reglas semanales, bloqueos y plazas)." %}
-              {% include "components/cta_yes.html" %}
-            {% endwith %}
-          </div>
-
         </div>
       </div>
     </div>
@@ -153,7 +152,7 @@
             <ul class="mt-4 space-y-2 p-body list-bullets">
               <li>Explora por zona, precio y duración.</li>
               <li>Perfiles públicos, idiomas y experiencia del guía.</li>
-              <li>Reserva con disponibilidad real y políticas claras.</li>
+              <li>Reserva con disponibilidad y políticas claras.</li>
             </ul>
 
             <div class="mt-5 flex flex-col gap-2 sm:flex-row">
@@ -164,7 +163,7 @@
             </div>
 
             <p class="mt-3 p-micro">
-              Ideal para viajeros que quieren vivir Lanzarote “de verdad”.
+              Ideal para viajeros que quieren vivir experiencias de formar personal.
             </p>
           </div>
         </div>

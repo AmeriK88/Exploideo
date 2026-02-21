@@ -27,9 +27,8 @@
     <!-- Favicon -->
     <link rel="manifest" href="{% static 'site.webmanifest' %}">
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
-    <meta name="theme-color" content="#312e81">
 
-    <link rel="mask-icon" href="{% static 'img/exploideo-logo.png' %}" color="#312e81">
+    <link rel="mask-icon" href="{% static 'img/exploideo-logo.png' %}" color="#123c77">
     <link rel="shortcut icon" href="{% static 'img/favicon-32.png' %}">
 
     <!-- Fonts -->
@@ -75,16 +74,18 @@
           </a>
 
           <!-- En móvil se oculta para que no se solape -->
-          <span
-            class="hidden sm:inline-flex whitespace-nowrap px-4 py-1.5 rounded-full
-                  text-sm font-semibold tracking-wide text-white
+          <a
+            href="{% url 'pages:home' %}" 
+            class="hidden sm:inline-flex px-4 py-1.5 rounded-full
+                  text-sm font-semibold tracking-wide
+                  text-white
                   bg-linear-to-r from-brand-700 to-brand-500
                   shadow-[0_0_20px_rgba(47,140,255,0.25)]
                   hover:shadow-[0_0_30px_rgba(47,140,255,0.40)]
                   transition-all duration-300"
           >
             Exploideo
-          </span>
+          </a>
         </div>
 
         <!-- CTA -->
@@ -96,7 +97,7 @@
 
           <a
             href="/#waitlist"
-            class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-5 py-3"
+            class="inline-flex whitespace-nowrap items-center justify-center rounded-2xl btn btn-primary px-5 py-3"
           >
             <span class="sm:hidden">Acceso anticipado</span>
             <span class="hidden sm:inline">Quiero acceso anticipado</span>
@@ -214,12 +215,12 @@
             </a>
 
             <p class="text-slate-600 leading-relaxed">
-              Plataforma de experiencias auténticas en Lanzarote con guías locales verificados.
+              Plataforma de experiencias auténticas con guías locales verificados.
             </p>
 
             <!-- Trust chips -->
             <div class="flex flex-wrap gap-2">
-              <span class="badge badge-neutral">📍 Lanzarote</span>
+              <span class="badge badge-neutral">📍 Canarias</span>
               <span class="badge badge-neutral">⭐ Reseñas reales</span>
               <span class="badge badge-neutral">🧭 Local guides</span>
             </div>
