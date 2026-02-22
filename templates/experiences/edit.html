@@ -8,17 +8,78 @@
     <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
       <div>
         <h1 class="h1-page">Editar experiencia</h1>
-          <p class="mt-1 p-muted">
-            <span class="p-secondary">{{ exp.title }}</span>
-          </p>
+        <p class="mt-1 p-muted">
+          <span class="p-secondary">{{ exp.title }}</span>
+        </p>
       </div>
 
-      <div class="flex gap-2">
+      <div class="flex flex-wrap gap-2">
+        {# ✅ CTA nuevo: Disponibilidad #}
+        <a href="{% url 'availability:manage' exp.pk %}" class="btn btn-primary">
+          Disponibilidad
+        </a>
+
         <a href="{% url 'experiences:detail' exp.pk %}" class="btn btn-ghost">Ver detalle</a>
         <a href="{% url 'experiences:list' %}" class="btn btn-ghost">Volver</a>
       </div>
     </div>
 
+    {# ✅ Resumen rápido de disponibilidad #}
+    <div class="card">
+      <div class="card-body">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div class="min-w-0">
+            <h2 class="h2-section">Disponibilidad</h2>
+            <p class="mt-1 p-muted">
+              Ajusta cupos diarios, máximo por excursión, rango de fechas y días permitidos.
+            </p>
+
+            {% if availability %}
+              <div class="mt-4 flex flex-wrap gap-2">
+                {% if availability.is_enabled %}
+                  <span class="badge hover-lift">✅ Reservas abiertas</span>
+                {% else %}
+                  <span class="badge badge-neutral hover-lift">⛔ Reservas cerradas</span>
+                {% endif %}
+
+                {% if availability.max_people_per_booking %}
+                  <span class="badge hover-lift">👥 Máx/Excursión: {{ availability.max_people_per_booking }}</span>
+                {% else %}
+                  <span class="badge badge-neutral hover-lift">👥 Máx/Excursión: sin límite</span>
+                {% endif %}
+
+                {% if availability.daily_capacity_people %}
+                  <span class="badge hover-lift">📦 Capacidad diaria: {{ availability.daily_capacity_people }} pax</span>
+                {% else %}
+                  <span class="badge badge-neutral hover-lift">📦 Capacidad diaria: sin límite</span>
+                {% endif %}
+
+                {% if availability.daily_capacity_bookings %}
+                  <span class="badge hover-lift">🗓️ Máx tours/día: {{ availability.daily_capacity_bookings }}</span>
+                {% else %}
+                  <span class="badge badge-neutral hover-lift">🗓️ Máx tours/día: sin límite</span>
+                {% endif %}
+
+                {% if availability.start_date or availability.end_date %}
+                  <span class="badge hover-lift">
+                    📅 Rango:
+                    {{ availability.start_date|default:"—" }}
+                    →
+                    {{ availability.end_date|default:"—" }}
+                  </span>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+
+          <a href="{% url 'availability:manage' exp.pk %}" class="btn btn-ghost w-full sm:w-auto">
+            Editar disponibilidad
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form -->
     <div class="card">
       <div class="card-body">
         <form method="post" enctype="multipart/form-data" class="space-y-6">
@@ -32,7 +93,7 @@
 
           <div class="grid gap-4 sm:grid-cols-2">
             {% for field in form %}
-              <div class="min-w-0 {% if field.name == 'description' or field.name == 'tags' %}sm:col-span-2{% endif %}">
+              <div class="min-w-0 {% if field.name == 'description' or field.name == 'tags' or field.name == 'transport_requirement' %}sm:col-span-2{% endif %}">
                 <label for="{{ field.id_for_label }}" class="label">{{ field.label }}</label>
 
                 {% if field.field.widget.input_type == "textarea" %}

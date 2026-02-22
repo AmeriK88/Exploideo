@@ -3,28 +3,54 @@
 
 {% block dashboard_content %}
 <div class="flex flex-col gap-6">
+
   <div>
     <h1 class="h1-page">Solicitar cancelación</h1>
-      <p class="mt-1 p-muted">
+
+    <p class="mt-1 p-muted">
+      {% if show_free_cancel %}
+        Esta cancelación es gratuita según la política y se procesará al enviar.
+      {% else %}
         El guía debe aprobar la cancelación.
-      </p>
+      {% endif %}
+    </p>
   </div>
 
   <div class="card">
-    <div class="card-body">
+    <div class="card-body space-y-4">
+
+      <!-- Mini resumen -->
+      <div class="rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+        <div class="flex flex-wrap gap-2">
+          <span class="badge hover-lift">🧭 {{ booking.experience.title }}</span>
+          <span class="badge hover-lift">📅 {{ booking.date }}</span>
+        </div>
+      </div>
+
       <form method="post" class="grid gap-4">
         {% csrf_token %}
+
         <div>
           <label class="label">Motivo (opcional)</label>
-          <textarea class="input" name="reason" rows="3" placeholder="Cuéntanos brevemente qué ha pasado..."></textarea>
+          <textarea
+            class="input"
+            name="reason"
+            rows="3"
+            placeholder="Cuéntanos brevemente qué ha pasado..."
+          ></textarea>
+          <p class="help">Se enviará al guía si la cancelación requiere aprobación.</p>
         </div>
 
         <div class="flex gap-2">
-          <button class="btn btn-primary" type="submit">Enviar solicitud</button>
+          <button class="btn btn-primary" type="submit">
+            {% if show_free_cancel %}Cancelar ahora{% else %}Enviar solicitud{% endif %}
+          </button>
           <a class="btn btn-ghost" href="{% url 'bookings:detail' booking.pk %}">Volver</a>
         </div>
       </form>
+
     </div>
   </div>
+
 </div>
 {% endblock %}

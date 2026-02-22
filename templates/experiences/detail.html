@@ -16,9 +16,38 @@
       {% endif %}
 
       <div class="min-w-0">
-        <h1 class="text-3xl font-semibold tracking-tight wrap-break-word">{{ exp.title }}</h1>
+        <h1 class="text-3xl font-semibold tracking-tight wrap-break-word">
+          {{ exp.title }}
+        </h1>
+
         <p class="mt-1 p-muted wrap-break-word">
-          📍 {{ exp.location }} · ⏱ {{ exp.duration_minutes }} min · 👥 máx. {{ exp.max_people }}
+          📍 {{ exp.location }} · ⏱ {{ exp.duration_minutes }} min
+
+          {% if availability %}
+            {% if availability.daily_capacity_people %}
+              · 👥 Capacidad diaria: {{ availability.daily_capacity_people }} personas
+            {% else %}
+              · 👥 Capacidad diaria: sin límite
+            {% endif %}
+
+            {% if availability.max_people_per_booking %}
+              · 🎯 Máx. por excursión: {{ availability.max_people_per_booking }}
+            {% endif %}
+          {% endif %}
+        </p>
+
+        <p class="mt-2 text-sm text-slate-600 wrap-break-word">
+          {% if exp.transport_requirement == "own_vehicle" %}
+            🚗
+          {% elif exp.transport_requirement == "bicycle" %}
+            🚲
+          {% else %}
+            🥾
+          {% endif %}
+          Desplazamiento:
+          <span class="font-medium text-slate-900">
+            {{ exp.get_transport_requirement_display }}
+          </span>
         </p>
       </div>
 
@@ -113,34 +142,38 @@
           {# ===================== Reviews ===================== #}
           <div class="mt-8 card">
             <div class="card-body">
-              <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                <div class="min-w-0">
-                  <h2 class="h2-section">Reseñas</h2>
+              <div class="flex flex-col gap-2">
+                <div class="flex items-center justify-between gap-4">
+                  <div class="min-w-0">
+                    <h2 class="h2-section">Reseñas</h2>
+                  </div>
 
-                  {% if review_stats.count %}
-                    <p class="mt-1 p-muted wrap-break-word">
-                      ⭐ {{ review_stats.avg|floatformat:1 }} · {{ review_stats.count }} reseña{{ review_stats.count|pluralize:"s" }}
-                    </p>
-                  {% else %}
-                    <p class="mt-1 p-muted">
-                      Aún no hay reseñas.
-                    </p>
-                  {% endif %}
+                  <div class="shrink-0 mt-0">
+                    {% if user.is_authenticated %}
+                      {% if can_review %}
+                        <a href="{% url 'reviews:create' exp.pk %}" class="btn btn-primary w-full sm:w-auto">
+                          Escribir reseña
+                        </a>
+                      {% else %}
+                        <span class="badge badge-neutral hover-lift">Reserva necesaria</span>
+                      {% endif %}
+                    {% else %}
+                      <a href="{% url 'accounts:login' %}?next={% url 'experiences:detail' exp.pk %}"
+                         class="btn btn-ghost w-full sm:w-auto">
+                        Inicia sesión
+                      </a>
+                    {% endif %}
+                  </div>
                 </div>
 
-                {% if user.is_authenticated %}
-                  {% if can_review %}
-                    <a href="{% url 'reviews:create' exp.pk %}" class="btn btn-primary w-full sm:w-auto">
-                      Escribir reseña
-                    </a>
-                  {% else %}
-                    <span class="badge badge-neutral hover-lift w-fit">Necesitas una reserva aceptada</span>
-                  {% endif %}
+                {% if review_stats.count %}
+                  <p class="mt-1 p-muted">
+                    ⭐ {{ review_stats.avg|floatformat:1 }} · {{ review_stats.count }} reseña{{ review_stats.count|pluralize:"s" }}
+                  </p>
                 {% else %}
-                  <a href="{% url 'accounts:login' %}?next={% url 'experiences:detail' exp.pk %}"
-                     class="btn btn-ghost w-full sm:w-auto">
-                    Inicia sesión para reseñar
-                  </a>
+                  <p class="mt-1 p-muted">
+                    Aún no hay reseñas.
+                  </p>
                 {% endif %}
               </div>
 

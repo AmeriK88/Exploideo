@@ -12,8 +12,18 @@ class ExperienceForm(forms.ModelForm):
             "image",
             "price",
             "duration_minutes",
-            "max_people",
             "location",
+            "transport_requirement",
             "tags",
             "is_active",
         ]
+
+        labels = {
+            "transport_requirement": "Modo de desplazamiento requerido",
+        }
+
+        help_texts = {
+            "transport_requirement": (
+                "Este modo lo verá el viajero y se aplicará automáticamente a nuevas reservas."
+            ),
+        }

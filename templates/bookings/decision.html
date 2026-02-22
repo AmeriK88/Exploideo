@@ -48,14 +48,25 @@
           <span class="badge badge-neutral hover-lift">👤 {{ booking.adults }} adultos</span>
           <span class="badge badge-neutral hover-lift">🧒 {{ booking.children }} niños</span>
           <span class="badge badge-neutral hover-lift">👶 {{ booking.infants }} bebés</span>
-          <span class="badge badge-neutral hover-lift">🚐 {{ booking.get_transport_mode_display }}</span>
+
+          {# Transporte: viene fijado por la experience (snapshot en booking) #}
+          <span class="badge badge-neutral hover-lift">
+            {% if booking.transport_mode == "own_vehicle" %}
+              🚗
+            {% elif booking.transport_mode == "bicycle" %}
+              🚲
+            {% else %}
+              🥾
+            {% endif %}
+            {{ booking.get_transport_mode_display }}
+          </span>
 
           {% if booking.preferred_language %}
             <span class="badge badge-neutral hover-lift">🗣 {{ booking.get_preferred_language_display }}</span>
           {% endif %}
 
           {% if booking.pickup_notes %}
-            <span class="badge badge-neutral hover-lift">📍 {{ booking.pickup_notes }}</span>
+            <span class="badge badge-neutral hover-lift">📍 Punto de encuentro: {{ booking.pickup_notes }}</span>
           {% endif %}
         </div>
 
@@ -65,14 +76,12 @@
       <form method="post" class="mt-6 space-y-4">
         {% csrf_token %}
 
-        {# NUEVO: errores generales del form (non_field_errors) #}
         {% if form.non_field_errors %}
           <div class="rounded-2xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
             {{ form.non_field_errors|striptags }}
           </div>
         {% endif %}
 
-        {# Si vas a aceptar, mostramos primero la logística final (hora + punto) #}
         {% if action == "accept" %}
           <div class="panel p-4">
             <h2 class="label-title">Logística final</h2>
@@ -81,7 +90,6 @@
             </p>
 
             <div class="mt-4 grid gap-4 sm:grid-cols-2">
-              {# pickup_time #}
               {% if form.pickup_time %}
                 <div>
                   <label class="label">{{ form.pickup_time.label }}</label>
@@ -92,7 +100,6 @@
                 </div>
               {% endif %}
 
-              {# meeting_point #}
               {% if form.meeting_point %}
                 <div>
                   <label class="label">{{ form.meeting_point.label }}</label>
@@ -106,7 +113,6 @@
           </div>
         {% endif %}
 
-        {# Siempre mostramos el mensaje del guía #}
         {% if form.guide_response %}
           <div>
             <label class="label">{{ form.guide_response.label }}</label>
@@ -117,7 +123,6 @@
           </div>
         {% endif %}
 
-        {# Por si en el futuro metes más campos al form, los pintamos sin romper #}
         {% for field in form %}
           {% if field.name != "pickup_time" and field.name != "meeting_point" and field.name != "guide_response" %}
             <div>

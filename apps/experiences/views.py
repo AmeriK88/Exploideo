@@ -12,6 +12,8 @@ from django.db.models import Avg, Count
 from apps.reviews.models import Review
 from apps.reviews.services import traveler_can_review
 
+from apps.availability.models import ExperienceAvailability
+
 
 def experience_list(request):
     # Público: solo experiencias activas de guías verificados
@@ -179,7 +181,7 @@ def my_experiences(request):
 @guide_required
 def experience_create(request):
     if request.method == "POST":
-        form = ExperienceForm(request.POST, request.FILES)  # 👈 CLAVE
+        form = ExperienceForm(request.POST, request.FILES) 
         if form.is_valid():
             exp = form.save(commit=False)
             exp.guide = request.user
@@ -194,9 +196,11 @@ def experience_create(request):
 
 def experience_detail(request, pk):
     exp = get_object_or_404(
-        Experience.objects.select_related("guide", "category"),
+        Experience.objects.select_related("guide", "category", "availability"),
         pk=pk,
     )
+
+    availability = getattr(exp, "availability", None)
 
     public_reviews = (
         Review.objects.filter(experience=exp, status=Review.Status.PUBLISHED)
@@ -218,6 +222,7 @@ def experience_detail(request, pk):
         "experiences/detail.html",
         {
             "exp": exp,
+            "availability": availability, 
             "public_reviews": public_reviews,
             "review_stats": review_stats,
             "can_review": can_review,
@@ -225,13 +230,15 @@ def experience_detail(request, pk):
     )
 
 
-
 @guide_required
 def experience_edit(request, pk):
     exp = get_object_or_404(Experience, pk=pk, guide=request.user)
 
+    # asegura que exista siempre (así el template puede mostrar resumen/CTA sin ifs raros)
+    availability, _ = ExperienceAvailability.objects.get_or_create(experience=exp)
+
     if request.method == "POST":
-        form = ExperienceForm(request.POST, request.FILES, instance=exp)  # 👈 CLAVE
+        form = ExperienceForm(request.POST, request.FILES, instance=exp)
         if form.is_valid():
             form.save()
             messages.success(request, "Experiencia actualizada.")
@@ -239,7 +246,11 @@ def experience_edit(request, pk):
     else:
         form = ExperienceForm(instance=exp)
 
-    return render(request, "experiences/edit.html", {"form": form, "exp": exp})
+    return render(request, "experiences/edit.html", {
+        "form": form,
+        "exp": exp,
+        "availability": availability,
+    })
 
 
 @guide_required

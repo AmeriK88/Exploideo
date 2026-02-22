@@ -99,7 +99,10 @@ def create_booking(request, experience_id):
         booking = form.save(commit=False)
         booking.experience = experience
         booking.traveler = request.user
-        
+
+        # Transporte: lo define la Experience (guía), no el viajero
+        booking.transport_mode = getattr(experience, "transport_requirement", Booking.TransportMode.ON_FOOT)
+
         # Evitar duplicados: misma experience + misma fecha + mismo traveler en PENDING
         duplicate_exists = Booking.objects.filter(
             traveler=request.user,
@@ -115,10 +118,8 @@ def create_booking(request, experience_id):
             )
             return redirect("bookings:traveler_list")
 
-
         adults = booking.adults or 0
         children = booking.children or 0
-        infants = booking.infants or 0
 
         # Snapshot económico
         unit_price = Decimal(str(experience.price or "0"))
@@ -144,11 +145,12 @@ def create_booking(request, experience_id):
             f"- Adultos: {booking.adults}\n"
             f"- Niños: {booking.children}\n"
             f"- Bebés: {booking.infants}\n\n"
-            f"Transporte: {booking.get_transport_mode_display()}\n"
-            f"{'Zona/Hotel del viajero: ' + booking.pickup_notes + chr(10) if booking.pickup_notes else ''}"
+            f"Desplazamiento: {booking.get_transport_mode_display()}\n"
+            f"{'Punto de encuentro: ' + booking.pickup_notes + chr(10) if booking.pickup_notes else ''}"
             f"\nTotal estimado: {booking.total_price}€\n\n"
             f"Cuando el guía responda, te avisaremos.\n"
         )
+
         send_booking_status_email(
             to_email=booking.traveler.email,
             subject="Solicitud de reserva enviada - LanzaXperience",
@@ -157,7 +159,6 @@ def create_booking(request, experience_id):
 
         messages.success(request, "Reserva enviada al guía.")
         return redirect("bookings:traveler_list")
-
 
     return render(request, "bookings/create.html", {"form": form, "experience": experience})
 
@@ -291,7 +292,7 @@ def accept_booking(request, pk):
                     f"- Niños: {booking.children}\n"
                     f"- Bebés: {booking.infants}\n\n"
                     f"Transporte: {booking.get_transport_mode_display()}\n"
-                    f"Recogida: {booking.pickup_notes or 'Por concretar con el guía'}\n\n"
+                    f"Punto de encuentro: {booking.pickup_notes or 'Por concretar con el guía'}\n\n"
                     f"Total: {booking.total_price}€\n\n"
                     f"Mensaje del guía:\n{booking.guide_response or '-'}\n"
                 ),
@@ -342,7 +343,7 @@ def reject_booking(request, pk):
                     f"- Niños: {booking.children}\n"
                     f"- Bebés: {booking.infants}\n\n"
                     f"Transporte: {booking.get_transport_mode_display()}\n"
-                    f"Punto de recogida: {booking.pickup_notes or 'No especificado'}\n\n"
+                    f"Punto de encuentro: {booking.pickup_notes or 'No especificado'}\n\n"
                     f"Precio por adulto: {booking.unit_price}€\n"
                     f"Total estimado: {booking.total_price}€\n\n"
                     f"Mensaje del guía:\n{booking.guide_response or '-'}\n"
@@ -392,13 +393,6 @@ def request_booking_change(request, pk):
         # Date a ISO para JSONField
         if clean.get("date"):
             clean["date"] = clean["date"].isoformat()  
-
-        # Añadir label legible del transporte
-        transport_value = clean.get("transport_mode")
-        if transport_value:
-            clean["transport_mode_label"] = dict(Booking.TransportMode.choices).get(
-                transport_value, transport_value
-            )
 
         # Guardar solicitud
         booking.extras["change_request"] = clean
@@ -494,7 +488,6 @@ def decide_change_request(request, pk, decision):
     booking.adults = change.get("adults", booking.adults)
     booking.children = change.get("children", booking.children)
     booking.infants = change.get("infants", booking.infants)
-    booking.transport_mode = change.get("transport_mode", booking.transport_mode)
     booking.pickup_notes = change.get("pickup_notes", booking.pickup_notes)
     booking.preferred_language = change.get("preferred_language", booking.preferred_language)
     booking.notes = change.get("notes", booking.notes)
@@ -744,4 +737,7 @@ def request_booking_cancel(request, pk):
         messages.success(request, "Solicitud de cancelación enviada al guía.")
         return redirect("bookings:traveler_list")
 
-    return render(request, "bookings/request_cancel.html", {"booking": booking})
+    return render(request, "bookings/request_cancel.html", {
+        "booking": booking,
+        "show_free_cancel": can_cancel_free(booking),
+    })

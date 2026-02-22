@@ -31,6 +31,12 @@ class ExperienceAvailability(models.Model):
         help_text="Máximo de excursiones (reservas aceptadas) por día. Vacío = sin límite.",
     )
 
+    max_people_per_booking = models.PositiveIntegerField(
+        blank=True,
+        null=True,
+        help_text="Máximo de personas por excursión (reserva). Vacío = sin límite.",
+    )
+
     is_enabled = models.BooleanField(default=True)
     updated_at = models.DateTimeField(auto_now=True)
 

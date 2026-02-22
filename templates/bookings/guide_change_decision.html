@@ -3,55 +3,206 @@
 
 {% block dashboard_content %}
 <div class="flex flex-col gap-6">
+
+  <!-- Header -->
   <div>
-   <h1 class="h1-page">Solicitud de cambio</h1>
-    <p class="mt-1 p-muted">Compara la reserva actual con la propuesta.</p>
+    <h1 class="h1-page">Solicitud de cambio</h1>
+    <p class="mt-1 p-muted">
+      Compara la reserva actual con la propuesta del viajero.
+    </p>
   </div>
 
+  <!-- Comparativa -->
   <div class="grid gap-6 lg:grid-cols-2">
+
+    <!-- Reserva actual -->
     <div class="card">
       <div class="card-body">
         <h2 class="h2-section">Reserva actual</h2>
-        <div class="mt-3 flex flex-wrap gap-2">
+
+        <div class="mt-4 flex flex-wrap gap-2">
           <span class="badge hover-lift">📅 {{ booking.date }}</span>
           <span class="badge hover-lift">👥 {{ booking.people }} pax</span>
-          <span class="badge hover-lift">🚐 {{ booking.get_transport_mode_display }}</span>
-          <span class="badge hover-lift">📍 {{ booking.pickup_notes }}</span>
+          <span class="badge hover-lift">
+            🚗 {{ booking.get_transport_mode_display }}
+          </span>
+          <span class="badge hover-lift">
+            📍 {{ booking.pickup_notes|default:"Por concretar" }}
+          </span>
         </div>
       </div>
     </div>
 
+    <!-- Cambio solicitado -->
     <div class="card">
       <div class="card-body">
         <h2 class="h2-section">Cambio solicitado</h2>
+
         {% with cr=booking.extras.change_request %}
-          <div class="mt-3 flex flex-wrap gap-2">
-            <span class="badge hover-lift">📅 {{ cr.date }}</span>
-            <span class="badge hover-lift">👤 {{ cr.adults }} / 🧒 {{ cr.children }} / 👶 {{ cr.infants }}</span>
-            <span class="badge hover-lift">🚐 {{ cr.transport_mode }}</span>
-            <span class="badge hover-lift">📍 {{ cr.pickup_notes }}</span>
-          </div>
+          {% if cr %}
+            <div class="mt-4 flex flex-wrap gap-2">
+
+              {% if cr.date %}
+                <span class="badge hover-lift">📅 {{ cr.date }}</span>
+              {% endif %}
+
+              <span class="badge hover-lift">
+                👤 {{ cr.adults|default:0 }}
+                / 🧒 {{ cr.children|default:0 }}
+                / 👶 {{ cr.infants|default:0 }}
+              </span>
+
+              {# 🚗 Transporte ya NO se puede cambiar #}
+              <span class="badge hover-lift">
+                🚗 {{ booking.get_transport_mode_display }}
+              </span>
+
+              {% if cr.pickup_notes %}
+                <span class="badge hover-lift">
+                  📍 {{ cr.pickup_notes }}
+                </span>
+              {% endif %}
+            </div>
+          {% else %}
+            <p class="p-muted mt-3">
+              No se encontraron datos de cambio.
+            </p>
+          {% endif %}
         {% endwith %}
       </div>
     </div>
-  </div> 
 
+  </div>
+
+  <!-- Acciones -->
   <div class="card">
     <div class="card-body">
       <div class="flex flex-wrap gap-2">
+
         <form method="post" action="{% url 'bookings:guide_change_decide' booking.pk 'accept' %}">
           {% csrf_token %}
-          <button class="btn btn-primary" type="submit">Aceptar cambio</button>
+          <button class="btn btn-primary" type="submit">
+            Aceptar cambio
+          </button>
         </form>
 
         <form method="post" action="{% url 'bookings:guide_change_decide' booking.pk 'reject' %}">
           {% csrf_token %}
-          <button class="btn btn-ghost" type="submit">Rechazar</button>
+          <button class="btn btn-ghost" type="submit">
+            Rechazar
+          </button>
         </form>
 
-        <a class="btn btn-ghost" href="{% url 'bookings:detail' booking.pk %}">Ver detalle</a>
+        <a class="btn btn-ghost" href="{% url 'bookings:detail' booking.pk %}">
+          Ver detalle
+        </a>
+
       </div>
     </div>
   </div>
+
+</div>
+{% endblock %}{% extends "layouts/dashboard_base.html" %}
+{% block title %}Revisar cambio{% endblock %}
+
+{% block dashboard_content %}
+<div class="flex flex-col gap-6">
+
+  <!-- Header -->
+  <div>
+    <h1 class="h1-page">Solicitud de cambio</h1>
+    <p class="mt-1 p-muted">
+      Compara la reserva actual con la propuesta del viajero.
+    </p>
+  </div>
+
+  <!-- Comparativa -->
+  <div class="grid gap-6 lg:grid-cols-2">
+
+    <!-- Reserva actual -->
+    <div class="card">
+      <div class="card-body">
+        <h2 class="h2-section">Reserva actual</h2>
+
+        <div class="mt-4 flex flex-wrap gap-2">
+          <span class="badge hover-lift">📅 {{ booking.date }}</span>
+          <span class="badge hover-lift">👥 {{ booking.people }} pax</span>
+          <span class="badge hover-lift">
+            🚗 {{ booking.get_transport_mode_display }}
+          </span>
+          <span class="badge hover-lift">
+            📍 {{ booking.pickup_notes|default:"Por concretar" }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cambio solicitado -->
+    <div class="card">
+      <div class="card-body">
+        <h2 class="h2-section">Cambio solicitado</h2>
+
+        {% with cr=booking.extras.change_request %}
+          {% if cr %}
+            <div class="mt-4 flex flex-wrap gap-2">
+
+              {% if cr.date %}
+                <span class="badge hover-lift">📅 {{ cr.date }}</span>
+              {% endif %}
+
+              <span class="badge hover-lift">
+                👤 {{ cr.adults|default:0 }}
+                / 🧒 {{ cr.children|default:0 }}
+                / 👶 {{ cr.infants|default:0 }}
+              </span>
+
+              <span class="badge hover-lift">
+                🚗 {{ booking.get_transport_mode_display }}
+              </span>
+
+              {% if cr.pickup_notes %}
+                <span class="badge hover-lift">
+                  📍 {{ cr.pickup_notes }}
+                </span>
+              {% endif %}
+            </div>
+          {% else %}
+            <p class="p-muted mt-3">
+              No se encontraron datos de cambio.
+            </p>
+          {% endif %}
+        {% endwith %}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Acciones -->
+  <div class="card">
+    <div class="card-body">
+      <div class="flex flex-wrap gap-2">
+
+        <form method="post" action="{% url 'bookings:guide_change_decide' booking.pk 'accept' %}">
+          {% csrf_token %}
+          <button class="btn btn-primary" type="submit">
+            Aceptar cambio
+          </button>
+        </form>
+
+        <form method="post" action="{% url 'bookings:guide_change_decide' booking.pk 'reject' %}">
+          {% csrf_token %}
+          <button class="btn btn-ghost" type="submit">
+            Rechazar
+          </button>
+        </form>
+
+        <a class="btn btn-ghost" href="{% url 'bookings:detail' booking.pk %}">
+          Ver detalle
+        </a>
+
+      </div>
+    </div>
+  </div>
+
 </div>
 {% endblock %}

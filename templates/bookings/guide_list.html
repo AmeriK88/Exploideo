@@ -47,7 +47,19 @@
                     <span class="badge badge-neutral hover-lift">🧒 {{ b.children }} niños</span>
                     <span class="badge badge-neutral hover-lift">👶 {{ b.infants }} bebés</span>
 
-                    <span class="badge badge-neutral hover-lift">🚐 {{ b.get_transport_mode_display }}</span>
+                    {# Transporte: viene fijado por la experience (snapshot en booking) #}
+                    <span class="badge badge-neutral hover-lift">
+                      {% if b.transport_mode == "own_vehicle" %}
+                        🚗
+                      {% elif b.transport_mode == "bicycle" %}
+                        🚲
+                      {% elif b.transport_mode == "on_foot" or b.transport_mode == "by foot" %}
+                        🥾
+                      {% else %}
+                        🧭
+                      {% endif %}
+                      {{ b.get_transport_mode_display }}
+                    </span>
 
                     {% if b.pickup_notes %}
                       <span class="badge badge-neutral hover-lift">📍 {{ b.pickup_notes }}</span>
@@ -82,12 +94,8 @@
                           {% if cr.adults is not None %}<span class="badge badge-neutral hover-lift">👤 {{ cr.adults }} adultos</span>{% endif %}
                           {% if cr.children is not None %}<span class="badge badge-neutral hover-lift">🧒 {{ cr.children }} niños</span>{% endif %}
                           {% if cr.infants is not None %}<span class="badge badge-neutral hover-lift">👶 {{ cr.infants }} bebés</span>{% endif %}
-                          {% if cr.transport_mode_label %}
-                            <span class="badge badge-neutral hover-lift">🚐 {{ cr.transport_mode_label }}</span>
-                          {% elif cr.transport_mode %}
-                            <span class="badge badge-neutral hover-lift">🚐 {{ cr.transport_mode }}</span>
-                          {% endif %}
                           {% if cr.pickup_notes %}<span class="badge badge-neutral hover-lift">📍 {{ cr.pickup_notes }}</span>{% endif %}
+                          {# Transporte ya NO se muestra aquí porque no es parte del cambio #}
                         </div>
                       {% endwith %}
                     </div>
@@ -173,6 +181,7 @@
                     {% endwith %}
                   </div>
                 </div>
+
               </div>
             </div>
           </div>

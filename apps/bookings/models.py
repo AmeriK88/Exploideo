@@ -32,9 +32,11 @@ class Booking(models.Model):
     
     class TransportMode(models.TextChoices):
         OWN_VEHICLE = "own_vehicle", "Vehículo propio"
-        MINIBUS = "minibus", "Minibus (recogida)"
-        BICICLE = "bicycle", "Bicicleta"
-        OTHER = "by foot", "A pie"
+        BICYCLE = "bicycle", "Bicicleta"
+        ON_FOOT = "on_foot", "A pie"
+
+        # 👇 Mantén esto SOLO si quieres mostrar reservas antiguas sin romper display
+        MINIBUS = "minibus", "Minibus (legacy)"
 
     class Status(models.TextChoices):
         PENDING = "pending", "Pending"

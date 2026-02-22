@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 
 
+
 class Category(models.Model):
     name = models.CharField(max_length=80, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
@@ -27,6 +28,17 @@ class Experience(models.Model):
         null=True,
         blank=True,
         related_name="experiences",
+    )
+
+    class TransportRequirement(models.TextChoices):
+        OWN_VEHICLE = "own_vehicle", "Vehículo propio"
+        BICYCLE = "bicycle", "Bicicleta"
+        ON_FOOT = "on_foot", "A pie"
+
+    transport_requirement = models.CharField(
+        max_length=20,
+        choices=TransportRequirement.choices,
+        default=TransportRequirement.ON_FOOT,
     )
 
     title = models.CharField(max_length=200)

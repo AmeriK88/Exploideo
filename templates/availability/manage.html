@@ -8,84 +8,151 @@
     <!-- Header -->
     <div>
       <h1 class="h1-page">Disponibilidad</h1>
-        <p class="mt-1 p-muted">
-          Gestiona reglas y bloqueos para la experiencia:
-          <span class="p-secondary">{{ experience.title }}</span>
-        </p>
+      <p class="mt-1 p-muted">
+        Gestiona reglas y bloqueos para la experiencia:
+        <span class="p-secondary">{{ experience.title }}</span>
+      </p>
+      <p class="mt-2 text-xs text-slate-600">
+        Consejo: usa <b>Excursiones/día</b> para limitar cuántos tours haces al día, <b>Personas/día</b> para el cupo total diario
+        y <b>Máx/Excursión</b> para limitar el tamaño de cada grupo.
+      </p>
     </div>
 
     <div class="grid gap-6 lg:grid-cols-2">
-      <!-- Reglas -->
+
+      <!-- ===================== REGLAS ===================== -->
       <div class="card">
         <div class="card-body">
           <h2 class="h2-section">Reglas</h2>
           <p class="mt-1 p-muted">
-            Define días permitidos, rango y límites diarios.
+            Define días permitidos, rango y límites.
           </p>
 
           <form method="post" class="mt-5 space-y-5">
             {% csrf_token %}
 
+            {# Errores generales (non-field) #}
+            {% if form.non_field_errors %}
+              <div class="form-error" role="alert">
+                {{ form.non_field_errors|striptags }}
+              </div>
+            {% endif %}
+
             {# is_enabled #}
-            <div>
+            <div class="content-box">
               <label class="label">{{ form.is_enabled.label }}</label>
-              {{ form.is_enabled }}
-              {% if form.is_enabled.help_text %}<p class="help">{{ form.is_enabled.help_text|safe }}</p>{% endif %}
-              {% if form.is_enabled.errors %}<p class="field-error">{{ form.is_enabled.errors|striptags }}</p>{% endif %}
+              <div class="mt-2">
+                {{ form.is_enabled }}
+              </div>
+              {% if form.is_enabled.help_text %}
+                <p class="help">{{ form.is_enabled.help_text|safe }}</p>
+              {% endif %}
+              {% if form.is_enabled.errors %}
+                <p class="field-error">{{ form.is_enabled.errors|striptags }}</p>
+              {% endif %}
             </div>
 
             {# rango #}
-            <div class="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label class="label">{{ form.start_date.label }}</label>
-                {{ form.start_date|add_class:"input" }}
-                {% if form.start_date.errors %}<p class="field-error">{{ form.start_date.errors|striptags }}</p>{% endif %}
-              </div>
-              <div>
-                <label class="label">{{ form.end_date.label }}</label>
-                {{ form.end_date|add_class:"input" }}
-                {% if form.end_date.errors %}<p class="field-error">{{ form.end_date.errors|striptags }}</p>{% endif %}
+            <div class="content-box">
+              <h3 class="text-sm font-semibold text-slate-900">Rango de fechas</h3>
+              <p class="mt-1 text-xs text-slate-600">
+                Opcional. Si lo dejas vacío, se permite reservar cualquier fecha (salvo bloqueos).
+              </p>
+
+              <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label class="label">{{ form.start_date.label }}</label>
+                  {{ form.start_date|add_class:"input" }}
+                  {% if form.start_date.errors %}
+                    <p class="field-error">{{ form.start_date.errors|striptags }}</p>
+                  {% endif %}
+                </div>
+                <div>
+                  <label class="label">{{ form.end_date.label }}</label>
+                  {{ form.end_date|add_class:"input" }}
+                  {% if form.end_date.errors %}
+                    <p class="field-error">{{ form.end_date.errors|striptags }}</p>
+                  {% endif %}
+                </div>
               </div>
             </div>
 
             {# capacidad #}
             <div class="content-box">
-              <h3 class="text-sm font-semibold text-slate-900">Capacidad diaria</h3>
+              <h3 class="text-sm font-semibold text-slate-900">Capacidad</h3>
               <p class="mt-1 text-xs text-slate-600">
-                Puedes limitar por <b>personas</b>, por <b>número de excursiones</b>, o ambas.
-                (Vacío = sin límite)
+                Puedes limitar <b>máximo por excursión</b>, <b>personas por día</b>, <b>excursiones por día</b>, o combinar.
+                <span class="text-slate-500">(Vacío = sin límite)</span>
               </p>
 
-              <div class="mt-4 grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label class="label">{{ form.daily_capacity_people.label }}</label>
-                  {{ form.daily_capacity_people|add_class:"input" }}
-                  {% if form.daily_capacity_people.help_text %}<p class="help">{{ form.daily_capacity_people.help_text|safe }}</p>{% endif %}
-                  {% if form.daily_capacity_people.errors %}<p class="field-error">{{ form.daily_capacity_people.errors|striptags }}</p>{% endif %}
+              <div class="mt-4 grid gap-4 sm:grid-cols-3">
+                <!-- ✅ NUEVO: Máx por excursión -->
+                <div class="sm:col-span-1">
+                  <label class="label">{{ form.max_people_per_booking.label }}</label>
+                  {{ form.max_people_per_booking|add_class:"input" }}
+                  <p class="mt-1 text-xs text-slate-600">
+                    Límite por <b>reserva/tour</b>. Ej: 10 = cada tour máximo 10 pax.
+                  </p>
+                  {% if form.max_people_per_booking.help_text %}
+                    <p class="help">{{ form.max_people_per_booking.help_text|safe }}</p>
+                  {% endif %}
+                  {% if form.max_people_per_booking.errors %}
+                    <p class="field-error">{{ form.max_people_per_booking.errors|striptags }}</p>
+                  {% endif %}
                 </div>
 
-                <div>
+                <div class="sm:col-span-1">
+                  <label class="label">{{ form.daily_capacity_people.label }}</label>
+                  {{ form.daily_capacity_people|add_class:"input" }}
+                  <p class="mt-1 text-xs text-slate-600">
+                    Cupo total de personas sumadas entre reservas <b>aceptadas</b> ese día.
+                  </p>
+                  {% if form.daily_capacity_people.help_text %}
+                    <p class="help">{{ form.daily_capacity_people.help_text|safe }}</p>
+                  {% endif %}
+                  {% if form.daily_capacity_people.errors %}
+                    <p class="field-error">{{ form.daily_capacity_people.errors|striptags }}</p>
+                  {% endif %}
+                </div>
+
+                <div class="sm:col-span-1">
                   <label class="label">{{ form.daily_capacity_bookings.label }}</label>
                   {{ form.daily_capacity_bookings|add_class:"input" }}
-                  {% if form.daily_capacity_bookings.help_text %}<p class="help">{{ form.daily_capacity_bookings.help_text|safe }}</p>{% endif %}
-                  {% if form.daily_capacity_bookings.errors %}<p class="field-error">{{ form.daily_capacity_bookings.errors|striptags }}</p>{% endif %}
+                  <p class="mt-1 text-xs text-slate-600">
+                    Máximo de reservas <b>aceptadas</b> (excursiones) ese día.
+                  </p>
+                  {% if form.daily_capacity_bookings.help_text %}
+                    <p class="help">{{ form.daily_capacity_bookings.help_text|safe }}</p>
+                  {% endif %}
+                  {% if form.daily_capacity_bookings.errors %}
+                    <p class="field-error">{{ form.daily_capacity_bookings.errors|striptags }}</p>
+                  {% endif %}
                 </div>
               </div>
             </div>
 
             {# weekdays #}
-            <div>
+            <div class="content-box">
               <label class="label">{{ form.weekdays.label }}</label>
-              <div class="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+              <p class="mt-1 text-xs text-slate-600">
+                Si no marcas nada, se permitirán todos los días.
+              </p>
+
+              <div class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
                 {% for cb in form.weekdays %}
-                  <label class="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm">
+                  <label class="flex cursor-pointer select-none items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm hover:bg-slate-50">
                     {{ cb.tag }}
                     <span class="text-slate-700">{{ cb.choice_label }}</span>
                   </label>
                 {% endfor %}
               </div>
-              {% if form.weekdays.help_text %}<p class="help">{{ form.weekdays.help_text|safe }}</p>{% endif %}
-              {% if form.weekdays.errors %}<p class="field-error">{{ form.weekdays.errors|striptags }}</p>{% endif %}
+
+              {% if form.weekdays.help_text %}
+                <p class="help">{{ form.weekdays.help_text|safe }}</p>
+              {% endif %}
+              {% if form.weekdays.errors %}
+                <p class="field-error">{{ form.weekdays.errors|striptags }}</p>
+              {% endif %}
             </div>
 
             <button type="submit" class="btn btn-primary w-full">
@@ -95,7 +162,7 @@
         </div>
       </div>
 
-      <!-- Bloqueos -->
+      <!-- ===================== BLOQUEOS ===================== -->
       <div class="card">
         <div class="card-body">
           <h2 class="h2-section">Bloqueos por fecha</h2>
@@ -105,6 +172,12 @@
 
           <form method="post" action="{% url 'availability:add_block' experience.id %}" class="mt-5 space-y-4">
             {% csrf_token %}
+
+            {% if block_form.non_field_errors %}
+              <div class="form-error" role="alert">
+                {{ block_form.non_field_errors|striptags }}
+              </div>
+            {% endif %}
 
             {% for field in block_form %}
               <div>
@@ -137,6 +210,8 @@
                       <p class="label-title">{{ b.date }}</p>
                       {% if b.reason %}
                         <p class="mt-1 p-muted">{{ b.reason }}</p>
+                      {% else %}
+                        <p class="mt-1 text-xs text-slate-500">Sin motivo</p>
                       {% endif %}
                     </div>
 
@@ -153,6 +228,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 {% endblock %}

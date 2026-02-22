@@ -10,77 +10,81 @@ class BookingForm(forms.ModelForm):
     def __init__(self, *args, experience=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.experience = experience
+
+        # Idioma obligatorio + mantiene el "Selecciona un idioma"
         self.fields["preferred_language"].choices = list(self.fields["preferred_language"].choices)
         self.fields["preferred_language"].required = True
-        self.fields["pickup_notes"].label = "Lugar de encuentro / recogida"
-        self.fields["pickup_notes"].help_text = "Minibus: hotel/zona. Vehículo propio/a pie/bici: dónde quedas con el guía."
+
+        # --- Pickup / meeting notes: depende del transporte que requiere la experience ---
+        self.fields["pickup_notes"].label = "Tu ubicación o referencia"  
+        transport = getattr(experience, "transport_requirement", None)
+
+        if transport == "own_vehicle":
+            self.fields["pickup_notes"].help_text = "Indica dónde quedas con el guía (parking, punto exacto, etc.)."
+            self.fields["pickup_notes"].widget.attrs["placeholder"] = "Ej: Parking Mirador del Río / Gasolinera X"
+        elif transport == "bicycle":
+            self.fields["pickup_notes"].help_text = "Indica el punto de encuentro para comenzar la ruta en bici."
+            self.fields["pickup_notes"].widget.attrs["placeholder"] = "Ej: Plaza central / Tienda de bicis X"
+        else:  # on_foot o cualquier otro
+            self.fields["pickup_notes"].help_text = "Indica el punto de encuentro para iniciar la experiencia."
+            self.fields["pickup_notes"].widget.attrs["placeholder"] = "Ej: Entrada principal / Punto exacto en Maps"
 
     class Meta:
         model = Booking
-        fields = ["date", "adults", "children", "infants", "transport_mode", "pickup_notes", "preferred_language", "notes"]
+        fields = ["date", "adults", "children", "infants", "pickup_notes", "preferred_language", "notes"]
         widgets = {
             "date": forms.DateInput(attrs={"type": "date"}),
-            "notes": forms.Textarea(attrs={"rows": 3, "placeholder": "Opcional: alergias, ritmo, restricciones, necesidades, etc."}),
-            "pickup_notes": forms.TextInput(attrs={"placeholder": "Hotel, calle, punto exacto (si minibus: hotel/zona)"}),
+            "notes": forms.Textarea(attrs={
+                "rows": 3,
+                "placeholder": "Opcional: alergias, ritmo, restricciones, necesidades, etc."
+            }),
+            "pickup_notes": forms.TextInput(),
         }
 
     def clean(self):
-            cleaned = super().clean()
+        cleaned = super().clean()
 
-            adults = cleaned.get("adults") or 0
-            children = cleaned.get("children") or 0
-            infants = cleaned.get("infants") or 0
+        adults = cleaned.get("adults") or 0
+        children = cleaned.get("children") or 0
+        infants = cleaned.get("infants") or 0
 
-            if adults <= 0:
-                self.add_error("adults", "Debe haber al menos 1 adulto.")
+        if adults <= 0:
+            self.add_error("adults", "Debe haber al menos 1 adulto.")
 
-            people = adults + children + infants
-            if people <= 0:
-                raise forms.ValidationError("Debes indicar al menos 1 persona.")
+        people = adults + children + infants
+        if people <= 0:
+            raise forms.ValidationError("Debes indicar al menos 1 persona.")
 
-            date = cleaned.get("date")
-            if date:
-                today = timezone.localdate()
-                if date < today:
-                    self.add_error("date", "No puedes reservar en una fecha pasada.")
+        date_value = cleaned.get("date")
+        if date_value:
+            today = timezone.localdate()
 
-                # NO hoy ni mañana
-                if date <= today + timezone.timedelta(days=1):
-                    self.add_error(
-                        "date",
-                        "No se permiten reservas para hoy ni para mañana. Elige una fecha a partir de pasado mañana."
-                    )
-                
-            if not cleaned.get("preferred_language"):
-                self.add_error("preferred_language", "Selecciona el idioma preferido para la experiencia.")
+            if date_value < today:
+                self.add_error("date", "No puedes reservar en una fecha pasada.")
+
+            if date_value <= today + timedelta(days=1):
+                self.add_error(
+                    "date",
+                    "No se permiten reservas con menos de 24 hrs de antelación."
+                )
 
             # Disponibilidad
-            if self.experience and date:
-                ok, msg = is_date_available(self.experience, date, people)
+            if self.experience:
+                ok, msg = is_date_available(self.experience, date_value, people)
                 if not ok:
                     self.add_error("date", msg)
 
-            # Pickup requerido si necesita minibus
-            transport_mode = cleaned.get("transport_mode")
-            pickup_notes = (cleaned.get("pickup_notes") or "").strip()
+        if not cleaned.get("preferred_language"):
+            self.add_error("preferred_language", "Selecciona el idioma preferido para la experiencia.")
 
-            if transport_mode == Booking.TransportMode.MINIBUS:
-                if not pickup_notes:
-                    self.add_error(
-                        "pickup_notes",
-                        "Si necesitas minibus, indica tu hotel/zona para coordinar la recogida."
-                    )
-            else:
-                if not pickup_notes:
-                    self.add_error(
-                        "pickup_notes",
-                        "Indica dónde quieres quedar con el guía (hotel, calle, punto exacto)."
-                    )
-            if self.errors:
-                raise forms.ValidationError("Revisa el formulario: hay campos con errores.")
+        pickup_notes = (cleaned.get("pickup_notes") or "").strip()
+        if not pickup_notes:
+            self.add_error("pickup_notes", "Indica el punto de encuentro (lo concretarás con el guía si hace falta).")
 
-            return cleaned
+        if self.errors:
+            raise forms.ValidationError("Revisa el formulario: hay campos con errores.")
 
+        return cleaned
 
 
 class BookingDecisionForm(forms.ModelForm):
@@ -129,8 +133,7 @@ class BookingDecisionForm(forms.ModelForm):
 class BookingChangeRequestForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = ["date", "adults", "children", "infants", "transport_mode",
-                  "pickup_notes", "preferred_language", "notes"]
+        fields = ["date", "adults", "children", "infants", "pickup_notes", "preferred_language", "notes"]
         widgets = {
             "date": forms.DateInput(attrs={"type": "date"}),
             "notes": forms.Textarea(attrs={"rows": 3}),

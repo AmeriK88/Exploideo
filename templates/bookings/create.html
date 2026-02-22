@@ -1,143 +1,151 @@
-  {% extends "layouts/base.html" %}
-  {% load form_tags %}
+{% extends "layouts/base.html" %}
+{% load form_tags %}
 
-  {% block title %}Reservar{% endblock %}
+{% block title %}Reservar{% endblock %}
 
-  {% block content %}
-    <div class="mx-auto max-w-lg">
-      <div class="card">
-        <div class="card-body">
-          <h1 class="h1-page">Reservar experiencia</h1>
+{% block content %}
+  <div class="mx-auto max-w-lg">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="h1-page">Reservar experiencia</h1>
+        <p class="mt-1 p-muted">
+          {{ experience.title }}
+        </p>
+
+        <form method="post" class="mt-6 space-y-6">
+          {% csrf_token %}
+
+          {% if form.non_field_errors %}
+            <div class="form-error" role="alert">
+              {{ form.non_field_errors|striptags }}
+            </div>
+          {% endif %}
+
+          <!-- Fecha -->
+          <div>
+            <h2 class="label-title">1) Fecha</h2>
+            <p class="mt-1 p-muted">Elige el día en que quieres hacer la experiencia.</p>
+
+            <div class="mt-4">
+              <label class="label">{{ form.date.label }}</label>
+
+              {{ form.date|add_class:"input js-booking-date" }}
+
+              <div id="booking-calendar-config"
+                   data-disabled-dates-url="{% url 'availability:experience_disabled_dates' experience.id %}">
+              </div>
+
+              {% if form.date.help_text %}
+                <p class="help-secondary">{{ form.date.help_text|safe }}</p>
+              {% endif %}
+
+              {% if form.date.errors %}
+                <p class="field-error">{{ form.date.errors|striptags }}</p>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Personas -->
+          <div class="panel-soft">
+            <h2 class="label-title">2) Personas</h2>
             <p class="mt-1 p-muted">
-              {{ experience.title }}
+              Adultos (precio completo), niños (50%) y bebés (gratis).
             </p>
 
-          <form method="post" class="mt-6 space-y-6">
-            {% csrf_token %}
-            {% if form.non_field_errors %}
-              <div class="form-error" role="alert">
-                {{ form.non_field_errors|striptags }}
+            <div class="mt-4 grid gap-4 sm:grid-cols-3">
+              <div>
+                <label class="label">{{ form.adults.label }}</label>
+                {{ form.adults|add_class:"input" }}
+                {% if form.adults.errors %}<p class="field-error">{{ form.adults.errors|striptags }}</p>{% endif %}
               </div>
-            {% endif %}
 
-            <!-- Fecha -->
-            <div>
-              <h2 class="label-title">1) Fecha</h2>
-              <p class="mt-1 p-muted">Elige el día en que quieres hacer la experiencia.</p>
+              <div>
+                <label class="label">{{ form.children.label }}</label>
+                {{ form.children|add_class:"input" }}
+                {% if form.children.errors %}<p class="field-error">{{ form.children.errors|striptags }}</p>{% endif %}
+              </div>
 
-              <div class="mt-4">
-                <label class="label">{{ form.date.label }}</label>
-
-                {{ form.date|add_class:"input js-booking-date" }}
-
-                <div id="booking-calendar-config"
-                    data-disabled-dates-url="{% url 'availability:experience_disabled_dates' experience.id %}">
-                </div>
-
-                {% if form.date.help_text %}
-                  <p class="help-secondary">{{ form.date.help_text|safe }}</p>
-                {% endif %}
-
-                {% if form.date.errors %}
-                  <p class="field-error">{{ form.date.errors|striptags }}</p>
-                {% endif %}
+              <div>
+                <label class="label">{{ form.infants.label }}</label>
+                {{ form.infants|add_class:"input" }}
+                {% if form.infants.errors %}<p class="field-error">{{ form.infants.errors|striptags }}</p>{% endif %}
               </div>
             </div>
+          </div>
 
-            <!-- Personas -->
-            <div class="panel-soft">
-              <h2 class="label-title">2) Personas</h2>
-              <p class="mt-1 p-muted">
-                Adultos (precio completo), niños (50%) y bebés (gratis).
+          <!-- Desplazamiento + Localización cliente -->
+          <div class="panel-soft">
+            <h2 class="label-title">3) Desplazamiento y localización</h2>
+            <p class="mt-1 p-muted">
+              Punto de encuentro según tu alojamiento. Indica dónde te hospedas para que el guía organice el punto de inicio.
+            </p>
+
+            <div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+              {% if experience.transport_requirement == "own_vehicle" %}
+                🚗
+              {% elif experience.transport_requirement == "bicycle" %}
+                🚲
+              {% else %}
+                🥾
+              {% endif %}
+              Desplazamiento requerido:
+              <span class="font-semibold text-slate-900">
+                {{ experience.get_transport_requirement_display }}
+              </span>
+            </div>
+
+            <div class="mt-4">
+              <label class="label-title">{{ form.pickup_notes.label }}</label>
+              {{ form.pickup_notes|add_class:"input" }}
+              <p class="help-secondary">
+                Ej: “Arrecife centro”, “Lobby Hotel X”, “Entrada de la playa”.
               </p>
-
-              <div class="mt-4 grid gap-4 sm:grid-cols-3">
-                <div>
-                  <label class="label">{{ form.adults.label }}</label>
-                  {{ form.adults|add_class:"input" }}
-                  {% if form.adults.errors %}<p class="field-error">{{ form.adults.errors|striptags }}</p>{% endif %}
-                </div>
-
-                <div>
-                  <label class="label">{{ form.children.label }}</label>
-                  {{ form.children|add_class:"input" }}
-                  {% if form.children.errors %}<p class="field-error">{{ form.children.errors|striptags }}</p>{% endif %}
-                </div>
-
-                <div>
-                  <label class="label">{{ form.infants.label }}</label>
-                  {{ form.infants|add_class:"input" }}
-                  {% if form.infants.errors %}<p class="field-error">{{ form.infants.errors|striptags }}</p>{% endif %}
-                </div>
-              </div>
+              {% if form.pickup_notes.errors %}<p class="field-error">{{ form.pickup_notes.errors|striptags }}</p>{% endif %}
             </div>
+          </div>
 
-            <!-- Transporte -->
-            <div class="panel-soft ">
-              <h2 class="label-title">3) Transporte</h2>
-              <p class="mt-1 p-muted">
-                Indica si necesitas minibus o si vas por tu cuenta.
-              </p>
+          <!-- Idioma preferido -->
+          <div class="panel-soft">
+            <h2 class="label-title">4) Idioma</h2>
+            <p class="mt-1 p-muted">
+              Elige el idioma en el que quieres realizar la experiencia.
+            </p>
 
-              <div class="mt-4">
-                <label class="label">{{ form.transport_mode.label }}</label>
-                {{ form.transport_mode|add_class:"input" }}
-                {% if form.transport_mode.errors %}<p class="field-error">{{ form.transport_mode.errors|striptags }}</p>{% endif %}
-              </div>
+            <div class="mt-4">
+              <label class="label">{{ form.preferred_language.label }}</label>
+              {{ form.preferred_language|add_class:"input" }}
 
-              <div class="mt-4">
-                <label class="label">{{ form.pickup_notes.label }}</label>
-                {{ form.pickup_notes|add_class:"input" }}
-                <p class="help-secondary">
-                  Ej: “Hotel en Costa Teguise”, “Arrecife centro”, “Punto X”.
-                </p>
-                {% if form.pickup_notes.errors %}<p class="field-error">{{ form.pickup_notes.errors|striptags }}</p>{% endif %}
-              </div>
+              <p class="help-secondary">Ayuda al guía a preparar la experiencia.</p>
+
+              {% if form.preferred_language.errors %}
+                <p class="field-error">{{ form.preferred_language.errors|striptags }}</p>
+              {% endif %}
             </div>
+          </div>
 
-            <!-- Idioma preferido -->
-            <div class="panel-soft ">
-              <h2 class="label-title">4) Idioma</h2>
-              <p class="mt-1 p-muted">
-                Elige el idioma en el que quieres realizar la experiencia.
-              </p>
+          <!-- Notas -->
+          <div class="panel-soft">
+            <h2 class="label-title">5) Comentarios</h2>
+            <p class="mt-1 p-muted">
+              Cuenta cualquier detalle importante (ritmo, restricciones, alergias, necesidades, etc.).
+            </p>
 
-              <div class="mt-4">
-                <label class="label">{{ form.preferred_language.label }}</label>
-                {{ form.preferred_language|add_class:"input" }}
-
-                <p class="help-secondary">Ayuda al guía a preparar la experiencia.</p>
-
-                {% if form.preferred_language.errors %}
-                  <p class="field-error">{{ form.preferred_language.errors|striptags }}</p>
-                {% endif %}
-              </div>
+            <div class="mt-4">
+              <label class="label">{{ form.notes.label }}</label>
+              {{ form.notes|add_class:"input" }}
+              {% if form.notes.errors %}<p class="field-error">{{ form.notes.errors|striptags }}</p>{% endif %}
             </div>
+          </div>
 
+          <button type="submit" class="btn btn-primary w-full">
+            Enviar reserva
+          </button>
 
-            <!-- Notas -->
-            <div class="panel-soft ">
-              <h2 class="label-title">4) Comentarios</h2>
-              <p class="mt-1 p-muted">
-                Cuenta cualquier detalle importante (ritmo, restricciones, alergias, necesidades, etc.).
-              </p>
-
-              <div class="mt-4">
-                <label class="label">{{ form.notes.label }}</label>
-                {{ form.notes|add_class:"input" }}
-                {% if form.notes.errors %}<p class="field-error">{{ form.notes.errors|striptags }}</p>{% endif %}
-              </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-full">
-              Enviar reserva
-            </button>
-
-            <div class="help-secondary">
-              Al enviar la solicitud aceptas las condiciones de la experiencia y las políticas de cancelación.
-            </div>
-          </form>
-        </div>
+          <div class="help-secondary">
+            Al enviar la solicitud aceptas las condiciones de la experiencia y las políticas de cancelación.
+          </div>
+        </form>
       </div>
     </div>
-  {% endblock %}
+  </div>
+{% endblock %}

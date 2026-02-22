@@ -14,6 +14,25 @@
 
   <div class="card">
     <div class="card-body">
+
+      {# Info del transporte (ya no editable) #}
+      <div class="mb-4 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+        {% if booking.experience.transport_requirement == "own_vehicle" %}
+          🚗
+        {% elif booking.experience.transport_requirement == "bicycle" %}
+          🚲
+        {% else %}
+          🥾
+        {% endif %}
+        Desplazamiento requerido:
+        <span class="font-semibold text-slate-900">
+          {{ booking.experience.get_transport_requirement_display }}
+        </span>
+        <span class="text-slate-500">
+          (no se puede modificar en la solicitud)
+        </span>
+      </div>
+
       <form method="post" class="grid gap-4 sm:grid-cols-2">
         {% csrf_token %}
 
@@ -66,18 +85,9 @@
           {% endif %}
         </div>
 
-        <!-- Transporte -->
-        <div>
-          <label class="label">Transporte</label>
-          {{ form.transport_mode|add_class:"input" }}
-          {% if form.transport_mode.errors %}
-            <p class="field-error">{{ form.transport_mode.errors|striptags }}</p>
-          {% endif %}
-        </div>
-
-        <!-- Recogida -->
+        <!-- Punto de encuentro -->
         <div class="sm:col-span-2">
-          <label class="label">Lugar de encuentro / recogida</label>
+          <label class="label">Punto de encuentro</label>
           {{ form.pickup_notes|add_class:"input" }}
           {% if form.pickup_notes.errors %}
             <p class="field-error">{{ form.pickup_notes.errors|striptags }}</p>
