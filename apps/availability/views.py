@@ -87,6 +87,19 @@ def experience_disabled_dates(request, experience_id):
     if not start or not end or start > end:
         return JsonResponse({"error": "Invalid range"}, status=400)
 
+    # 👇 EARLY CHECK: max por reserva (no depende de la fecha)
+    try:
+        availability = ExperienceAvailability.objects.get(experience=experience)
+        max_per_booking = availability.max_people_per_booking
+        if max_per_booking is not None and people > max_per_booking:
+            return JsonResponse({
+                "disabled": [],
+                "blocked_by": "max_per_booking",
+                "message": f"Máximo por reserva: {max_per_booking} personas."
+            })
+    except ExperienceAvailability.DoesNotExist:
+        pass
+
     disabled = []
     cursor = start
     while cursor <= end:
