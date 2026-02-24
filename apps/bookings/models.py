@@ -1,11 +1,12 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 
-
 from django.conf import settings
 from django.db import models
+from django.core.exceptions import ValidationError
 
 from apps.experiences.models import Experience
+from apps.bookings.services import validate_minors_policy
 
 if TYPE_CHECKING:
     from apps.billing.models import Invoice
@@ -14,29 +15,22 @@ if TYPE_CHECKING:
 class Booking(models.Model):
     if TYPE_CHECKING:
         invoice: "Invoice"
-    class Language(models.TextChoices):
-        CHOOSE = "", "Selecciona un idioma"
-        ES = "es", "Español"
-        EN = "en", "English"
-        DE = "de", "Deutsch"
-        FR = "fr", "Français"
-        IT = "it", "Italiano"
-        PT = "pt", "Português"
 
-
-    preferred_language = models.CharField(
-        max_length=5,
-        choices=Language.choices,
-        blank=False,
+    # ------------------------------------------------------------
+    # Idioma preferido (SINGLE SOURCE OF TRUTH) -> core.Language
+    # Ya NO legacy: obligatorio para nuevas reservas.
+    # ------------------------------------------------------------
+    preferred_language = models.ForeignKey(
+        "core.Language",
+        on_delete=models.PROTECT,
+        related_name="bookings",
     )
-    
+
     class TransportMode(models.TextChoices):
         OWN_VEHICLE = "own_vehicle", "Vehículo propio"
         BICYCLE = "bicycle", "Bicicleta"
         ON_FOOT = "on_foot", "A pie"
-
-        # 👇 Mantén esto SOLO si quieres mostrar reservas antiguas sin romper display
-        MINIBUS = "minibus", "Minibus (legacy)"
+        MINIBUS = "minibus", "Minibus"
 
     class Status(models.TextChoices):
         PENDING = "pending", "Pending"
@@ -61,12 +55,11 @@ class Booking(models.Model):
 
     date = models.DateField()
 
-    # Detalle personas (nuevo)
     adults = models.PositiveIntegerField(default=1)
     children = models.PositiveIntegerField(default=0, help_text="Niños 2-11 (50%)")
     infants = models.PositiveIntegerField(default=0, help_text="Bebés 0-1 (gratis)")
 
-    # Compatibilidad / agregación
+    # Agregado coherente
     people = models.PositiveIntegerField(default=1, editable=False)
 
     transport_mode = models.CharField(
@@ -74,9 +67,9 @@ class Booking(models.Model):
         choices=TransportMode.choices,
         default=TransportMode.OWN_VEHICLE,
     )
+
     pickup_notes = models.CharField(max_length=255, blank=True)
 
-    # Snapshot económico (para que el precio no cambie si editas la experience)
     unit_price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
@@ -86,15 +79,12 @@ class Booking(models.Model):
         default=Status.PENDING,
     )
 
-    # Tracking de notificaciones “no vistas”
     seen_by_traveler = models.BooleanField(default=True)
     seen_by_guide = models.BooleanField(default=True)
 
-    # Mensajes gui/viajero
-    notes = models.TextField(blank=True) 
-    guide_response = models.TextField(blank=True)  
+    notes = models.TextField(blank=True)
+    guide_response = models.TextField(blank=True)
 
-    # Para escalar sin migraciones constantes
     extras = models.JSONField(default=dict, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -108,8 +98,47 @@ class Booking(models.Model):
     def total_people(self) -> int:
         return (self.adults or 0) + (self.children or 0) + (self.infants or 0)
 
+    @property
+    def change_blocked_reason(self):
+        if self.status != Booking.Status.CHANGE_REQUESTED:
+            return None
+
+        change = (self.extras or {}).get("change_request") or {}
+
+        adults = change.get("adults", self.adults) or 0
+        children = change.get("children", self.children) or 0
+        infants = change.get("infants", self.infants) or 0
+
+        # Aquí ya existe booking, así que es correcto usar self.experience
+        try:
+            validate_minors_policy(self.experience, adults, children, infants)
+        except ValidationError as e:
+            return str(e)
+
+        return None
+
+    def clean(self):
+        super().clean()
+
+        # ✅ Evitar RelatedObjectDoesNotExist durante form.is_valid()
+        exp_id = getattr(self, "experience_id", None)
+        lang_id = getattr(self, "preferred_language_id", None)
+
+        if not exp_id or not lang_id:
+            return
+
+        # Si quieres ir ultra-seguro, evita cargar self.experience:
+        # exp = Experience.objects.select_related("guide").filter(pk=exp_id).first()
+        # pero en tu caso, como ya estás guardando FK real, usar self.experience suele ir bien.
+        guide_profile = getattr(self.experience.guide, "guide_profile", None)
+        if not guide_profile:
+            raise ValidationError({"preferred_language": "El guía no tiene perfil configurado."})
+
+        allowed_ids = set(guide_profile.languages.values_list("id", flat=True))
+        if lang_id not in allowed_ids:
+            raise ValidationError({"preferred_language": "Ese idioma no está disponible para este guía."})
+
     def save(self, *args, **kwargs):
-        # Mantener people siempre coherente
         self.people = self.total_people
         super().save(*args, **kwargs)
 
@@ -121,4 +150,7 @@ class Booking(models.Model):
         ]
 
     def __str__(self):
-        return f"Booking({self.experience.title}) - {self.traveler.username} - {self.status}"
+        exp_id = getattr(self, "experience_id", None)
+        exp_title = self.experience.title if exp_id else "—"
+        traveler_name = getattr(self.traveler, "username", "—")
+        return f"Booking({exp_title}) - {traveler_name} - {self.status}"

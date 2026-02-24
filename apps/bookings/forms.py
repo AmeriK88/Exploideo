@@ -1,22 +1,42 @@
 from django import forms
-from apps.availability.services import is_date_available
-from .models import Booking
 from django.utils import timezone
 from datetime import timedelta
 
+from core.models import Language
+from apps.availability.services import is_date_available
+from apps.bookings.services import validate_minors_policy
+from .models import Booking
 
 
 class BookingForm(forms.ModelForm):
+    preferred_language = forms.ModelChoiceField(
+        queryset=Language.objects.none(),
+        required=True,
+        empty_label="Selecciona un idioma",
+        label="Idioma preferido",
+    )
+
     def __init__(self, *args, experience=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.experience = experience
 
-        # Idioma obligatorio + mantiene el "Selecciona un idioma"
-        self.fields["preferred_language"].choices = list(self.fields["preferred_language"].choices)
-        self.fields["preferred_language"].required = True
+        # -----------------------------
+        # Idioma: filtrar por idiomas del guía (FK -> queryset)
+        # -----------------------------
+        allowed_qs = Language.objects.none()
 
-        # --- Pickup / meeting notes: depende del transporte que requiere la experience ---
-        self.fields["pickup_notes"].label = "Tu ubicación o referencia"  
+        if self.experience and hasattr(self.experience.guide, "guide_profile"):
+            allowed_qs = self.experience.guide.guide_profile.languages.all().order_by("code")
+
+        self.fields["preferred_language"].queryset = allowed_qs  # type: ignore[attr-defined]
+
+        if not allowed_qs.exists():
+            self.fields["preferred_language"].help_text = "Este guía aún no ha configurado idiomas."
+
+        # -----------------------------
+        # Pickup notes según transporte
+        # -----------------------------
+        self.fields["pickup_notes"].label = "Tu ubicación o referencia"
         transport = getattr(experience, "transport_requirement", None)
 
         if transport == "own_vehicle":
@@ -25,7 +45,7 @@ class BookingForm(forms.ModelForm):
         elif transport == "bicycle":
             self.fields["pickup_notes"].help_text = "Indica el punto de encuentro para comenzar la ruta en bici."
             self.fields["pickup_notes"].widget.attrs["placeholder"] = "Ej: Plaza central / Tienda de bicis X"
-        else:  # on_foot o cualquier otro
+        else:
             self.fields["pickup_notes"].help_text = "Indica el punto de encuentro para iniciar la experiencia."
             self.fields["pickup_notes"].widget.attrs["placeholder"] = "Ej: Entrada principal / Punto exacto en Maps"
 
@@ -34,12 +54,33 @@ class BookingForm(forms.ModelForm):
         fields = ["date", "adults", "children", "infants", "pickup_notes", "preferred_language", "notes"]
         widgets = {
             "date": forms.DateInput(attrs={"type": "date"}),
-            "notes": forms.Textarea(attrs={
-                "rows": 3,
-                "placeholder": "Opcional: alergias, ritmo, restricciones, necesidades, etc."
-            }),
+            "notes": forms.Textarea(
+                attrs={
+                    "rows": 3,
+                    "placeholder": "Opcional: alergias, ritmo, restricciones, necesidades, etc.",
+                }
+            ),
             "pickup_notes": forms.TextInput(),
         }
+
+    def clean_preferred_language(self):
+        lang = self.cleaned_data.get("preferred_language")
+
+        if not lang:
+            raise forms.ValidationError("Selecciona el idioma preferido para la experiencia.")
+
+        if not self.experience:
+            return lang
+
+        guide_profile = getattr(self.experience.guide, "guide_profile", None)
+        if not guide_profile:
+            raise forms.ValidationError("El guía aún no ha configurado idiomas para esta experiencia.")
+
+        allowed_ids = set(guide_profile.languages.values_list("id", flat=True))
+        if lang.id not in allowed_ids:
+            raise forms.ValidationError("Ese idioma no está disponible para este guía.")
+
+        return lang
 
     def clean(self):
         cleaned = super().clean()
@@ -47,6 +88,14 @@ class BookingForm(forms.ModelForm):
         adults = cleaned.get("adults") or 0
         children = cleaned.get("children") or 0
         infants = cleaned.get("infants") or 0
+
+        if self.experience:
+            try:
+                validate_minors_policy(self.experience, adults, children, infants)
+            except forms.ValidationError:
+                raise
+            except Exception as e:
+                raise forms.ValidationError(str(e))
 
         if adults <= 0:
             self.add_error("adults", "Debe haber al menos 1 adulto.")
@@ -63,19 +112,12 @@ class BookingForm(forms.ModelForm):
                 self.add_error("date", "No puedes reservar en una fecha pasada.")
 
             if date_value <= today + timedelta(days=1):
-                self.add_error(
-                    "date",
-                    "No se permiten reservas con menos de 24 hrs de antelación."
-                )
+                self.add_error("date", "No se permiten reservas con menos de 24 hrs de antelación.")
 
-            # Disponibilidad
             if self.experience:
                 ok, msg = is_date_available(self.experience, date_value, people)
                 if not ok:
                     self.add_error("date", msg)
-
-        if not cleaned.get("preferred_language"):
-            self.add_error("preferred_language", "Selecciona el idioma preferido para la experiencia.")
 
         pickup_notes = (cleaned.get("pickup_notes") or "").strip()
         if not pickup_notes:
@@ -106,42 +148,69 @@ class BookingDecisionForm(forms.ModelForm):
         pickup_time = cleaned.get("pickup_time")
         meeting_point = (cleaned.get("meeting_point") or "").strip()
         guide_response = (cleaned.get("guide_response") or "").strip()
+
         if self.require_guide_response and not guide_response:
             self.add_error("guide_response", "Indica un motivo para rechazar la reserva.")
 
-        # Si se acepta: pickup_time obligatorio
         if self.require_pickup_time and not pickup_time:
-            self.add_error(
-                "pickup_time",
-                "Indica la hora de recogida/encuentro para aceptar la reserva."
-            )
+            self.add_error("pickup_time", "Indica la hora de recogida/encuentro para aceptar la reserva.")
 
-        # Si se acepta: al menos meeting_point o guide_response
         if self.require_pickup_time:
             if not meeting_point and not guide_response:
-                # Puedes elegir dónde mostrarlo:
-                # 1) error general:
                 raise forms.ValidationError(
                     "Para aceptar, indica al menos el punto de encuentro o un mensaje para el viajero."
                 )
-                # 2) o si prefieres errores por campo:
-                # self.add_error("meeting_point", "Indica el punto o añade un mensaje.")
-                # self.add_error("guide_response", "Indica el punto o añade un mensaje.")
+
         return cleaned
 
 
 class BookingChangeRequestForm(forms.ModelForm):
+    preferred_language = forms.ModelChoiceField(
+        queryset=Language.objects.none(),
+        required=True,
+        empty_label="Selecciona un idioma",
+        label="Idioma preferido",
+    )
+
     class Meta:
         model = Booking
         fields = ["date", "adults", "children", "infants", "pickup_notes", "preferred_language", "notes"]
         widgets = {
-            "date": forms.DateInput(attrs={"type": "date"}),
+            "date": forms.DateInput(attrs={"type": "text"}),
             "notes": forms.Textarea(attrs={"rows": 3}),
         }
 
     def __init__(self, *args, booking=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.booking = booking
+
+        allowed_qs = Language.objects.none()
+        if self.booking and hasattr(self.booking.experience.guide, "guide_profile"):
+            allowed_qs = self.booking.experience.guide.guide_profile.languages.all().order_by("code")
+
+        self.fields["preferred_language"].queryset = allowed_qs # type: ignore[attr-defined]
+
+        if not allowed_qs.exists():
+            self.fields["preferred_language"].help_text = "Este guía aún no ha configurado idiomas."
+
+    def clean_preferred_language(self):
+        lang = self.cleaned_data.get("preferred_language")
+
+        if not lang:
+            raise forms.ValidationError("Selecciona el idioma preferido para la experiencia.")
+
+        if not self.booking:
+            return lang
+
+        guide_profile = getattr(self.booking.experience.guide, "guide_profile", None)
+        if not guide_profile:
+            raise forms.ValidationError("El guía aún no ha configurado idiomas para esta experiencia.")
+
+        allowed_ids = set(guide_profile.languages.values_list("id", flat=True))
+        if lang.id not in allowed_ids:
+            raise forms.ValidationError("Ese idioma no está disponible para este guía.")
+
+        return lang
 
     def clean(self):
         cleaned = super().clean()
@@ -150,6 +219,14 @@ class BookingChangeRequestForm(forms.ModelForm):
         children = cleaned.get("children") or 0
         infants = cleaned.get("infants") or 0
         people = adults + children + infants
+
+        if self.booking:
+            try:
+                validate_minors_policy(self.booking.experience, adults, children, infants)
+            except forms.ValidationError:
+                raise
+            except Exception as e:
+                raise forms.ValidationError(str(e))
 
         if adults <= 0:
             self.add_error("adults", "Debe haber al menos 1 adulto.")
@@ -163,14 +240,12 @@ class BookingChangeRequestForm(forms.ModelForm):
             if date < today:
                 self.add_error("date", "No puedes reservar en una fecha pasada.")
 
-            # Bloquear hoy y mañana (pasado mañana en adelante)
             if date <= (today + timedelta(days=1)):
                 self.add_error(
                     "date",
                     "No se permiten cambios para hoy ni para mañana. Elige una fecha a partir de pasado mañana."
                 )
 
-        # disponibilidad con exclude_booking_id
         if self.booking and date:
             ok, msg = is_date_available(
                 self.booking.experience,
@@ -180,9 +255,8 @@ class BookingChangeRequestForm(forms.ModelForm):
             )
             if not ok:
                 self.add_error("date", msg)
-        
-        # Mensaje global si hay cualquier error
+
         if self.errors:
             raise forms.ValidationError("Revisa el formulario: hay campos con errores.")
-        return cleaned
 
+        return cleaned
