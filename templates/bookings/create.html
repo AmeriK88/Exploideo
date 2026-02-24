@@ -7,10 +7,18 @@
   <div class="mx-auto max-w-lg">
     <div class="card">
       <div class="card-body">
-        <h1 class="h1-page">Reservar experiencia</h1>
-        <p class="mt-1 p-muted">
-          {{ experience.title }}
-        </p>
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h1 class="h1-page">Reservar experiencia</h1>
+            <p class="mt-1 p-muted">{{ experience.title }}</p>
+          </div>
+
+          <div class="shrink-0">
+            <a href="{% url 'experiences:detail' experience.pk %}" class="btn btn-ghost sm:w-auto">
+              ← Volver al detalle
+            </a>
+          </div>
+        </div>
 
         <form method="post" class="mt-6 space-y-6">
           {% csrf_token %}
@@ -30,6 +38,9 @@
               <label class="label">{{ form.date.label }}</label>
 
               {{ form.date|add_class:"input js-booking-date" }}
+
+              <!-- Mensaje dinámico del calendario (JS lo rellena) -->
+              <p id="calendar-hint" class="help-secondary hidden"></p>
 
               <div id="booking-calendar-config"
                    data-disabled-dates-url="{% url 'availability:experience_disabled_dates' experience.id %}">
@@ -116,6 +127,10 @@
               {{ form.preferred_language|add_class:"input" }}
 
               <p class="help-secondary">Ayuda al guía a preparar la experiencia.</p>
+
+              {% if form.preferred_language.help_text %}
+                <p class="help-secondary">{{ form.preferred_language.help_text }}</p>
+              {% endif %}
 
               {% if form.preferred_language.errors %}
                 <p class="field-error">{{ form.preferred_language.errors|striptags }}</p>
