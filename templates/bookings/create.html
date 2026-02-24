@@ -39,12 +39,12 @@
 
               {{ form.date|add_class:"input js-booking-date" }}
 
-              <!-- Mensaje dinámico del calendario (JS lo rellena) -->
-              <p id="calendar-hint" class="help-secondary hidden"></p>
-
               <div id="booking-calendar-config"
                    data-disabled-dates-url="{% url 'availability:experience_disabled_dates' experience.id %}">
               </div>
+
+              <!-- Mensaje dinámico del calendario (JS lo rellena) -->
+              <p id="calendar-hint" class="help-secondary hidden"></p>
 
               {% if form.date.help_text %}
                 <p class="help-secondary">{{ form.date.help_text|safe }}</p>

@@ -1,18 +1,17 @@
-(function () {
+(async function () {
   const input = document.querySelector(".js-booking-date");
   const cfg = document.getElementById("booking-calendar-config");
-  const hint = document.getElementById("calendar-hint");
   if (!input || !cfg) return;
 
   const urlBase = cfg.dataset.disabledDatesUrl;
   if (!urlBase) return;
 
   if (!window.flatpickr) return;
-
-  // Evitar doble init
   if (input._flatpickr) input._flatpickr.destroy();
 
-  // ---- local formatter (NO UTC) ----
+  // Si quieres que cuando haya blocked_by el usuario NO pueda elegir fecha:
+  const LOCK_DATE_INPUT_WHEN_BLOCKED = false;
+
   function ymd(d) {
     const y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, "0");
@@ -20,95 +19,136 @@
     return `${y}-${m}-${day}`;
   }
 
-  function setHint(text) {
-    if (!hint) return;
-    const msg = (text || "").trim();
-    if (!msg) {
-      hint.textContent = "";
-      hint.classList.add("hidden");
-      return;
-    }
-    hint.textContent = msg;
-    hint.classList.remove("hidden");
-  }
-
   let disabledSet = new Set();
+  let hasLoadedOnce = false;
 
-  function getPeople() {
-    const a = parseInt(document.querySelector('[name="adults"]')?.value || "1", 10);
-    const c = parseInt(document.querySelector('[name="children"]')?.value || "0", 10);
-    const i = parseInt(document.querySelector('[name="infants"]')?.value || "0", 10);
-    const total = a + c + i;
-    return total > 0 ? total : 1;
+  const statusEl = document.getElementById("calendar-status");
+  function setStatus(msg) {
+    if (!statusEl) return;
+    statusEl.textContent = msg || "";
+    statusEl.classList.toggle("hidden", !msg);
   }
+
+  function parseIntSafe(selector, fallback) {
+    const v = parseInt(document.querySelector(selector)?.value ?? "", 10);
+    return Number.isFinite(v) ? v : fallback;
+  }
+
+  function getGroup() {
+    const adults = parseIntSafe('[name="adults"]', 1);
+    const children = parseIntSafe('[name="children"]', 0);
+    const infants = parseIntSafe('[name="infants"]', 0);
+    const people = Math.max(1, adults + children + infants);
+
+    return {
+      adults: Math.max(0, adults),
+      children: Math.max(0, children),
+      infants: Math.max(0, infants),
+      people,
+    };
+  }
+
+  function applyDisable(instance) {
+    instance.set("disable", [(date) => disabledSet.has(ymd(date))]);
+    instance.redraw();
+  }
+
+  // Abort para evitar respuestas viejas pisando a nuevas
+  let currentAbort = null;
 
   async function loadDisabledDates(year, month, instance) {
+    // abort request anterior si existe
+    if (currentAbort) currentAbort.abort();
+    currentAbort = new AbortController();
+
     try {
       const start = new Date(year, month, 1);
       const end = new Date(year, month + 1, 0);
 
-      const startISO = ymd(start);
-      const endISO = ymd(end);
+      const g = getGroup();
+      const url =
+        `${urlBase}?start=${ymd(start)}&end=${ymd(end)}` +
+        `&people=${g.people}&adults=${g.adults}&children=${g.children}&infants=${g.infants}`;
 
-      const url = `${urlBase}?start=${startISO}&end=${endISO}&people=${getPeople()}`;
-      const res = await fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } });
+      const res = await fetch(url, {
+        headers: { "X-Requested-With": "XMLHttpRequest" },
+        signal: currentAbort.signal,
+        cache: "no-store",
+      });
+
       if (!res.ok) throw new Error(`Bad response ${res.status}`);
 
       const data = await res.json();
 
-      // 👇 Si el backend manda un bloqueo "global" (no depende de fechas),
-      // mostramos el mensaje y NO bloqueamos el calendario entero.
-      if (data && data.blocked_by) {
-        setHint(data.message || "No se puede reservar con esos datos.");
-        disabledSet = new Set(); // NO deshabilites todo el mes
+      // Mensaje (pero NO rompas el calendario)
+      if (data.blocked_by) {
+        setStatus(data.message || "No se puede reservar con esta configuración.");
+        if (LOCK_DATE_INPUT_WHEN_BLOCKED) {
+          input.disabled = true;
+          instance.close();
+        }
       } else {
-        setHint(""); // limpia
-        const arr = Array.isArray(data.disabled) ? data.disabled : [];
-        disabledSet = new Set(arr);
+        setStatus(data.message || "");
+        input.disabled = false;
       }
 
-      if (instance) {
-        instance.set("disable", [(date) => disabledSet.has(ymd(date))]);
-        instance.redraw();
-      }
+      // Aplica disabled SIEMPRE (aunque haya blocked_by)
+      const arr = Array.isArray(data.disabled) ? data.disabled : [];
+      disabledSet = new Set(arr);
+      hasLoadedOnce = true;
+      applyDisable(instance);
     } catch (e) {
-      disabledSet = new Set();
+      // Abort es normal, no lo trates como error
+      if (e?.name === "AbortError") return;
+
       console.warn("Could not load disabled dates", e);
-      setHint(""); // no metas sustos si falla el endpoint
-      if (instance) {
-        instance.set("disable", []); // en error, NO bloquees nada
+
+      if (hasLoadedOnce) {
+        applyDisable(instance);
+      } else {
+        instance.set("disable", []);
         instance.redraw();
       }
+
+      setStatus("No se pudo cargar disponibilidad. Reintenta abriendo el calendario o recarga la página.");
     }
   }
 
   const fp = window.flatpickr(input, {
     dateFormat: "Y-m-d",
-    minDate: "today", // o new Date().fp_incr(2) si quieres 48h real
     disableMobile: true,
     allowInput: true,
-
+    minDate: "today",
     disable: [(date) => disabledSet.has(ymd(date))],
 
-    onReady: async (_s, _d, instance) => {
-      await loadDisabledDates(instance.currentYear, instance.currentMonth, instance);
+    onReady: (_selectedDates, _dateStr, instance) => {
+      loadDisabledDates(instance.currentYear, instance.currentMonth, instance);
     },
-    onOpen: async (_s, _d, instance) => {
-      await loadDisabledDates(instance.currentYear, instance.currentMonth, instance);
+    onOpen: (_selectedDates, _dateStr, instance) => {
+      loadDisabledDates(instance.currentYear, instance.currentMonth, instance);
     },
-    onMonthChange: async (_s, _d, instance) => {
-      await loadDisabledDates(instance.currentYear, instance.currentMonth, instance);
+    onMonthChange: (_selectedDates, _dateStr, instance) => {
+      loadDisabledDates(instance.currentYear, instance.currentMonth, instance);
     },
-    onYearChange: async (_s, _d, instance) => {
-      await loadDisabledDates(instance.currentYear, instance.currentMonth, instance);
+    onYearChange: (_selectedDates, _dateStr, instance) => {
+      loadDisabledDates(instance.currentYear, instance.currentMonth, instance);
     },
   });
+
+  // Debounce para no spamear requests al cambiar números
+  let debounceTimer = null;
+  function scheduleReload() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      loadDisabledDates(fp.currentYear, fp.currentMonth, fp);
+    }, 250);
+  }
 
   ["adults", "children", "infants"].forEach((name) => {
     const el = document.querySelector(`[name="${name}"]`);
     if (!el) return;
-    el.addEventListener("change", async () => {
-      await loadDisabledDates(fp.currentYear, fp.currentMonth, fp);
-    });
+
+    el.addEventListener("change", scheduleReload);
+    el.addEventListener("input", scheduleReload);
   });
 })();

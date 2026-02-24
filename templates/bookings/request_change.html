@@ -91,6 +91,8 @@
                data-disabled-dates-url="{% url 'availability:experience_disabled_dates' booking.experience.pk %}">
           </div>
 
+          <p id="calendar-status" class="help-secondary hidden"></p>
+
           {% if form.date.help_text %}
             <p class="help-secondary">{{ form.date.help_text|safe }}</p>
           {% endif %}

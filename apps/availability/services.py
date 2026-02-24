@@ -20,13 +20,10 @@ def is_date_available(
     if people <= 0:
         return False, "El número de personas no es válido."
 
-    try:
-        availability = ExperienceAvailability.objects.get(experience=experience)
-    except ExperienceAvailability.DoesNotExist:
-        # MVP: si no hay reglas, permitimos reservar
-        return True, "OK"
+    # siempre habrá availability (por defecto permite todo si no se configura)
+    availability, _ = ExperienceAvailability.objects.get_or_create(experience=experience)
 
-    # Límite por excursión (por reserva) - viene de Availability
+    # Límite por reserva
     max_per_booking = availability.max_people_per_booking
     if max_per_booking is not None and people > max_per_booking:
         return False, f"Máximo por excursión: {max_per_booking} personas."
@@ -40,6 +37,7 @@ def is_date_available(
     if availability.end_date and date > availability.end_date:
         return False, "Fecha no disponible (después del rango permitido)."
 
+    # OJO: si weekdays está vacío/None => permites cualquier día (tu diseño actual)
     if availability.weekdays and date.weekday() not in availability.weekdays:
         return False, "Fecha no disponible (día de la semana no permitido)."
 
