@@ -58,7 +58,7 @@ class Review(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
-        unique_together = ("experience", "traveler")  # 1 reseña por experiencia y viajero
+        unique_together = ("experience", "traveler") 
         indexes = [
             models.Index(fields=["status"]),
             models.Index(fields=["created_at"]),
