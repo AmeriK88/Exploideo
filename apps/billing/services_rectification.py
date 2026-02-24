@@ -26,8 +26,8 @@ def create_rectificative_for_invoice(
     with transaction.atomic():
         original = Invoice.objects.select_for_update().get(pk=original.pk)
 
-        # ✅ Idempotencia real: si ya hay rectificativa, devolverla
-        existing = original.rectifications.filter(kind=Invoice.Kind.RECTIFICATIVE).first()
+        # Idempotencia real: si ya hay rectificativa, devolverla
+        existing = original.rectifications.filter(kind=Invoice.Kind.RECTIFICATIVE).first() 
         if existing:
             return existing
 
