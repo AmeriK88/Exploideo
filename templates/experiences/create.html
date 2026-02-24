@@ -8,9 +8,9 @@
     <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
       <div>
         <h1 class="h1-page">Crear experiencia</h1>
-          <p class="mt-1 p-muted">
-            Añade los datos básicos. Luego podrás ajustar disponibilidad y fotos.
-          </p>
+        <p class="mt-1 p-muted">
+          Añade los datos básicos. Luego podrás ajustar disponibilidad y fotos.
+        </p>
       </div>
 
       <a href="{% url 'experiences:list' %}" class="btn btn-ghost">
@@ -24,25 +24,36 @@
           {% csrf_token %}
 
           {% if form.non_field_errors %}
-            <div class="form-error">
-              {{ form.non_field_errors }}
+            <div class="form-error" role="alert">
+              {{ form.non_field_errors|striptags }}
             </div>
           {% endif %}
 
           <div class="grid gap-4 sm:grid-cols-2">
             {% for field in form %}
-              <div class="min-w-0 {% if field.name == 'description' or field.name == 'tags' or field.name == 'transport_requirement' %}sm:col-span-2{% endif %}">
-                <label for="{{ field.id_for_label }}" class="label">{{ field.label }}</label>
+              <div class="min-w-0
+                {% if field.name == 'description' or field.name == 'tags' or field.name == 'transport_requirement' %}
+                  sm:col-span-2
+                {% endif %}
+              ">
+                <label for="{{ field.id_for_label }}" class="label">
+                  {{ field.label }}
+                </label>
 
-                {% if field.field.widget.input_type == "textarea" %}
-                  {{ field|add_class:"input w-full min-h-[120px]" }}
-
-                {% elif field.field.widget.input_type == "file" %}
+                {# --- FILE --- #}
+                {% if field.field.widget.input_type == "file" %}
                   <div class="file-upload">
                     {{ field|add_class:"input w-full max-w-full" }}
-                    <p class="mt-1 text-xs text-slate-500">Sube una imagen representativa de la experiencia.</p>
+                    <p class="mt-1 text-xs text-slate-500">
+                      Sube una imagen representativa de la experiencia.
+                    </p>
                   </div>
 
+                {# --- TEXTAREA (por nombre, más fiable) --- #}
+                {% elif field.name == "description" %}
+                  {{ field|add_class:"input w-full min-h-[140px]" }}
+
+                {# --- DEFAULT INPUT/SELECT --- #}
                 {% else %}
                   {{ field|add_class:"input w-full" }}
                 {% endif %}

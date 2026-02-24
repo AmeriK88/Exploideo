@@ -3,8 +3,10 @@
 
 {% block content %}
   <div class="grid gap-8 lg:grid-cols-[2fr_1fr] min-w-0">
+
     <!-- Left: Info -->
     <div class="space-y-6 min-w-0">
+
       {% if exp.image %}
         <div class="relative overflow-hidden rounded-2xl h-40">
           <img
@@ -20,86 +22,100 @@
           {{ exp.title }}
         </h1>
 
-        <p class="mt-1 p-muted wrap-break-word">
-          📍 {{ exp.location }} · ⏱ {{ exp.duration_minutes }} min
+        <div class="mt-3 flex flex-wrap gap-2">
+          <span class="badge badge-neutral hover-lift">📍 {{ exp.location }}</span>
+          <span class="badge badge-neutral hover-lift">⏱ {{ exp.duration_minutes }} min</span>
+          <span class="badge badge-neutral hover-lift">🧗 {{ exp.get_difficulty_display }}</span>
 
-          {% if availability %}
-            {% if availability.daily_capacity_people %}
-              · 👥 Capacidad diaria: {{ availability.daily_capacity_people }} personas
+          {% if availability and availability.max_people_per_booking %}
+            <span class="badge badge-neutral hover-lift">🎯 Máx.: {{ availability.max_people_per_booking }}</span>
+          {% endif %}
+
+          <span class="badge badge-neutral hover-lift">
+            {% if exp.transport_requirement == "own_vehicle" %}
+              🚗 Vehículo propio
+            {% elif exp.transport_requirement == "bicycle" %}
+              🚲 Bicicleta
             {% else %}
-              · 👥 Capacidad diaria: sin límite
+              🥾 A pie
             {% endif %}
-
-            {% if availability.max_people_per_booking %}
-              · 🎯 Máx. por excursión: {{ availability.max_people_per_booking }}
-            {% endif %}
-          {% endif %}
-        </p>
-
-        <p class="mt-2 text-sm text-slate-600 wrap-break-word">
-          {% if exp.transport_requirement == "own_vehicle" %}
-            🚗
-          {% elif exp.transport_requirement == "bicycle" %}
-            🚲
-          {% else %}
-            🥾
-          {% endif %}
-          Desplazamiento:
-          <span class="font-medium text-slate-900">
-            {{ exp.get_transport_requirement_display }}
           </span>
-        </p>
+        </div>
       </div>
 
+      <!-- Descripción + banner dificultad -->
       <div class="card">
         <div class="card-body">
           <h2 class="h2-section">Descripción</h2>
           <p class="mt-2 text-slate-700 leading-relaxed wrap-break-word">{{ exp.description }}</p>
+
+          <div class="mt-4 text-sm text-slate-600">
+            {% if exp.difficulty == "hard" %}
+              <div class="status-banner status-banner-update-rejected">
+                ⛔ Experiencia difícil: no se permiten menores.
+              </div>
+            {% elif exp.difficulty == "moderate" %}
+              <div class="status-banner status-banner-change">
+                ⚠️ Menores permitidos solo acompañados por adultos.
+              </div>
+            {% else %}
+              <div class="status-banner status-banner-accepted">
+                ✔ Apta para todos los públicos.
+              </div>
+            {% endif %}
+          </div>
         </div>
       </div>
 
       {# ===== Guide row (mobile-safe) ===== #}
       <div class="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
-        {% with gp=exp.guide.guide_profile %}
-          <div class="flex items-center gap-4 min-w-0">
-            <a href="{% url 'profiles:public_guide' exp.guide.pk %}" class="shrink-0">
-              {% if gp.avatar %}
-                <img
-                  src="{{ gp.avatar.url }}"
-                  alt="{{ gp.display_name|default:exp.guide.username }}"
-                  width="60"
-                  height="56"
-                  class="h-14 w-14 rounded-full object-cover border border-slate-200 hover:ring-2 hover:ring-blue-500 transition"
-                />
+
+        <!-- Left: avatar + name -->
+        <div class="flex items-center gap-4 min-w-0">
+          <a href="{% url 'profiles:public_guide' exp.guide.pk %}" class="shrink-0">
+            {% if gp and gp.avatar %}
+              <img
+                src="{{ gp.avatar.url }}"
+                alt="{{ gp.display_name|default:exp.guide.username }}"
+                width="60"
+                height="56"
+                class="h-14 w-14 rounded-full object-cover border border-slate-200 hover:ring-2 hover:ring-blue-500 transition"
+              />
+            {% else %}
+              <div class="h-14 w-14 shrink-0 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 text-sm">
+                👤
+              </div>
+            {% endif %}
+          </a>
+
+          <div class="leading-tight min-w-0">
+            <p class="text-sm text-slate-500">Tu guía</p>
+
+            <a
+              href="{% url 'profiles:public_guide' exp.guide.pk %}"
+              class="text-base font-semibold text-slate-900 hover:underline truncate block"
+            >
+              {% if gp %}
+                {{ gp.display_name|default:exp.guide.username }}
               {% else %}
-                <div class="h-14 w-14 shrink-0 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 text-sm">
-                  👤
-                </div>
+                {{ exp.guide.username }}
               {% endif %}
             </a>
 
-            <div class="leading-tight min-w-0">
-              <p class="text-sm text-slate-500">Tu guía</p>
-
-              <a href="{% url 'profiles:public_guide' exp.guide.pk %}"
-                 class="text-base font-semibold text-slate-900 hover:underline truncate block">
-                {{ gp.display_name|default:exp.guide.username }}
-              </a>
-
-              {% if gp.verification_status == "verified" %}
-                <div class="mt-1">
-                  <span class="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-800 border border-emerald-200">
-                    ✔ Verificado
-                  </span>
-                </div>
-              {% endif %}
-            </div>
+            {% if gp and gp.verification_status == "verified" %}
+              <div class="mt-1">
+                <span class="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-800 border border-emerald-200">
+                  ✔ Verificado
+                </span>
+              </div>
+            {% endif %}
           </div>
+        </div>
 
-          <a href="{% url 'profiles:public_guide' exp.guide.pk %}" class="btn btn-ghost w-full sm:w-auto">
-            Ver perfil
-          </a>
-        {% endwith %}
+        <!-- Right: button -->
+        <a href="{% url 'profiles:public_guide' exp.guide.pk %}" class="btn btn-ghost w-full sm:w-auto">
+          Ver perfil
+        </a>
       </div>
 
       {% if user.is_authenticated and user.is_guide and user == exp.guide %}
@@ -110,6 +126,7 @@
           </a>
         </div>
       {% endif %}
+
     </div>
 
     <!-- Right: Booking card -->
@@ -126,11 +143,11 @@
               Reservar ahora
             </a>
           {% else %}
-            <p class="p-muted">
-              Inicia sesión como viajero para reservar.
-            </p>
-            <a href="{% url 'accounts:login' %}?next={% url 'experiences:detail' exp.pk %}"
-               class="btn btn-ghost w-full text-center">
+            <p class="p-muted">Inicia sesión como viajero para reservar.</p>
+            <a
+              href="{% url 'accounts:login' %}?next={% url 'experiences:detail' exp.pk %}"
+              class="btn btn-ghost w-full text-center"
+            >
               Iniciar sesión
             </a>
           {% endif %}
@@ -158,8 +175,10 @@
                         <span class="badge badge-neutral hover-lift">Reserva necesaria</span>
                       {% endif %}
                     {% else %}
-                      <a href="{% url 'accounts:login' %}?next={% url 'experiences:detail' exp.pk %}"
-                         class="btn btn-ghost w-full sm:w-auto">
+                      <a
+                        href="{% url 'accounts:login' %}?next={% url 'experiences:detail' exp.pk %}"
+                        class="btn btn-ghost w-full sm:w-auto"
+                      >
                         Inicia sesión
                       </a>
                     {% endif %}
@@ -171,9 +190,7 @@
                     ⭐ {{ review_stats.avg|floatformat:1 }} · {{ review_stats.count }} reseña{{ review_stats.count|pluralize:"s" }}
                   </p>
                 {% else %}
-                  <p class="mt-1 p-muted">
-                    Aún no hay reseñas.
-                  </p>
+                  <p class="mt-1 p-muted">Aún no hay reseñas.</p>
                 {% endif %}
               </div>
 
@@ -186,10 +203,12 @@
               {% endif %}
             </div>
           </div>
+          {# =================== /Reviews =================== #}
 
         </div>
       </div>
     </aside>
+
   </div>
 
   <div class="mt-8">
