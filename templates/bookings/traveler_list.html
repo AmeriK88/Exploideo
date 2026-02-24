@@ -19,7 +19,7 @@
             <div class="card booking-card">
 
               {# Background image (soft) #}
-              {% if b.experience.image %}
+              {% if b.experience and b.experience.image %}
                 <div
                   class="booking-card-bg"
                   style="background-image:url('{{ b.experience.image.url }}');"
@@ -42,13 +42,9 @@
                     <div class="mt-2 flex flex-wrap gap-2">
                       <span class="badge badge-neutral hover-lift">📅 {{ b.date }}</span>
 
-                      {% if b.people %}
-                        <span class="badge badge-neutral hover-lift">👥 {{ b.people }} personas</span>
-                      {% else %}
-                        <span class="badge badge-neutral hover-lift">
-                          👥 {{ b.adults|default:0|add:b.children|default:0|add:b.infants|default:0 }} personas
-                        </span>
-                      {% endif %}
+                      <span class="badge badge-neutral hover-lift">
+                        👥 {{ b.people|default:0 }} personas
+                      </span>
 
                       {% if b.total_price %}
                         <span class="badge badge-neutral hover-lift">💶 {{ b.total_price }}€</span>
@@ -58,6 +54,25 @@
                       {% if b.extras.free_cancel_override and b.extras.free_cancel_override.reason == "change_rejected" %}
                         <span class="badge badge-status-cancel_requested hover-lift">🆓 Cancelación gratis</span>
                       {% endif %}
+
+                      {% with d=b.experience.difficulty %}
+                        {% if d %}
+                          {% if d == "easy" %}
+                            <span class="badge badge-neutral hover-lift">🟢 Fácil</span>
+                            <span class="badge badge-neutral hover-lift">👨‍👩‍👧‍👦 Apta para todos</span>
+                          {% elif d == "moderate" %}
+                            <span class="badge badge-neutral hover-lift">🟠 Moderado</span>
+                            <span class="badge badge-neutral hover-lift">🧒 Menores acompañados</span>
+                          {% elif d == "hard" %}
+                            <span class="badge badge-neutral hover-lift">🔴 Difícil</span>
+                            <span class="badge badge-neutral hover-lift">⛔ Sin menores</span>
+                          {% else %}
+                            <span class="badge badge-neutral hover-lift">
+                              ⚙️ {{ b.experience.get_difficulty_display|default:d }}
+                            </span>
+                          {% endif %}
+                        {% endif %}
+                      {% endwith %}
                     </div>
 
                     <div class="mt-2 flex flex-wrap gap-2">
@@ -79,7 +94,9 @@
                       {% endif %}
 
                       {% if b.preferred_language %}
-                        <span class="badge badge-neutral hover-lift">🗣 {{ b.get_preferred_language_display }}</span>
+                        <span class="badge badge-neutral hover-lift">
+                          🗣 {{ b.preferred_language.name }}
+                        </span>
                       {% endif %}
 
                       {% if b.pickup_notes %}
@@ -122,13 +139,20 @@
 
                       {% with s=b.status|lower %}
                         {% if s != "rejected" and s != "canceled" %}
-                          {% if s == "change_requested" or s == "cancel_requested" %}
+
+                          {% if s == "change_requested" and b.extras.change_request %}
                             <span class="text-xs font-medium text-slate-600">
                               ⏳ Tu solicitud está en revisión por el guía
                             </span>
+
+                          {% elif s == "cancel_requested" and b.extras.cancel_request %}
+                            <span class="text-xs font-medium text-slate-600">
+                              ⏳ Tu solicitud está en revisión por el guía
+                            </span>
+
                           {% else %}
-                            {# Solo mostrar acciones si la fecha NO ha pasado (mínimo: por día) #}
-                            {% if b.date >= today %}
+                            {# Versión segura mínima: solo acciones si es FUTURO (evita líos con hoy/pickup_time) #}
+                            {% if b.date > today %}
                               {% if b.extras.free_cancel_override and b.extras.free_cancel_override.reason == "change_rejected" %}
                                 <a href="{% url 'bookings:request_cancel' b.pk %}" class="btn btn-primary">
                                   Cancelar gratis
@@ -143,6 +167,7 @@
                               {% endif %}
                             {% endif %}
                           {% endif %}
+
                         {% endif %}
                       {% endwith %}
                     </div>

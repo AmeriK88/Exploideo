@@ -62,7 +62,9 @@
           </span>
 
           {% if booking.preferred_language %}
-            <span class="badge badge-neutral hover-lift">🗣 {{ booking.get_preferred_language_display }}</span>
+            <span class="badge badge-neutral hover-lift">
+              🗣 {{ booking.preferred_language }}
+            </span>
           {% endif %}
 
           {% if booking.pickup_notes %}

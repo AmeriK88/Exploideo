@@ -7,13 +7,20 @@
   <div>
     <h1 class="h1-page">Solicitar cancelación</h1>
 
-    <p class="mt-1 p-muted">
-      {% if show_free_cancel %}
-        Esta cancelación es gratuita según la política y se procesará al enviar.
-      {% else %}
-        El guía debe aprobar la cancelación.
-      {% endif %}
-    </p>
+    {# Mensaje superior según el tipo de cancelación #}
+    {% if booking.extras.free_cancel_override and booking.extras.free_cancel_override.reason == "change_rejected" %}
+      <p class="mt-1 p-muted">
+        ✅ Puedes cancelar gratis porque tu solicitud de cambio fue rechazada.
+      </p>
+    {% else %}
+      <p class="mt-1 p-muted">
+        {% if show_free_cancel %}
+          Esta cancelación es gratuita según la política y se procesará al enviar.
+        {% else %}
+          El guía debe aprobar la cancelación.
+        {% endif %}
+      </p>
+    {% endif %}
   </div>
 
   <div class="card">
@@ -24,29 +31,50 @@
         <div class="flex flex-wrap gap-2">
           <span class="badge hover-lift">🧭 {{ booking.experience.title }}</span>
           <span class="badge hover-lift">📅 {{ booking.date }}</span>
+          <span class="badge hover-lift">👤 {{ booking.adults }} / 🧒 {{ booking.children }} / 👶 {{ booking.infants }}</span>
         </div>
+
+        {% if booking.extras.last_update and booking.extras.last_update.type == "change" %}
+          {% if booking.extras.last_update.decision == "rejected" %}
+            <p class="mt-2 text-xs text-slate-600">
+              Nota: tu solicitud de cambio fue rechazada. Puedes cancelar (gratis si aplica).
+            </p>
+          {% endif %}
+        {% endif %}
       </div>
 
       <form method="post" class="grid gap-4">
         {% csrf_token %}
 
-        <div>
-          <label class="label">Motivo (opcional)</label>
-          <textarea
-            class="input"
-            name="reason"
-            rows="3"
-            placeholder="Cuéntanos brevemente qué ha pasado..."
-          ></textarea>
-          <p class="help">Se enviará al guía si la cancelación requiere aprobación.</p>
-        </div>
+        {% with override=booking.extras.free_cancel_override %}
+          <div>
+            <label class="label">Motivo (opcional)</label>
+            <textarea
+              class="input"
+              name="reason"
+              rows="3"
+              placeholder="Cuéntanos brevemente qué ha pasado..."
+            ></textarea>
 
-        <div class="flex gap-2">
-          <button class="btn btn-primary" type="submit">
-            {% if show_free_cancel %}Cancelar ahora{% else %}Enviar solicitud{% endif %}
-          </button>
-          <a class="btn btn-ghost" href="{% url 'bookings:detail' booking.pk %}">Volver</a>
-        </div>
+            {% if show_free_cancel or override and override.reason == "change_rejected" %}
+              <p class="help">Esta cancelación se procesará automáticamente.</p>
+            {% else %}
+              <p class="help">Se enviará al guía para que la apruebe o la rechace.</p>
+            {% endif %}
+          </div>
+
+          <div class="flex gap-2">
+            <button class="btn btn-primary" type="submit">
+              {% if show_free_cancel or override and override.reason == "change_rejected" %}
+                Cancelar ahora
+              {% else %}
+                Enviar solicitud
+              {% endif %}
+            </button>
+
+            <a class="btn btn-ghost" href="{% url 'bookings:detail' booking.pk %}">Volver</a>
+          </div>
+        {% endwith %}
       </form>
 
     </div>

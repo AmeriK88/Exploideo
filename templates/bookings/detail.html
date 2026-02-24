@@ -7,7 +7,7 @@
       <!-- Subtle top gradient -->
       <div class="hero-top-glow"></div>
 
-      <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+      <div class="flex flex-col gap-3 text-center sm:text-left sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h1 class="h1-page">Detalle de reserva</h1>
           <p class="mt-1 p-muted">
@@ -15,7 +15,7 @@
           </p>
         </div>
 
-        <div class="flex items-center gap-2">
+        <div class="flex justify-center sm:justify-end items-center gap-2">
           {% with s=booking.status|lower %}
             {% if s == "accepted" %}
               <span class="badge badge-status-accepted hover-lift">Aceptada</span>
@@ -36,7 +36,7 @@
         </div>
       </div>
 
-      {# Avisos de estado #}
+      <!-- Avisos de estado -->
       {% with s=booking.status|lower %}
         {% if s == "pending" %}
           <div class="status-banner status-banner-pending">
@@ -69,7 +69,7 @@
         {% endif %}
       {% endwith %}
 
-      {# Banner de última actualización (solo útil para el viajero) #}
+      <!-- Banner de última actualización (solo útil para el viajero) -->
       {% if booking.extras.last_update and request.user == booking.traveler %}
         {% if booking.extras.last_update.type == "change" %}
           {% if booking.extras.last_update.decision == "accepted" %}
@@ -96,7 +96,7 @@
         {% endif %}
       {% endif %}
 
-      {# Si el guía rechazó un cambio, permitir cancelación gratis y guiar al viajero #}
+      <!-- Si el guía rechazó un cambio, permitir cancelación gratis y guiar al viajero -->
       {% if request.user == booking.traveler %}
         {% if booking.extras.free_cancel_override and booking.extras.free_cancel_override.reason == "change_rejected" and show_free_cancel %}
           <div class="status-banner status-banner-update-rejected">
@@ -125,13 +125,21 @@
         </div>
       {% endif %}
 
-      {# Acciones del viajero #}
+      <!-- Acciones del viajero -->
       {% if request.user == booking.traveler %}
-        <div class="mt-4 flex flex-wrap gap-2">
-          {% if show_free_cancel %}
+        <div class="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-2 sm:justify-end">
+
+          <!-- Si es cancelación gratis por cambio rechazado, el botón ya está en el banner -->
+          {% if show_free_cancel and not booking.extras.free_cancel_override %}
             <a href="{% url 'bookings:request_cancel' booking.pk %}" class="btn btn-primary">
               Cancelar gratis
             </a>
+
+          {% elif show_free_cancel and booking.extras.free_cancel_override.reason != "change_rejected" %}
+            <a href="{% url 'bookings:request_cancel' booking.pk %}" class="btn btn-primary">
+              Cancelar gratis
+            </a>
+
           {% else %}
             {% if can_request_change %}
               <a href="{% url 'bookings:request_change' booking.pk %}" class="btn btn-primary">
@@ -155,10 +163,11 @@
           <a href="{% url 'bookings:traveler_list' %}" class="btn btn-ghost">
             ← Volver a mis reservas
           </a>
+
         </div>
       {% endif %}
 
-      {# Resumen del cambio solicitado (si existe) #}
+      <!-- Resumen del cambio solicitado (si existe) -->
       {% if booking.status|lower == "change_requested" and booking.extras.change_request %}
         <div class="panel-detail">
           <h2 class="label-title">Cambio solicitado</h2>
@@ -173,7 +182,7 @@
               {% if cr.children is not None %}<span class="badge badge-neutral hover-lift">🧒 {{ cr.children }} niños</span>{% endif %}
               {% if cr.infants is not None %}<span class="badge badge-neutral hover-lift">👶 {{ cr.infants }} bebés</span>{% endif %}
 
-              {# Transporte ya NO es parte del change_request #}
+              <!-- Transporte ya NO es parte del change_request -->
               {% if booking.transport_mode %}
                 <span class="badge badge-neutral hover-lift">
                   {% if booking.transport_mode == "own_vehicle" %}
@@ -187,7 +196,12 @@
                 </span>
               {% endif %}
 
-              {% if cr.preferred_language %}<span class="badge badge-neutral hover-lift">🗣 {{ cr.preferred_language }}</span>{% endif %}
+              {% if cr.preferred_language %}
+                <span class="badge badge-neutral hover-lift">
+                  🗣 {{ cr.preferred_language_label|default:cr.preferred_language }}
+                </span>
+              {% endif %}
+              
               {% if cr.pickup_notes %}<span class="badge badge-neutral hover-lift">📍 {{ cr.pickup_notes }}</span>{% endif %}
             </div>
 
@@ -200,7 +214,7 @@
         </div>
       {% endif %}
 
-      {# Resumen de cancelación solicitada (motivo) #}
+      <!-- Resumen de cancelación solicitada (motivo) -->
       {% if booking.status|lower == "cancel_requested" and booking.extras.cancel_request.reason %}
         <div class="panel-detail">
           <h2 class="label-title">Cancelación solicitada</h2>
@@ -262,11 +276,34 @@
             <span class="badge badge-neutral hover-lift">⏱ {{ booking.experience.duration_minutes }} min</span>
           {% endif %}
 
+          {% if booking.experience.difficulty %}
+            <span class="badge badge-neutral hover-lift">
+              🧗 {{ booking.experience.get_difficulty_display }}
+            </span>
+          {% endif %}
+
           {% if booking.preferred_language %}
-            <span class="badge badge-neutral hover-lift">🗣 {{ booking.get_preferred_language_display }}</span>
+            <span class="badge badge-neutral hover-lift">🗣 {{ booking.preferred_language }}</span>
           {% endif %}
         </div>
       </div>
+
+      <!-- Banner de restricciones por dificultad -->
+      {% with d=booking.experience.difficulty %}
+        {% if d == "hard" %}
+          <div class="mt-5 status-banner status-banner-update-rejected">
+            ⛔ Esta experiencia es <strong>difícil</strong> y <strong>no permite menores</strong>.
+          </div>
+        {% elif d == "moderate" %}
+          <div class="mt-5 status-banner status-banner-change">
+            ⚠️ Experiencia <strong>moderada</strong>: menores permitidos <strong>solo acompañados</strong> por adultos.
+          </div>
+        {% else %}
+          <div class="mt-5 status-banner status-banner-accepted">
+            ✔ Experiencia <strong>fácil</strong>: apta para todos los públicos.
+          </div>
+        {% endif %}
+      {% endwith %}
 
       <!-- Guía -->
       <div class="mt-5 cta-yes">
@@ -365,7 +402,7 @@
         <h2 class="label-title">Tu mensaje al guía</h2>
 
         <p class="mt-2 p-body">
-          <strong>Idioma deseado:</strong> {{ booking.get_preferred_language_display }}
+          <strong>Idioma deseado:</strong> {{ booking.preferred_language }}
         </p>
 
         {% if booking.notes %}
