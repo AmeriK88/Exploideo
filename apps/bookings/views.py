@@ -11,12 +11,16 @@ from apps.availability.services import is_date_available
 from apps.experiences.models import Experience
 from core.decorators import guide_required
 from .emails import send_booking_status_email
-from .forms import BookingForm, BookingDecisionForm
+from .forms import BookingForm, BookingDecisionForm, BookingChangeRequestForm
 from .models import Booking
-from .forms import BookingChangeRequestForm
 from apps.billing.services import create_invoice_from_booking
 from apps.billing.models import Invoice
-from apps.bookings.services import rectificate_booking_invoice_if_needed
+from apps.bookings.services import rectificate_booking_invoice_if_needed, validate_minors_policy
+
+from django.core.exceptions import ValidationError as CoreValidationError
+
+from core.models import Language
+
 
 
 def booking_start_dt_local(booking):
@@ -133,6 +137,12 @@ def create_booking(request, experience_id):
         booking.seen_by_guide = False
         booking.seen_by_traveler = True
 
+        try:
+            validate_minors_policy(experience, booking.adults, booking.children, booking.infants)
+        except CoreValidationError as e:
+            form.add_error(None, e.message)
+            return render(request, "bookings/create.html", {"form": form, "experience": experience})
+
         booking.save()
 
         # Email al viajero
@@ -181,8 +191,13 @@ def guide_bookings(request):
         Booking.objects.filter(experience__guide=request.user)
         .select_related("experience", "traveler")
     )
-    return render(request, "bookings/guide_list.html", {"bookings": bookings})
 
+    language_labels = dict(Language.objects.values_list("id", "name"))
+
+    return render(request, "bookings/guide_list.html", {
+        "bookings": bookings,
+        "language_labels": language_labels,
+    })
 
 @login_required
 def booking_detail(request, pk):
@@ -224,6 +239,8 @@ def booking_detail(request, pk):
     can_request_change = (not is_closed) and (not has_started) and (not is_pending_review)
     can_request_cancel = (not is_closed) and (not has_started) and (not is_pending_review)
 
+    language_labels = dict(Language.objects.values_list("id", "name"))
+
     # Mostrar "cancelar gratis" SOLO si:
     # - se puede solicitar cancelación
     # - y el sistema dice que es gratis (incluye override pero ya protegido por has_started)
@@ -235,6 +252,7 @@ def booking_detail(request, pk):
         "can_request_cancel": can_request_cancel,
         "show_free_cancel": show_free_cancel,
         "has_started": has_started,  
+        "language_labels": language_labels,
     })
 
 
@@ -254,6 +272,12 @@ def accept_booking(request, pk):
         form.require_pickup_time = True
         if form.is_valid():
             booking = form.save(commit=False)
+
+            try:
+                validate_minors_policy(booking.experience, booking.adults, booking.children, booking.infants)
+            except CoreValidationError as e:
+                messages.error(request, e.message)
+                return redirect("bookings:detail", pk=booking.pk)
 
             people = booking.people
             ok, msg = is_date_available(
@@ -384,26 +408,54 @@ def request_booking_change(request, pk):
     form = BookingChangeRequestForm(request.POST or None, booking=booking, instance=booking)
 
     if request.method == "POST" and form.is_valid():
-        # Guardar el estado original para restaurarlo después
         booking.extras = booking.extras or {}
         booking.extras["pre_change_status"] = booking.status
+        booking.extras.pop("change_blocked_reason", None)
 
         clean = form.cleaned_data.copy()
 
+        # 👇 Calcula valores propuestos (si no vienen, usa los actuales)
+        proposed_adults = clean.get("adults")
+        if proposed_adults is None:
+            proposed_adults = booking.adults
+
+        proposed_children = clean.get("children")
+        if proposed_children is None:
+            proposed_children = booking.children
+
+        proposed_infants = clean.get("infants")
+        if proposed_infants is None:
+            proposed_infants = booking.infants
+
+        # VALIDACIÓN AQUÍ (antes de crear la solicitud)
+        try:
+            validate_minors_policy(booking.experience, proposed_adults, proposed_children, proposed_infants)
+        except CoreValidationError as e:
+            form.add_error(None, e.message)
+            return render(request, "bookings/request_change.html", {"booking": booking, "form": form})
+
         # Date a ISO para JSONField
         if clean.get("date"):
-            clean["date"] = clean["date"].isoformat()  
+            clean["date"] = clean["date"].isoformat()
 
-        # Guardar solicitud
+        # Guardar también el label del idioma para mostrarlo bonito en UI
+        pl = clean.get("preferred_language")
+        if pl:
+            if isinstance(pl, Language):
+                clean["preferred_language"] = pl.pk
+                clean["preferred_language_label"] = pl.name
+            else:
+                # por si llega id
+                lang = Language.objects.filter(pk=pl).only("id", "name").first()
+                clean["preferred_language"] = int(pl)
+                clean["preferred_language_label"] = lang.name if lang else str(pl)
+
         booking.extras["change_request"] = clean
         booking.status = Booking.Status.CHANGE_REQUESTED
-
-        # Notificaciones “no vistas”
         booking.seen_by_guide = False
         booking.seen_by_traveler = True
 
         booking.save(update_fields=["extras", "status", "seen_by_guide", "seen_by_traveler", "updated_at"])
-
         messages.success(request, "Solicitud de cambio enviada al guía.")
         return redirect("bookings:traveler_list")
 
@@ -423,22 +475,26 @@ def decide_change_request(request, pk, decision):
         messages.error(request, "Solicitud de cambio inválida.")
         return redirect("bookings:detail", pk=booking.pk)
 
-    # Estado anterior (para volver a él tras decidir)
-    prev_status = (booking.extras or {}).get("pre_change_status") or Booking.Status.PENDING
+    booking.extras = booking.extras or {}
 
-    # --- RECHAZAR ---
+    # Estado anterior (para volver a él tras decidir)
+    prev_status = booking.extras.get("pre_change_status") or Booking.Status.PENDING
+
+    # -------------------------
+    # RECHAZAR (manual por guía)
+    # -------------------------
     if decision == "reject":
-        booking.extras = booking.extras or {}
         booking.extras.pop("change_request", None)
         booking.extras.pop("pre_change_status", None)
 
         booking.extras["last_update"] = {
             "type": "change",
             "decision": "rejected",
+            "reason": "guide",
             "at": timezone.now().isoformat(),
         }
+
         # Si el guía rechaza el cambio, habilitamos cancelación gratis (override)
-        # incluso si faltan menos de 48h.
         booking.extras["free_cancel_override"] = {
             "reason": "change_rejected",
             "set_at": timezone.now().isoformat(),
@@ -449,7 +505,7 @@ def decide_change_request(request, pk, decision):
         booking.seen_by_traveler = False
         booking.seen_by_guide = True
         booking.save()
-        # --- Email al viajero (rechazo de cambio + opciones) ---
+
         cancel_url = request.build_absolute_uri(
             reverse("bookings:request_cancel", kwargs={"pk": booking.pk})
         )
@@ -476,20 +532,65 @@ def decide_change_request(request, pk, decision):
         messages.success(request, "Cambio rechazado.")
         return redirect("bookings:guide_list")
 
-    # --- ACEPTAR ---
-    # Aplicar cambios (date viene en ISO)
+    # -------------------------
+    # ACEPTAR (aplicar cambios)
+    # -------------------------
+
+    # Aplicar cambios en memoria (date viene en ISO)
     if change.get("date"):
         booking.date = date.fromisoformat(change["date"])
-        # Si cambió la fecha, por seguridad, limpiamos hora/punto para reconfirmar logística
         booking.pickup_time = None
         booking.meeting_point = ""
-
 
     booking.adults = change.get("adults", booking.adults)
     booking.children = change.get("children", booking.children)
     booking.infants = change.get("infants", booking.infants)
+
+    # ✅ Validar política de menores
+    try:
+        validate_minors_policy(booking.experience, booking.adults, booking.children, booking.infants)
+    except CoreValidationError as e:
+        # 🔥 AQUÍ está el fix: cerrar la solicitud, NO dejarla en CHANGE_REQUESTED
+
+        # limpiar solicitud
+        booking.extras.pop("change_request", None)
+        booking.extras.pop("pre_change_status", None)
+
+        # registrar update para el viajero (y para tu UI)
+        booking.extras["last_update"] = {
+            "type": "change",
+            "decision": "rejected",
+            "reason": "policy",
+            "message": e.message,
+            "at": timezone.now().isoformat(),
+        }
+
+        # (Opcional) si quieres dar cancelación gratis también cuando se rechaza por política:
+        booking.extras["free_cancel_override"] = {
+            "reason": "change_rejected",
+            "set_at": timezone.now().isoformat(),
+        }
+
+        # volver al estado anterior
+        booking.status = prev_status
+        booking.responded_at = timezone.now()
+        booking.seen_by_guide = True
+        booking.seen_by_traveler = False
+
+        booking.save(update_fields=[
+            "extras", "status", "responded_at",
+            "seen_by_guide", "seen_by_traveler", "updated_at"
+        ])
+
+        messages.error(request, e.message)
+        return redirect("bookings:guide_list")
+
+    # Si pasa la validación, aplicamos el resto
     booking.pickup_notes = change.get("pickup_notes", booking.pickup_notes)
-    booking.preferred_language = change.get("preferred_language", booking.preferred_language)
+    pl_id = change.get("preferred_language")
+    if pl_id:
+        booking.preferred_language_id = pl_id   # type: ignore[attr-defined]
+
     booking.notes = change.get("notes", booking.notes)
 
     # Recalcular precios (adulto completo, niño 50%, bebé gratis)
@@ -498,11 +599,11 @@ def decide_change_request(request, pk, decision):
     children_unit = unit_price * Decimal("0.5")
     booking.total_price = (unit_price * Decimal(booking.adults or 0)) + (children_unit * Decimal(booking.children or 0))
 
-    # Validar disponibilidad final (por seguridad)
+    # Validar disponibilidad final
     ok, msg = is_date_available(
         booking.experience,
         booking.date,
-        booking.people,          # people se recalcula en save() por tu modelo
+        booking.people,          # people se recalcula en save()
         exclude_booking_id=booking.pk,
     )
     if not ok:
@@ -512,7 +613,7 @@ def decide_change_request(request, pk, decision):
     # Limpiar solicitud y registrar actualización
     booking.extras.pop("change_request", None)
     booking.extras.pop("pre_change_status", None)
-    booking.extras.pop("free_cancel_override", None)
+    booking.extras.pop("free_cancel_override", None)  # si ya no aplica
 
     booking.extras["last_update"] = {
         "type": "change",
@@ -520,7 +621,6 @@ def decide_change_request(request, pk, decision):
         "at": timezone.now().isoformat(),
     }
 
-    # Volver al estado anterior (pending sigue pending / accepted sigue accepted)
     booking.status = prev_status
     booking.responded_at = timezone.now()
     booking.seen_by_traveler = False
@@ -576,7 +676,7 @@ def decide_cancel_request(request, pk, decision):
 
         rectificate_booking_invoice_if_needed(
             booking,
-            reason="Cancelación aprobada por el guía",
+            reason="Cancelación rechazada por el guía",
         )
 
         send_booking_status_email(
@@ -593,8 +693,10 @@ def decide_cancel_request(request, pk, decision):
         messages.success(request, "Cancelación rechazada.")
         return redirect("bookings:guide_list")
 
+    # --- aceptar cancelación ---
     booking.extras.pop("cancel_request", None)
     booking.extras.pop("pre_cancel_status", None)
+
     booking.status = Booking.Status.CANCELED
     booking.responded_at = timezone.now()
     booking.seen_by_traveler = False
@@ -715,6 +817,7 @@ def request_booking_cancel(request, pk):
             return redirect("bookings:traveler_list")
 
         # --- Fuera de política: solicitud al guía ---
+        booking.extras = booking.extras or {}
         booking.extras["pre_cancel_status"] = booking.status
         booking.extras["cancel_request"] = {"reason": reason}
 
@@ -737,7 +840,12 @@ def request_booking_cancel(request, pk):
         messages.success(request, "Solicitud de cancelación enviada al guía.")
         return redirect("bookings:traveler_list")
 
+    override_free = (
+        (booking.extras or {}).get("free_cancel_override", {}).get("reason") == "change_rejected"
+    )
+
     return render(request, "bookings/request_cancel.html", {
         "booking": booking,
         "show_free_cancel": can_cancel_free(booking),
+        "override_free": override_free,
     })

@@ -1,9 +1,9 @@
-# apps/bookings/services.py
-
 from django.utils import timezone
 
 from apps.billing.models import Invoice
 from apps.billing.services_rectification import create_rectificative_for_invoice
+
+from django.core.exceptions import ValidationError
 
 
 def rectificate_booking_invoice_if_needed(booking, reason: str) -> None:
@@ -40,3 +40,15 @@ def rectificate_booking_invoice_if_needed(booking, reason: str) -> None:
     }
 
     booking.save(update_fields=["extras", "updated_at"])
+    
+
+def validate_minors_policy(experience, adults: int, children: int, infants: int):
+    minors = (children or 0) + (infants or 0)
+
+    # Difícil: NO menores
+    if experience.difficulty == "hard" and minors > 0:
+        raise ValidationError("Esta experiencia es DIFÍCIL y no permite menores.")
+
+    # Moderada: menores OK, pero acompañados (mínimo 1 adulto)
+    if experience.difficulty == "moderate" and minors > 0 and (adults or 0) <= 0:
+        raise ValidationError("Los menores solo pueden asistir acompañados de al menos 1 adulto.")

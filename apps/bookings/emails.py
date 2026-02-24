@@ -11,7 +11,7 @@ def send_booking_status_email(*, to_email: str, subject: str, message: str) -> N
     send_mail(
         subject=subject,
         message=message,
-        from_email=getattr(settings, "DEFAULT_FROM_EMAIL", None) or "no-reply@lanzaxperience.com",
+        from_email=getattr(settings, "DEFAULT_FROM_EMAIL", None) or "no-reply@exploideo.com",
         recipient_list=[to_email],
         fail_silently=fail_silently,
     )
