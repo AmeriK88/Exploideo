@@ -21,7 +21,7 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])
 
 # Para detectar prod sin inventos: Railway expone RAILWAY_ENVIRONMENT
 # Si no, puedes usar tu propia variable: ENVIRONMENT=production
-ENVIRONMENT = env("ENVIRONMENT", default=os.getenv("RAILWAY_ENVIRONMENT", "local")).lower()
+ENVIRONMENT = env("ENVIRONMENT", default=os.getenv("RAILWAY_ENVIRONMENT", "local")).lower() # type: ignore[attr-defined]
 IS_PROD = (ENVIRONMENT in ("prod", "production"))
 
 # Si vas a usar dominios https en prod, esto es MUY importante:
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "apps.reviews.apps.ReviewsConfig",
     "apps.helpdesk.apps.HelpdeskConfig",
     "apps.billing.apps.BillingConfig",
+    "core.apps.CoreConfig",
 ]
 
 MIDDLEWARE = [
@@ -146,12 +147,11 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 # WhiteNoise storage (hash + compresión)
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
-MEDIA_URL = "/media/"        # ojo: te faltaba el "/" inicial
+MEDIA_URL = "/media/"   
 MEDIA_ROOT = BASE_DIR / "media"
 
 # ===== Security (solo prod) =====
 if IS_PROD:
-    # Railway suele ir detrás de proxy: esto hace que Django reconozca https correctamente
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
     SECURE_SSL_REDIRECT = env.bool("SECURE_SSL_REDIRECT", default=True)
@@ -159,7 +159,7 @@ if IS_PROD:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
 
-    SECURE_HSTS_SECONDS = env.int("SECURE_HSTS_SECONDS", default=60 * 60 * 24 * 30)  # 30 días
+    SECURE_HSTS_SECONDS = env.int("SECURE_HSTS_SECONDS", default=60 * 60 * 24 * 30) 
     SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool("SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True)
     SECURE_HSTS_PRELOAD = env.bool("SECURE_HSTS_PRELOAD", default=False)
 

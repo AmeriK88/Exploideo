@@ -1,4 +1,4 @@
-# 🚀 Exploria
+# 🚀 Exploideo
 A modern SaaS platform connecting travelers with local guides for unforgettable experiences. Built with Django and styled with Tailwind CSS, this app empowers guides to showcase their expertise and travelers to discover authentic adventures.
 
 ![Exploideo](https://img.shields.io/badge/Exploideo-Experience%20Booking-blue?style=for-the-badge&logo=map&logoColor=white) ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
@@ -52,8 +52,8 @@ A modern SaaS platform connecting travelers with local guides for unforgettable 
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/AmeriK88/lxp-guides.git
-   cd lx-guides
+   git clone https://github.com/AmeriK88/exploideo.git
+   cd exploideo
    ```
 
 2. **Set up Python virtual environment**:
@@ -170,4 +170,4 @@ Ver [LICENSE.TXT](LICENSE.TXT) para detalles completos.
 
 ---
 
-Made by the Lxp-Guides team. Happy adventuring! 🌍✈️
+Made by the José Félix. Happy adventuring! 🌍✈️
