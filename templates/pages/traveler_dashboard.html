@@ -215,9 +215,9 @@
                           {% elif s == "rejected" %}
                             <span class="badge badge-status-rejected">Rechazada</span>
                           {% elif s == "canceled" %}
-                            <span class="badge badge-neutral">Cancelada</span>
+                            <span class="badge status-banner-update-rejected">Cancelada</span>
                           {% else %}
-                            <span class="badge">{{ b.status }}</span>
+                            <span class="badge badge-neutral">{{ b.status }}</span>
                           {% endif %}
                         {% endwith %}
                       </td>

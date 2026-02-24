@@ -25,17 +25,23 @@
               {{ profile.display_name|default:guide_user.username }}
 
               {% if profile.verification_status == "verified" %}
-                <span class="ml-2 badge-emerald">✔ Verificado</span>
+                <span class="ml-2 badge badge-emerald">✔ Verificado</span>
+              {% elif profile.verification_status == "pending" %}
+                <span class="ml-2 badge badge-amber">⏳ En revisión</span>
+              {% elif profile.verification_status == "rejected" %}
+                <span class="ml-2 badge badge-red">✖ No verificado</span>
               {% else %}
-                <span class="ml-2 badge-amber">⏳ En revisión</span>
+                <span class="ml-2 badge badge-neutral">No verificado</span>
               {% endif %}
             </h1>
 
             <p class="mt-2 p-muted">
               {% if profile.verification_status == "verified" %}
                 Guía verificado oficialmente
-              {% else %}
+              {% elif profile.verification_status == "pending" %}
                 Documentación pendiente de validación por el equipo
+              {% else %}
+                Perfil sin verificación oficial
               {% endif %}
             </p>
           </div>
@@ -57,9 +63,18 @@
         {% endif %}
 
         <div class="mt-5 flex flex-wrap gap-2">
-          {% if profile.languages %}
-            <span class="badge badge-neutral hover-lift">🗣 {{ profile.languages }}</span>
-          {% endif %}
+
+          {# ✅ Idiomas (ManyToMany) #}
+          {% with langs=profile.languages.all %}
+            {% if langs %}
+              <span class="badge badge-neutral hover-lift">
+                🗣
+                {% for lang in langs %}
+                  {{ lang.code|upper }}{% if not forloop.last %} · {% endif %}
+                {% endfor %}
+              </span>
+            {% endif %}
+          {% endwith %}
 
           {% if profile.website %}
             <a class="badge badge-neutral hover-lift" href="{{ profile.website }}" target="_blank" rel="noopener">

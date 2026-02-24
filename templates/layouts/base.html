@@ -157,8 +157,8 @@
       <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
 
         <!-- Top CTA strip -->
-        <div class="card mb-8" data-animate="fade-up">
-          <div class="card-body flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="card mb-8" >
+          <div class="card-body flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between" data-animate="fade-up">
             <div>
               <p class="text-base font-semibold text-slate-900 tracking-tight">
                 ¿Quieres enterarte de experiencias nuevas antes que nadie?
@@ -511,8 +511,8 @@
 
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="{% static 'js/bookings/booking_calendar.js' %}"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script defer src="{% static 'js/bookings/booking_calendar.js' %}"></script>
     <script src="{% static 'js/cookies/consent.js' %}"></script>
     <script src="{% static 'js/components/loader.js' %}"></script>
     <script type="module" src="{% static 'js/animations/index.js' %}"></script>
