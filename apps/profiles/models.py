@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from core.models import Language
 
 
 class GuideProfile(models.Model):
@@ -21,10 +22,15 @@ class GuideProfile(models.Model):
         null=True,
         help_text="Foto de perfil (JPG/PNG)."
     )
-    
+
+    languages = models.ManyToManyField(
+        Language,
+        blank=True,
+        related_name="guide_profiles",
+    )
+
     display_name = models.CharField(max_length=120, blank=True)
     bio = models.TextField(blank=True)
-    languages = models.CharField(max_length=200, blank=True)  # "ES, EN, DE"
     phone = models.CharField(max_length=50, blank=True)
     instagram = models.CharField(max_length=120, blank=True)
     website = models.URLField(blank=True)

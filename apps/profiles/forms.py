@@ -1,8 +1,16 @@
 from django import forms
+from core.models import Language
 from .models import GuideProfile, TravelerProfile
 
 
 class GuideProfileForm(forms.ModelForm):
+    languages = forms.ModelMultipleChoiceField(
+        queryset=Language.objects.all().order_by("code"),
+        required=True,  # 👈 ponlo True si quieres obligar a elegir al menos 1 idioma
+        widget=forms.CheckboxSelectMultiple,
+        label="Idiomas que hablas",
+    )
+
     class Meta:
         model = GuideProfile
         fields = [
@@ -16,6 +24,23 @@ class GuideProfileForm(forms.ModelForm):
             "guide_license_document",
             "insurance_or_registration_document",
         ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # UX: si lo quieres como “completar perfil”, fuerza requerido solo aquí.
+        # Si prefieres que sea opcional al inicio, pon required=False arriba y
+        # aquí lo puedes condicionar según tu lógica.
+
+        # Ejemplo: añade clase para tu CSS/Bootstrap si quieres
+        # (CheckboxSelectMultiple no usa form-control, pero puedes meter clases)
+        self.fields["languages"].widget.attrs.update({"class": "space-y-2"})
+
+    def clean_languages(self):
+        langs = self.cleaned_data.get("languages")
+        if not langs or len(langs) == 0:
+            raise forms.ValidationError("Selecciona al menos un idioma.")
+        return langs
 
 
 class TravelerProfileForm(forms.ModelForm):
