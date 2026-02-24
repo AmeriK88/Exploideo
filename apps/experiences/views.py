@@ -202,6 +202,9 @@ def experience_detail(request, pk):
 
     availability = getattr(exp, "availability", None)
 
+    # Esto es lo que te evita el RelatedObjectDoesNotExist en template
+    gp = getattr(exp.guide, "guide_profile", None)
+
     public_reviews = (
         Review.objects.filter(experience=exp, status=Review.Status.PUBLISHED)
         .select_related("traveler")
@@ -222,7 +225,8 @@ def experience_detail(request, pk):
         "experiences/detail.html",
         {
             "exp": exp,
-            "availability": availability, 
+            "gp": gp,  # ✅ pásalo al template
+            "availability": availability,
             "public_reviews": public_reviews,
             "review_stats": review_stats,
             "can_review": can_review,

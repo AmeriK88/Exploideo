@@ -41,6 +41,17 @@ class Experience(models.Model):
         default=TransportRequirement.ON_FOOT,
     )
 
+    class Difficulty(models.TextChoices):
+        EASY = "easy", "Fácil"
+        MODERATE = "moderate", "Moderada"
+        HARD = "hard", "Difícil"
+
+    difficulty = models.CharField(
+        max_length=10,
+        choices=Difficulty.choices,
+        default=Difficulty.EASY,
+    )
+
     title = models.CharField(max_length=200)
     description = models.TextField()
     price = models.DecimalField(max_digits=8, decimal_places=2)

@@ -15,15 +15,16 @@ class ExperienceForm(forms.ModelForm):
             "location",
             "transport_requirement",
             "tags",
+            "difficulty",   
             "is_active",
         ]
 
         labels = {
+            "difficulty": "Dificultad",
             "transport_requirement": "Modo de desplazamiento requerido",
         }
 
         help_texts = {
-            "transport_requirement": (
-                "Este modo lo verá el viajero y se aplicará automáticamente a nuevas reservas."
-            ),
+            "difficulty": "Define a qué público va dirigida (afecta a reservas con menores).",
+            "transport_requirement": "Este modo lo verá el viajero y se aplicará automáticamente a nuevas reservas.",
         }
