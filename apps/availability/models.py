@@ -15,7 +15,7 @@ class ExperienceAvailability(models.Model):
         related_name="availability",
     )
 
-    weekdays = models.JSONField(default=list, blank=True)  # ejemplo: [0,1,2,3,4]
+    weekdays = models.JSONField(default=list, blank=True)   # Ex: [0,1,2,3,4]
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
 

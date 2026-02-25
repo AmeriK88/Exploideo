@@ -79,7 +79,7 @@ class ExperienceAvailabilityForm(forms.ModelForm):
         if start and end and end < start:
             self.add_error("end_date", "La fecha fin no puede ser anterior a la fecha inicio.")
 
-        # Validaciones suaves: si meten 0 o negativo (por si se saltan min en HTML)
+        # Soft validations
         for name in ("daily_capacity_people", "daily_capacity_bookings", "max_people_per_booking"):
             val = cleaned.get(name)
             if val is not None and val <= 0:
@@ -105,6 +105,6 @@ class AvailabilityBlockForm(forms.ModelForm):
         }
 
     def clean_reason(self):
-        # Limpieza mínima para evitar espacios raros
+        # Clean
         reason = (self.cleaned_data.get("reason") or "").strip()
         return reason
