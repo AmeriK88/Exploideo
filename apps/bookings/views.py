@@ -16,6 +16,7 @@ from .models import Booking
 from apps.billing.services import create_invoice_from_booking
 from apps.billing.models import Invoice
 from apps.bookings.services import rectificate_booking_invoice_if_needed, validate_minors_policy
+from apps.messages.services import ensure_conversation_for_accepted_booking
 
 from django.core.exceptions import ValidationError as CoreValidationError
 
@@ -143,6 +144,7 @@ def create_booking(request, experience_id):
             return render(request, "bookings/create.html", {"form": form, "experience": experience})
 
         booking.save()
+        ensure_conversation_for_accepted_booking(booking)
 
         message = (
             f"¡Solicitud de reserva enviada!\n\n"
