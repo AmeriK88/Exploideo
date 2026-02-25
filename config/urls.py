@@ -14,7 +14,7 @@ urlpatterns = [
     path("reviews/", include("apps.reviews.urls")),
     path("help/", include("apps.helpdesk.urls")),
     path("billing/", include("apps.billing.urls", namespace="billing")),
-
+    path("messages/", include("apps.messages.urls", namespace="messages")),
 ]
 
 if settings.DEBUG:

@@ -48,7 +48,9 @@ INSTALLED_APPS = [
     "apps.reviews.apps.ReviewsConfig",
     "apps.helpdesk.apps.HelpdeskConfig",
     "apps.billing.apps.BillingConfig",
+    "apps.messages.apps.MessagesConfig",
     "core.apps.CoreConfig",
+
 ]
 
 MIDDLEWARE = [
