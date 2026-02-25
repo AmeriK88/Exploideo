@@ -17,8 +17,7 @@ class Booking(models.Model):
         invoice: "Invoice"
 
     # ------------------------------------------------------------
-    # Idioma preferido (SINGLE SOURCE OF TRUTH) -> core.Language
-    # Ya NO legacy: obligatorio para nuevas reservas.
+    # Preffered lang (SINGLE SOURCE OF TRUTH) -> core.Language
     # ------------------------------------------------------------
     preferred_language = models.ForeignKey(
         "core.Language",
@@ -59,7 +58,6 @@ class Booking(models.Model):
     children = models.PositiveIntegerField(default=0, help_text="Niños 2-11 (50%)")
     infants = models.PositiveIntegerField(default=0, help_text="Bebés 0-1 (gratis)")
 
-    # Agregado coherente
     people = models.PositiveIntegerField(default=1, editable=False)
 
     transport_mode = models.CharField(
@@ -109,7 +107,7 @@ class Booking(models.Model):
         children = change.get("children", self.children) or 0
         infants = change.get("infants", self.infants) or 0
 
-        # Aquí ya existe booking, así que es correcto usar self.experience
+        # Policy vakidation
         try:
             validate_minors_policy(self.experience, adults, children, infants)
         except ValidationError as e:
@@ -120,16 +118,12 @@ class Booking(models.Model):
     def clean(self):
         super().clean()
 
-        # ✅ Evitar RelatedObjectDoesNotExist durante form.is_valid()
         exp_id = getattr(self, "experience_id", None)
         lang_id = getattr(self, "preferred_language_id", None)
 
         if not exp_id or not lang_id:
             return
 
-        # Si quieres ir ultra-seguro, evita cargar self.experience:
-        # exp = Experience.objects.select_related("guide").filter(pk=exp_id).first()
-        # pero en tu caso, como ya estás guardando FK real, usar self.experience suele ir bien.
         guide_profile = getattr(self.experience.guide, "guide_profile", None)
         if not guide_profile:
             raise ValidationError({"preferred_language": "El guía no tiene perfil configurado."})

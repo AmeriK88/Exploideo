@@ -45,10 +45,10 @@ def rectificate_booking_invoice_if_needed(booking, reason: str) -> None:
 def validate_minors_policy(experience, adults: int, children: int, infants: int):
     minors = (children or 0) + (infants or 0)
 
-    # Difícil: NO menores
+    # HARD: NO minors
     if experience.difficulty == "hard" and minors > 0:
         raise ValidationError("Esta experiencia es DIFÍCIL y no permite menores.")
 
-    # Moderada: menores OK, pero acompañados (mínimo 1 adulto)
+    # MOMODERATE: minors OK with an adult
     if experience.difficulty == "moderate" and minors > 0 and (adults or 0) <= 0:
         raise ValidationError("Los menores solo pueden asistir acompañados de al menos 1 adulto.")

@@ -1,4 +1,3 @@
-# accounts/admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 
@@ -7,7 +6,7 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
-    # 1) Mostrar role en el detalle (editar usuario)
+    # 1) User edit
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         ("Información personal", {"fields": ("first_name", "last_name", "email")}),
@@ -16,7 +15,7 @@ class UserAdmin(DjangoUserAdmin):
         ("Exploideo", {"fields": ("role",)}),
     )
 
-    # 2) Mostrar role en el alta (crear usuario)
+    # 2) Create user with role
     add_fieldsets = (
         (None, {
             "classes": ("wide",),
@@ -24,11 +23,11 @@ class UserAdmin(DjangoUserAdmin):
         }),
     )
 
-    # 3) Listado
+    # 3) List fiedls
     list_display = ("username", "email", "role", "is_staff", "is_active")
     list_filter = ("role", "is_staff", "is_active")
 
-    # 4) Comodidades
+    # 4) Other fields
     search_fields = ("username", "email", "first_name", "last_name")
     ordering = ("username",)
-    list_editable = ("role",)  # opcional: editar role desde el listado
+    list_editable = ("role",) 
