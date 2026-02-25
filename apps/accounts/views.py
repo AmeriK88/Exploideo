@@ -28,11 +28,11 @@ def register_view(request):
 
 
 def login_view(request):
-    # Si ya está logueado, fuera del login
+    # If logged in - bypass
     if request.user.is_authenticated:
         return redirect("pages:dashboard")
 
-    # Si viene con ?next=...
+    # If contains ?next=...
     next_url = request.GET.get("next") or request.POST.get("next")
 
     if request.method == "POST":
@@ -55,7 +55,7 @@ def login_view(request):
 
                 return redirect("pages:dashboard")
 
-            # Seguridad: solo redirigir a next si es seguro
+            # Security: only redirect next if secure
             if next_url and url_has_allowed_host_and_scheme(
                 url=next_url,
                 allowed_hosts={request.get_host()},
@@ -87,25 +87,24 @@ def delete_account_view(request):
         form = DeleteAccountForm(request.POST)
         if form.is_valid():
             with transaction.atomic():
-                # 1) anonimiza / desactiva (NO borrar)
+                # 1) Anonimity / not delete
                 user.is_active = False
 
-                # email y username únicos para evitar colisiones
-                # example.invalid es un dominio reservado para estos usos
+                # email y username uniques
                 user.email = f"deleted+{user.pk}@example.invalid"
                 user.username = f"deleted_{user.pk}"
 
-                # si usas nombre/apellidos en algún sitio, límpialos
+                # If nam/surname - clean
                 user.first_name = ""
                 user.last_name = ""
-
-                user.set_unusable_password()  # extra seguridad: no se puede loguear con esa cuenta
+                
+                # Setting passw to invalid
+                user.set_unusable_password()  
                 user.save(update_fields=[
                     "is_active", "email", "username",
                     "first_name", "last_name", "password"
                 ])
 
-                # 2) cerrar sesión
                 logout(request)
 
             messages.success(request, "Tu cuenta ha sido desactivada y tus datos personales han sido eliminados.")
