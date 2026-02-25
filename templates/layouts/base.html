@@ -145,7 +145,9 @@
 
 
     {% block body %}
-      <main id="page"  class="page-enter mx-auto max-w-6xl flex-1 w-full px-4 py-6 sm:px-6 pb-16" data-page>
+      <main id="page"
+            class="page-enter flex-1 w-full {% block main_class %}mx-auto max-w-6xl px-4 py-6 sm:px-6 pb-16{% endblock %}"
+            data-page>
 
           {% block content %}{% endblock %}
 
