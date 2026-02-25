@@ -1,0 +1,79 @@
+{% extends "layouts/dashboard_base.html" %}
+{% block title %}Chat de reserva{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="card">
+  <div class="card-body">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="h1-page">Chat de la reserva</h1>
+        <p class="p-muted">
+          {{ booking.experience.title }} · {{ booking.date }}
+        </p>
+      </div>
+
+      <a href="{% url 'bookings:detail' booking.pk %}" class="btn btn-ghost">
+        ← Volver a la reserva
+      </a>
+    </div>
+
+    <!-- Mensajes -->
+    <div class="mt-6 border rounded-lg p-4 bg-slate-100 max-h-125overflow-y-auto">
+
+      {% if chat_messages %}
+        {% for msg in chat_messages %}
+          <div class="mb-4 flex {% if msg.sender == request.user %}justify-end{% else %}justify-start{% endif %}">
+            
+            <div class="max-w-[70%] px-4 py-2 rounded-2xl shadow-sm
+              {% if msg.sender == request.user %}
+                bg-blue-600 text-white
+              {% else %}
+                bg-white text-slate-800 border border-slate-200
+              {% endif %}
+            ">
+              
+              <div class="text-sm leading-relaxed">
+                {{ msg.body|linebreaksbr }}
+              </div>
+
+              <div class="text-xs mt-2 opacity-70">
+                {{ msg.created_at|date:"d/m/Y H:i" }}
+              </div>
+
+            </div>
+
+          </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-center text-slate-500">
+          No hay mensajes todavía. Inicia la conversación 👇
+        </p>
+      {% endif %}
+
+    </div>
+
+    <!-- Formulario -->
+    <form method="post"
+          action="{% url 'messages:send_message' booking.id %}"
+          class="mt-4 flex gap-2 items-end">
+      {% csrf_token %}
+
+      <textarea name="body"
+                rows="2"
+                required
+                placeholder="Escribe un mensaje..."
+                class="w-full border border-slate-300 rounded-xl p-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+
+      <button type="submit"
+              class="btn btn-primary">
+        Enviar
+      </button>
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
