@@ -10,113 +10,132 @@
           <p class="mt-1 help-secondary">Navegación rápida</p>
         </div>
 
-        <nav class="space-y-1 text-sm">
-          <a href="{% url 'pages:dashboard' %}"
-             class="block rounded-lg px-3 py-2 font-medium
-             {% if request.resolver_match.url_name == 'dashboard' %}
-               bg-blue-50 text-blue-700
-             {% else %}
-               text-slate-700 hover:bg-slate-100
-             {% endif %}">
-            Dashboard
-          </a>
+          <nav class="space-y-1 text-sm">
+            <a href="{% url 'pages:dashboard' %}"
+              class="block rounded-lg px-3 py-2 font-medium
+              {% if request.resolver_match.url_name == 'dashboard' %}
+                bg-blue-50 text-blue-700
+              {% else %}
+                text-slate-700 hover:bg-slate-100
+              {% endif %}">
+              Dashboard
+            </a>
 
-          <a href="{% url 'pages:profile' %}"
-             class="block rounded-lg px-3 py-2 font-medium
-             {% if request.resolver_match.url_name == 'profile' %}
-               bg-blue-50 text-blue-700
-             {% else %}
-               text-slate-700 hover:bg-slate-100
-             {% endif %}">
-            Mi Perfil
-          </a>
+            <a href="{% url 'pages:profile' %}"
+              class="block rounded-lg px-3 py-2 font-medium
+              {% if request.resolver_match.url_name == 'profile' %}
+                bg-blue-50 text-blue-700
+              {% else %}
+                text-slate-700 hover:bg-slate-100
+              {% endif %}">
+              Mi Perfil
+            </a>
 
-          {% if user.is_authenticated %}
-            {% if user.is_guide %}
-              <a href="{% url 'experiences:mine' %}"
+            {% if user.is_authenticated %}
+
+              <!--  -------------------------
+                Bloque específico por rol
+                ------------------------- -->
+              {% if user.is_guide %}
+                <a href="{% url 'experiences:mine' %}"
+                  class="block rounded-lg px-3 py-2 font-medium
+                  {% if request.resolver_match.app_name == 'experiences' and request.resolver_match.url_name == 'mine' %}
+                    bg-blue-50 text-blue-700
+                  {% else %}
+                    text-slate-700 hover:bg-slate-100
+                  {% endif %}">
+                  Mis Experiencias
+                </a>
+
+                <a href="{% url 'bookings:guide_list' %}"
+                  class="block rounded-lg px-3 py-2 font-medium
+                  {% if request.resolver_match.url_name == 'guide_list' %}
+                    bg-blue-50 text-blue-700
+                  {% else %}
+                    text-slate-700 hover:bg-slate-100
+                  {% endif %}">
+                  <span class="flex items-center justify-between">
+                    <span>Reservas Recibidas</span>
+
+                    {% with n=unseen_guide_bookings|default:0 %}
+                      {% if n %}
+                        <span class="ml-2 notification-badge">{{ n }}</span>
+                      {% endif %}
+                    {% endwith %}
+                  </span>
+                </a>
+
+              {% else %}
+                <a href="{% url 'experiences:list' %}"
+                  class="block rounded-lg px-3 py-2 font-medium
+                  {% if request.resolver_match.app_name == 'experiences' %}
+                    bg-blue-50 text-blue-700
+                  {% else %}
+                    text-slate-700 hover:bg-slate-100
+                  {% endif %}">
+                  Explorar
+                </a>
+
+                <a href="{% url 'bookings:traveler_list' %}"
+                  class="block rounded-lg px-3 py-2 font-medium
+                  {% if request.resolver_match.url_name == 'traveler_list' %}
+                    bg-blue-50 text-blue-700
+                  {% else %}
+                    text-slate-700 hover:bg-slate-100
+                  {% endif %}">
+                  <span class="flex items-center justify-between">
+                    <span>Mis Reservas</span>
+
+                    {% with n=unseen_traveler_bookings|default:0 %}
+                      {% if n %}
+                        <span class="ml-2 notification-badge">{{ n }}</span>
+                      {% endif %}
+                    {% endwith %}
+                  </span>
+                </a>
+
+                <a href="{% url 'reviews:my_reviews' %}"
+                  class="block rounded-lg px-3 py-2 font-medium
+                  {% if request.resolver_match.app_name == 'reviews' and request.resolver_match.url_name == 'my_reviews' %}
+                    bg-blue-50 text-blue-700
+                  {% else %}
+                    text-slate-700 hover:bg-slate-100
+                  {% endif %}">
+                  Mis reseñas
+                </a>
+              {% endif %}
+
+              <!--  -------------------------
+                Bloque común (guide + traveler)
+                ------------------------- -->
+              <a href="{% url 'messages:inbox' %}"
                 class="block rounded-lg px-3 py-2 font-medium
-                {% if request.resolver_match.app_name == 'experiences' and request.resolver_match.url_name == 'mine' %}
+                {% if request.resolver_match.app_name == 'messages' %}
                   bg-blue-50 text-blue-700
                 {% else %}
                   text-slate-700 hover:bg-slate-100
                 {% endif %}">
-                Mis Experiencias
-              </a>
-
-              <a href="{% url 'bookings:guide_list' %}"
-                 class="block rounded-lg px-3 py-2 font-medium
-                 {% if request.resolver_match.url_name == 'guide_list' %}
-                   bg-blue-50 text-blue-700
-                 {% else %}
-                   text-slate-700 hover:bg-slate-100
-                 {% endif %}">
                 <span class="flex items-center justify-between">
-                  <span>Reservas Recibidas</span>
+                  <span>Mensajes</span>
 
-                  {% with n=unseen_guide_bookings|default:0 %}
-                    {% if n %}
-                      <span class="ml-2 notification-badge">
-                        {{ n }}
-                      </span>
-                    {% endif %}
-                  {% endwith %}
+                  {% if unread_messages_count %}
+                    <span class="ml-2 notification-badge">{{ unread_messages_count }}</span>
+                  {% endif %}
                 </span>
               </a>
 
-            {% else %}
-              <a href="{% url 'experiences:list' %}"
-                 class="block rounded-lg px-3 py-2 font-medium
-                 {% if request.resolver_match.app_name == 'experiences' %}
-                   bg-blue-50 text-blue-700
-                 {% else %}
-                   text-slate-700 hover:bg-slate-100
-                 {% endif %}">
-                Explorar
-              </a>
-
-              <a href="{% url 'bookings:traveler_list' %}"
-                 class="block rounded-lg px-3 py-2 font-medium
-                 {% if request.resolver_match.url_name == 'traveler_list' %}
-                   bg-blue-50 text-blue-700
-                 {% else %}
-                   text-slate-700 hover:bg-slate-100
-                 {% endif %}">
-                <span class="flex items-center justify-between">
-                  <span>Mis Reservas</span>
-
-                  {% with n=unseen_traveler_bookings|default:0 %}
-                    {% if n %}
-                      <span class="ml-2 notification-badge">
-                        {{ n }}
-                      </span>
-                    {% endif %}
-                  {% endwith %}
-                </span>
-              </a>
-
-              <!-- NEW: Reviews (traveler only) -->
-              <a href="{% url 'reviews:my_reviews' %}"
-                 class="block rounded-lg px-3 py-2 font-medium
-                 {% if request.resolver_match.app_name == 'reviews' and request.resolver_match.url_name == 'my_reviews' %}
-                   bg-blue-50 text-blue-700
-                 {% else %}
-                   text-slate-700 hover:bg-slate-100
-                 {% endif %}">
-                Mis reseñas
-              </a>
             {% endif %}
-          {% endif %}
 
-          <a href="{% url 'billing:my_invoices' %}"
-            class="block rounded-lg px-3 py-2 font-medium
-            {% if request.resolver_match.app_name == 'billing' %}
-              bg-blue-50 text-blue-700
-            {% else %}
-              text-slate-700 hover:bg-slate-100
-            {% endif %}">
-            {% if user.is_guide %}Facturación{% else %}Mis facturas{% endif %}
-          </a>
-        </nav>
+            <a href="{% url 'billing:my_invoices' %}"
+              class="block rounded-lg px-3 py-2 font-medium
+              {% if request.resolver_match.app_name == 'billing' %}
+                bg-blue-50 text-blue-700
+              {% else %}
+                text-slate-700 hover:bg-slate-100
+              {% endif %}">
+              {% if user.is_guide %}Facturación{% else %}Mis facturas{% endif %}
+            </a>
+          </nav>
 
         <div class="mt-4 border-t border-slate-200 pt-4 space-y-2">
           {% if user.is_authenticated %}

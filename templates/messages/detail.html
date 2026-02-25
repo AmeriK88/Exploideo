@@ -1,4 +1,6 @@
 {% extends "layouts/dashboard_base.html" %}
+{% load static %}
+
 {% block title %}Chat de reserva{% endblock %}
 
 {% block dashboard_content %}
@@ -21,7 +23,8 @@
     </div>
 
     <!-- Mensajes -->
-    <div class="mt-6 border rounded-lg p-4 bg-slate-100 max-h-125overflow-y-auto">
+    <div id="chat-box"
+         class="mt-6 border rounded-lg p-4 bg-slate-100 max-h-125 overflow-y-auto">
 
       {% if chat_messages %}
         {% for msg in chat_messages %}
@@ -47,6 +50,10 @@
 
           </div>
         {% endfor %}
+
+        <!-- Ancla invisible para auto-scroll -->
+        <div id="chat-bottom"></div>
+
       {% else %}
         <p class="text-center text-slate-500">
           No hay mensajes todavía. Inicia la conversación 👇
@@ -75,5 +82,11 @@
 
   </div>
 </div>
+
+
+
+{% block extra_js %}
+  <script src="{% static 'js/messages/chat.js' %}"></script>
+{% endblock %}
 
 {% endblock %}

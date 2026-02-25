@@ -1,0 +1,61 @@
+{% extends "layouts/dashboard_base.html" %}
+{% block title %}Mensajes{% endblock %}
+
+{% block dashboard_content %}
+
+<div class="flex flex-col gap-6">
+  <div>
+    <h1 class="h1-page">Mensajes</h1>
+    <p class="mt-1 p-muted">Tus conversaciones con viajeros y guías.</p>
+  </div>
+
+  {% if rows %}
+    <div class="space-y-3">
+      {% for r in rows %}
+        <div class="card">
+          <div class="card-body flex items-center justify-between gap-4">
+
+            <div class="min-w-0">
+              <p class="text-sm text-slate-500">
+                Reserva · {{ r.booking.date }}
+              </p>
+
+              <p class="text-base font-semibold text-slate-900 truncate">
+                {{ r.booking.experience.title }}
+              </p>
+
+              <p class="mt-1 text-sm text-slate-600 truncate">
+                Con: {{ r.other_user.username }}
+              </p>
+
+              {% if r.last_msg_at %}
+                <p class="mt-1 text-xs text-slate-500">
+                  Último mensaje: {{ r.last_msg_at|date:"d/m/Y H:i" }}
+                </p>
+              {% endif %}
+            </div>
+
+            <div class="flex items-center gap-3 shrink-0">
+              {% if r.unread %}
+                <span class="notification-badge">{{ r.unread }}</span>
+              {% endif %}
+
+              <a href="{% url 'messages:conversation_detail' r.booking.id %}" class="btn btn-primary">
+                Abrir
+              </a>
+            </div>
+
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="card">
+      <div class="card-body">
+        <p class="p-muted">Aún no tienes conversaciones.</p>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% endblock %}

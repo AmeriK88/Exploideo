@@ -33,18 +33,6 @@
               <span class="badge hover-lift">{{ booking.status }}</span>
             {% endif %}
           {% endwith %}
-
-          <!-- Chat - option when accepted -->
-          {% with s=booking.status|lower %}
-            {% if s == "accepted" %}
-              <div class="mt-4 flex justify-end">
-                <a href="{% url 'messages:conversation_detail' booking.id %}"
-                  class="btn btn-primary">
-                  💬 Abrir chat
-                </a>
-              </div>
-            {% endif %}
-          {% endwith %}
         </div>
       </div>
 
@@ -107,6 +95,18 @@
           {% endif %}
         {% endif %}
       {% endif %}
+
+      <!-- Chat - option when accepted -->
+      {% with s=booking.status|lower %}
+        {% if s == "accepted" %}
+          <div class="mt-4 flex justify-end">
+            <a href="{% url 'messages:conversation_detail' booking.id %}"
+              class="btn btn-primary">
+              💬 Abrir chat
+            </a>
+          </div>
+        {% endif %}
+      {% endwith %}
 
       <!-- Si el guía rechazó un cambio, permitir cancelación gratis y guiar al viajero -->
       {% if request.user == booking.traveler %}

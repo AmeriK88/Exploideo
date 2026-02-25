@@ -5,8 +5,10 @@ from django.utils import timezone
 
 class Conversation(models.Model):
     """
-    1 conversación por reserva (booking). Se crea cuando la booking pasa a ACCEPTED.
+    1 conversación por reserva (booking).
+    Se crea cuando la booking pasa a ACCEPTED.
     """
+
     booking = models.OneToOneField(
         "bookings.Booking",
         on_delete=models.CASCADE,
@@ -16,12 +18,18 @@ class Conversation(models.Model):
     STATUS_ACTIVE = "active"
     STATUS_CLOSED = "closed"
     STATUS_BLOCKED = "blocked"
+
     STATUS_CHOICES = [
         (STATUS_ACTIVE, "Active"),
         (STATUS_CLOSED, "Closed"),
         (STATUS_BLOCKED, "Blocked"),
     ]
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_ACTIVE)
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default=STATUS_ACTIVE,
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -38,13 +46,15 @@ class Conversation(models.Model):
 class Participant(models.Model):
     """
     Participantes del chat.
-    Útil para permisos, 'unread', muting, bloqueo, etc.
+    Controla permisos, unread, mute, bloqueos.
     """
+
     conversation = models.ForeignKey(
         Conversation,
         on_delete=models.CASCADE,
         related_name="participants",
     )
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -53,10 +63,12 @@ class Participant(models.Model):
 
     ROLE_TRAVELER = "traveler"
     ROLE_GUIDE = "guide"
+
     ROLE_CHOICES = [
         (ROLE_TRAVELER, "Traveler"),
         (ROLE_GUIDE, "Guide"),
     ]
+
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
 
     last_read_at = models.DateTimeField(null=True, blank=True)
@@ -71,11 +83,24 @@ class Participant(models.Model):
         indexes = [
             models.Index(fields=["conversation", "user"]),
             models.Index(fields=["user"]),
+            models.Index(fields=["conversation", "last_read_at"]),  # 🔥 optimiza unread
         ]
 
     def mark_read_now(self):
         self.last_read_at = timezone.now()
         self.save(update_fields=["last_read_at"])
+
+    def unread_count(self) -> int:
+        """
+        Cuenta mensajes no leídos para este usuario.
+        Escalable porque usa índice por conversación + fecha.
+        """
+        if self.last_read_at:
+            return self.conversation.messages.filter( # type: ignore[attr-defined]
+                created_at__gt=self.last_read_at
+            ).exclude(sender=self.user).count()
+
+        return self.conversation.messages.exclude(sender=self.user).count()# type: ignore[attr-defined]
 
     def __str__(self) -> str:
         return f"Participant(conversation_id={self.conversation.pk}, user_id={self.user.pk})"
@@ -87,6 +112,7 @@ class Message(models.Model):
         on_delete=models.CASCADE,
         related_name="messages",
     )
+
     sender = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -95,10 +121,12 @@ class Message(models.Model):
 
     KIND_TEXT = "text"
     KIND_SYSTEM = "system"
+
     KIND_CHOICES = [
         (KIND_TEXT, "Text"),
         (KIND_SYSTEM, "System"),
     ]
+
     kind = models.CharField(max_length=20, choices=KIND_CHOICES, default=KIND_TEXT)
 
     body = models.TextField()
@@ -107,8 +135,8 @@ class Message(models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields=["conversation", "-created_at"]),
-            models.Index(fields=["sender", "-created_at"]),
+            models.Index(fields=["conversation", "created_at"]),
+            models.Index(fields=["sender", "created_at"]),
         ]
         ordering = ["created_at"]
 
