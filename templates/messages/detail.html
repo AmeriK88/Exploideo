@@ -5,85 +5,122 @@
 
 {% block dashboard_content %}
 
-<div class="card">
-  <div class="card-body">
+{# Contenedor general: en móvil sin card, en sm+ con card #}
+<section class="-mx-4 sm:mx-0">
+  <div class="sm:card sm:overflow-hidden">
+    <div class="sm:card-body sm:p-0">
 
-    <!-- Header -->
-    <div class="flex items-center justify-between">
-      <div>
-        <h1 class="h1-page">Chat de la reserva</h1>
-        <p class="p-muted">
-          {{ booking.experience.title }} · {{ booking.date }}
-        </p>
-      </div>
+      {# ===== Shell: header / messages / composer ===== #}
+      <div class="bg-white sm:rounded-2xl sm:border sm:border-slate-200">
 
-      <a href="{% url 'bookings:detail' booking.pk %}" class="btn btn-ghost">
-        ← Volver a la reserva
-      </a>
-    </div>
-
-    <!-- Mensajes -->
-    <div id="chat-box"
-         class="mt-6 border rounded-lg p-4 bg-slate-100 max-h-125 overflow-y-auto">
-
-      {% if chat_messages %}
-        {% for msg in chat_messages %}
-          <div class="mb-4 flex {% if msg.sender == request.user %}justify-end{% else %}justify-start{% endif %}">
-            
-            <div class="max-w-[70%] px-4 py-2 rounded-2xl shadow-sm
-              {% if msg.sender == request.user %}
-                bg-blue-600 text-white
-              {% else %}
-                bg-white text-slate-800 border border-slate-200
-              {% endif %}
-            ">
-              
-              <div class="text-sm leading-relaxed">
-                {{ msg.body|linebreaksbr }}
-              </div>
-
-              <div class="text-xs mt-2 opacity-70">
-                {{ msg.created_at|date:"d/m/Y H:i" }}
-              </div>
-
+        {# ===== Header sticky ===== #}
+        <header class="sticky top-0 z-10 border-b border-slate-200 bg-white/95 backdrop-blur">
+          <div class="px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
+            <div class="min-w-0">
+              <h1 class="text-base sm:text-lg font-semibold text-slate-900 truncate">
+                {{ booking.experience.title }}
+              </h1>
+              <p class="text-xs sm:text-sm text-slate-500 truncate">
+                Chat de la reserva · {{ booking.date }}
+              </p>
             </div>
 
+            <a href="{% url 'bookings:detail' booking.pk %}"
+               class="btn btn-ghost shrink-0">
+              ← Volver
+            </a>
           </div>
-        {% endfor %}
+        </header>
 
-        <!-- Ancla invisible para auto-scroll -->
-        <div id="chat-bottom"></div>
+        {# ===== Messages area (altura “app”) ===== #}
+        <div
+          id="chat-scroll"
+          class="
+            px-4 sm:px-6 py-5
+            bg-slate-50
+            overflow-y-auto
+            h-[calc(100vh-220px)]
+            sm:h-[calc(100vh-260px)]
+          "
+        >
+          {% if chat_messages %}
+            <div class="space-y-3">
+              {% for msg in chat_messages %}
+                <div class="flex {% if msg.sender == request.user %}justify-end{% else %}justify-start{% endif %}">
+                  <div class="max-w-[85%] sm:max-w-[70%]">
 
-      {% else %}
-        <p class="text-center text-slate-500">
-          No hay mensajes todavía. Inicia la conversación 👇
-        </p>
-      {% endif %}
+                    {# Bubble #}
+                    <div class="
+                      rounded-2xl px-4 py-2 shadow-sm
+                      {% if msg.sender == request.user %}
+                        bg-blue-600 text-white
+                      {% else %}
+                        bg-white text-slate-800 border border-slate-200
+                      {% endif %}
+                    ">
+                      <div class="text-sm leading-relaxed wrap-break-word">
+                        {{ msg.body|linebreaksbr }}
+                      </div>
 
-    </div>
+                      <div class="mt-2 text-[11px] opacity-70 whitespace-nowrap">
+                        {{ msg.created_at|date:"d/m/Y H:i" }}
+                      </div>
+                    </div>
 
-    <!-- Formulario -->
-    <form method="post"
-          action="{% url 'messages:send_message' booking.id %}"
-          class="mt-4 flex gap-2 items-end">
-      {% csrf_token %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
 
-      <textarea name="body"
-                rows="2"
+            <div id="chat-bottom"></div>
+
+          {% else %}
+            <div class="py-10 text-center">
+              <p class="text-slate-500">
+                No hay mensajes todavía. Inicia la conversación 👇
+              </p>
+            </div>
+          {% endif %}
+        </div>
+
+        {# ===== Composer sticky bottom ===== #}
+        <footer class="sticky bottom-0 z-10 border-t border-slate-200 bg-white/95 backdrop-blur">
+          <form
+            method="post"
+            action="{% url 'messages:send_message' booking.id %}"
+            class="px-4 sm:px-6 py-4 flex gap-2 items-end"
+          >
+            {% csrf_token %}
+
+            <div class="flex-1">
+              <textarea
+                name="body"
+                rows="1"
                 required
-                placeholder="Escribe un mensaje..."
-                class="w-full border border-slate-300 rounded-xl p-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                placeholder="Escribe un mensaje…"
+                class="
+                  w-full resize-none
+                  rounded-2xl border border-slate-300 bg-white
+                  p-3 text-slate-800
+                  focus:outline-none focus:ring-2 focus:ring-blue-500
+                "
+              ></textarea>
 
-      <button type="submit"
-              class="btn btn-primary">
-        Enviar
-      </button>
-    </form>
+              <p class="mt-1 text-[11px] text-slate-400">
+                Enter para enviar · Shift+Enter para salto de línea
+              </p>
+            </div>
 
+            <button type="submit" class="btn btn-primary shrink-0">
+              Enviar
+            </button>
+          </form>
+        </footer>
+
+      </div>
+    </div>
   </div>
-</div>
-
-
+</section>
 
 {% block extra_js %}
   <script src="{% static 'js/messages/chat.js' %}"></script>

@@ -15,11 +15,19 @@
           class="h-12 sm:h-14 md:h-16 lg:h-20 w-auto transition-transform hover:scale-105 drop-shadow-md"
         />
 
-        <span class="px-3 py-1.5 rounded-xl text-sm sm:text-base font-semibold text-slate-900
-                    bg-linear-to-r from-white via-blue-500 to-yellow-400
-                    shadow-sm border border-slate-200/60">
-          LanzaXperience
-        </span>
+          <!-- En móvil se oculta para que no se solape -->
+          <a
+            href="{% url 'pages:home' %}" 
+            class="hidden sm:inline-flex px-4 py-1.5 rounded-full
+                  text-sm font-semibold tracking-wide
+                  text-white
+                  bg-linear-to-r from-brand-700 to-brand-500
+                  shadow-[0_0_20px_rgba(47,140,255,0.25)]
+                  hover:shadow-[0_0_30px_rgba(47,140,255,0.40)]
+                  transition-all duration-300"
+          >
+            Exploideo
+          </a>
       </a>
 
       <nav class="hidden md:flex items-center gap-1 text-sm" data-animate="fade-down">
