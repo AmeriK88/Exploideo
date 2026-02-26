@@ -1,4 +1,4 @@
---------------<img width="375" height="250" alt="exploideo-logo" src="https://github.com/user-attachments/assets/024cce0b-379c-4d6d-ac86-4cac02031ea8" />
+<img width="375" height="250" alt="exploideo-logo" src="https://github.com/user-attachments/assets/024cce0b-379c-4d6d-ac86-4cac02031ea8" />
 # 🚀 Exploideo
 
 A modern SaaS platform connecting travelers with local guides for
@@ -16,9 +16,7 @@ Started](https://img.shields.io/badge/⚡_Get_Started-111827?style=for-the-badge
 [![Features](https://img.shields.io/badge/✨_Features-2563EB?style=for-the-badge)](#-features)
 [![License](https://img.shields.io/badge/📄_License-10B981?style=for-the-badge)](LICENSE.TXT)
 
---------------<img width="1888" height="873" alt="cover" src="https://github.com/user-attachments/assets/8aabb52a-ea4f-42b1-8745-b76cf0d988f8" />
-
---------------------------------------------
+<img width="1888" height="873" alt="cover" src="https://github.com/user-attachments/assets/8aabb52a-ea4f-42b1-8745-b76cf0d988f8" />
 
 ## 🌟 Features
 
