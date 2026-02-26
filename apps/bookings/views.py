@@ -15,13 +15,11 @@ from .forms import BookingForm, BookingDecisionForm, BookingChangeRequestForm
 from .models import Booking
 from apps.billing.services import create_invoice_from_booking
 from apps.billing.models import Invoice
-from apps.bookings.services import rectificate_booking_invoice_if_needed, validate_minors_policy
+from apps.bookings.services import rectificate_booking_invoice_if_needed, validate_minors_policy, attach_chat_unread_counts
 from apps.messages.services import ensure_conversation_for_accepted_booking
-
-from django.core.exceptions import ValidationError as CoreValidationError
-
 from core.models import Language
 
+from django.core.exceptions import ValidationError as CoreValidationError
 
 
 def booking_start_dt_local(booking):
@@ -175,29 +173,50 @@ def create_booking(request, experience_id):
 
 @login_required
 def traveler_bookings(request):
-    bookings = (
-        Booking.objects.filter(traveler=request.user)
+    qs = (
+        Booking.objects
+        .filter(traveler=request.user)
         .select_related("experience", "experience__guide")
     )
-    return render(request, "bookings/traveler_list.html", {
-        "bookings": bookings,
-        "today": timezone.localdate(),
-    })
 
+    # Convertimos a lista para poder añadir atributo dinámico
+    bookings = list(qs)
+
+    # Añadimos chat_unread a cada booking
+    attach_chat_unread_counts(bookings, request.user)
+
+    return render(
+        request,
+        "bookings/traveler_list.html",
+        {
+            "bookings": bookings,
+            "today": timezone.localdate(),
+        },
+    )
 
 @guide_required
 def guide_bookings(request):
-    bookings = (
-        Booking.objects.filter(experience__guide=request.user)
+    qs = (
+        Booking.objects
+        .filter(experience__guide=request.user)
         .select_related("experience", "traveler")
     )
 
+    bookings = list(qs)
+
+    # Añadimos chat_unread a cada booking
+    attach_chat_unread_counts(bookings, request.user)
+
     language_labels = dict(Language.objects.values_list("id", "name"))
 
-    return render(request, "bookings/guide_list.html", {
-        "bookings": bookings,
-        "language_labels": language_labels,
-    })
+    return render(
+        request,
+        "bookings/guide_list.html",
+        {
+            "bookings": bookings,
+            "language_labels": language_labels,
+        },
+    )
 
 @login_required
 def booking_detail(request, pk):
