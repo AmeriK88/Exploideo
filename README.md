@@ -1,9 +1,3 @@
-```{=html}
-<!-- ===== HERO ===== -->
-```
-::: {align="center"}
-`<img src="docs/assets/exploideo-logo.png" alt="Exploideo logo" width="120" />`{=html}
-
 # 🚀 Exploideo
 
 A modern SaaS platform connecting travelers with local guides for
@@ -20,13 +14,6 @@ Built with **Django** + **Tailwind CSS**.
 Started](https://img.shields.io/badge/⚡_Get_Started-111827?style=for-the-badge)](#-installation)
 [![Features](https://img.shields.io/badge/✨_Features-2563EB?style=for-the-badge)](#-features)
 [![License](https://img.shields.io/badge/📄_License-10B981?style=for-the-badge)](LICENSE.TXT)
-:::
-
-`<br>`{=html}
-
-::: {align="center"}
-`<img src="docs/assets/cover.png" alt="Exploideo preview" width="100%" />`{=html}
-:::
 
 ------------------------------------------------------------------------
 
