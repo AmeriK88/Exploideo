@@ -10,7 +10,7 @@ Built with **Django** + **Tailwind CSS**.
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![Posgres](https://img.shields.io/badge/Posgres-003B57?style=for-the-badge&logo=posgres&logoColor=white)
+![Postgres](https://img.shields.io/badge/Postgres-003B57?style=for-the-badge&logo=postgres&logoColor=white)
 
 [![Get
 Started](https://img.shields.io/badge/⚡_Get_Started-111827?style=for-the-badge)](#-installation)
