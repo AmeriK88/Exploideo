@@ -2,6 +2,7 @@ from pathlib import Path
 import sys
 import os
 import environ
+from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR / "apps"))
@@ -63,6 +64,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -119,7 +121,13 @@ LOGIN_REDIRECT_URL = "pages:dashboard"
 LOGOUT_REDIRECT_URL = "accounts:login"
 
 # ===== i18n =====
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "es"
+LANGUAGES = [
+    ("es", _("Spanish")),
+    ("en", _("English")),
+]
+LOCALE_PATHS = [BASE_DIR / "locale"]
+
 TIME_ZONE = "Atlantic/Canary"
 USE_I18N = True
 USE_TZ = True
