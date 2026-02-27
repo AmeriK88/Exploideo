@@ -10,14 +10,29 @@
     <title>{% block title %}Exploideo{% endblock %}</title>
     <meta name="description" content="{% block meta_description %}Plataforma de experiencias auténticas con guías locales verificados. Reserva fácil, disponibilidad real y excursiones personalizadas.{% endblock %}">
     <meta name="robots" content="index,follow">
+
+   {# Theme color #}
     <meta name="theme-color" content="#123c77">
 
     {# Open Graph #}
     <meta property="og:site_name" content="Exploideo">
-    <meta property="og:title" content="{% block og_title %}Exploideo{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}Experiencias auténticas con guías locales verificados.{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}Exploideo — Acceso anticipado{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Experiencias auténticas con guías locales verificados. Únete a la lista y recibe acceso anticipado.{% endblock %}">
     <meta property="og:type" content="website">
-    {# cuando haya dominio og:url/og:image desde settings/context #}
+
+     <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Exploideo — Acceso anticipado">
+    <meta name="twitter:description" content="Experiencias auténticas con guías locales verificados. Únete a la lista y recibe acceso anticipado.">
+    <meta name="twitter:image" content="https://exploideo.com/static/img/exploideo-logo.png">
+
+    <!-- Open Graph -->
+    <meta property="og:url" content="https://exploideo.com/">
+    <meta property="og:image" content="https://exploideo.com/static/img/exploideo-social.png">
+    <meta property="og:image:secure_url" content="https://exploideo.com/static/img/exploideo-social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
     <meta name="apple-mobile-web-app-title" content="Exploideo">
     <meta name="mobile-web-app-capable" content="yes">
@@ -38,6 +53,10 @@
 
     <!-- Preload del logo del navbar -->
     <link rel="preload" as="image" href="{% static 'img/exploideo-logo.webp' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
+    <!-- Preload del logo del navbar -->
+    <link rel="preload" as="image" href="{% static 'img/exploideo-logo.png' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
+
+    <link rel="preload" as="image" href="{% static 'img/exploideo-social.png' %}" fetchpriority="high"/>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -57,7 +76,6 @@
     ========================================================== -->
     <header class="nav-grain">
       <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6" data-stagger>
-
         <!-- Brand -->
         <div class="flex min-w-0 items-center gap-3" data-animate="fade-down">
           <a href="{% url 'pages:home' %}" class="flex items-center shrink-0">
@@ -75,7 +93,7 @@
 
           <!-- En móvil se oculta para que no se solape -->
           <a
-            href="{% url 'pages:home' %}" 
+            href="{% url 'pages:home' %}"
             class="hidden sm:inline-flex px-4 py-1.5 rounded-full
                   text-sm font-semibold tracking-wide
                   text-white
@@ -95,15 +113,11 @@
             Lista de espera abierta
           </span>
 
-          <a
-            href="/#waitlist"
-            class="inline-flex whitespace-nowrap items-center justify-center rounded-2xl btn btn-primary px-5 py-3"
-          >
+          <a href="#waitlist" class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-5 py-3">
             <span class="sm:hidden">Acceso anticipado</span>
             <span class="hidden sm:inline">Quiero acceso anticipado</span>
           </a>
         </div>
-
       </div>
     </header>
 
