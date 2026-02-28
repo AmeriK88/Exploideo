@@ -5,9 +5,15 @@ from django.conf.urls.static import static
 
 from django.conf.urls.i18n import i18n_patterns
 from django.views.i18n import set_language
+from core.views.sitemap import sitemap_xml
+from django.views.generic import TemplateView
+
+
 
 urlpatterns = [
     path("i18n/setlang/", set_language, name="set_language"),
+    path("sitemap.xml", sitemap_xml, name="sitemap"),
+    path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
 ]
 
 urlpatterns += i18n_patterns(

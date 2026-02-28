@@ -364,14 +364,14 @@
   <!-- =========================================================
     EXPERIENCIAS DESTACADAS (igual)
   ========================================================== -->
-  <section class="home-band" data-animate="fade-up">
-    <div class="home-container">
+  <section class="home-band">
+    <div class="home-container" data-animate="fade-up">
       {% with title="Experiencias destacadas" subtitle="Ideas para empezar si no sabes qué elegir." cta_url=experiences_list_url cta_label="Ver todas →" %}
         {% include "components/section_header.html" %}
       {% endwith %}
 
       {% if featured_experiences %}
-        <div class="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[1fr] items-stretch">
+        <div class="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[1fr] items-stretch" data-animate="fade-up">
           {% for experience in featured_experiences %}
             {% include "components/experience_card.html" with experience=experience %}
           {% endfor %}

@@ -11,6 +11,23 @@
     <meta name="description" content="{% block meta_description %}Plataforma de experiencias auténticas con guías locales verificados. Reserva fácil, disponibilidad real y excursiones personalizadas.{% endblock %}">
     <meta name="robots" content="index,follow">
 
+    {# --- SEO i18n: canonical + hreflang --- #}
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+    {% get_available_languages as LANGUAGES %}
+    {% for lang_code, lang_name in LANGUAGES %}
+      <link
+        rel="alternate"
+        hreflang="{{ lang_code }}"
+        href="{{ request.build_absolute_uri|cut:request.get_full_path }}{% translate_url lang_code %}"
+      >
+    {% endfor %}
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href="{{ request.build_absolute_uri|cut:request.get_full_path }}{% translate_url 'es' %}"
+    >
+
     {# Theme color #}
     <meta name="theme-color" content="#123c77">
 
@@ -27,7 +44,7 @@
     <meta name="twitter:image" content="https://exploideo.com/static/img/exploideo-logo.png">
 
     <!-- Open Graph -->
-    <meta property="og:url" content="https://exploideo.com/">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <meta property="og:image" content="https://exploideo.com/static/img/exploideo-social.png">
     <meta property="og:image:secure_url" content="https://exploideo.com/static/img/exploideo-social.png">
     <meta property="og:image:type" content="image/png">

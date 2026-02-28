@@ -7,6 +7,10 @@ from django.utils.translation import gettext_lazy as _
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR / "apps"))
 
+LOCALE_PATHS = [
+    BASE_DIR / "locale",
+]
+
 # django-environ
 env = environ.Env(
     DEBUG=(bool, False),
@@ -30,6 +34,8 @@ CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
 
 CANONICAL_HOST = "exploideo.com" if IS_PROD else None
 
+SITE_ID = env.int("SITE_ID")
+
 # ===== Application =====
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -52,6 +58,9 @@ INSTALLED_APPS = [
     "apps.messages.apps.MessagesConfig",
     "core.apps.CoreConfig",
 
+    # Lang-locale
+    "django.contrib.sites",
+    "django.contrib.sitemaps",
 ]
 
 MIDDLEWARE = [
