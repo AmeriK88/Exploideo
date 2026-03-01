@@ -1,89 +1,84 @@
-{% load static i18n %}
+{% load static i18n seo_i18n %}
 {% get_current_language as CURRENT_LANGUAGE %}
 {% now "Y" as current_year %}
 <!doctype html>
-<html lang="{{ CURRENT_LANGUAGE }}">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-    <title>{% block title %}Exploideo{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}Plataforma de experiencias auténticas con guías locales verificados. Reserva fácil, disponibilidad real y excursiones personalizadas.{% endblock %}">
-    <meta name="robots" content="index,follow">
+  <title>{% block title %}Exploideo{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Plataforma de experiencias auténticas con guías locales verificados. Reserva fácil, disponibilidad real y excursiones personalizadas.{% endblock %}">
+  <meta name="robots" content="index,follow">
 
-    {# --- SEO i18n: canonical + hreflang --- #}
-    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+  {# --- SEO i18n: canonical + hreflang --- #}
+  <link rel="canonical" href="{% canonical_url %}">
 
-    {% get_available_languages as LANGUAGES %}
-    {% for lang_code, lang_name in LANGUAGES %}
-      <link
-        rel="alternate"
-        hreflang="{{ lang_code }}"
-        href="{{ request.build_absolute_uri|cut:request.get_full_path }}{% translate_url lang_code %}"
-      >
-    {% endfor %}
-    <link
-      rel="alternate"
-      hreflang="x-default"
-      href="{{ request.build_absolute_uri|cut:request.get_full_path }}{% translate_url 'es' %}"
-    >
+  {% get_available_languages as LANGUAGES %}
+  {% for lang_code, lang_name in LANGUAGES %}
+    <link rel="alternate" hreflang="{{ lang_code }}" href="{% translate_url lang_code %}">
+  {% endfor %}
+  <link rel="alternate" hreflang="x-default" href="{% translate_url 'es' %}">
 
-    {# Theme color #}
-    <meta name="theme-color" content="#123c77">
+  {# Theme color #}
+  <meta name="theme-color" content="#123c77">
 
-    {# Open Graph #}
-    <meta property="og:site_name" content="Exploideo">
-    <meta property="og:title" content="{% block og_title %}Exploideo — Acceso anticipado{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}Experiencias auténticas con guías locales verificados. Únete a la lista y recibe acceso anticipado.{% endblock %}">
-    <meta property="og:type" content="website">
+  {# Open Graph base #}
+  <meta property="og:site_name" content="Exploideo">
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+  <meta property="og:url" content="{% canonical_url %}">
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Exploideo — Acceso anticipado">
-    <meta name="twitter:description" content="Experiencias auténticas con guías locales verificados. Únete a la lista y recibe acceso anticipado.">
-    <meta name="twitter:image" content="https://exploideo.com/static/img/exploideo-logo.png">
+  {# Locale #}
+  <meta property="og:locale" content="{% if CURRENT_LANGUAGE == 'es' %}es_ES{% else %}en_US{% endif %}">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="en_US">
 
-    <!-- Open Graph -->
-    <meta property="og:url" content="{{ request.build_absolute_uri }}">
-    <meta property="og:image" content="https://exploideo.com/static/img/exploideo-social.png">
-    <meta property="og:image:secure_url" content="https://exploideo.com/static/img/exploideo-social.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+  {# Title / Description (NO anidar blocks) #}
+  <meta property="og:title" content="{% block og_title %}Exploideo{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Plataforma de experiencias auténticas con guías locales verificados. Reserva fácil, disponibilidad real y excursiones personalizadas.{% endblock %}">
 
-    <meta name="apple-mobile-web-app-title" content="Exploideo">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  {# Image (por defecto; override por vista si quieres) #}
+  <meta property="og:image" content="{% block og_image %}https://exploideo.com/static/img/exploideo-social.png{% endblock %}">
+  <meta property="og:image:secure_url" content="{% block og_image_secure %}https://exploideo.com/static/img/exploideo-social.png{% endblock %}">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{% block og_image_alt %}Exploideo — experiencias auténticas con guías locales{% endblock %}">
 
-    <!-- Favicon -->
-    <link rel="manifest" href="{% static 'site.webmanifest' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+  {# Twitter Card #}
+  <meta name="twitter:card" content="summary_large_image">
+  {# <meta name="twitter:site" content="@exploideo"> #}
+  {# <meta name="twitter:creator" content="@exploideo"> #}
 
-    <link rel="mask-icon" href="{% static 'img/exploideo-logo.png' %}" color="#123c77">
-    <link rel="shortcut icon" href="{% static 'img/favicon-32.png' %}">
+  <meta name="apple-mobile-web-app-title" content="Exploideo">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <!-- Favicon -->
+  <link rel="manifest" href="{% static 'site.webmanifest' %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+  <link rel="mask-icon" href="{% static 'img/exploideo-logo.png' %}" color="#123c77">
+  <link rel="shortcut icon" href="{% static 'img/favicon-32.png' %}">
 
-    <!-- Preload del logo del navbar -->
-    <link rel="preload" as="image" href="{% static 'img/exploideo-logo.webp' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
-    <link rel="preload" as="image" href="{% static 'img/exploideo-logo.png' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
-    <link rel="preload" as="image" href="{% static 'img/exploideo-social.png' %}" fetchpriority="high"/>
+  <!-- Preload images -->
+  <link rel="preload" as="image" href="{% static 'img/exploideo-logo.webp' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
+  <link rel="preload" as="image" href="{% static 'img/exploideo-logo.png' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
+  <link rel="preload" as="image" href="{% static 'img/exploideo-social.png' %}" fetchpriority="high"/>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="{% static 'css/output.css' %}">
-    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+  <!-- Styles -->
+  <link rel="stylesheet" href="{% static 'css/output.css' %}">
+  <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
-    {% block extra_head %}{% endblock %}
-  </head>
+  {% block extra_head %}{% endblock %}
+</head>
 
 <body class="home-landing min-h-screen bg-slate-50 text-slate-800 antialiased font-sans {% block body_class %}{% endblock %}">
 
@@ -94,6 +89,7 @@
       <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6" data-stagger>
         <!-- Brand -->
         <div class="flex min-w-0 items-center gap-3" data-animate="fade-down">
+
           <a href="{% url 'pages:home' %}" class="flex items-center shrink-0">
             <picture>
               <source srcset="{% static 'img/exploideo-logo.webp' %}" type="image/webp">
@@ -136,6 +132,7 @@
         </div>
       </div>
     </header>
+
 
     <!-- Messages -->
     {% if messages %}

@@ -32,9 +32,10 @@ IS_PROD = (ENVIRONMENT in ("prod", "production"))
 # Si vas a usar dominios https en prod, esto es MUY importante:
 CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
 
-CANONICAL_HOST = "exploideo.com" if IS_PROD else None
-
 SITE_ID = env.int("SITE_ID")
+
+CANONICAL_HOST = env("CANONICAL_HOST", default=None) if IS_PROD else None
+
 
 # ===== Application =====
 INSTALLED_APPS = [

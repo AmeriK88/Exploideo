@@ -1,70 +1,85 @@
-{% load static %}
-
+{% load static i18n seo_i18n %}
+{% get_current_language as CURRENT_LANGUAGE %}
+{% now "Y" as current_year %}
 <!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+<html lang="{{ CURRENT_LANGUAGE }}">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-    <title>{% block title %}Exploideo — Acceso anticipado{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}Vive experiencias como un local. Exploideo conecta viajeros con guías verificados para experiencias auténticas. Únete a la lista y recibe acceso anticipado.{% endblock %}">
-    <meta name="robots" content="index,follow">
+  <title>{% block title %}Exploideo{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Plataforma de experiencias auténticas con guías locales verificados. Reserva fácil, disponibilidad real y excursiones personalizadas.{% endblock %}">
+  <meta name="robots" content="index,follow">
 
-    {# Theme color (una sola vez) #}
-    <meta name="theme-color" content="#123c77">
+  {# --- SEO i18n: canonical + hreflang --- #}
+  <link rel="canonical" href="{% canonical_url %}">
 
-    {# Open Graph #}
-    <meta property="og:site_name" content="Exploideo">
-    <meta property="og:title" content="{% block og_title %}Exploideo — Acceso anticipado{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}Experiencias auténticas con guías locales verificados. Únete a la lista y recibe acceso anticipado.{% endblock %}">
-    <meta property="og:type" content="website">
+  {% get_available_languages as LANGUAGES %}
+  {% for lang_code, lang_name in LANGUAGES %}
+    <link rel="alternate" hreflang="{{ lang_code }}" href="{% translate_url lang_code %}">
+  {% endfor %}
+  <link rel="alternate" hreflang="x-default" href="{% translate_url 'es' %}">
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Exploideo — Acceso anticipado">
-    <meta name="twitter:description" content="Experiencias auténticas con guías locales verificados. Únete a la lista y recibe acceso anticipado.">
-    <meta name="twitter:image" content="https://exploideo.com/static/img/exploideo-social.png">
+  {# Theme color #}
+  <meta name="theme-color" content="#123c77">
 
-    <!-- Open Graph -->
-    <meta property="og:url" content="https://exploideo.com/">
-    <meta property="og:image" content="https://exploideo.com/static/img/exploideo-social.png">
-    <meta property="og:image:secure_url" content="https://exploideo.com/static/img/exploideo-social.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+  {# Open Graph base #}
+  <meta property="og:site_name" content="Exploideo">
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+  <meta property="og:url" content="{% canonical_url %}">
 
-    <meta name="apple-mobile-web-app-title" content="Exploideo">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  {# Locale #}
+  <meta property="og:locale" content="{% if CURRENT_LANGUAGE == 'es' %}es_ES{% else %}en_US{% endif %}">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="en_US">
 
-    <!-- Favicon -->
-    <link rel="manifest" href="{% static 'site.webmanifest' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
-    <link rel="mask-icon" href="{% static 'img/exploideo-logo.png' %}" color="#123c77">
-    <link rel="shortcut icon" href="{% static 'img/favicon-32.png' %}">
+  {# Title / Description (NO anidar blocks) #}
+  <meta property="og:title" content="{% block og_title %}Exploideo{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Plataforma de experiencias auténticas con guías locales verificados. Reserva fácil, disponibilidad real y excursiones personalizadas.{% endblock %}">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  {# Image (por defecto; override por vista si quieres) #}
+  <meta property="og:image" content="{% block og_image %}https://exploideo.com/static/img/exploideo-social.png{% endblock %}">
+  <meta property="og:image:secure_url" content="{% block og_image_secure %}https://exploideo.com/static/img/exploideo-social.png{% endblock %}">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{% block og_image_alt %}Exploideo — experiencias auténticas con guías locales{% endblock %}">
 
-    <!-- Preload del logo del navbar -->
-    <link rel="preload" as="image" href="{% static 'img/exploideo-logo.webp' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
-    <!-- Preload del logo del navbar -->
-    <link rel="preload" as="image" href="{% static 'img/exploideo-logo.png' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
+  {# Twitter Card #}
+  <meta name="twitter:card" content="summary_large_image">
+  {# <meta name="twitter:site" content="@exploideo"> #}
+  {# <meta name="twitter:creator" content="@exploideo"> #}
 
-    <link rel="preload" as="image" href="{% static 'img/exploideo-social.png' %}" fetchpriority="high"/>
+  <meta name="apple-mobile-web-app-title" content="Exploideo">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Favicon -->
+  <link rel="manifest" href="{% static 'site.webmanifest' %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+  <link rel="mask-icon" href="{% static 'img/exploideo-logo.png' %}" color="#123c77">
+  <link rel="shortcut icon" href="{% static 'img/favicon-32.png' %}">
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="{% static 'css/output.css' %}">
-    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
-    {% block extra_head %}{% endblock %}
-  </head>
+  <!-- Preload images -->
+  <link rel="preload" as="image" href="{% static 'img/exploideo-logo.webp' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
+  <link rel="preload" as="image" href="{% static 'img/exploideo-logo.png' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
+  <link rel="preload" as="image" href="{% static 'img/exploideo-social.png' %}" fetchpriority="high"/>
 
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="{% static 'css/output.css' %}">
+  <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  {% block extra_head %}{% endblock %}
+</head>
   <body class="min-h-screen bg-surface-50 text-slate-900 selection:bg-brand-200 selection:text-brand-900">
 
     <!-- =========================================================
@@ -74,6 +89,7 @@
       <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6" data-stagger>
         <!-- Brand -->
         <div class="flex min-w-0 items-center gap-3" data-animate="fade-down">
+
           <a href="{% url 'pages:home' %}" class="flex items-center shrink-0">
             <picture>
               <source srcset="{% static 'img/exploideo-logo.webp' %}" type="image/webp">
@@ -106,12 +122,12 @@
         <div class="flex shrink-0 items-center gap-2 sm:gap-3" data-animate="fade-down">
           <span class="hidden sm:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700">
             <span class="inline-block h-2 w-2 rounded-full bg-emerald-500"></span>
-            Lista de espera abierta
+            {% trans "Lista de espera abierta" %}
           </span>
 
           <a href="#waitlist" class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-5 py-3">
-            <span class="sm:hidden">Acceso anticipado</span>
-            <span class="hidden sm:inline">Quiero acceso anticipado</span>
+            <span class="sm:hidden">Acceso anticipado{% trans "Acceso anticipado" %}</span>
+            <span class="hidden sm:inline">{% trans "Quiero acceso anticipado" %}</span>
           </a>
         </div>
       </div>
@@ -1166,7 +1182,7 @@
 
                 <!-- Social -->
                 <div class="flex items-center gap-3 pt-1">
-                  <a href="#" class="badge badge-neutral hover-lift" aria-label="Instagram">📸</a>
+                  <a href="https://www.instagram.com/exploideoofficial/" class="badge badge-neutral hover-lift" aria-label="Instagram">📸</a>
                   <a href="#" class="badge badge-neutral hover-lift" aria-label="TikTok">🎵</a>
                   <a href="#" class="badge badge-neutral hover-lift" aria-label="YouTube">▶️</a>
                 </div>
