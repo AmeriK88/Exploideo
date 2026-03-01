@@ -1,9 +1,10 @@
 {% extends "layouts/base.html" %}
+{% load i18n %}
 {% load static %}
 
 {% block body_class %}home-landing{% endblock %}
 {% block main_class %}max-w-none px-0 py-0{% endblock %}
-{% block title %}Exploideo{% endblock %}
+{% block title %}{% trans "Exploideo" %}{% endblock %}
 
 {% block content %}
   {% url 'experiences:list' as experiences_list_url %}
@@ -24,38 +25,37 @@
         <!-- LEFT -->
         <div class="home-hero-copy" data-animate="fade-up">
           <div class="inline-flex flex-wrap items-center gap-2">
-            <span class="home-pill">🚀 Beta</span>
-            <span class="home-pill home-pill-neutral">🌍 Canary Islands</span>
-            <span class="home-pill home-pill-neutral">🧭 Para guías y viajeros</span>
-            <span class="home-pill home-pill-neutral">✅ Verificación</span>
+            <span class="home-pill">🚀 {% trans "Beta" %}</span>
+            <span class="home-pill home-pill-neutral">🌍 {% trans "Canarias" %}</span>
+            <span class="home-pill home-pill-neutral">🧭 {% trans "Para guías y viajeros" %}</span>
+            <span class="home-pill home-pill-neutral">✅ {% trans "Verificación" %}</span>
           </div>
 
           <h1 class="mt-5 text-4xl font-extrabold tracking-tight leading-[1.05] sm:text-5xl" data-animate="fade-up">
-            Experiencias sin filtro
-            <span class="block text-brand-700">Tu ruta se vive mejor</span>
-            cuando alguien te la cuenta.
+            {% trans "Experiencias sin filtro" %}
+            <span class="block text-brand-700">{% trans "Tu ruta se vive mejor" %}</span>
+            {% trans "cuando alguien te la cuenta." %}
           </h1>
 
           <p class="home-hero-lead">
-            Exploideo pone orden donde hoy hay caos:
-            <span class="home-hero-lead-strong">calendario real</span>,
-            <span class="home-hero-lead-strong">reglas claras</span> y
-            <span class="home-hero-lead-strong">reservas con antelación</span>.
-            Para que el guía planifique y el viajero reserve sin incertidumbre.
+            {% trans "Exploideo pone orden donde hoy hay caos:" %}
+            <span class="home-hero-lead-strong">{% trans "calendario real" %}</span>,
+            <span class="home-hero-lead-strong">{% trans "reglas claras" %}</span> y
+            <span class="home-hero-lead-strong">{% trans "reservas con antelación" %}</span>.
+            {% trans "Para que el guía planifique y el viajero reserve sin sorpresas.:" %}
           </p>
 
           <!-- mini bullets (impacto) -->
           <div class="mt-4 grid gap-2 sm:grid-cols-2">
             <div class="cta-yes">
               <p class="cta-yes-text">
-                <span class="cta-yes-title">✅ 24h mínimo</span>
-                sin excursiones “para mañana”.
-              </p>
+                <span class="cta-yes-title">✅ {% trans "24h mínimo:" %}</span>
+                {% trans "nada de reservas de última hora”." %}
             </div>
             <div class="cta-yes">
               <p class="cta-yes-text">
-                <span class="cta-yes-title">✅ Control total</span>
-                días, cupos y plazas por experiencia.
+                <span class="cta-yes-title">✅ {% trans "Control total:" %}</span>
+                {% trans "días, cupos y plazas por experiencia." %}
               </p>
             </div>
           </div>
@@ -63,17 +63,17 @@
           <div class="home-hero-cta">
             {% if not user.is_authenticated %}
               <a href="{% url 'accounts:register' %}" class="btn btn-primary">
-                Soy guía · Crear cuenta
+                {% trans "Soy guía · Crear cuenta" %}
               </a>
               <a href="{{ experiences_list_url }}" class="btn btn-ghost">
-                Ver experiencias
+                {% trans "Ver experiencias" %}
               </a>
             {% else %}
               <a href="{% url 'pages:dashboard' %}" class="btn btn-primary">
-                Ir a mi panel
+                {% trans "Ir a mi panel" %}
               </a>
               <a href="{{ experiences_list_url }}" class="btn btn-ghost">
-                Explorar experiencias
+                {% trans "Explorar experiencias" %}
               </a>
             {% endif %}
           </div>
@@ -84,8 +84,11 @@
           </div>
 
           <!-- highlight (lo mantienes, pero con copy más “dolor/solución”) -->
+          {% trans "🧠 Disponibilidad que se respeta" as cta_title %}
+          {% trans "Reglas semanales + fechas bloqueadas + plazas reales. Menos cambios, más control." as cta_text %}
+
           <div class="mt-5">
-            {% with title="🧠 Disponibilidad que se respeta" text="Reglas semanales + fechas bloqueadas + plazas reales. Menos cambios, más control." %}
+            {% with title=cta_title text=cta_text %}
               {% include "components/cta_yes.html" %}
             {% endwith %}
           </div>
@@ -105,15 +108,15 @@
               <div class="home-visual-overlay"></div>
 
               <div class="home-visual-chip">
-                📅 Agenda bajo control · Reservas con antelación
+                📅 {% trans "Agenda bajo control · Reservas con antelación" %}
               </div>
 
               <div class="home-visual-mini">
                 <div>
-                  <p class="home-mini-title">Solicita plaza</p>
-                  <p class="home-mini-sub">El guía confirma · sin incertidumbre</p>
+                  <p class="home-mini-title">{% trans "Envía solicitud al guía" %} </p>
+                  <p class="home-mini-sub">{% trans "El guía confirma · sin sorpresas" %} </p>
                 </div>
-                <span class="home-mini-badge">Estados</span>
+                <span class="home-mini-badge">{% trans "Estados" %}</span>
               </div>
             </div>
 
@@ -145,19 +148,19 @@
           <div class="card-body" data-animate="fade-up">
             <div class="flex items-start justify-between gap-3">
               <div>
-                <p class="label-title">Así se trabaja muchas veces hoy</p>
+                <p class="label-title">{% trans "Así se trabaja muchas veces hoy" %}</p>
                 <p class="mt-2 p-muted">
-                  Mucha operativa se decide por mensajes, llamadas y cambios de última hora.
+                  {% trans "Mucha operativa se decide por mensajes, llamadas y cambios de última hora." %}
                 </p>
               </div>
-              <span class="badge badge-neutral hover-lift">❌ Antes</span>
+              <span class="badge badge-neutral hover-lift">❌ {% trans "Antes" %}</span>
             </div>
 
             <ul class="mt-4 space-y-2 p-body list-bullets">
-              <li>Confirmaciones por WhatsApp y llamadas inesperadas.</li>
-              <li>Excursiones “para mañana” que rompen la semana.</li>
-              <li>Fines de semana bloqueados sin planificación real.</li>
-              <li>Poca previsión de ingresos y facturas dispersas.</li>
+              <li>{% trans "Confirmaciones por WhatsApp y llamadas inesperadas." %}</li>
+              <li>{% trans "Excursiones “para mañana” que rompen la semana." %}</li>
+              <li>{% trans "Fines de semana de trabajo constante sin conciliación familiar." %}</li>
+              <li>{% trans "Poca previsión de ingresos y facturas dispersas." %}</li>
             </ul>
           </div>
         </div>
@@ -166,23 +169,26 @@
           <div class="card-body" data-animate="fade-up">
             <div class="flex items-start justify-between gap-3">
               <div>
-                <p class="label-title">Con Exploideo</p>
+                <p class="label-title">{% trans "Con Exploideo" %}</p>
                 <p class="mt-2 p-muted">
-                  Reglas claras, agenda real y estados visibles para todos.
+                   {% trans "Reglas y agenda claras, estados visibles para todos." %}
                 </p>
               </div>
-              <span class="badge badge-neutral hover-lift">✅ Después</span>
+              <span class="badge badge-neutral hover-lift">✅ {% trans "Después" %}</span>
             </div>
 
             <ul class="mt-4 space-y-2 p-body list-bullets">
-              <li>Antelación mínima (48h) para evitar improvisación.</li>
-              <li>Bloquea fechas y define cupos por día/experiencia.</li>
-              <li>Máx. personas por excursión, sin masificación.</li>
-              <li>Panel con reservas, estados y control de facturas.</li>
+              <li>{% trans "Antelación mínima (48h) para evitar improvisación." %}</li>
+              <li>{% trans "Bloquea fechas y define cupos por día/experiencia." %}</li>
+              <li>{% trans "Máx. personas por excursión, sin masificación." %}</li>
+              <li>{% trans "Panel con reservas, estados y control de facturas." %}</li>
             </ul>
 
             <div class="mt-5">
-              {% with title="🎯 Resultado" text="Más conciliación, más previsión y menos estrés operativo." %}
+              {% trans "🎯 Resultado" as resultado_title %}
+              {% trans "Más conciliación, más previsión y menos estrés operativo." as resultado_text %}
+
+              {% with title=resultado_title text=resultado_text %}
                 {% include "components/cta_yes.html" %}
               {% endwith %}
             </div>
@@ -194,23 +200,36 @@
 
 
   <!-- =========================================================
-    VALUE PROPS (mantienes estructura, ajusto copy a “control”)
+    VALUE PROPS
   ========================================================== -->
   <section class="home-band home-band-white" data-animate="fade-up">
     <div class="home-container">
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {% with title="Agenda real" text="Bloquea fechas, define reglas semanales y evita líos de disponibilidad." %}
+
+        {% trans "Agenda real" as vp1_title %}
+        {% trans "Bloquea fechas, define reglas semanales y evita líos de disponibilidad." as vp1_text %}
+        {% with title=vp1_title text=vp1_text %}
           {% include "components/info_card.html" %}
         {% endwith %}
-        {% with title="Antelación mínima" text="Reservas con margen (ej. 48h). Menos “para mañana”, más planificación." %}
+
+        {% trans "Antelación mínima" as vp2_title %}
+        {% trans "Reservas con margen (ej. 48h). Menos “para mañana”, más planificación." as vp2_text %}
+        {% with title=vp2_title text=vp2_text %}
           {% include "components/info_card.html" %}
         {% endwith %}
-        {% with title="Condiciones claras" text="Duración, precio, plazas y punto de encuentro sin sorpresas." %}
+
+        {% trans "Condiciones claras" as vp3_title %}
+        {% trans "Duración, precio, plazas y punto de encuentro sin sorpresas." as vp3_text %}
+        {% with title=vp3_title text=vp3_text %}
           {% include "components/info_card.html" %}
         {% endwith %}
-        {% with title="Estados + notificaciones" text="Panel + emails cuando aceptas, rechazas o cambias. Cero incertidumbre." %}
+
+        {% trans "Estados + notificaciones" as vp4_title %}
+        {% trans "Panel centralizado con notificaciones emails al aceptar, rechazar o cambiar. Cero incertidumbre." as vp4_text %}
+        {% with title=vp4_title text=vp4_text %}
           {% include "components/info_card.html" %}
         {% endwith %}
+
       </div>
     </div>
   </section>
@@ -230,33 +249,42 @@
 
             <div class="flex items-start justify-between gap-4">
               <div>
-                <h2 class="h2-section">Si eres guía</h2>
+                <h2 class="h2-section">{% trans "Si eres guía" %}</h2>
+
                 <p class="mt-2 p-muted">
-                  Tú mandas: días, cupos, máximo de personas y políticas.
-                  Sin reservas de última hora. Con previsión real.
+                  {% blocktrans %}
+                    Tú mandas: días, cupos, máximo de personas y políticas.
+                    Sin reservas de última hora. Con previsión real.
+                  {% endblocktrans %}
                 </p>
               </div>
-              <span class="badge badge-neutral hover-lift">🧭 Guía</span>
+              <span class="badge badge-neutral hover-lift">🧭 {% trans "Guía" %}</span>
             </div>
 
             <ul class="mt-4 space-y-2 p-body list-bullets">
-              <li>Bloquea fechas y controla disponibilidad real.</li>
-              <li>Define reglas: antelación mínima, plazas y max personas.</li>
-              <li>Panel de reservas con estados, cambios y notificaciones.</li>
-              <li>Control de facturas e ingresos sin tenerlo “por ahí suelto”.</li>
+              <li>{% trans "Bloquea fechas y controla disponibilidad real." %}</li>
+              <li>{% trans "Define reglas: antelación mínima, plazas y máx. personas." %}</li>
+              <li>{% trans "Panel de reservas con estados, cambios y notificaciones." %}</li>
+              <li>{% trans "Control de facturas e ingresos sin tenerlo “por ahí suelto”." %}</li>
             </ul>
 
             <div class="mt-5 flex flex-col gap-2 sm:flex-row">
               {% if not user.is_authenticated %}
-                <a href="{% url 'accounts:register' %}" class="btn btn-primary">Crear cuenta de guía</a>
-                <a href="{% url 'accounts:login' %}" class="btn btn-ghost text-center">Ya soy guía</a>
+                <a href="{% url 'accounts:register' %}" class="btn btn-primary">
+                  {% trans "Crear cuenta de guía" %}
+                </a>
+                <a href="{% url 'accounts:login' %}" class="btn btn-ghost text-center">
+                  {% trans "Ya soy guía" %}
+                </a>
               {% else %}
-                <a href="{% url 'pages:dashboard' %}" class="btn btn-primary">Ir a mi panel</a>
+                <a href="{% url 'pages:dashboard' %}" class="btn btn-primary">
+                  {% trans "Ir a mi panel" %}
+                </a>
               {% endif %}
             </div>
 
             <p class="mt-3 p-micro">
-              Comisión por excursión completada. Sin cuotas fijas.
+              {% trans "Comisión por excursión completada. Sin cuotas fijas." %}
             </p>
           </div>
         </div>
@@ -268,30 +296,37 @@
 
             <div class="flex items-start justify-between gap-4">
               <div>
-                <h2 class="h2-section">Si viajas</h2>
+                <h2 class="h2-section">{% trans "Si viajas" %}</h2>
+
                 <p class="mt-2 p-muted">
-                  Menos “a ver si está confirmado”.
-                  Más claridad: condiciones, plazas reales y estados visibles.
+                  {% blocktrans %}
+                    Menos “a ver si está confirmado”.
+                    Más claridad: condiciones, plazas reales y estados visibles.
+                  {% endblocktrans %}
                 </p>
               </div>
-              <span class="badge badge-neutral hover-lift">🧳 Viajero</span>
+              <span class="badge badge-neutral hover-lift">🧳 {% trans "Viajero" %}</span>
             </div>
 
             <ul class="mt-4 space-y-2 p-body list-bullets">
-              <li>Explora por zona, precio, duración y tipo de plan.</li>
-              <li>Conoce al guía: perfil, idiomas y estilo.</li>
-              <li>Solicita tu plaza con disponibilidad real y políticas claras.</li>
+              <li>{% trans "Explora por zona, precio, duración y tipo de plan." %}</li>
+              <li>{% trans "Conoce al guía: perfil, idiomas y estilo." %}</li>
+              <li>{% trans "Encuentra planes y comprueba disponibilidad" %}</li>
             </ul>
 
             <div class="mt-5 flex flex-col gap-2 sm:flex-row">
-              <a href="{{ experiences_list_url }}" class="btn btn-primary">Explorar experiencias</a>
+              <a href="{{ experiences_list_url }}" class="btn btn-primary">
+                {% trans "Explorar experiencias" %}
+              </a>
               {% if not user.is_authenticated %}
-                <a href="{% url 'accounts:register' %}" class="btn btn-ghost text-center">Crear cuenta</a>
+                <a href="{% url 'accounts:register' %}" class="btn btn-ghost text-center">
+                  {% trans "Crear cuenta" %}
+                </a>
               {% endif %}
             </div>
 
             <p class="mt-3 p-micro">
-              Ideal para experiencias más personales: rutas a tu ritmo y sin masificación.
+              {% trans "Ideal para experiencias más personales: rutas a tu ritmo y sin masificación." %}
             </p>
           </div>
         </div>
@@ -300,37 +335,51 @@
     </div>
   </section>
 
-
   <!-- =========================================================
     CÓMO FUNCIONA (igual estructura, copy más “claridad”)
   ========================================================== -->
   <section class="home-band home-band-white" data-animate="fade-up">
     <div class="home-container">
-      {% with title="Cómo funciona" subtitle="Simple, claro y sin vueltas." cta_url=experiences_list_url cta_label="Explorar →" %}
+
+      {% trans "Cómo funciona" as how_title %}
+      {% trans "Simple, claro y sin vueltas." as how_subtitle %}
+      {% trans "Explorar →" as how_cta_label %}
+
+      {% with title=how_title subtitle=how_subtitle cta_url=experiences_list_url cta_label=how_cta_label %}
         {% include "components/section_header.html" %}
       {% endwith %}
 
       <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {% with title="1) Explora" text="Filtra por tipo de plan, duración y precio. Elige con contexto, no a ciegas." %}
+
+        {% trans "1) Explora" as step1_title %}
+        {% trans "Filtra por tipo de plan, duración y precio. Elige con contexto, no a ciegas." as step1_text %}
+        {% with title=step1_title text=step1_text %}
           {% include "components/info_card.html" %}
         {% endwith %}
-        {% with title="2) Solicita plaza" text="Selecciona fecha disponible y envía solicitud. Nada de pagos raros ni dudas." %}
+
+        {% trans "2) Solicita plaza" as step2_title %}
+        {% trans "Selecciona fecha disponible y envía solicitud. Nada de pagos raros ni dudas." as step2_text %}
+        {% with title=step2_title text=step2_text %}
           {% include "components/info_card.html" %}
         {% endwith %}
-        {% with title="3) Confirmación clara" text="El guía acepta/rechaza/cambia con estados visibles y notificaciones." %}
+
+        {% trans "3) Confirmación clara" as step3_title %}
+        {% trans "El guía acepta/rechaza/cambia con estados visibles y notificaciones." as step3_text %}
+        {% with title=step3_title text=step3_text %}
           {% include "components/info_card.html" %}
         {% endwith %}
+
       </div>
 
       <div class="mt-6 cta-yes">
         <p class="cta-yes-text">
-          <span class="cta-yes-title">Bonus:</span>
-          experiencias más personales: menos masificación, más ritmo propio y guías que adaptan la aventura.
+          <span class="cta-yes-title">{% trans "Bonus:" %}</span>
+          {% trans "experiencias más personales: menos masificación, más ritmo propio y guías que adaptan la aventura." %}
         </p>
       </div>
+
     </div>
   </section>
-
 
   <!-- =========================================================
     TESTIMONIOS (igual)
@@ -340,12 +389,12 @@
     <div class="home-container">
 
       <div class="text-center">
-        <p class="testimonial-quote">Testimonios</p>
+        <p class="testimonial-quote">{% trans "Testimonios" %}</p>
         <h2 class="mt-2 text-3xl font-bold tracking-tight">
-          Historias que queremos que se repitan.
+          {% trans "Historias que queremos que se repitan." %}
         </h2>
         <p class="mx-auto mt-3 max-w-2xl text-slate-600">
-          Reseñas reales de viajeros que reservaron experiencias auténticas.
+          {% trans "Reseñas reales de viajeros que reservaron experiencias auténticas." %}
         </p>
       </div>
 
@@ -363,14 +412,17 @@
   <!-- =========================================================
     EXPERIENCIAS DESTACADAS (igual)
   ========================================================== -->
-  <section class="home-band" data-animate="fade-up">
-    <div class="home-container">
-      {% with title="Experiencias destacadas" subtitle="Ideas para empezar si no sabes qué elegir." cta_url=experiences_list_url cta_label="Ver todas →" %}
-        {% include "components/section_header.html" %}
-      {% endwith %}
+  <section class="home-band">
+    <div class="home-container" data-animate="fade-up">
+
+      {% trans "Experiencias destacadas" as featured_title %}
+      {% trans "Ideas para empezar si no sabes qué elegir." as featured_subtitle %}
+      {% trans "Ver todas →" as featured_cta_label %}
+
+      {% include "components/section_header.html" with title=featured_title subtitle=featured_subtitle cta_url=experiences_list_url cta_label=featured_cta_label only %}
 
       {% if featured_experiences %}
-        <div class="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[1fr] items-stretch">
+        <div class="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[1fr] items-stretch" data-animate="fade-up">
           {% for experience in featured_experiences %}
             {% include "components/experience_card.html" with experience=experience %}
           {% endfor %}
@@ -379,73 +431,90 @@
         <div class="mt-5 card">
           <div class="card-body">
             <p class="p-muted">
-              Aún no hay experiencias destacadas. Puedes empezar explorando el listado completo.
+              {% trans "Aún no hay experiencias destacadas. Puedes empezar explorando el listado completo." %}
             </p>
 
             <div class="mt-4 flex flex-col gap-2 sm:flex-row">
-              <a href="{{ experiences_list_url }}" class="btn btn-primary">Explorar ahora</a>
+              <a href="{{ experiences_list_url }}" class="btn btn-primary">
+                {% trans "Explorar ahora" %}
+              </a>
               {% if not user.is_authenticated %}
-                <a href="{% url 'accounts:register' %}" class="btn btn-ghost text-center">Crear cuenta</a>
+                <a href="{% url 'accounts:register' %}" class="btn btn-ghost text-center">
+                  {% trans "Crear cuenta" %}
+                </a>
               {% endif %}
             </div>
           </div>
         </div>
       {% endif %}
+
     </div>
   </section>
 
 
-  <!-- =========================================================
-    CTA FINAL (refuerzo guía + viajero, sin romper estilos)
-  ========================================================== -->
-  <section class="home-band home-band-white" data-animate="fade-up">
-    <div class="home-container">
-      <div class="card">
-        <div class="card-body relative">
-          <div class="hero-top-glow"></div>
+ <!-- =========================================================
+  CTA FINAL (refuerzo guía + viajero, sin romper estilos)
+========================================================== -->
+<section class="home-band home-band-white" data-animate="fade-up">
+  <div class="home-container">
+    <div class="card">
+      <div class="card-body relative">
+        <div class="hero-top-glow"></div>
 
-          <div class="grid gap-6 lg:grid-cols-2 lg:items-center">
-            <div>
-              <h2 class="text-xl font-semibold tracking-tight">
-                Menos “para mañana”. <span class="text-blue-700">Más control.</span>
-              </h2>
-              <p class="mt-2 p-muted">
-                Para guías: agenda planificable y reglas claras.
-                Para viajeros: reservas con disponibilidad real y estados visibles.
-              </p>
+        <div class="grid gap-6 lg:grid-cols-2 lg:items-center">
+          <div>
+            <h2 class="text-xl font-semibold tracking-tight">
+              {% trans "Menos “para mañana”." %}
+              <span class="text-blue-700">{% trans "Más control." %}</span>
+            </h2>
 
-              <div class="mt-5 flex flex-col gap-2 sm:flex-row">
-                {% if not user.is_authenticated %}
-                  <a href="{% url 'accounts:register' %}" class="btn btn-primary">Crear cuenta de guía</a>
-                  <a href="{{ experiences_list_url }}" class="btn btn-ghost text-center">Ver experiencias</a>
-                {% else %}
-                  <a href="{% url 'pages:dashboard' %}" class="btn btn-primary">Ir a mi panel</a>
-                  <a href="{{ experiences_list_url }}" class="btn btn-ghost text-center">Explorar</a>
-                {% endif %}
-              </div>
+            <p class="mt-2 p-muted">
+              {% trans "Para guías: agenda planificable y reglas claras." %}
+              {% trans "Para viajeros: reservas con disponibilidad real y estados visibles." %}
+            </p>
 
-              <p class="mt-3 p-micro">
-                Pensado para calidad (viajero) y control (guía).
-              </p>
+            <div class="mt-5 flex flex-col gap-2 sm:flex-row">
+              {% if not user.is_authenticated %}
+                <a href="{% url 'accounts:register' %}" class="btn btn-primary">
+                  {% trans "Crear cuenta de guía" %}
+                </a>
+                <a href="{{ experiences_list_url }}" class="btn btn-ghost text-center">
+                  {% trans "Ver experiencias" %}
+                </a>
+              {% else %}
+                <a href="{% url 'pages:dashboard' %}" class="btn btn-primary">
+                  {% trans "Ir a mi panel" %}
+                </a>
+                <a href="{{ experiences_list_url }}" class="btn btn-ghost text-center">
+                  {% trans "Explorar" %}
+                </a>
+              {% endif %}
             </div>
 
-            <div class="cta-box">
-              <p class="label-title">Lo que vas a notar</p>
-              <ul class="mt-3 space-y-2 p-body list-bullets">
-                <li>Reglas de reserva: antelación mínima, cupos y plazas reales.</li>
-                <li>Menos cambios de última hora y menos estrés operativo.</li>
-                <li>Experiencias más personales: menos masificación, más intención.</li>
-              </ul>
-
-              {% with title="💡 Tip rápido | Empieza simple" text=" 1 experiencia bien definida. Luego amplías." %}
-                {% include "components/cta_yes.html" %}
-              {% endwith %}
-            </div>
+            <p class="mt-3 p-micro">
+              {% trans "Pensado para calidad (viajero) y control (guía)." %}
+            </p>
           </div>
 
+          <div class="cta-box">
+            <p class="label-title">{% trans "Lo que vas a notar" %}</p>
+
+            <ul class="mt-3 space-y-2 p-body list-bullets">
+              <li>{% trans "Reglas de reserva: antelación mínima, cupos y plazas reales." %}</li>
+              <li>{% trans "Menos cambios de última hora y menos estrés operativo." %}</li>
+              <li>{% trans "Experiencias más personales: menos masificación, más intención." %}</li>
+            </ul>
+
+            {% trans "💡 Tip rápido | Empieza simple" as tip_title %}
+            {% trans "1 experiencia bien definida. Luego amplías." as tip_text %}
+            {% include "components/cta_yes.html" with title=tip_title text=tip_text %}
+
+          </div>
         </div>
+
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
 {% endblock %}

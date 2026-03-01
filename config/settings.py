@@ -2,9 +2,14 @@ from pathlib import Path
 import sys
 import os
 import environ
+from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(BASE_DIR / "apps"))
+
+LOCALE_PATHS = [
+    BASE_DIR / "locale",
+]
 
 # django-environ
 env = environ.Env(
@@ -27,7 +32,10 @@ IS_PROD = (ENVIRONMENT in ("prod", "production"))
 # Si vas a usar dominios https en prod, esto es MUY importante:
 CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
 
-CANONICAL_HOST = "exploideo.com" if IS_PROD else None
+SITE_ID = env.int("SITE_ID")
+
+CANONICAL_HOST = env("CANONICAL_HOST", default=None) if IS_PROD else None
+
 
 # ===== Application =====
 INSTALLED_APPS = [
@@ -51,6 +59,9 @@ INSTALLED_APPS = [
     "apps.messages.apps.MessagesConfig",
     "core.apps.CoreConfig",
 
+    # Lang-locale
+    "django.contrib.sites",
+    "django.contrib.sitemaps",
 ]
 
 MIDDLEWARE = [
@@ -63,6 +74,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -119,7 +131,13 @@ LOGIN_REDIRECT_URL = "pages:dashboard"
 LOGOUT_REDIRECT_URL = "accounts:login"
 
 # ===== i18n =====
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "es"
+LANGUAGES = [
+    ("es", _("Spanish")),
+    ("en", _("English")),
+]
+LOCALE_PATHS = [BASE_DIR / "locale"]
+
 TIME_ZONE = "Atlantic/Canary"
 USE_I18N = True
 USE_TZ = True

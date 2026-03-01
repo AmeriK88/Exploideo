@@ -1,11 +1,10 @@
 from django.conf import settings
 from django.http import HttpResponsePermanentRedirect
 
-
 class CanonicalHostMiddleware:
     """
-    Redirige cualquier host distinto al dominio principal
-    hacia el dominio canónico manteniendo path y querystring.
+    Redirect any non-canonical host to CANONICAL_HOST, preserving path + query.
+    Only active when CANONICAL_HOST is set (usually prod).
     """
 
     def __init__(self, get_response):
@@ -16,16 +15,19 @@ class CanonicalHostMiddleware:
         if not self.canonical_host:
             return self.get_response(request)
 
+        # request.get_host() can include port
         current_host = request.get_host()
+        canonical_host = self.canonical_host
 
-        # Si ya estamos en el host correcto → no hacer nada
-        if current_host == self.canonical_host:
+        # Normalize by removing port for comparison (canonical_host should not include port)
+        current_host_no_port = current_host.split(":")[0]
+
+        if current_host_no_port == canonical_host:
             return self.get_response(request)
 
-        # Construimos nueva URL manteniendo todo
-        new_url = request.build_absolute_uri().replace(
-            current_host,
-            self.canonical_host
-        )
+        # Keep path + querystring exactly as requested
+        path = request.get_full_path()  # includes querystring
+        scheme = "https" if request.is_secure() else "http"
+        new_url = f"{scheme}://{canonical_host}{path}"
 
         return HttpResponsePermanentRedirect(new_url)

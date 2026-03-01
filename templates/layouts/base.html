@@ -1,73 +1,84 @@
-
-{% load static %}
+{% load static i18n seo_i18n %}
+{% get_current_language as CURRENT_LANGUAGE %}
 {% now "Y" as current_year %}
 <!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-    <title>{% block title %}Exploideo{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}Plataforma de experiencias auténticas con guías locales verificados. Reserva fácil, disponibilidad real y excursiones personalizadas.{% endblock %}">
-    <meta name="robots" content="index,follow">
+  <title>{% block title %}Exploideo{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Plataforma de experiencias auténticas con guías locales verificados. Reserva fácil, disponibilidad real y excursiones personalizadas.{% endblock %}">
+  <meta name="robots" content="index,follow">
 
-   {# Theme color #}
-    <meta name="theme-color" content="#123c77">
+  {# --- SEO i18n: canonical + hreflang --- #}
+  <link rel="canonical" href="{% canonical_url %}">
 
-    {# Open Graph #}
-    <meta property="og:site_name" content="Exploideo">
-    <meta property="og:title" content="{% block og_title %}Exploideo — Acceso anticipado{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}Experiencias auténticas con guías locales verificados. Únete a la lista y recibe acceso anticipado.{% endblock %}">
-    <meta property="og:type" content="website">
+  {% get_available_languages as LANGUAGES %}
+  {% for lang_code, lang_name in LANGUAGES %}
+    <link rel="alternate" hreflang="{{ lang_code }}" href="{% translate_url lang_code %}">
+  {% endfor %}
+  <link rel="alternate" hreflang="x-default" href="{% translate_url 'es' %}">
 
-     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Exploideo — Acceso anticipado">
-    <meta name="twitter:description" content="Experiencias auténticas con guías locales verificados. Únete a la lista y recibe acceso anticipado.">
-    <meta name="twitter:image" content="https://exploideo.com/static/img/exploideo-logo.png">
+  {# Theme color #}
+  <meta name="theme-color" content="#123c77">
 
-    <!-- Open Graph -->
-    <meta property="og:url" content="https://exploideo.com/">
-    <meta property="og:image" content="https://exploideo.com/static/img/exploideo-social.png">
-    <meta property="og:image:secure_url" content="https://exploideo.com/static/img/exploideo-social.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+  {# Open Graph base #}
+  <meta property="og:site_name" content="Exploideo">
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+  <meta property="og:url" content="{% canonical_url %}">
 
-    <meta name="apple-mobile-web-app-title" content="Exploideo">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  {# Locale #}
+  <meta property="og:locale" content="{% if CURRENT_LANGUAGE == 'es' %}es_ES{% else %}en_US{% endif %}">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="en_US">
 
-    <!-- Favicon -->
-    <link rel="manifest" href="{% static 'site.webmanifest' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+  {# Title / Description (NO anidar blocks) #}
+  <meta property="og:title" content="{% block og_title %}Exploideo{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Plataforma de experiencias auténticas con guías locales verificados. Reserva fácil, disponibilidad real y excursiones personalizadas.{% endblock %}">
 
-    <link rel="mask-icon" href="{% static 'img/exploideo-logo.png' %}" color="#123c77">
-    <link rel="shortcut icon" href="{% static 'img/favicon-32.png' %}">
+  {# Image (por defecto; override por vista si quieres) #}
+  <meta property="og:image" content="{% block og_image %}https://exploideo.com/static/img/exploideo-social.png{% endblock %}">
+  <meta property="og:image:secure_url" content="{% block og_image_secure %}https://exploideo.com/static/img/exploideo-social.png{% endblock %}">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{% block og_image_alt %}Exploideo — experiencias auténticas con guías locales{% endblock %}">
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  {# Twitter Card #}
+  <meta name="twitter:card" content="summary_large_image">
+  {# <meta name="twitter:site" content="@exploideo"> #}
+  {# <meta name="twitter:creator" content="@exploideo"> #}
 
-    <!-- Preload del logo del navbar -->
-    <link rel="preload" as="image" href="{% static 'img/exploideo-logo.webp' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
-    <!-- Preload del logo del navbar -->
-    <link rel="preload" as="image" href="{% static 'img/exploideo-logo.png' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
+  <meta name="apple-mobile-web-app-title" content="Exploideo">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <link rel="preload" as="image" href="{% static 'img/exploideo-social.png' %}" fetchpriority="high"/>
+  <!-- Favicon -->
+  <link rel="manifest" href="{% static 'site.webmanifest' %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'img/apple-touch-icon.png' %}">
+  <link rel="mask-icon" href="{% static 'img/exploideo-logo.png' %}" color="#123c77">
+  <link rel="shortcut icon" href="{% static 'img/favicon-32.png' %}">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="{% static 'css/output.css' %}">
-    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+  <!-- Preload images -->
+  <link rel="preload" as="image" href="{% static 'img/exploideo-logo.webp' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
+  <link rel="preload" as="image" href="{% static 'img/exploideo-logo.png' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
+  <link rel="preload" as="image" href="{% static 'img/exploideo-social.png' %}" fetchpriority="high"/>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    {% block extra_head %}{% endblock %}
-  </head>
+  <!-- Styles -->
+  <link rel="stylesheet" href="{% static 'css/output.css' %}">
+  <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  {% block extra_head %}{% endblock %}
+</head>
 
 <body class="home-landing min-h-screen bg-slate-50 text-slate-800 antialiased font-sans {% block body_class %}{% endblock %}">
 
@@ -78,6 +89,7 @@
       <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6" data-stagger>
         <!-- Brand -->
         <div class="flex min-w-0 items-center gap-3" data-animate="fade-down">
+
           <a href="{% url 'pages:home' %}" class="flex items-center shrink-0">
             <picture>
               <source srcset="{% static 'img/exploideo-logo.webp' %}" type="image/webp">
@@ -110,16 +122,17 @@
         <div class="flex shrink-0 items-center gap-2 sm:gap-3" data-animate="fade-down">
           <span class="hidden sm:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700">
             <span class="inline-block h-2 w-2 rounded-full bg-emerald-500"></span>
-            Lista de espera abierta
+            {% trans "Lista de espera abierta" %}
           </span>
 
           <a href="#waitlist" class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-5 py-3">
-            <span class="sm:hidden">Acceso anticipado</span>
-            <span class="hidden sm:inline">Quiero acceso anticipado</span>
+            <span class="sm:hidden">{% trans "Acceso anticipado" %}</span>
+            <span class="hidden sm:inline">{% trans "Quiero acceso anticipado" %}</span>
           </a>
         </div>
       </div>
     </header>
+
 
     <!-- Messages -->
     {% if messages %}
@@ -157,7 +170,6 @@
       </div>
     {% endif %}
 
-
     {% block body %}
       <main id="page"
             class="page-enter flex-1 w-full {% block main_class %}mx-auto max-w-6xl px-4 py-6 sm:px-6 pb-16{% endblock %}"
@@ -173,14 +185,14 @@
       <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
 
         <!-- Top CTA strip -->
-        <div class="card mb-8" >
+        <div class="card mb-8">
           <div class="card-body flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between" data-animate="fade-up">
             <div>
               <p class="text-base font-semibold text-slate-900 tracking-tight">
-                ¿Quieres enterarte de experiencias nuevas antes que nadie?
+                {% trans "¿Quieres enterarte de experiencias nuevas antes que nadie?" %}
               </p>
               <p class="mt-1 p-muted">
-                Novedades reales, sin spam. 1 email cuando haya algo bueno.
+                {% trans "Novedades reales, sin spam. 1 email cuando haya algo bueno." %}
               </p>
             </div>
 
@@ -189,18 +201,18 @@
               {% csrf_token %}
               <input type="hidden" name="source" value="footer" />
 
-              <label class="sr-only" for="footer_email">Email</label>
+              <label class="sr-only" for="footer_email">{% trans "Email" %}</label>
               <input
                 id="footer_email"
                 type="email"
                 name="email"
                 class="input sm:w-72"
-                placeholder="tu@email.com"
+                placeholder="name@example.com"
                 autocomplete="email"
                 required
               />
               <button class="btn btn-primary whitespace-nowrap" type="submit">
-                Avisarme
+                {% trans "Avisarme" %}
               </button>
             </form>
           </div>
@@ -225,20 +237,20 @@
                   Exploideo
                 </p>
                 <p class="p-micro">
-                  Guías verificados · Experiencias reales
+                  {% trans "Guías verificados · Experiencias reales" %}
                 </p>
               </div>
             </a>
 
             <p class="text-slate-600 leading-relaxed">
-              Plataforma de experiencias auténticas con guías locales verificados.
+              {% trans "Plataforma de experiencias auténticas con guías locales verificados." %}
             </p>
 
             <!-- Trust chips -->
             <div class="flex flex-wrap gap-2">
-              <span class="badge badge-neutral">📍 Canarias</span>
-              <span class="badge badge-neutral">⭐ Reseñas reales</span>
-              <span class="badge badge-neutral">🧭 Local guides</span>
+              <span class="badge badge-neutral">📍 {% trans "Canarias" %}</span>
+              <span class="badge badge-neutral">⭐ {% trans "Reseñas reales" %}</span>
+              <span class="badge badge-neutral">🧭 {% trans "Guías locales" %}</span>
             </div>
 
             <!-- Social -->
@@ -251,16 +263,16 @@
 
           <!-- Producto -->
           <div data-animate="fade-up">
-            <h4 class="h3-card uppercase tracking-wide">Producto</h4>
+            <h4 class="h3-card uppercase tracking-wide">{% trans "Producto" %}</h4>
             <ul class="mt-3 space-y-2 text-slate-600">
               <li>
                 <a href="#"
                   onclick="return false;"
                   class="hover:text-slate-900 transition cursor-default"
                   aria-disabled="true">
-                  Explorar experiencias
+                  {% trans "Explorar experiencias" %}
                 </a>
-                <p class="p-micro">Encuentra planes con disponibilidad real.</p>
+                <p class="p-micro">{% trans "Encuentra planes con disponibilidad real." %}</p>
               </li>
 
               <li>
@@ -268,9 +280,9 @@
                   onclick="return false;"
                   class="hover:text-slate-900 transition cursor-default"
                   aria-disabled="true">
-                  Convertirme en guía
+                  {% trans "Convertirme en guía" %}
                 </a>
-                <p class="p-micro">Publica y gestiona reservas desde tu panel.</p>
+                <p class="p-micro">{% trans "Publica y gestiona reservas desde tu panel." %}</p>
               </li>
 
               {% if user.is_authenticated %}
@@ -279,9 +291,9 @@
                     onclick="return false;"
                     class="hover:text-slate-900 transition cursor-default"
                     aria-disabled="true">
-                    Mi panel
+                    {% trans "Mi panel" %}
                   </a>
-                  <p class="p-micro">Reservas, notificaciones y solicitudes.</p>
+                  <p class="p-micro">{% trans "Reservas, notificaciones y solicitudes." %}</p>
                 </li>
               {% else %}
                 <li>
@@ -289,9 +301,9 @@
                     onclick="return false;"
                     class="hover:text-slate-900 transition cursor-default"
                     aria-disabled="true">
-                    Acceder
+                    {% trans "Acceder" %}
                   </a>
-                  <p class="p-micro">Entra para ver y gestionar tus reservas.</p>
+                  <p class="p-micro">{% trans "Entra para ver y gestionar tus reservas." %}</p>
                 </li>
               {% endif %}
             </ul>
@@ -299,24 +311,24 @@
 
           <!-- Soporte -->
           <div data-animate="fade-up">
-            <h4 class="h3-card uppercase tracking-wide">Soporte</h4>
+            <h4 class="h3-card uppercase tracking-wide">{% trans "Soporte" %}</h4>
             <ul class="mt-3 space-y-2 text-slate-600">
-              <li><a href="{% url 'helpdesk:helpdesk' %}" class="hover:text-slate-900 transition">Centro de ayuda</a></li>
-              <li><a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-slate-900 transition">Términos y condiciones</a></li>
-              <li><a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-900 transition">Política de privacidad</a></li>
-              <li><a href="{% url 'pages:cookie_policy' %}" class="hover:text-slate-900 transition">Política de cookies</a></li>
+              <li><a href="{% url 'helpdesk:helpdesk' %}" class="hover:text-slate-900 transition">{% trans "Centro de ayuda" %}</a></li>
+              <li><a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-slate-900 transition">{% trans "Términos y condiciones" %}</a></li>
+              <li><a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-900 transition">{% trans "Política de privacidad" %}</a></li>
+              <li><a href="{% url 'pages:cookie_policy' %}" class="hover:text-slate-900 transition">{% trans "Política de cookies" %}</a></li>
               <li>
                 <button
                   type="button"
                   class="text-left hover:text-slate-900 transition underline decoration-dotted underline-offset-4"
                   data-cookie-open
                 >
-                  Preferencias de cookies
+                  {% trans "Preferencias de cookies" %}
                 </button>
               </li>
 
               <li class="pt-2">
-                <p class="p-micro">¿Algo urgente?</p>
+                <p class="p-micro">{% trans "¿Algo urgente?" %}</p>
                 <a href="mailto:info@exploideo.com" class="hover:text-slate-900 transition">
                   info@exploideo.com
                 </a>
@@ -326,19 +338,19 @@
 
           <!-- Local -->
           <div data-animate="fade-up">
-            <h4 class="h3-card uppercase tracking-wide">Ubicación</h4>
+            <h4 class="h3-card uppercase tracking-wide">{% trans "Ubicación" %}</h4>
             <div class="mt-3 space-y-3 text-slate-600 leading-relaxed">
-              <p>🌋 Lanzarote, Islas Canarias</p>
+              <p>{% trans "🌋 Lanzarote, Islas Canarias" %}</p>
 
               <div class="panel-soft">
-                <p class="h3-card">Hecho para evitar sorpresas</p>
+                <p class="h3-card">{% trans "Hecho para evitar sorpresas" %}</p>
                 <p class="mt-1 text-xs text-slate-600">
-                  Calendario real, guías verificados y gestión de cambios/cancelaciones clara.
+                  {% trans "Calendario real, guías verificados y gestión de cambios/cancelaciones clara." %}
                 </p>
               </div>
 
               <a href="{% url 'helpdesk:helpdesk' %}" class="btn btn-ghost w-full sm:w-auto">
-                Necesito ayuda
+                {% trans "Necesito ayuda" %}
               </a>
             </div>
           </div>
@@ -346,12 +358,14 @@
 
         <!-- Bottom bar -->
         <div class="mt-10 border-t border-slate-200 pt-5 pb-24 sm:pb-0 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-micro">
-          <p>© {{ current_year }} Exploideo · Todos los derechos reservados</p>
+          <p>
+            {% blocktrans with year=current_year %}© {{ year }} Exploideo · Todos los derechos reservados{% endblocktrans %}
+          </p>
 
           <div class="flex flex-wrap items-center gap-3 justify-center sm:justify-end">
-            <a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-700 transition">Privacidad</a>
+            <a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-700 transition">{% trans "Privacidad" %}</a>
             <span class="text-slate-300">·</span>
-            <a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-slate-700 transition">Términos</a>
+            <a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-slate-700 transition">{% trans "Términos" %}</a>
             <span class="text-slate-300">·</span>
           </div>
         </div>
@@ -366,32 +380,32 @@
             <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div class="min-w-0">
                 <div class="flex flex-wrap items-center gap-2">
-                  <span class="badge">🍪 Cookies</span>
-                  <span class="badge badge-blue">Preferencias</span>
+                  <span class="badge">🍪 {% trans "Cookies" %}</span>
+                  <span class="badge badge-blue">{% trans "Preferencias" %}</span>
                 </div>
 
                 <p class="mt-3 text-sm text-slate-700 leading-relaxed">
-                  Usamos cookies necesarias para que la plataforma funcione (login, seguridad).
-                  Puedes aceptar cookies opcionales para mejorar la experiencia y medir uso.
-                  <a href="{% url 'pages:cookie_policy' %}" class="font-semibold">Ver política</a>.
+                  {% trans "Usamos cookies necesarias para que la plataforma funcione (login, seguridad)." %}
+                  {% trans "Puedes aceptar cookies opcionales para mejorar la experiencia y medir uso." %}
+                  <a href="{% url 'pages:cookie_policy' %}" class="font-semibold">{% trans "Ver política" %}</a>.
                 </p>
               </div>
 
               <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end sm:shrink-0">
                 <button type="button" class="btn btn-ghost" data-cookie-action="reject">
-                  Rechazar
+                  {% trans "Rechazar" %}
                 </button>
                 <button type="button" class="btn btn-ghost" data-cookie-action="manage">
-                  Configurar
+                  {% trans "Configurar" %}
                 </button>
                 <button type="button" class="btn btn-primary" data-cookie-action="accept">
-                  Aceptar
+                  {% trans "Aceptar" %}
                 </button>
               </div>
             </div>
 
             <p class="mt-3 p-micro">
-              Puedes cambiar tus preferencias cuando quieras desde el footer.
+              {% trans "Puedes cambiar tus preferencias cuando quieras desde el footer." %}
             </p>
           </div>
         </div>
@@ -410,12 +424,12 @@
             <div class="flex items-start justify-between gap-4">
               <div>
                 <div class="flex flex-wrap items-center gap-2">
-                  <span class="badge">🍪 Preferencias</span>
-                  <span class="badge">Control total</span>
+                  <span class="badge">🍪 {% trans "Preferencias" %}</span>
+                  <span class="badge">{% trans "Control total" %}</span>
                 </div>
-                <h2 class="mt-3 text-xl font-semibold text-slate-900">Gestiona tus cookies</h2>
+                <h2 class="mt-3 text-xl font-semibold text-slate-900">{% trans "Gestiona tus cookies" %}</h2>
                 <p class="mt-1 p-muted">
-                  Elige qué cookies opcionales permites. Las necesarias siempre están activas.
+                  {% trans "Elige qué cookies opcionales permites. Las necesarias siempre están activas." %}
                 </p>
               </div>
 
@@ -423,9 +437,9 @@
                 type="button"
                 class="btn btn-ghost"
                 data-cookie-action="close"
-                aria-label="Cerrar"
+                aria-label="{% trans 'Cerrar' %}"
               >
-                Cerrar
+                {% trans "Cerrar" %}
               </button>
             </div>
           </div>
@@ -437,12 +451,12 @@
               <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
                 <div class="flex items-start justify-between gap-4">
                   <div>
-                    <p class="label-title">Cookies necesarias</p>
+                    <p class="label-title">{% trans "Cookies necesarias" %}</p>
                     <p class="mt-1 p-muted">
-                      Esenciales para seguridad, sesiones y formularios. No se pueden desactivar.
+                      {% trans "Esenciales para seguridad, sesiones y formularios. No se pueden desactivar." %}
                     </p>
                   </div>
-                  <span class="badge badge-emerald">Siempre activas</span>
+                  <span class="badge badge-emerald">{% trans "Siempre activas" %}</span>
                 </div>
               </div>
 
@@ -450,15 +464,15 @@
               <div class="rounded-2xl border border-slate-200 bg-white p-5">
                 <div class="flex items-start justify-between gap-4">
                   <div class="min-w-0">
-                    <p class="label-title">Cookies funcionales</p>
+                    <p class="label-title">{% trans "Cookies funcionales" %}</p>
                     <p class="mt-1 p-muted">
-                      Mejoran la experiencia (preferencias básicas, UX).
+                      {% trans "Mejoran la experiencia (preferencias básicas, UX)." %}
                     </p>
                   </div>
 
                   <label class="inline-flex items-center gap-2">
                     <input type="checkbox" class="h-4 w-4" data-cookie-toggle="functional">
-                    <span class="text-sm text-slate-700">Activar</span>
+                    <span class="text-sm text-slate-700">{% trans "Activar" %}</span>
                   </label>
                 </div>
               </div>
@@ -467,15 +481,15 @@
               <div class="rounded-2xl border border-slate-200 bg-white p-5">
                 <div class="flex items-start justify-between gap-4">
                   <div class="min-w-0">
-                    <p class="label-title">Analítica</p>
+                    <p class="label-title">{% trans "Analítica" %}</p>
                     <p class="mt-1 p-muted">
-                      Nos ayuda a entender el uso de la plataforma para mejorarla (sin publicidad).
+                      {% trans "Nos ayuda a entender el uso de la plataforma para mejorarla (sin publicidad)." %}
                     </p>
                   </div>
 
                   <label class="inline-flex items-center gap-2">
                     <input type="checkbox" class="h-4 w-4" data-cookie-toggle="analytics">
-                    <span class="text-sm text-slate-700">Activar</span>
+                    <span class="text-sm text-slate-700">{% trans "Activar" %}</span>
                   </label>
                 </div>
               </div>
@@ -484,23 +498,23 @@
               <div class="rounded-2xl border border-slate-200 bg-white p-5">
                 <div class="flex items-start justify-between gap-4">
                   <div class="min-w-0">
-                    <p class="label-title">Marketing</p>
+                    <p class="label-title">{% trans "Marketing" %}</p>
                     <p class="mt-1 p-muted">
-                      Personalización y campañas. (Ahora mismo no usamos cookies de marketing.)
+                      {% trans "Personalización y campañas. (Ahora mismo no usamos cookies de marketing.)" %}
                     </p>
                   </div>
 
                   <label class="inline-flex items-center gap-2">
                     <input type="checkbox" class="h-4 w-4" data-cookie-toggle="marketing">
-                    <span class="text-sm text-slate-700">Activar</span>
+                    <span class="text-sm text-slate-700">{% trans "Activar" %}</span>
                   </label>
                 </div>
               </div>
             </div>
 
             <p class="mt-4 p-micro">
-              Puedes cambiar esto cuando quieras. Para más info:
-              <a href="{% url 'pages:cookie_policy' %}" class="font-semibold">Política de cookies</a>.
+              {% trans "Puedes cambiar esto cuando quieras. Para más info:" %}
+              <a href="{% url 'pages:cookie_policy' %}" class="font-semibold">{% trans "Política de cookies" %}</a>.
             </p>
           </div>
 
@@ -508,13 +522,13 @@
           <div class="cookie-modal__footer">
             <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
               <button type="button" class="btn btn-ghost" data-cookie-action="reject">
-                Rechazar todo
+                {% trans "Rechazar todo" %}
               </button>
               <button type="button" class="btn btn-ghost" data-cookie-action="accept">
-                Aceptar todo
+                {% trans "Aceptar todo" %}
               </button>
               <button type="button" class="btn btn-primary" data-cookie-action="save">
-                Guardar preferencias
+                {% trans "Guardar preferencias" %}
               </button>
             </div>
           </div>
@@ -525,14 +539,13 @@
 
     {% include "components/loader.html" with id="app-loader" label="Cargando..." %}
 
-
     <!-- Scripts -->
-  <script defer src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script defer src="{% static 'js/bookings/booking_calendar.js' %}"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script defer src="{% static 'js/bookings/booking_calendar.js' %}"></script>
     <script src="{% static 'js/cookies/consent.js' %}"></script>
     <script src="{% static 'js/components/loader.js' %}"></script>
     <script type="module" src="{% static 'js/animations/index.js' %}"></script>
- 
+
     {% block extra_js %}{% endblock %}
   </body>
 </html>
