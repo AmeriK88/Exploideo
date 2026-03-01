@@ -95,7 +95,7 @@
               <source srcset="{% static 'img/exploideo-logo.webp' %}" type="image/webp">
               <img
                 src="{% static 'img/exploideo-logo.png' %}"
-                alt="Exploideo"
+                alt="{% trans 'Exploideo' %}"
                 fetchpriority="high"
                 decoding="async"
                 class="h-10 w-auto sm:h-12 md:h-14 lg:h-16 shrink-0 transition-transform hover:scale-105 drop-shadow-md"
@@ -113,8 +113,9 @@
                   shadow-[0_0_20px_rgba(47,140,255,0.25)]
                   hover:shadow-[0_0_30px_rgba(47,140,255,0.40)]
                   transition-all duration-300"
+            aria-label="{% trans 'Ir a inicio' %}"
           >
-            Exploideo
+            {% trans "Exploideo" %}
           </a>
         </div>
 
@@ -124,6 +125,47 @@
             <span class="inline-block h-2 w-2 rounded-full bg-emerald-500"></span>
             {% trans "Lista de espera abierta" %}
           </span>
+          
+          <!-- Language switch -->
+          <form action="{% url 'set_language' %}" method="post" class="flex items-center">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ request.get_full_path }}" />
+
+            {% get_available_languages as LANGUAGES %}
+            {% get_current_language as CURRENT_LANGUAGE %}
+
+            <div class="relative">
+              <!-- Icono -->
+              <span class="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-slate-500 text-xs sm:text-sm">
+                🌍
+              </span>
+
+              <select
+                name="language"
+                onchange="this.form.submit();"
+                class="appearance-none rounded-full border border-slate-200 bg-white
+                      pl-7 pr-7
+                      h-9 sm:h-10
+                      text-xs sm:text-sm
+                      font-semibold text-slate-700 shadow-sm
+                      hover:bg-slate-50 transition
+                      focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+              >
+                {% for lang_code, lang_name in LANGUAGES %}
+                  <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
+                    {{ lang_code|upper }}
+                  </option>
+                {% endfor %}
+              </select>
+
+              <!-- Flechita -->
+              <span class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-slate-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 sm:h-4 sm:w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" />
+                </svg>
+              </span>
+            </div>
+          </form>
 
           <a href="#waitlist" class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-5 py-3">
             <span class="sm:hidden">{% trans "Acceso anticipado" %}</span>
@@ -132,7 +174,6 @@
         </div>
       </div>
     </header>
-
 
     <!-- Messages -->
     {% if messages %}
