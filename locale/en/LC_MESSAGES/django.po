@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-01 09:06+0000\n"
+"POT-Creation-Date: 2026-03-01 18:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,15 +25,15 @@ msgstr ""
 msgid "English"
 msgstr ""
 
-#: .\templates\layouts\base.html:125 .\templates\pages\landing\landing.html:130
+#: .\templates\layouts\base.html:125 .\templates\pages\landing\landing.html:125
 msgid "Lista de espera abierta"
 msgstr "Waitlist is open"
 
-#: .\templates\layouts\base.html:129 .\templates\pages\landing\landing.html:134
+#: .\templates\layouts\base.html:129 .\templates\pages\landing\landing.html:129
 msgid "Acceso anticipado"
 msgstr "Early access"
 
-#: .\templates\layouts\base.html:130 .\templates\pages\landing\landing.html:135
+#: .\templates\layouts\base.html:130 .\templates\pages\landing\landing.html:130
 msgid "Quiero acceso anticipado"
 msgstr "I want early access"
 

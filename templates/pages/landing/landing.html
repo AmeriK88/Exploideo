@@ -295,182 +295,147 @@
         </div>
       </section>
 
-      <!-- =========================================================
-        PRODUCT PREVIEW (CANAPÉS) — “Así se ve por dentro”
-        Colócalo justo después del HERO
-      ========================================================== -->
-      <section class="relative border-y border-slate-200 bg-white">
-        <!-- soft blobs -->
-        <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-          <div class="absolute -top-24 left-10 h-64 w-64 rounded-full bg-brand-200/55 blur-3xl"></div>
-          <div class="absolute -bottom-24 right-10 h-64 w-64 rounded-full bg-emerald-200/45 blur-3xl"></div>
-        </div>
+ <!-- =========================================================
+  PRODUCT PREVIEW — “Así se ve por dentro”
+  (versión premium + coherente con producto real)
+  Colócalo justo después del HERO
+========================================================== -->
+<section class="relative border-y border-slate-200 bg-white">
+  <div class="relative mx-auto max-w-7xl px-4 py-14" data-animate="fade-up">
+    <!-- Header -->
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between" data-stagger>
+      <div>
+        <p class="testimonial-quote" data-animate="fade-up">Un vistazo rápido</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-900" data-animate="fade-up">
+          Así se ve Exploideo por dentro.
+        </h2>
+        <p class="mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
+          Capturas reales del producto: descubre experiencias, conoce al guía y gestiona tu reserva con claridad.
+        </p>
+      </div>
 
-        <div class="relative mx-auto max-w-7xl px-4 py-14" data-animate="fade-up">
-          <!-- Header -->
-          <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between" data-stagger>
-            <div>
-              <p class="testimonial-quote" data-animate="fade-up">Un vistazo rápido</p>
-              <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">
-                Así se ve Exploideo por dentro.
-              </h2>
-              <p class="mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
-                Pequeños “bocados” del producto: estados, detalle de experiencia y reseñas verificadas.
-              </p>
+      <a href="#waitlist" class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-5 py-3">
+        Quiero acceso
+      </a>
+    </div>
+
+    <!-- 3 previews -->
+    <div class="mt-10 grid gap-6 lg:grid-cols-3" data-stagger>
+
+      <!-- Preview 1: Explorar experiencias -->
+      <article class="group rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden transition hover:shadow-xl" data-animate="scale-in">
+        <!-- “Device frame” -->
+        <div class="relative bg-slate-50 p-4">
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none"
+               style="background: radial-gradient(600px circle at 20% 10%, rgba(59,130,246,.08), transparent 40%);"></div>
+
+          <div class="rounded-3xl border border-slate-200 bg-white shadow-md overflow-hidden">
+            <div class="flex items-center gap-2 px-4 py-3 border-b border-slate-200">
+              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+              <span class="ml-2 text-xs font-semibold text-slate-500">Explorar</span>
             </div>
 
-            <a href="#waitlist" class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-5 py-3">
-              Quiero acceso
-            </a>
+            <!-- TU screenshot -->
+            <img
+              src="{% static 'img/landing/explorar.webp' %}"
+              alt="Explorar experiencias en Exploideo"
+              class="w-full h-auto block"
+              loading="lazy"
+            />
           </div>
+        </div>
 
-          <!-- 3 previews -->
-          <div class="mt-10 grid gap-5 lg:grid-cols-3" data-stagger>
-
-            <!-- Preview 1: Dashboard + estados -->
-            <article class="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden" data-animate="scale-in">
-              <div class="flex items-center justify-between gap-3 border-b border-slate-200 bg-slate-50 px-5 py-4">
-                <div class="flex items-center gap-2">
-                  <span class="grid h-9 w-9 place-items-center rounded-2xl bg-brand-600/10 text-brand-700">📌</span>
-                  <div class="leading-tight">
-                    <p class="text-sm font-semibold text-slate-900">Estado visible</p>
-                    <p class="p-micro">Tu reserva siempre “en qué punto está”</p>
-                  </div>
-                </div>
-                <span class="badge badge-neutral">Dashboard</span>
-              </div>
-
-              <div class="p-5">
-                <!-- fake UI card -->
-                <div class="rounded-2xl border border-slate-200 bg-white p-4">
-                  <div class="flex items-start justify-between gap-3">
-                    <div class="min-w-0">
-                      <p class="text-sm font-semibold text-slate-900 truncate">Ruta Volcánica (grupo reducido)</p>
-                      <p class="mt-1 text-xs text-slate-600">Sáb · 09:30 · 2 plazas · ES/EN</p>
-                    </div>
-                    <span class="badge update-decision-accepted">Aceptada</span>
-                  </div>
-
-                  <div class="mt-4 grid gap-2">
-                    <div class="flex items-center justify-between text-xs">
-                      <span class="text-slate-600">Solicitud</span>
-                      <span class="font-semibold text-slate-900">OK</span>
-                    </div>
-                    <div class="h-2 w-full rounded-full bg-slate-100 overflow-hidden">
-                      <div class="h-full w-3/4 rounded-full bg-brand-600/60"></div>
-                    </div>
-                    <p class="mt-2 text-xs text-slate-600">
-                      Mensajes y cambios quedan registrados en el historial.
-                    </p>
-                  </div>
-                </div>
-
-                <p class="mt-4 text-sm text-slate-600">
-                  No más “¿está confirmado?”: solicitud, aceptación, cambios y cancelación con trazabilidad.
-                </p>
-              </div>
-            </article>
-
-            <!-- Preview 2: Detalle experiencia -->
-            <article class="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden" data-animate="scale-in">
-              <div class="flex items-center justify-between gap-3 border-b border-slate-200 bg-slate-50 px-5 py-4">
-                <div class="flex items-center gap-2">
-                  <span class="grid h-9 w-9 place-items-center rounded-2xl bg-slate-900/5 text-slate-900">🧭</span>
-                  <div class="leading-tight">
-                    <p class="text-sm font-semibold text-slate-900">Contexto antes de pagar</p>
-                    <p class="p-micro">Incluye, dificultad, qué llevar, meeting point</p>
-                  </div>
-                </div>
-                <span class="badge badge-neutral">Detalle</span>
-              </div>
-
-              <div class="p-5">
-                <!-- fake experience snippet -->
-                <div class="rounded-2xl border border-slate-200 bg-white p-4">
-                  <div class="flex items-start justify-between gap-3">
-                    <div>
-                      <p class="text-sm font-semibold text-slate-900">Costa & calas al atardecer</p>
-                      <p class="mt-1 text-xs text-slate-600">Duración: 2h · Dificultad: fácil</p>
-                    </div>
-                    <span class="rounded-full bg-amber-500/15 px-3 py-1 text-xs font-semibold text-amber-800">
-                      Recomendado
-                    </span>
-                  </div>
-
-                  <div class="mt-4 grid gap-2 text-xs">
-                    <div class="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2">
-                      <span class="text-slate-600">📍 Meeting point</span>
-                      <span class="font-semibold text-slate-900">Mirador (GPS)</span>
-                    </div>
-                    <div class="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2">
-                      <span class="text-slate-600">🎒 Qué llevar</span>
-                      <span class="font-semibold text-slate-900">Agua + calzado</span>
-                    </div>
-                    <div class="flex items-center justify-between rounded-xl bg-slate-50 px-3 py-2">
-                      <span class="text-slate-600">🗣️ Idiomas</span>
-                      <span class="font-semibold text-slate-900">ES / EN / DE</span>
-                    </div>
-                  </div>
-                </div>
-
-                <p class="mt-4 text-sm text-slate-600">
-                  Menos incertidumbre: sabes lo que compras y cómo será la experiencia antes de reservar.
-                </p>
-              </div>
-            </article>
-
-            <!-- Preview 3: Reseñas verificadas -->
-            <article class="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden" data-animate="scale-in">
-              <div class="flex items-center justify-between gap-3 border-b border-slate-200 bg-slate-50 px-5 py-4">
-                <div class="flex items-center gap-2">
-                  <span class="grid h-9 w-9 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700">⭐</span>
-                  <div class="leading-tight">
-                    <p class="text-sm font-semibold text-slate-900">Reseñas reales</p>
-                    <p class="p-micro">Solo de reservas verificadas</p>
-                  </div>
-                </div>
-                <span class="badge badge-neutral">Opiniones</span>
-              </div>
-
-              <div class="p-5">
-                <div class="rounded-2xl border border-slate-200 bg-white p-4">
-                  <div class="flex items-start justify-between gap-3">
-                    <div class="min-w-0">
-                      <p class="text-sm font-semibold text-slate-900 truncate">“Todo clarísimo desde el inicio”</p>
-                      <p class="mt-1 text-xs text-slate-600">Viajera · 2h · Costa & calas</p>
-                    </div>
-                    <div class="text-xs font-semibold text-slate-700">★★★★★</div>
-                  </div>
-                  <p class="mt-3 text-sm text-slate-700 leading-relaxed text-center">
-                    Experiencia premium de verdad. Guía privado, ruta personalizada y toda la información antes de reservar.
-                        Mejor a mi aire y sin esperas inecesarias de otros viajeros
-                  </p>
-
-                  <div class="mt-4 flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                      <span class="grid h-8 w-8 place-items-center rounded-2xl bg-brand-600/10 text-brand-700 font-bold">M</span>
-                      <span class="text-xs text-slate-600">María · BCN</span>
-                    </div>
-                    <span class="rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold text-slate-700">
-                      Verificada
-                    </span>
-                  </div>
-                </div>
-
-                <p class="mt-4 text-sm text-slate-600">
-                  Calidad basada en reservas reales: más confianza.
-                </p>
-              </div>
-            </article>
-
+        <div class="p-6">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="text-lg font-semibold text-slate-900">Descubre experiencias verificadas</h3>
+            <span class="badge badge-neutral">Explorar</span>
           </div>
-
-          <!-- mini note -->
-          <p class="mt-8 p-micro text-slate-500" data-animate="fade-up">
-            *Estas vistas son una previsualización del producto. Acceso por fases cuando abramos plazas.
+          <p class="mt-2 text-sm text-slate-600">
+            Encuentra planes con precio, duración y guía verificado desde el primer vistazo.
           </p>
         </div>
-      </section>
+      </article>
+
+      <!-- Preview 2: Perfil del guía -->
+      <article class="group rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden transition hover:shadow-xl" data-animate="scale-in">
+        <div class="relative bg-slate-50 p-4">
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none"
+               style="background: radial-gradient(600px circle at 80% 20%, rgba(16,185,129,.10), transparent 40%);"></div>
+
+          <div class="rounded-3xl border border-slate-200 bg-white shadow-md overflow-hidden">
+            <div class="flex items-center gap-2 px-4 py-3 border-b border-slate-200">
+              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+              <span class="ml-2 text-xs font-semibold text-slate-500">Guía</span>
+            </div>
+
+            <!-- TU screenshot -->
+            <img
+              src="{% static 'img/landing/guia.webp' %}"
+              alt="Perfil del guía en Exploideo"
+              class="w-full h-auto block"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <div class="p-6">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="text-lg font-semibold text-slate-900">Conoce al guía antes de reservar</h3>
+            <span class="badge badge-neutral">Perfil</span>
+          </div>
+          <p class="mt-2 text-sm text-slate-600">
+            Verificación, estilo y experiencias activas para decidir con confianza.
+          </p>
+        </div>
+      </article>
+
+      <!-- Preview 3: Reserva confirmada + chat -->
+      <article class="group rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden transition hover:shadow-xl" data-animate="scale-in">
+        <div class="relative bg-slate-50 p-4">
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none"
+               style="background: radial-gradient(600px circle at 50% 10%, rgba(59,130,246,.08), transparent 40%);"></div>
+
+          <div class="rounded-3xl border border-slate-200 bg-white shadow-md overflow-hidden">
+            <div class="flex items-center gap-2 px-4 py-3 border-b border-slate-200">
+              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+              <span class="ml-2 text-xs font-semibold text-slate-500">Reserva</span>
+            </div>
+
+            <!-- ✅ Pon aquí TU screenshot real -->
+            <img
+              src="{% static 'img/landing/reserva.webp' %}"
+              alt="Detalle de reserva con chat en Exploideo"
+              class="w-full h-auto block"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <div class="p-6">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="text-lg font-semibold text-slate-900">Reserva clara, comunicación directa</h3>
+            <span class="badge badge-neutral">Gestión</span>
+          </div>
+          <p class="mt-2 text-sm text-slate-600">
+            Confirmación, cancelación y chat con el guía: sin sorpresas de última hora.
+          </p>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- mini note -->
+    <p class="mt-8 p-micro text-slate-500" data-animate="fade-up">
+      *Capturas reales del producto. Acceso por fases cuando abramos plazas.
+    </p>
+  </div>
+</section>
 
 
        <!-- =========================================================
