@@ -125,38 +125,43 @@
             <span class="inline-block h-2 w-2 rounded-full bg-emerald-500"></span>
             {% trans "Lista de espera abierta" %}
           </span>
-
+          
           <!-- Language switch -->
           <form action="{% url 'set_language' %}" method="post" class="flex items-center">
             {% csrf_token %}
             <input name="next" type="hidden" value="{{ request.get_full_path }}" />
+
             {% get_available_languages as LANGUAGES %}
 
-            <div class="relative">
-              <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm">🌍</span>
-
-              <!-- MOBILE (compact) -->
-              <select
-                name="language"
-                onchange="this.form.submit();"
-                aria-label="{% trans 'Idioma' %}"
-                class="sm:hidden appearance-none rounded-2xl border border-slate-200 bg-white pl-9 pr-9 py-2 text-sm font-semibold text-slate-700 shadow-sm
-                      hover:bg-slate-50 transition focus:outline-none focus:ring-2 focus:ring-brand-500/30"
-              >
-                {% for lang_code, lang_name in LANGUAGES %}
-                  <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
+            <!-- 📱 MOBILE: botón pequeño redondo -->
+            <div class="sm:hidden">
+              {% for lang_code, lang_name in LANGUAGES %}
+                {% if lang_code != CURRENT_LANGUAGE %}
+                  <button
+                    type="submit"
+                    name="language"
+                    value="{{ lang_code }}"
+                    class="h-9 w-9 rounded-full border border-slate-200 bg-white text-xs font-bold text-slate-700 shadow-sm hover:bg-slate-100 transition"
+                  >
                     {{ lang_code|upper }}
-                  </option>
-                {% endfor %}
-              </select>
+                  </button>
+                {% endif %}
+              {% endfor %}
+            </div>
 
-              <!-- DESKTOP (full) -->
+            <!-- 💻 DESKTOP: dropdown bonito -->
+            <div class="relative hidden sm:block">
+              <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm">
+                🌍
+              </span>
+
               <select
                 name="language"
                 onchange="this.form.submit();"
                 aria-label="{% trans 'Idioma' %}"
-                class="hidden sm:block appearance-none rounded-2xl border border-slate-200 bg-white pl-9 pr-10 py-2 text-sm font-semibold text-slate-700 shadow-sm
-                      hover:bg-slate-50 transition focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+                class="appearance-none rounded-2xl border border-slate-200 bg-white pl-9 pr-10 py-2 text-sm font-semibold text-slate-700 shadow-sm
+                      hover:bg-slate-50 transition
+                      focus:outline-none focus:ring-2 focus:ring-brand-500/30"
               >
                 {% for lang_code, lang_name in LANGUAGES %}
                   <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
@@ -166,7 +171,7 @@
               </select>
 
               <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-500">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                   <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" />
                 </svg>
               </span>
