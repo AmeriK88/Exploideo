@@ -355,7 +355,7 @@ msgstr "Your journey feels richer."
 
 #: .\templates\pages\home.html:37 .\templates\pages\landing\landing.html:222
 msgid "cuando alguien te la cuenta."
-msgstr "someone shares it with you."
+msgstr "when someone shares it with you."
 
 #: .\templates\pages\home.html:41
 msgid "Exploideo pone orden donde hoy hay caos:"
