@@ -95,7 +95,7 @@
               <source srcset="{% static 'img/exploideo-logo.webp' %}" type="image/webp">
               <img
                 src="{% static 'img/exploideo-logo.png' %}"
-                alt="Exploideo"
+                alt="{% trans 'Exploideo' %}"
                 fetchpriority="high"
                 decoding="async"
                 class="h-10 w-auto sm:h-12 md:h-14 lg:h-16 shrink-0 transition-transform hover:scale-105 drop-shadow-md"
@@ -113,8 +113,9 @@
                   shadow-[0_0_20px_rgba(47,140,255,0.25)]
                   hover:shadow-[0_0_30px_rgba(47,140,255,0.40)]
                   transition-all duration-300"
+            aria-label="{% trans 'Ir a inicio' %}"
           >
-            Exploideo
+            {% trans "Exploideo" %}
           </a>
         </div>
 
@@ -125,8 +126,45 @@
             {% trans "Lista de espera abierta" %}
           </span>
 
+          <!-- Language switch -->
+          <form action="{% url 'set_language' %}" method="post" class="flex items-center">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ request.get_full_path }}" />
+
+            {% get_available_languages as LANGUAGES %}
+
+            <div class="relative">
+              <!-- icono izquierda -->
+              <span class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm">
+                🌍
+              </span>
+
+              <select
+                name="language"
+                onchange="this.form.submit();"
+                aria-label="{% trans 'Idioma' %}"
+                class="appearance-none rounded-2xl border border-slate-200 bg-white pl-9 pr-10 py-2 text-sm font-semibold text-slate-700 shadow-sm
+                      hover:bg-slate-50 transition
+                      focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+              >
+                {% for lang_code, lang_name in LANGUAGES %}
+                  <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
+                    {{ lang_code|upper }} · {{ lang_name }}
+                  </option>
+                {% endfor %}
+              </select>
+
+              <!-- flecha derecha -->
+              <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" />
+                </svg>
+              </span>
+            </div>
+          </form>
+
           <a href="#waitlist" class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-5 py-3">
-            <span class="sm:hidden">Acceso anticipado{% trans "Acceso anticipado" %}</span>
+            <span class="sm:hidden">{% trans "Acceso anticipado" %}</span>
             <span class="hidden sm:inline">{% trans "Quiero acceso anticipado" %}</span>
           </a>
         </div>
@@ -159,286 +197,296 @@
       PAGE WRAPPER (para page-enter + scroll reveal)
       IMPORTANTE: data-page en el mismo nodo que .page-enter
     ========================================================== -->
-    <main id="page" class="mx-auto w-full" aria-label="Contenido principal">
+    <main id="page" class="mx-auto w-full" aria-label="{% trans 'Contenido principal' %}">
       <div class="page-enter" data-page>
 
-      <!-- =========================================================
-        HERO 
-      ========================================================== -->
-      <section class="relative overflow-hidden z-0 pt-10">
-        <!-- blobs -->
-        <div class="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
-          <div class="absolute -top-24 left-1/2 h-72 w-152 -translate-x-1/2 rounded-full bg-brand-200/70 blur-3xl"></div>
-          <div class="absolute -bottom-32 left-1/3 h-72 w-160 rounded-full bg-solar-200/55 blur-3xl"></div>
-        </div>
+        <!-- =========================================================
+          HERO
+        ========================================================== -->
+        <section class="relative overflow-hidden z-0 pt-10">
+          <!-- blobs -->
+          <div class="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
+            <div class="absolute -top-24 left-1/2 h-72 w-152 -translate-x-1/2 rounded-full bg-brand-200/70 blur-3xl"></div>
+            <div class="absolute -bottom-32 left-1/3 h-72 w-160 rounded-full bg-solar-200/55 blur-3xl"></div>
+          </div>
 
-        <div class="relative z-10 mx-auto max-w-7xl px-4 pt-14 pb-10 sm:pt-20 sm:pb-16">
-          <div class="grid items-center gap-10 lg:grid-cols-2">
+          <div class="relative z-10 mx-auto max-w-7xl px-4 pt-14 pb-10 sm:pt-20 sm:pb-16">
+            <div class="grid items-center gap-10 lg:grid-cols-2">
 
-            <!-- Copy -->
-            <div data-stagger>
-              <div class="inline-flex flex-wrap items-center gap-2" data-animate="fade-up">
-                <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-200">
-                  🚀 Pre-lanzamiento
-                </span>
-                <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
-                  🏝️ Lanzarote-release
-                </span>
-                <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
-                  ✅ Guías verificados
-                </span>
-              </div>
-
-              <h1 class="mt-5 text-4xl font-extrabold tracking-tight leading-[1.05] sm:text-5xl" data-animate="fade-up">
-                Experiencias sin filtro
-                <span class="block text-brand-700">Tu ruta se vive mejor </span>
-                cuando alguien te la cuenta.
-              </h1>
-
-              <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600" data-animate="fade-up">
-                Exploideo conecta <span class="font-semibold text-slate-800">viajeros</span> con
-                <span class="font-semibold text-slate-800">guías locales verificados</span>.
-                Hay
-                <span class="font-semibold text-slate-800">calendario inteligente</span>,
-                <span class="font-semibold text-slate-800">reglas claras</span> y
-                <span class="font-semibold text-slate-800">antelación</span>.
-                Para que el guía planifique y el viajero reserve con confianza.
-              </p>
-
-              <!-- Micro “doble beneficio” -->
-              <div class="mt-4 grid max-w-xl gap-2 sm:grid-cols-2" data-stagger>
-                <div class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm" data-animate="fade-up">
-                  <p class="text-xs font-semibold text-slate-900">Para viajeros</p>
-                  <p class="mt-1 text-xs text-slate-600">Detalles antes de reservar, estado visible y todo en un panel.</p>
+              <!-- Copy -->
+              <div data-stagger>
+                <div class="inline-flex flex-wrap items-center gap-2" data-animate="fade-up">
+                  <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-brand-700 ring-1 ring-brand-200">
+                    🚀 {% trans "Pre-lanzamiento" %}
+                  </span>
+                  <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
+                    🏝️ Lanzarote-release
+                  </span>
+                  <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 ring-1 ring-slate-200">
+                    ✅ {% trans "Guías verificados" %}
+                  </span>
                 </div>
-                <div class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm" data-animate="fade-up">
-                  <p class="text-xs font-semibold text-slate-900">Para guías</p>
-                  <p class="mt-1 text-xs text-slate-600">Agenda real, cupos, reglas y facturación clara.</p>
-                </div>
-              </div>
 
-              <!-- CTAs -->
-              <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center" data-animate="fade-up">
-                <a href="#waitlist" class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-6 py-3">
-                  Unirme a la lista (gratis)
-                  <span class="ml-2 text-white/80">→</span>
-                </a>
+                <h1 class="mt-5 text-4xl font-extrabold tracking-tight leading-[1.05] sm:text-5xl" data-animate="fade-up">
+                  {% trans "Experiencias sin filtro" %}
+                  <span class="block text-brand-700">{% trans "Tu ruta se vive mejor" %}</span>
+                  {% trans "cuando alguien te la cuenta." %}
+                </h1>
 
-                <a
-                  href="#how"
-                  class="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-slate-800 ring-1 ring-slate-200 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/30"
-                >
-                  Ver cómo funciona
-                </a>
-              </div>
+                <p class="mt-4 max-w-xl text-base leading-relaxed text-slate-600" data-animate="fade-up">
+                  {% blocktrans %}
+                    Exploideo conecta <span class="font-semibold text-slate-800">viajeros</span> con
+                    <span class="font-semibold text-slate-800">guías locales verificados</span>.
+                    Hay
+                    <span class="font-semibold text-slate-800">calendario inteligente</span>,
+                    <span class="font-semibold text-slate-800">reglas claras</span> y
+                    <span class="font-semibold text-slate-800">antelación</span>.
+                    Para que el guía planifique y el viajero reserve con confianza.
+                  {% endblocktrans %}
+                </p>
 
-              <!-- mini bullets (impacto) -->
-              <div class="mt-4 grid gap-2 sm:grid-cols-2">
-                <div class="cta-yes">
-                  <p class="cta-yes-text">
-                    <span class="cta-yes-title">✅ 24h mínimo</span>
-                    sin excursiones “para mañana”.
-                  </p>
-                </div>
-                <div class="cta-yes">
-                  <p class="cta-yes-text">
-                    <span class="cta-yes-title">✅ Control total</span>
-                    días, cupos y plazas por experiencia.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <!-- /Copy -->
-
-            <!-- Visual -->
-            <div class="relative" data-stagger>
-              <div class="home-visual-card" data-animate="scale-in">
-                <div class="aspect-16/11 overflow-hidden rounded-3xl bg-slate-100 relative ring-1 ring-slate-200 shadow-sm">
-                  <img
-                    src="{% static 'img/landing/img-hero.png' %}"
-                    alt="Acantilados y costa de Lanzarote"
-                    width="1600"
-                    height="1100"
-                    class="h-full w-full object-cover"
-                    loading="eager"
-                    fetchpriority="high"
-                  />
-
-                  <!-- overlays -->
-                  <div class="pointer-events-none absolute inset-0 bg-linear-to-tr from-slate-950/45 via-slate-900/10 to-transparent"></div>
-                  <div class="pointer-events-none absolute inset-0 bg-linear-to-t from-slate-950/35 via-transparent to-transparent"></div>
-
-                  <!-- top badge -->
-                  <div class="absolute left-4 top-4 rounded-2xl bg-white/85 px-3.5 py-2 text-xs font-medium text-slate-800 backdrop-blur ring-1 ring-white/60">
-                    🔥 Top esta semana · Ruta Volcánica
+                <!-- Micro “doble beneficio” -->
+                <div class="mt-4 grid max-w-xl gap-2 sm:grid-cols-2" data-stagger>
+                  <div class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm" data-animate="fade-up">
+                    <p class="text-xs font-semibold text-slate-900">{% trans "Para viajeros" %}</p>
+                    <p class="mt-1 text-xs text-slate-600">
+                      {% trans "Detalles antes de reservar, estado visible y todo en un panel." %}
+                    </p>
                   </div>
 
-                  <!-- bottom card -->
-                  <div class="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/85 px-4 py-3 backdrop-blur ring-1 ring-white/60">
-                    <div class="flex items-center justify-between gap-3">
-                      <div>
-                        <p class="text-xs font-semibold text-slate-900">Experiencias curadas</p>
-                        <p class="mt-1 p-muted">Calidad y no cantidad</p>
+                  <div class="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm" data-animate="fade-up">
+                    <p class="text-xs font-semibold text-slate-900">{% trans "Para guías" %}</p>
+                    <p class="mt-1 text-xs text-slate-600">
+                      {% trans "Agenda real, cupos, reglas y facturación clara." %}
+                    </p>
+                  </div>
+                </div>
+
+                <!-- CTAs -->
+                <div class="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center" data-animate="fade-up">
+                  <a href="#waitlist" class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-6 py-3">
+                    {% trans "Unirme a la lista (gratis)" %}
+                    <span class="ml-2 text-white/80">→</span>
+                  </a>
+
+                  <a
+                    href="#how"
+                    class="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-slate-800 ring-1 ring-slate-200 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/30"
+                  >
+                    {% trans "Ver cómo funciona" %}
+                  </a>
+                </div>
+
+                <!-- mini bullets (impacto) -->
+                <div class="mt-4 grid gap-2 sm:grid-cols-2">
+                  <div class="cta-yes">
+                    <p class="cta-yes-text">
+                      <span class="cta-yes-title">✅ {% trans "24h mínimo" %}</span>
+                      {% trans 'sin excursiones “para mañana”.' %}
+                    </p>
+                  </div>
+                  <div class="cta-yes">
+                    <p class="cta-yes-text">
+                      <span class="cta-yes-title">✅ {% trans "Control total" %}</span>
+                      {% trans "días, cupos y plazas por experiencia." %}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <!-- /Copy -->
+
+              <!-- Visual -->
+              <div class="relative" data-stagger>
+                <div class="home-visual-card" data-animate="scale-in">
+                  <div class="aspect-16/11 overflow-hidden rounded-3xl bg-slate-100 relative ring-1 ring-slate-200 shadow-sm">
+                    <img
+                      src="{% static 'img/landing/img-hero.png' %}"
+                      alt="{% trans 'Acantilados y costa de Lanzarote' %}"
+                      width="1600"
+                      height="1100"
+                      class="h-full w-full object-cover"
+                      loading="eager"
+                      fetchpriority="high"
+                    />
+
+                    <!-- overlays -->
+                    <div class="pointer-events-none absolute inset-0 bg-linear-to-tr from-slate-950/45 via-slate-900/10 to-transparent"></div>
+                    <div class="pointer-events-none absolute inset-0 bg-linear-to-t from-slate-950/35 via-transparent to-transparent"></div>
+
+                    <!-- top badge -->
+                    <div class="absolute left-4 top-4 rounded-2xl bg-white/85 px-3.5 py-2 text-xs font-medium text-slate-800 backdrop-blur ring-1 ring-white/60">
+                      🔥 {% trans "Top esta semana" %} · {% trans "Ruta Volcánica" %}
+                    </div>
+
+                    <!-- bottom card -->
+                    <div class="absolute bottom-4 left-4 right-4 rounded-2xl bg-white/85 px-4 py-3 backdrop-blur ring-1 ring-white/60">
+                      <div class="flex items-center justify-between gap-3">
+                        <div>
+                          <p class="text-xs font-semibold text-slate-900">{% trans "Experiencias curadas" %}</p>
+                          <p class="mt-1 p-muted">{% trans "Calidad y no cantidad" %}</p>
+                        </div>
+                        <span class="badge update-decision-accepted">{% trans "Estados" %}</span>
                       </div>
-                      <span class="badge update-decision-accepted">Estados</span>
                     </div>
                   </div>
+
+                  <p class="mt-5 help-secondary" data-animate="fade-up">
+                    {% trans "✨ Acceso anticipado · 0 spam · Un email cuando abramos plazas." %}
+                  </p>
                 </div>
-              <p class="mt-5 help-secondary" data-animate="fade-up">
-                ✨ Acceso anticipado · 0 spam · Un email cuando abramos plazas.
-              </p>
               </div>
+              <!-- /Visual -->
+
             </div>
-            <!-- /Visual -->
-
           </div>
-        </div>
-      </section>
+        </section>
 
- <!-- =========================================================
-  PRODUCT PREVIEW — “Así se ve por dentro”
-  (versión premium + coherente con producto real)
-  Colócalo justo después del HERO
-========================================================== -->
-<section class="relative border-y border-slate-200 bg-white">
-  <div class="relative mx-auto max-w-7xl px-4 py-14" data-animate="fade-up">
-    <!-- Header -->
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between" data-stagger>
-      <div>
-        <p class="testimonial-quote" data-animate="fade-up">Un vistazo rápido</p>
-        <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-900" data-animate="fade-up">
-          Así se ve Exploideo por dentro.
-        </h2>
-        <p class="mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
-          Capturas reales del producto: descubre experiencias, conoce al guía y gestiona tu reserva con claridad.
-        </p>
-      </div>
+        <!-- =========================================================
+          PRODUCT PREVIEW — “Así se ve por dentro”
+          (versión premium + coherente con producto real)
+          Colócalo justo después del HERO
+        ========================================================== -->
+        <section class="relative border-y border-slate-200 bg-white">
+          <div class="relative mx-auto max-w-7xl px-4 py-14" data-animate="fade-up">
+            <!-- Header -->
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between" data-stagger>
+              <div>
+                <p class="testimonial-quote" data-animate="fade-up">{% trans "Un vistazo rápido" %}</p>
 
-      <a href="#waitlist" class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-5 py-3">
-        Quiero acceso
-      </a>
-    </div>
+                <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-900" data-animate="fade-up">
+                  {% trans "Así se ve Exploideo por dentro." %}
+                </h2>
 
-    <!-- 3 previews -->
-    <div class="mt-10 grid gap-6 lg:grid-cols-3" data-stagger>
+                <p class="mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
+                  {% trans "Capturas reales del producto: descubre experiencias, conoce al guía y gestiona tu reserva con claridad." %}
+                </p>
+              </div>
 
-      <!-- Preview 1: Explorar experiencias -->
-      <article class="group rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden transition hover:shadow-xl" data-animate="scale-in">
-        <!-- “Device frame” -->
-        <div class="relative bg-slate-50 p-4">
-          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none"
-               style="background: radial-gradient(600px circle at 20% 10%, rgba(59,130,246,.08), transparent 40%);"></div>
-
-          <div class="rounded-3xl border border-slate-200 bg-white shadow-md overflow-hidden">
-            <div class="flex items-center gap-2 px-4 py-3 border-b border-slate-200">
-              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
-              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
-              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
-              <span class="ml-2 text-xs font-semibold text-slate-500">Explorar</span>
+              <a href="#waitlist" class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-5 py-3">
+                {% trans "Quiero acceso" %}
+              </a>
             </div>
 
-            <!-- TU screenshot -->
-            <img
-              src="{% static 'img/landing/explorar.webp' %}"
-              alt="Explorar experiencias en Exploideo"
-              class="w-full h-auto block"
-              loading="lazy"
-            />
-          </div>
-        </div>
+            <!-- 3 previews -->
+            <div class="mt-10 grid gap-6 lg:grid-cols-3" data-stagger>
 
-        <div class="p-6">
-          <div class="flex items-center justify-between gap-3">
-            <h3 class="text-lg font-semibold text-slate-900">Descubre experiencias verificadas</h3>
-            <span class="badge badge-neutral">Explorar</span>
-          </div>
-          <p class="mt-2 text-sm text-slate-600">
-            Encuentra planes con precio, duración y guía verificado desde el primer vistazo.
-          </p>
-        </div>
-      </article>
+              <!-- Preview 1: Explorar experiencias -->
+              <article class="group rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden transition hover:shadow-xl" data-animate="scale-in">
+                <!-- “Device frame” -->
+                <div class="relative bg-slate-50 p-4">
+                  <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none"
+                      style="background: radial-gradient(600px circle at 20% 10%, rgba(59,130,246,.08), transparent 40%);"></div>
 
-      <!-- Preview 2: Perfil del guía -->
-      <article class="group rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden transition hover:shadow-xl" data-animate="scale-in">
-        <div class="relative bg-slate-50 p-4">
-          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none"
-               style="background: radial-gradient(600px circle at 80% 20%, rgba(16,185,129,.10), transparent 40%);"></div>
+                  <div class="rounded-3xl border border-slate-200 bg-white shadow-md overflow-hidden">
+                    <div class="flex items-center gap-2 px-4 py-3 border-b border-slate-200">
+                      <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+                      <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+                      <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+                      <span class="ml-2 text-xs font-semibold text-slate-500">{% trans "Explorar" %}</span>
+                    </div>
 
-          <div class="rounded-3xl border border-slate-200 bg-white shadow-md overflow-hidden">
-            <div class="flex items-center gap-2 px-4 py-3 border-b border-slate-200">
-              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
-              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
-              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
-              <span class="ml-2 text-xs font-semibold text-slate-500">Guía</span>
+                    <!-- TU screenshot -->
+                    <img
+                      src="{% static 'img/landing/explorar.webp' %}"
+                      alt="{% trans 'Explorar experiencias en Exploideo' %}"
+                      class="w-full h-auto block"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+
+                <div class="p-6">
+                  <div class="flex items-center justify-between gap-3">
+                    <h3 class="text-lg font-semibold text-slate-900">{% trans "Descubre experiencias verificadas" %}</h3>
+                    <span class="badge badge-neutral">{% trans "Explorar" %}</span>
+                  </div>
+                  <p class="mt-2 text-sm text-slate-600">
+                    {% trans "Encuentra planes con precio, duración y guía verificado desde el primer vistazo." %}
+                  </p>
+                </div>
+              </article>
+
+              <!-- Preview 2: Perfil del guía -->
+              <article class="group rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden transition hover:shadow-xl" data-animate="scale-in">
+                <div class="relative bg-slate-50 p-4">
+                  <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none"
+                      style="background: radial-gradient(600px circle at 80% 20%, rgba(16,185,129,.10), transparent 40%);"></div>
+
+                  <div class="rounded-3xl border border-slate-200 bg-white shadow-md overflow-hidden">
+                    <div class="flex items-center gap-2 px-4 py-3 border-b border-slate-200">
+                      <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+                      <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+                      <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+                      <span class="ml-2 text-xs font-semibold text-slate-500">{% trans "Guía" %}</span>
+                    </div>
+
+                    <!-- TU screenshot -->
+                    <img
+                      src="{% static 'img/landing/guia.webp' %}"
+                      alt="{% trans 'Perfil del guía en Exploideo' %}"
+                      class="w-full h-auto block"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+
+                <div class="p-6">
+                  <div class="flex items-center justify-between gap-3">
+                    <h3 class="text-lg font-semibold text-slate-900">{% trans "Conoce al guía antes de reservar" %}</h3>
+                    <span class="badge badge-neutral">{% trans "Perfil" %}</span>
+                  </div>
+                  <p class="mt-2 text-sm text-slate-600">
+                    {% trans "Verificación, estilo y experiencias activas para decidir con confianza." %}
+                  </p>
+                </div>
+              </article>
+
+              <!-- Preview 3: Reserva confirmada + chat -->
+              <article class="group rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden transition hover:shadow-xl" data-animate="scale-in">
+                <div class="relative bg-slate-50 p-4">
+                  <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none"
+                      style="background: radial-gradient(600px circle at 50% 10%, rgba(59,130,246,.08), transparent 40%);"></div>
+
+                  <div class="rounded-3xl border border-slate-200 bg-white shadow-md overflow-hidden">
+                    <div class="flex items-center gap-2 px-4 py-3 border-b border-slate-200">
+                      <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+                      <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+                      <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
+                      <span class="ml-2 text-xs font-semibold text-slate-500">{% trans "Reserva" %}</span>
+                    </div>
+
+                    <!-- ✅ Pon aquí TU screenshot real -->
+                    <img
+                      src="{% static 'img/landing/reserva.webp' %}"
+                      alt="{% trans 'Detalle de reserva con chat en Exploideo' %}"
+                      class="w-full h-auto block"
+                      loading="lazy"
+                    />
+                  </div>
+                </div>
+
+                <div class="p-6">
+                  <div class="flex items-center justify-between gap-3">
+                    <h3 class="text-lg font-semibold text-slate-900">{% trans "Reserva clara, comunicación directa" %}</h3>
+                    <span class="badge badge-neutral">{% trans "Gestión" %}</span>
+                  </div>
+                  <p class="mt-2 text-sm text-slate-600">
+                    {% trans "Confirmación, cancelación y chat con el guía: sin sorpresas de última hora." %}
+                  </p>
+                </div>
+              </article>
+
             </div>
 
-            <!-- TU screenshot -->
-            <img
-              src="{% static 'img/landing/guia.webp' %}"
-              alt="Perfil del guía en Exploideo"
-              class="w-full h-auto block"
-              loading="lazy"
-            />
+            <!-- mini note -->
+            <p class="mt-8 p-micro text-slate-500" data-animate="fade-up">
+              {% trans "*Capturas reales del producto. Acceso por fases cuando abramos plazas." %}
+            </p>
           </div>
-        </div>
-
-        <div class="p-6">
-          <div class="flex items-center justify-between gap-3">
-            <h3 class="text-lg font-semibold text-slate-900">Conoce al guía antes de reservar</h3>
-            <span class="badge badge-neutral">Perfil</span>
-          </div>
-          <p class="mt-2 text-sm text-slate-600">
-            Verificación, estilo y experiencias activas para decidir con confianza.
-          </p>
-        </div>
-      </article>
-
-      <!-- Preview 3: Reserva confirmada + chat -->
-      <article class="group rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden transition hover:shadow-xl" data-animate="scale-in">
-        <div class="relative bg-slate-50 p-4">
-          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition pointer-events-none"
-               style="background: radial-gradient(600px circle at 50% 10%, rgba(59,130,246,.08), transparent 40%);"></div>
-
-          <div class="rounded-3xl border border-slate-200 bg-white shadow-md overflow-hidden">
-            <div class="flex items-center gap-2 px-4 py-3 border-b border-slate-200">
-              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
-              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
-              <span class="h-2.5 w-2.5 rounded-full bg-slate-200"></span>
-              <span class="ml-2 text-xs font-semibold text-slate-500">Reserva</span>
-            </div>
-
-            <!-- ✅ Pon aquí TU screenshot real -->
-            <img
-              src="{% static 'img/landing/reserva.webp' %}"
-              alt="Detalle de reserva con chat en Exploideo"
-              class="w-full h-auto block"
-              loading="lazy"
-            />
-          </div>
-        </div>
-
-        <div class="p-6">
-          <div class="flex items-center justify-between gap-3">
-            <h3 class="text-lg font-semibold text-slate-900">Reserva clara, comunicación directa</h3>
-            <span class="badge badge-neutral">Gestión</span>
-          </div>
-          <p class="mt-2 text-sm text-slate-600">
-            Confirmación, cancelación y chat con el guía: sin sorpresas de última hora.
-          </p>
-        </div>
-      </article>
-
-    </div>
-
-    <!-- mini note -->
-    <p class="mt-8 p-micro text-slate-500" data-animate="fade-up">
-      *Capturas reales del producto. Acceso por fases cuando abramos plazas.
-    </p>
-  </div>
-</section>
+        </section>
 
 
-       <!-- =========================================================
+        <!-- =========================================================
           PRODUCT SNAPSHOT (NUEVO COPY) — COMPACT + ICON FIX
         ========================================================== -->
         <section class="relative mx-auto max-w-7xl px-4 py-14 overflow-hidden">
@@ -453,19 +501,19 @@
             <div class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-xs font-semibold text-slate-700 backdrop-blur"
                 data-animate="fade-up">
               <span class="grid h-6 w-6 place-items-center rounded-full bg-brand-600/10 text-brand-700">✨</span>
-              Antes vs Después
+              {% trans "Antes vs Después" %}
             </div>
 
             <h2 class="mt-4 text-3xl font-extrabold tracking-tight" data-animate="fade-up">
-              Más control → 
-              <span class="text-brand-700"> mejor experiencia</span>.
+              {% trans "Más control →" %}
+              <span class="text-brand-700">{% trans "mejor experiencia" %}</span>.
             </h2>
 
             <p class="mt-3 max-w-2xl text-base leading-relaxed text-slate-600" data-animate="fade-up">
-              Exploideo convierte dudas en claridad:
-              <span class="font-semibold text-slate-800">contexto</span>,
-              <span class="font-semibold text-slate-800">estado</span> y
-              <span class="font-semibold text-slate-800">seguimiento</span>.
+              {% trans "Exploideo convierte dudas en claridad:" %}
+              <span class="font-semibold text-slate-800">{% trans "contexto" %}</span>,
+              <span class="font-semibold text-slate-800">{% trans "estado" %}</span> {% trans "y" %}
+              <span class="font-semibold text-slate-800">{% trans "seguimiento" %}</span>.
             </p>
 
             <!-- Antes / Después -->
@@ -477,37 +525,41 @@
                 <div class="flex items-center justify-between">
                   <p class="inline-flex items-center gap-2 text-xs font-semibold text-slate-600">
                     <span class="grid h-7 w-7 place-items-center rounded-2xl bg-rose-500/10 text-rose-700">✕</span>
-                    Antes
+                    {% trans "Antes" %}
                   </p>
-                  <span class="rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold text-slate-700">Caos</span>
+                  <span class="rounded-full bg-slate-900/5 px-3 py-1 text-xs font-semibold text-slate-700">
+                    {% trans "Caos" %}
+                  </span>
                 </div>
 
                 <ul class="mt-4 space-y-2 text-sm text-slate-700">
                   <li class="flex gap-3">
                     <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-rose-500/10 text-rose-700">✕</span>
-                    <span>Menasajes dispersos - sin trazabilidad</span>
+                    <span>{% trans "Mensajes dispersos, sin trazabilidad." %}</span>
                   </li>
                   <li class="flex gap-3">
                     <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-rose-500/10 text-rose-700">✕</span>
-                    <span>Disponibilidad poco clara/flexible</span>
+                    <span>{% trans "Disponibilidad poco clara o demasiado flexible." %}</span>
                   </li>
                   <li class="flex gap-3">
                     <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-rose-500/10 text-rose-700">✕</span>
-                    <span>Información repartida en mil sitios.</span>
+                    <span>{% trans "Información repartida en mil sitios." %}</span>
                   </li>
                   <li class="flex gap-3">
                     <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-rose-500/10 text-rose-700">✕</span>
-                    <span>Dudas de ¿Dónde · Cómo · Cuándo?.</span>
+                    <span>{% trans "Dudas de: ¿dónde, cómo y cuándo?" %}</span>
                   </li>
                   <li class="flex gap-3">
                     <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-rose-500/10 text-rose-700">✕</span>
-                    <span>Sin historial ni trazabilidad de lo hablado.</span>
+                    <span>{% trans "Sin historial ni registro de lo hablado." %}</span>
                   </li>
                 </ul>
 
                 <div class="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                  <p class="text-xs font-semibold text-slate-700">Resultado</p>
-                  <p class="mt-1 text-xs text-slate-600">Más dudas → menos conversiones → peor experiencia.</p>
+                  <p class="text-xs font-semibold text-slate-700">{% trans "Resultado" %}</p>
+                  <p class="mt-1 text-xs text-slate-600">
+                    {% trans "Más dudas → menos conversiones → peor experiencia." %}
+                  </p>
                 </div>
               </div>
 
@@ -517,37 +569,41 @@
                 <div class="flex items-center justify-between">
                   <p class="inline-flex items-center gap-2 text-xs font-semibold text-brand-900">
                     <span class="grid h-7 w-7 place-items-center rounded-2xl bg-emerald-600/15 text-emerald-800">✓</span>
-                    Con Exploideo
+                    {% trans "Con Exploideo" %}
                   </p>
-                  <span class="rounded-full bg-brand-600/10 px-3 py-1 text-xs font-semibold text-brand-800">Control</span>
+                  <span class="rounded-full bg-brand-600/10 px-3 py-1 text-xs font-semibold text-brand-800">
+                    {% trans "Control" %}
+                  </span>
                 </div>
 
                 <ul class="mt-4 space-y-2 text-sm text-brand-900/90">
                   <li class="flex gap-3">
                     <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-emerald-600/15 text-emerald-800">✓</span>
-                    <span>Chat por reserva con contexto y estado.</span>
+                    <span>{% trans "Chat por reserva con contexto y estado." %}</span>
                   </li>
                   <li class="flex gap-3">
                     <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-emerald-600/15 text-emerald-800">✓</span>
-                    <span>Disponibilidad centralizada y reglas.</span>
+                    <span>{% trans "Disponibilidad centralizada y reglas claras." %}</span>
                   </li>
                   <li class="flex gap-3">
                     <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-emerald-600/15 text-emerald-800">✓</span>
-                    <span>Toda lo necesario visible para el viajero.</span>
+                    <span>{% trans "Todo lo necesario visible para el viajero." %}</span>
                   </li>
                   <li class="flex gap-3">
                     <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-emerald-600/15 text-emerald-800">✓</span>
-                    <span>Historial y trazabilidad automática.</span>
+                    <span>{% trans "Historial y trazabilidad automática." %}</span>
                   </li>
                   <li class="flex gap-3">
                     <span class="mt-0.5 grid h-6 w-6 place-items-center rounded-xl bg-emerald-600/15 text-emerald-800">✓</span>
-                    <span>Dashboard, gestiona reservas y experiencias.</span>
+                    <span>{% trans "Dashboard para gestionar reservas y experiencias." %}</span>
                   </li>
                 </ul>
 
                 <div class="mt-5 rounded-2xl border border-brand-200 bg-white/70 p-4">
-                  <p class="text-xs font-semibold text-brand-900">Resultado</p>
-                  <p class="mt-1 text-xs text-brand-900/80">Más claridad → mejor decisión → más reservas.</p>
+                  <p class="text-xs font-semibold text-brand-900">{% trans "Resultado" %}</p>
+                  <p class="mt-1 text-xs text-brand-900/80">
+                    {% trans "Más claridad → mejor decisión → más reservas." %}
+                  </p>
                 </div>
               </div>
             </div>
@@ -557,29 +613,29 @@
 
               <div class="group rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-sm backdrop-blur hover:shadow-md transition hover:-translate-y-0.5">
                 <div class="flex items-center justify-between">
-                  <p class="text-xs font-semibold text-slate-500">Decisión</p>
+                  <p class="text-xs font-semibold text-slate-500">{% trans "Decisión" %}</p>
                   <span class="grid h-9 w-9 place-items-center rounded-2xl bg-amber-500/15 text-amber-800">⚡</span>
                 </div>
-                <p class="mt-2 text-lg font-bold">Más rápida</p>
-                <p class="mt-1 text-sm text-slate-600">Contexto claro desde el inicio.</p>
+                <p class="mt-2 text-lg font-bold">{% trans "Más rápida" %}</p>
+                <p class="mt-1 text-sm text-slate-600">{% trans "Contexto claro desde el inicio." %}</p>
               </div>
 
               <div class="group rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-sm backdrop-blur hover:shadow-md transition hover:-translate-y-0.5">
                 <div class="flex items-center justify-between">
-                  <p class="text-xs font-semibold text-slate-500">Gestión</p>
+                  <p class="text-xs font-semibold text-slate-500">{% trans "Gestión" %}</p>
                   <span class="grid h-9 w-9 place-items-center rounded-2xl bg-brand-600/10 text-brand-700">🧾</span>
                 </div>
-                <p class="mt-2 text-lg font-bold">En un sitio</p>
-                <p class="mt-1 text-sm text-slate-600">Panel + recibos + cambios.</p>
+                <p class="mt-2 text-lg font-bold">{% trans "En un sitio" %}</p>
+                <p class="mt-1 text-sm text-slate-600">{% trans "Panel + recibos + cambios." %}</p>
               </div>
 
               <div class="group rounded-3xl border border-slate-200 bg-white/80 p-5 shadow-sm backdrop-blur hover:shadow-md transition hover:-translate-y-0.5">
                 <div class="flex items-center justify-between">
-                  <p class="text-xs font-semibold text-slate-500">Confianza</p>
+                  <p class="text-xs font-semibold text-slate-500">{% trans "Confianza" %}</p>
                   <span class="grid h-9 w-9 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700">🛡️</span>
                 </div>
-                <p class="mt-2 text-lg font-bold">Verificable</p>
-                <p class="mt-1 text-sm text-slate-600">Reseñas reales + verificación.</p>
+                <p class="mt-2 text-lg font-bold">{% trans "Verificable" %}</p>
+                <p class="mt-1 text-sm text-slate-600">{% trans "Reseñas reales + verificación." %}</p>
               </div>
 
             </div>
@@ -593,12 +649,14 @@
           <div class="mx-auto max-w-7xl px-4 py-14">
             <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between" data-stagger>
               <div>
-                <p class="testimonial-quote" data-animate="fade-up">Colecciones</p>
+                <p class="testimonial-quote" data-animate="fade-up">{% trans "Colecciones" %}</p>
+
                 <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">
-                  Elige tu mood del día
+                  {% trans "Elige tu mood del día" %}
                 </h2>
+
                 <p class="mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
-                  Ideas rápidas para inspirarte.
+                  {% trans "Ideas rápidas para inspirarte." %}
                 </p>
               </div>
             </div>
@@ -609,13 +667,13 @@
                 class="group rounded-3xl border border-slate-200 bg-slate-50 p-5 hover:bg-white transition"
                 data-animate="scale-in"
                 role="article"
-                aria-label="Costa y calas"
+                aria-label="{% trans 'Costa y calas' %}"
               >
                 <div class="flex items-start gap-3">
                   <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-900/5 text-base leading-none">🌊</div>
                   <div>
-                    <h3 class="font-semibold leading-tight">Costa & calas</h3>
-                    <p class="mt-1 text-sm text-slate-600">Paseos, miradores, baños y brisa.</p>
+                    <h3 class="font-semibold leading-tight">{% trans "Costa & calas" %}</h3>
+                    <p class="mt-1 text-sm text-slate-600">{% trans "Paseos, miradores, baños y brisa." %}</p>
                   </div>
                 </div>
               </div>
@@ -624,13 +682,13 @@
                 class="group rounded-3xl border border-slate-200 bg-slate-50 p-5 hover:bg-white transition"
                 data-animate="scale-in"
                 role="article"
-                aria-label="Volcán y paisaje"
+                aria-label="{% trans 'Volcán y paisaje' %}"
               >
                 <div class="flex items-start gap-3">
                   <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-900/5 text-base leading-none">🌋</div>
                   <div>
-                    <h3 class="font-semibold leading-tight">Volcán & paisaje</h3>
-                    <p class="mt-1 text-sm text-slate-600">Lava, panorámicas y “wow” asegurado.</p>
+                    <h3 class="font-semibold leading-tight">{% trans "Volcán & paisaje" %}</h3>
+                    <p class="mt-1 text-sm text-slate-600">{% trans 'Lava, panorámicas y “wow” asegurado.' %}</p>
                   </div>
                 </div>
               </div>
@@ -639,13 +697,13 @@
                 class="group rounded-3xl border border-slate-200 bg-slate-50 p-5 hover:bg-white transition"
                 data-animate="scale-in"
                 role="article"
-                aria-label="Atardecer tranquilo"
+                aria-label="{% trans 'Atardecer tranquilo' %}"
               >
                 <div class="flex items-start gap-3">
                   <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-900/5 text-base leading-none">🌅</div>
                   <div>
-                    <h3 class="font-semibold leading-tight">Atardecer tranquilo</h3>
-                    <p class="mt-1 text-sm text-slate-600">Plan lento, fotos y buen rollo.</p>
+                    <h3 class="font-semibold leading-tight">{% trans "Atardecer tranquilo" %}</h3>
+                    <p class="mt-1 text-sm text-slate-600">{% trans "Plan lento, fotos y buen rollo." %}</p>
                   </div>
                 </div>
               </div>
@@ -654,13 +712,13 @@
                 class="group rounded-3xl border border-slate-200 bg-slate-50 p-5 hover:bg-white transition"
                 data-animate="scale-in"
                 role="article"
-                aria-label="Familia"
+                aria-label="{% trans 'Familia' %}"
               >
                 <div class="flex items-start gap-3">
                   <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-900/5 text-base leading-none">👨‍👩‍👧‍👦</div>
                   <div>
-                    <h3 class="font-semibold leading-tight">Familia</h3>
-                    <p class="mt-1 text-sm text-slate-600">Fácil, bonito y sin complicaciones.</p>
+                    <h3 class="font-semibold leading-tight">{% trans "Familia" %}</h3>
+                    <p class="mt-1 text-sm text-slate-600">{% trans "Fácil, bonito y sin complicaciones." %}</p>
                   </div>
                 </div>
               </div>
@@ -669,13 +727,13 @@
                 class="group rounded-3xl border border-slate-200 bg-slate-50 p-5 hover:bg-white transition"
                 data-animate="scale-in"
                 role="article"
-                aria-label="Aventura"
+                aria-label="{% trans 'Aventura' %}"
               >
                 <div class="flex items-start gap-3">
                   <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-900/5 text-base leading-none">🧗</div>
                   <div>
-                    <h3 class="font-semibold leading-tight">Aventura</h3>
-                    <p class="mt-1 text-sm text-slate-600">Ritmo, desnivel y “vamos a darle”.</p>
+                    <h3 class="font-semibold leading-tight">{% trans "Aventura" %}</h3>
+                    <p class="mt-1 text-sm text-slate-600">{% trans 'Ritmo, desnivel y “vamos a darle”.' %}</p>
                   </div>
                 </div>
               </div>
@@ -684,117 +742,139 @@
                 class="group rounded-3xl border border-slate-200 bg-slate-50 p-5 hover:bg-white transition"
                 data-animate="scale-in"
                 role="article"
-                aria-label="Gastro local"
+                aria-label="{% trans 'Gastro local' %}"
               >
                 <div class="flex items-start gap-3">
                   <div class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-slate-900/5 text-base leading-none">🍷</div>
                   <div>
-                    <h3 class="font-semibold leading-tight">Gastro local</h3>
-                    <p class="mt-1 text-sm text-slate-600">Sitios con historia y sabor real.</p>
+                    <h3 class="font-semibold leading-tight">{% trans "Gastro local" %}</h3>
+                    <p class="mt-1 text-sm text-slate-600">{% trans "Sitios con historia y sabor real." %}</p>
                   </div>
                 </div>
               </div>
             </div>
 
             <p class="mt-6 p-micro text-slate-500" data-animate="fade-up">
-              *Estas colecciones son inspiración. El acceso a experiencias estará disponible cuando abramos plazas.
+              {% trans "*Estas colecciones son inspiración. El acceso a experiencias estará disponible cuando abramos plazas." %}
             </p>
           </div>
         </section>
 
 
         <!-- =========================================================
-          BENEFICIOS GUÍAS (NO TOCAR)
+          BENEFICIOS GUÍAS
         ========================================================== -->
         <section class="mx-auto max-w-7xl px-4 py-14">
           <div class="grid gap-10 lg:grid-cols-2 lg:items-center">
             <div class="rounded-3xl border border-slate-200 bg-white p-7 shadow-sm" data-stagger>
-              <p class="testimonial-quote" data-animate="fade-up">Para guías</p>
+              <p class="testimonial-quote" data-animate="fade-up">{% trans "Para guías" %}</p>
+
               <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">
-                No más improvisación.
-                <span class="text-brand-700">Trabaja bajo tus reglas.</span>
+                {% trans "No más improvisación." %}
+                <span class="text-brand-700">{% trans "Trabaja bajo tus reglas." %}</span>
               </h2>
 
               <p class="mt-3 text-slate-600" data-animate="fade-up">
+                {% blocktrans %}
                 Exploideo no te consigue volumen. Te da estructura.
                 Agenda real, cupos definidos, condiciones claras y reservas con previsión.
+                {% endblocktrans %}
               </p>
 
               <div class="mt-6 space-y-4" data-stagger>
+
                 <div class="flex gap-3" data-animate="fade-up">
                   <div class="mt-1 grid h-7 w-7 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700">✓</div>
                   <div>
-                    <p class="font-semibold">Sin cuotas fijas · Sin contratos que te aten</p>
-                    <p class="p-muted">Solo comisión por excursión 14%.</p>
+                    <p class="font-semibold">{% trans "Sin cuotas fijas · Sin contratos que te aten" %}</p>
+                    <p class="p-muted">{% trans "Solo comisión por excursión 14%." %}</p>
                   </div>
                 </div>
+
                 <div class="flex gap-3" data-animate="fade-up">
                   <div class="mt-1 grid h-7 w-7 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700">✓</div>
                   <div>
-                    <p class="font-semibold">Reservas sin caos</p>
-                    <p class="p-muted">Acepta/rechaza con mensajes automáticos.</p>
+                    <p class="font-semibold">{% trans "Reservas sin caos" %}</p>
+                    <p class="p-muted">{% trans "Acepta o rechaza con mensajes automáticos." %}</p>
                   </div>
                 </div>
+
                 <div class="flex gap-3" data-animate="fade-up">
                   <div class="mt-1 grid h-7 w-7 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700">✓</div>
                   <div>
-                    <p class="font-semibold">Perfil verificado</p>
-                    <p class="p-muted">Más confianza → más conversiones.</p>
+                    <p class="font-semibold">{% trans "Perfil verificado" %}</p>
+                    <p class="p-muted">{% trans "Más confianza → más conversiones." %}</p>
                   </div>
                 </div>
+
                 <div class="flex gap-3" data-animate="fade-up">
                   <div class="mt-1 grid h-7 w-7 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700">✓</div>
                   <div>
-                    <p class="font-semibold">Panel de ingresos</p>
-                    <p class="p-muted">Control de facturación y rendimiento.</p>
+                    <p class="font-semibold">{% trans "Panel de ingresos" %}</p>
+                    <p class="p-muted">{% trans "Control de facturación y rendimiento." %}</p>
                   </div>
                 </div>
+
               </div>
 
               <div class="mt-8 grid gap-2">
-                <a href="#waitlist" class="inline-flex w-full items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/40">
-                  Soy guía · Quiero entrar primero
+                <a href="#waitlist"
+                  class="inline-flex w-full items-center justify-center rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/40">
+                  {% trans "Soy guía · Quiero entrar primero" %}
                 </a>
 
-                <a href="#waitlist" class="inline-flex w-full items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-800 ring-1 ring-slate-200 hover:bg-slate-50">
-                  Soy viajero · Quiero acceso
+                <a href="#waitlist"
+                  class="inline-flex w-full items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-slate-800 ring-1 ring-slate-200 hover:bg-slate-50">
+                  {% trans "Soy viajero · Quiero acceso" %}
                 </a>
               </div>
+
               <p class="mt-3 p-micro" data-animate="fade-up">
-                Primero abrimos plazas limitadas para perfiles verificados.
+                {% trans "Primero abrimos plazas limitadas para perfiles verificados." %}
               </p>
             </div>
 
+            <!-- Roadmap -->
             <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-stagger>
               <div class="flex items-center justify-between" data-animate="fade-up">
-                <h3 class="text-lg font-bold">Lo que tendrás desde el día 1</h3>
-                <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">Roadmap</span>
+                <h3 class="text-lg font-bold">{% trans "Lo que tendrás desde el día 1" %}</h3>
+                <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                  {% trans "Roadmap" %}
+                </span>
               </div>
 
               <div class="mt-5 grid gap-3 sm:grid-cols-2" data-stagger>
+
                 <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="fade-up">
-                  <p class="text-sm font-semibold">Editor de experiencias</p>
-                  <p class="mt-1 p-muted">Fotos, rutas, detalles, idiomas, extras.</p>
+                  <p class="text-sm font-semibold">{% trans "Editor de experiencias" %}</p>
+                  <p class="mt-1 p-muted">{% trans "Fotos, rutas, detalles, idiomas y extras." %}</p>
                 </div>
+
                 <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="fade-up">
-                  <p class="text-sm font-semibold">Calendario simple</p>
-                  <p class="mt-1 p-muted">Bloquea fechas y ajusta capacidad.</p>
+                  <p class="text-sm font-semibold">{% trans "Calendario simple" %}</p>
+                  <p class="mt-1 p-muted">{% trans "Bloquea fechas y ajusta capacidad." %}</p>
                 </div>
+
                 <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="fade-up">
-                  <p class="text-sm font-semibold">Mensajería clara</p>
-                  <p class="mt-1 p-muted">Menos idas y vueltas, más reservas.</p>
+                  <p class="text-sm font-semibold">{% trans "Mensajería clara" %}</p>
+                  <p class="mt-1 p-muted">{% trans "Menos idas y vueltas, más reservas." %}</p>
                 </div>
+
                 <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4" data-animate="fade-up">
-                  <p class="text-sm font-semibold">Facturas y control</p>
-                  <p class="mt-1 p-muted">Ingresos por mes, rectificaciones, etc.</p>
+                  <p class="text-sm font-semibold">{% trans "Facturas y control" %}</p>
+                  <p class="mt-1 p-muted">{% trans "Ingresos por mes, rectificaciones, etc." %}</p>
                 </div>
+
               </div>
 
               <div class="mt-6 rounded-2xl bg-brand-50 p-4 ring-1 ring-brand-100" data-animate="fade-up">
-                <p class="text-sm font-semibold text-brand-900">Idea central</p>
-                <p class="mt-1 text-sm text-brand-900/80">“Tu experiencia es premium. La gestión también debe serlo.”</p>
+                <p class="text-sm font-semibold text-brand-900">{% trans "Idea central" %}</p>
+                <p class="mt-1 text-sm text-brand-900/80">
+                  {% trans "Tu experiencia es premium. La gestión también debe serlo." %}
+                </p>
               </div>
             </div>
+
           </div>
         </section>
 
@@ -804,64 +884,76 @@
         <section id="how" class="border-y border-slate-200 bg-white">
           <div class="mx-auto max-w-7xl px-4 py-14">
             <div class="text-center" data-stagger>
-              <p class="testimonial-quote" data-animate="fade-up">Cómo funciona</p>
+              <p class="testimonial-quote" data-animate="fade-up">{% trans "Cómo funciona" %}</p>
+
               <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">
-                Reserva con contexto. Gestiona sin caos.
+                {% trans "Reserva con contexto. Gestiona sin caos." %}
               </h2>
+
               <p class="mx-auto mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
-                Aquí no vas a ciegas: ves <span class="font-semibold text-slate-800">qué incluye</span>, 
-                <span class="font-semibold text-slate-800">cómo será</span> y 
-                <span class="font-semibold text-slate-800">en qué punto está</span> tu solicitud en todo momento.
+                {% blocktrans %}
+                  Aquí no vas a ciegas: ves <span class="font-semibold text-slate-800">qué incluye</span>,
+                  <span class="font-semibold text-slate-800">cómo será</span> y
+                  <span class="font-semibold text-slate-800">en qué punto está</span> tu solicitud en todo momento.
+                {% endblocktrans %}
               </p>
             </div>
 
             <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
               <!-- Paso 1 -->
               <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
-                <p class="text-xs font-semibold text-slate-500">Paso 1</p>
-                <h3 class="mt-2 font-bold">Explora con criterio</h3>
+                <p class="text-xs font-semibold text-slate-500">{% trans "Paso 1" %}</p>
+                <h3 class="mt-2 font-bold">{% trans "Explora con criterio" %}</h3>
                 <p class="mt-2 p-muted">
-                  Filtra por tipo de plan, idioma, dificultad y duración. 
-                  Cada experiencia viene con detalles reales (qué llevar, punto de encuentro, reglas).
+                  {% blocktrans %}
+                    Filtra por tipo de plan, idioma, dificultad y duración.
+                    Cada experiencia viene con detalles reales (qué llevar, punto de encuentro, reglas).
+                  {% endblocktrans %}
                 </p>
               </div>
 
               <!-- Paso 2 -->
               <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
-                <p class="text-xs font-semibold text-slate-500">Paso 2</p>
-                <h3 class="mt-2 font-bold">Solicita tu fecha</h3>
+                <p class="text-xs font-semibold text-slate-500">{% trans "Paso 2" %}</p>
+                <h3 class="mt-2 font-bold">{% trans "Solicita tu fecha" %}</h3>
                 <p class="mt-2 p-muted">
-                  Envías una <span class="font-semibold text-slate-800">solicitud</span> con grupo, preferencias y notas.
-                  Nada de “te confirmo por WhatsApp”: queda todo registrado desde el minuto 1.
+                  {% blocktrans %}
+                    Envías una <span class="font-semibold text-slate-800">solicitud</span> con grupo, preferencias y notas.
+                    Nada de “te confirmo por WhatsApp”: queda todo registrado desde el minuto 1.
+                  {% endblocktrans %}
                 </p>
               </div>
 
               <!-- Paso 3 -->
               <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
-                <p class="text-xs font-semibold text-slate-500">Paso 3</p>
-                <h3 class="mt-2 font-bold">Estado claro (sin dudas)</h3>
+                <p class="text-xs font-semibold text-slate-500">{% trans "Paso 3" %}</p>
+                <h3 class="mt-2 font-bold">{% trans "Estado claro (sin dudas)" %}</h3>
                 <p class="mt-2 p-muted">
-                  El guía revisa solicitud. Tú ves el estado:
-                  <span class="font-semibold text-slate-800">pendiente → aceptada</span>.
-                  Cambios y mensajes quedan con trazabilidad.
+                  {% blocktrans %}
+                    El guía revisa solicitud. Tú ves el estado:
+                    <span class="font-semibold text-slate-800">pendiente → aceptada</span>.
+                    Cambios y mensajes quedan con trazabilidad.
+                  {% endblocktrans %}
                 </p>
               </div>
 
               <!-- Paso 4 -->
               <div class="rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm" data-animate="scale-in">
-                <p class="text-xs font-semibold text-slate-500">Paso 4</p>
-                <h3 class="mt-2 font-bold">Vive y valida</h3>
+                <p class="text-xs font-semibold text-slate-500">{% trans "Paso 4" %}</p>
+                <h3 class="mt-2 font-bold">{% trans "Vive y valida" %}</h3>
                 <p class="mt-2 p-muted">
-                  Después, dejas tu reseña.
-                  Solo cuentan opiniones de <span class="font-semibold text-slate-800">reservas reales</span>:
-                  más confianza para los siguientes viajeros.
+                  {% blocktrans %}
+                    Después, dejas tu reseña.
+                    Solo cuentan opiniones de <span class="font-semibold text-slate-800">reservas reales</span>:
+                    más confianza para los siguientes viajeros.
+                  {% endblocktrans %}
                 </p>
               </div>
             </div>
 
             <!-- Mini cierre opcional -->
             <p class="mx-auto mt-8 max-w-3xl text-center p-micro text-slate-500" data-animate="fade-up">
-              Resultado: menos incertidumbre para viajeros y más control para guías.
+              {% trans "Resultado: menos incertidumbre para viajeros y más control para guías." %}
             </p>
           </div>
         </section>
@@ -872,60 +964,77 @@
         <section class="mx-auto max-w-7xl px-4 py-14">
           <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between" data-stagger>
             <div>
-              <p class="testimonial-quote" data-animate="fade-up">Features</p>
-              <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">Diseñada para que funcione en el mundo real.</h2>
+              <p class="testimonial-quote" data-animate="fade-up">
+                {% trans "Features" %}
+              </p>
+
+              <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">
+                {% trans "Diseñada para que funcione en el mundo real." %}
+              </h2>
+
               <p class="mt-3 max-w-2xl text-slate-600" data-animate="fade-up">
-                Menos promesas genéricas, más sistema: claridad, control y confianza para ambos lados.
+                {% trans "Menos promesas genéricas, más sistema: claridad, control y confianza para ambos lados." %}
               </p>
             </div>
+
             <a
               href="#waitlist"
               class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-5 py-3">
-              Apuntarme ahora
+              {% trans "Apuntarme ahora" %}
             </a>
           </div>
 
           <div class="mt-10 grid gap-4 lg:grid-cols-3" data-stagger>
             <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-animate="fade-up">
               <div class="grid h-10 w-10 place-items-center rounded-2xl bg-brand-600/10 text-brand-700 font-bold">💬</div>
-              <h3 class="mt-4 font-bold">Chat con tu guía</h3>
-              <p class="mt-2 p-muted">Acceso directo para coordinar cualquier detalle.</p>
+              <h3 class="mt-4 font-bold">{% trans "Chat con tu guía" %}</h3>
+              <p class="mt-2 p-muted">{% trans "Acceso directo para coordinar cualquier detalle." %}</p>
             </div>
 
             <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-animate="fade-up">
               <div class="grid h-10 w-10 place-items-center rounded-2xl bg-slate-900/10 text-slate-900 font-bold">🧭</div>
-              <h3 class="mt-4 font-bold">Detalles que evitan dudas </h3>
-              <p class="mt-2 p-muted">Incluye, duración, meeting point, idioma, dificultad.</p>
+              <h3 class="mt-4 font-bold">{% trans "Detalles que evitan dudas" %}</h3>
+              <p class="mt-2 p-muted">
+                {% trans "Incluye, duración, meeting point, idioma, dificultad." %}
+              </p>
             </div>
 
             <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-animate="fade-up">
               <div class="grid h-10 w-10 place-items-center rounded-2xl bg-amber-500/15 text-amber-800 font-bold">✨</div>
-              <h3 class="mt-4 font-bold">Experiencias con autor</h3>
-              <p class="mt-2 p-muted">Cada guía aporta su estilo: ruta, ritmo, enfoque y trato personalizado.</p>
+              <h3 class="mt-4 font-bold">{% trans "Experiencias con autor" %}</h3>
+              <p class="mt-2 p-muted">
+                {% trans "Cada guía aporta su estilo: ruta, ritmo, enfoque y trato personalizado." %}
+              </p>
             </div>
 
             <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-animate="fade-up">
               <div class="grid h-10 w-10 place-items-center rounded-2xl bg-brand-600/10 text-brand-700 font-bold">📌</div>
-              <h3 class="mt-4 font-bold">Estados y trazabilidad</h3>
-              <p class="mt-2 p-muted">Solicitud, aceptación, cambios y cancelación con historial y estado visible.</p>
+              <h3 class="mt-4 font-bold">{% trans "Estados y trazabilidad" %}</h3>
+              <p class="mt-2 p-muted">
+                {% trans "Solicitud, aceptación, cambios y cancelación con historial y estado visible." %}
+              </p>
             </div>
 
             <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-animate="fade-up">
               <div class="grid h-10 w-10 place-items-center rounded-2xl bg-emerald-600/10 text-emerald-700 font-bold">🛡️</div>
-              <h3 class="mt-4 font-bold">Verificación real</h3>
-              <p class="mt-2 p-muted">Solo guías con documentación y seguros vigentes. Perfiles públicos.</p>
+              <h3 class="mt-4 font-bold">{% trans "Verificación real" %}</h3>
+              <p class="mt-2 p-muted">
+                {% trans "Solo guías con documentación y seguros vigentes. Perfiles públicos." %}
+              </p>
             </div>
 
             <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm" data-animate="fade-up">
               <div class="grid h-10 w-10 place-items-center rounded-2xl bg-brand-600/10 text-brand-700 font-bold">📊</div>
-              <h3 class="mt-4 font-bold">Dashboards útiles</h3>
-              <p class="mt-2 p-muted">Viajeros con panel + facturas. Guías con métricas, reservas y facturación.</p>
+              <h3 class="mt-4 font-bold">{% trans "Dashboards útiles" %}</h3>
+              <p class="mt-2 p-muted">
+                {% trans "Viajeros con panel y facturas. Guías con métricas, reservas y facturación." %}
+              </p>
             </div>
           </div>
         </section>
 
         <!-- =========================================================
-          WAITLIST / FORM 
+          WAITLIST / FORM
         ========================================================== -->
         <section id="waitlist" class="mx-auto max-w-7xl px-4 py-14">
           <div class="relative overflow-hidden rounded-3xl border border-slate-200 text-slate-600 p-8 shadow-sm">
@@ -936,21 +1045,30 @@
 
             <div class="relative grid gap-8 lg:grid-cols-2 lg:items-center">
               <div data-stagger>
-                <p class="testimonial-quote" data-animate="fade-up">Acceso anticipado</p>
-                <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">Sé de los primeros en entrar.</h2>
+                <p class="testimonial-quote" data-animate="fade-up">{% trans "Acceso anticipado" %}</p>
+
+                <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">
+                  {% trans "Sé de los primeros en entrar." %}
+                </h2>
+
                 <p class="mt-3 text-slate-600" data-animate="fade-up">
-                  Abriremos plazas por fases. Si estás en la lista, te avisamos antes que al resto.
-                  <span class="font-semibold text-slate-800">Un email cuando abramos acceso.</span>
+                  {% trans "Abriremos plazas por fases. Si estás en la lista, te avisamos antes que al resto." %}
+                  <span class="font-semibold text-slate-800">{% trans "Un email cuando abramos acceso." %}</span>
                 </p>
 
                 <div class="mt-6 grid gap-3 sm:grid-cols-2" data-stagger>
                   <div class="rounded-2xl bg-white/70 p-4 ring-1 ring-slate-200" data-animate="fade-up">
-                    <p class="text-sm font-semibold">Viajeros</p>
-                    <p class="mt-1 p-muted">Panel + facturas · cambios y cancelación hasta 48h</p>
+                    <p class="text-sm font-semibold">{% trans "Viajeros" %}</p>
+                    <p class="mt-1 p-muted">
+                      {% trans "Panel + facturas · cambios y cancelación hasta 48h" %}
+                    </p>
                   </div>
+
                   <div class="rounded-2xl bg-white/70 p-4 ring-1 ring-slate-200" data-animate="fade-up">
-                    <p class="text-sm font-semibold">Guías</p>
-                    <p class="mt-1 p-muted">Reservas, métricas y facturación · sin cuota fija</p>
+                    <p class="text-sm font-semibold">{% trans "Guías" %}</p>
+                    <p class="mt-1 p-muted">
+                      {% trans "Reservas, métricas y facturación · sin cuota fija" %}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -963,14 +1081,17 @@
 
                   <!-- Email -->
                   <div>
-                    <label class="text-sm font-semibold text-slate-800" for="waitlist_email">Email</label>
-                    <p class="mt-1 p-micro">Te avisaremos cuando abramos acceso. Nada más.</p>
+                    <label class="text-sm font-semibold text-slate-800" for="waitlist_email">
+                      {% trans "Email" %}
+                    </label>
+                    <p class="mt-1 p-micro">{% trans "Te avisaremos cuando abramos acceso. Nada más." %}</p>
+
                     <input
                       id="waitlist_email"
                       type="email"
                       name="email"
                       required
-                      placeholder="tu@email.com"
+                      placeholder="{% trans 'tu@email.com' %}"
                       class="mt-3 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-brand-500/30"
                     />
                   </div>
@@ -978,53 +1099,59 @@
                   <!-- Location + Role -->
                   <div class="grid gap-3 sm:grid-cols-2">
                     <div>
-                      <label class="text-sm font-semibold text-slate-800" for="waitlist_region">¿Dónde estás?</label>
+                      <label class="text-sm font-semibold text-slate-800" for="waitlist_region">
+                        {% trans "¿Dónde estás?" %}
+                      </label>
                       <select
                         id="waitlist_region"
                         name="region"
                         class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-brand-500/30"
                       >
-                        <option value="">Prefiero no decirlo</option>
-                        <option value="canarias">Canarias</option>
-                        <option value="peninsula">Península</option>
-                        <option value="baleares">Baleares</option>
-                        <option value="extranjero">Extranjero</option>
+                        <option value="">{% trans "Prefiero no decirlo" %}</option>
+                        <option value="canarias">{% trans "Canarias" %}</option>
+                        <option value="peninsula">{% trans "Península" %}</option>
+                        <option value="baleares">{% trans "Baleares" %}</option>
+                        <option value="extranjero">{% trans "Extranjero" %}</option>
                       </select>
                     </div>
 
                     <div>
-                      <label class="text-sm font-semibold text-slate-800" for="waitlist_role">¿Eres…?</label>
+                      <label class="text-sm font-semibold text-slate-800" for="waitlist_role">
+                        {% trans "¿Eres…?" %}
+                      </label>
                       <select
                         id="waitlist_role"
                         name="role"
                         class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-brand-500/30"
                       >
-                        <option value="">Prefiero no decirlo</option>
-                        <option value="traveler">Viajero</option>
-                        <option value="guide">Guía</option>
-                        <option value="both">Ambos</option>
+                        <option value="">{% trans "Prefiero no decirlo" %}</option>
+                        <option value="traveler">{% trans "Viajero" %}</option>
+                        <option value="guide">{% trans "Guía" %}</option>
+                        <option value="both">{% trans "Ambos" %}</option>
                       </select>
                     </div>
                   </div>
 
                   <!-- Island (only if Canarias) -->
                   <div id="waitlist_island_wrap" class="hidden">
-                    <label class="text-sm font-semibold text-slate-800" for="waitlist_island">¿Qué isla?</label>
+                    <label class="text-sm font-semibold text-slate-800" for="waitlist_island">
+                      {% trans "¿Qué isla?" %}
+                    </label>
                     <select
                       id="waitlist_island"
                       name="island"
                       class="mt-2 w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none focus:ring-2 focus:ring-brand-500/30"
                     >
-                      <option value="">Elige una</option>
-                      <option value="lanzarote">Lanzarote</option>
-                      <option value="fuerteventura">Fuerteventura</option>
-                      <option value="gran_canaria">Gran Canaria</option>
-                      <option value="tenerife">Tenerife</option>
-                      <option value="la_gomera">La Gomera</option>
-                      <option value="la_palma">La Palma</option>
-                      <option value="el_hierro">El Hierro</option>
-                      <option value="la_graciosa">La Graciosa</option>
-                      <option value="otra">Otra</option>
+                      <option value="">{% trans "Elige una" %}</option>
+                      <option value="lanzarote">{% trans "Lanzarote" %}</option>
+                      <option value="fuerteventura">{% trans "Fuerteventura" %}</option>
+                      <option value="gran_canaria">{% trans "Gran Canaria" %}</option>
+                      <option value="tenerife">{% trans "Tenerife" %}</option>
+                      <option value="la_gomera">{% trans "La Gomera" %}</option>
+                      <option value="la_palma">{% trans "La Palma" %}</option>
+                      <option value="el_hierro">{% trans "El Hierro" %}</option>
+                      <option value="la_graciosa">{% trans "La Graciosa" %}</option>
+                      <option value="otra">{% trans "Otra" %}</option>
                     </select>
                   </div>
 
@@ -1033,14 +1160,14 @@
                     <label class="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3">
                       <input id="waitlist_official" type="checkbox" name="is_official_guide" class="h-4 w-4" />
                       <span class="text-sm text-slate-800">
-                        Soy guía oficial (lo verificaremos más adelante)
+                        {% trans "Soy guía oficial (lo verificaremos más adelante)" %}
                       </span>
                     </label>
                   </div>
 
                   <!-- Consent -->
                   <div>
-                    <label class="flex items-start gap-2">
+                    <label class="flex items-start gap-2" for="waitlist_consent">
                       <input
                         id="waitlist_consent"
                         type="checkbox"
@@ -1049,20 +1176,17 @@
                         class="mt-1 h-4 w-4"
                       />
                       <span class="p-micro text-slate-700">
-                        Acepto recibir un email cuando abramos acceso. Puedes darte de baja cuando quieras.
+                        {% trans "Acepto recibir un email cuando abramos acceso. Puedes darte de baja cuando quieras." %}
                       </span>
                     </label>
                   </div>
 
-                  <button
-                    type="submit"
-                    class="w-full rounded-2xl btn btn-primary px-5 py-3"
-                  >
-                    Acceso anticipado
+                  <button type="submit" class="w-full rounded-2xl btn btn-primary px-5 py-3">
+                    {% trans "Acceso anticipado" %}
                   </button>
 
                   <p class="p-micro">
-                    Cero spam: si no hay algo sólido que contar, no te escribimos.
+                    {% trans "Cero spam: si no hay algo sólido que contar, no te escribimos." %}
                   </p>
                 </form>
               </div>
@@ -1081,10 +1205,10 @@
               <div class="card-body flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <p class="text-base font-semibold text-slate-900 tracking-tight">
-                    ¿Quieres enterarte de experiencias nuevas antes que nadie?
+                    {% trans "¿Quieres enterarte de experiencias nuevas antes que nadie?" %}
                   </p>
                   <p class="mt-1 p-muted">
-                    Novedades reales, sin spam. 1 email cuando haya algo bueno.
+                    {% trans "Novedades reales, sin spam. 1 email cuando haya algo bueno." %}
                   </p>
                 </div>
 
@@ -1093,18 +1217,18 @@
                   {% csrf_token %}
                   <input type="hidden" name="source" value="footer" />
 
-                  <label class="sr-only" for="footer_email">Email</label>
+                  <label class="sr-only" for="footer_email">{% trans "Email" %}</label>
                   <input
                     id="footer_email"
                     type="email"
                     name="email"
                     class="input sm:w-72"
-                    placeholder="tu@email.com"
+                    placeholder="{% trans 'tu@email.com' %}"
                     autocomplete="email"
                     required
                   />
                   <button class="btn btn-primary whitespace-nowrap" type="submit">
-                    Avisarme
+                    {% trans "Avisarme" %}
                   </button>
                 </form>
               </div>
@@ -1119,52 +1243,52 @@
                   <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm group-hover:shadow-md transition overflow-hidden">
                     <img
                       src="{% static 'img/exploideo-192.png' %}"
-                      alt="Exploideo"
+                      alt="{% trans 'Exploideo' %}"
                       class="h-8 w-auto object-contain"
                     />
                   </span>
 
                   <div class="leading-tight">
                     <p class="text-base font-semibold text-slate-900 tracking-tight">
-                      Exploideo
+                      {% trans "Exploideo" %}
                     </p>
                     <p class="p-micro">
-                      Guías verificados · Experiencias reales
+                      {% trans "Guías verificados · Experiencias reales" %}
                     </p>
                   </div>
                 </a>
 
                 <p class="text-slate-600 leading-relaxed">
-                  Plataforma de experiencias auténticas con guías locales verificados.
+                  {% trans "Plataforma de experiencias auténticas con guías locales verificados." %}
                 </p>
 
                 <!-- Trust chips -->
                 <div class="flex flex-wrap gap-2">
-                  <span class="badge badge-neutral">📍 Canarias</span>
-                  <span class="badge badge-neutral">⭐ Reseñas reales</span>
-                  <span class="badge badge-neutral">🧭 Local guides</span>
+                  <span class="badge badge-neutral">📍 {% trans "Canarias" %}</span>
+                  <span class="badge badge-neutral">⭐ {% trans "Reseñas reales" %}</span>
+                  <span class="badge badge-neutral">🧭 {% trans "Guías locales" %}</span>
                 </div>
 
                 <!-- Social -->
                 <div class="flex items-center gap-3 pt-1">
-                  <a href="https://www.instagram.com/exploideoofficial/" class="badge badge-neutral hover-lift" aria-label="Instagram">📸</a>
-                  <a href="#" class="badge badge-neutral hover-lift" aria-label="TikTok">🎵</a>
-                  <a href="#" class="badge badge-neutral hover-lift" aria-label="YouTube">▶️</a>
+                  <a href="https://www.instagram.com/exploideoofficial/" class="badge badge-neutral hover-lift" aria-label="{% trans 'Instagram' %}">📸</a>
+                  <a href="#" class="badge badge-neutral hover-lift" aria-label="{% trans 'TikTok' %}">🎵</a>
+                  <a href="#" class="badge badge-neutral hover-lift" aria-label="{% trans 'YouTube' %}">▶️</a>
                 </div>
               </div>
 
               <!-- Producto -->
               <div data-animate="fade-up">
-                <h4 class="h3-card uppercase tracking-wide">Producto</h4>
+                <h4 class="h3-card uppercase tracking-wide">{% trans "Producto" %}</h4>
                 <ul class="mt-3 space-y-2 text-slate-600">
                   <li>
                     <a href="#"
                       onclick="return false;"
                       class="hover:text-slate-900 transition cursor-default"
                       aria-disabled="true">
-                      Explorar experiencias
+                      {% trans "Explorar experiencias" %}
                     </a>
-                    <p class="p-micro">Encuentra planes con disponibilidad real.</p>
+                    <p class="p-micro">{% trans "Encuentra planes con disponibilidad real." %}</p>
                   </li>
 
                   <li>
@@ -1172,9 +1296,9 @@
                       onclick="return false;"
                       class="hover:text-slate-900 transition cursor-default"
                       aria-disabled="true">
-                      Convertirme en guía
+                      {% trans "Convertirme en guía" %}
                     </a>
-                    <p class="p-micro">Publica y gestiona reservas desde tu panel.</p>
+                    <p class="p-micro">{% trans "Publica y gestiona reservas desde tu panel." %}</p>
                   </li>
 
                   {% if user.is_authenticated %}
@@ -1183,9 +1307,9 @@
                         onclick="return false;"
                         class="hover:text-slate-900 transition cursor-default"
                         aria-disabled="true">
-                        Mi panel
+                        {% trans "Mi panel" %}
                       </a>
-                      <p class="p-micro">Reservas, notificaciones y solicitudes.</p>
+                      <p class="p-micro">{% trans "Reservas, notificaciones y solicitudes." %}</p>
                     </li>
                   {% else %}
                     <li>
@@ -1193,9 +1317,9 @@
                         onclick="return false;"
                         class="hover:text-slate-900 transition cursor-default"
                         aria-disabled="true">
-                        Acceder
+                        {% trans "Acceder" %}
                       </a>
-                      <p class="p-micro">Entra para ver y gestionar tus reservas.</p>
+                      <p class="p-micro">{% trans "Entra para ver y gestionar tus reservas." %}</p>
                     </li>
                   {% endif %}
                 </ul>
@@ -1203,24 +1327,24 @@
 
               <!-- Soporte -->
               <div data-animate="fade-up">
-                <h4 class="h3-card uppercase tracking-wide">Soporte</h4>
+                <h4 class="h3-card uppercase tracking-wide">{% trans "Soporte" %}</h4>
                 <ul class="mt-3 space-y-2 text-slate-600">
-                  <li><a href="{% url 'helpdesk:helpdesk' %}" class="hover:text-slate-900 transition">Centro de ayuda</a></li>
-                  <li><a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-slate-900 transition">Términos y condiciones</a></li>
-                  <li><a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-900 transition">Política de privacidad</a></li>
-                  <li><a href="{% url 'pages:cookie_policy' %}" class="hover:text-slate-900 transition">Política de cookies</a></li>
+                  <li><a href="{% url 'helpdesk:helpdesk' %}" class="hover:text-slate-900 transition">{% trans "Centro de ayuda" %}</a></li>
+                  <li><a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-slate-900 transition">{% trans "Términos y condiciones" %}</a></li>
+                  <li><a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-900 transition">{% trans "Política de privacidad" %}</a></li>
+                  <li><a href="{% url 'pages:cookie_policy' %}" class="hover:text-slate-900 transition">{% trans "Política de cookies" %}</a></li>
                   <li>
                     <button
                       type="button"
                       class="text-left hover:text-slate-900 transition underline decoration-dotted underline-offset-4"
                       data-lx-landing-cookie-open
                     >
-                      Preferencias de cookies
+                      {% trans "Preferencias de cookies" %}
                     </button>
                   </li>
 
                   <li class="pt-2">
-                    <p class="p-micro">¿Algo urgente?</p>
+                    <p class="p-micro">{% trans "¿Algo urgente?" %}</p>
                     <a href="mailto:info@exploideo.com" class="hover:text-slate-900 transition">
                       info@exploideo.com
                     </a>
@@ -1230,19 +1354,19 @@
 
               <!-- Local -->
               <div data-animate="fade-up">
-                <h4 class="h3-card uppercase tracking-wide">Ubicación</h4>
+                <h4 class="h3-card uppercase tracking-wide">{% trans "Ubicación" %}</h4>
                 <div class="mt-3 space-y-3 text-slate-600 leading-relaxed">
-                  <p>🌋 Desarrollado en las Islas Canarias</p>
+                  <p>🌋 {% trans "Desarrollado en las Islas Canarias" %}</p>
 
                   <div class="panel-soft">
-                    <p class="h3-card">Hecho para evitar sorpresas</p>
+                    <p class="h3-card">{% trans "Hecho para evitar sorpresas" %}</p>
                     <p class="mt-1 text-xs text-slate-600">
-                      Calendario real, guías verificados y gestión de cambios/cancelaciones clara.
+                      {% trans "Calendario real, guías verificados y gestión de cambios/cancelaciones clara." %}
                     </p>
                   </div>
 
                   <a href="{% url 'helpdesk:helpdesk' %}" class="btn btn-ghost w-full sm:w-auto">
-                    Necesito ayuda
+                    {% trans "Necesito ayuda" %}
                   </a>
                 </div>
               </div>
@@ -1250,12 +1374,14 @@
 
             <!-- Bottom bar -->
             <div class="mt-10 border-t border-slate-200 pt-5 pb-24 sm:pb-0 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-micro">
-              <p>© {{ current_year }} Exploideo · Todos los derechos reservados</p>
+              <p>
+                {% blocktrans with year=current_year %}© {{ year }} Exploideo · Todos los derechos reservados{% endblocktrans %}
+              </p>
 
               <div class="flex flex-wrap items-center gap-3 justify-center sm:justify-end">
-                <a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-700 transition">Privacidad</a>
+                <a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-700 transition">{% trans "Privacidad" %}</a>
                 <span class="text-slate-300">·</span>
-                <a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-slate-700 transition">Términos</a>
+                <a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-slate-700 transition">{% trans "Términos" %}</a>
                 <span class="text-slate-300">·</span>
               </div>
             </div>
