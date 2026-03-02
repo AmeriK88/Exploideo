@@ -1,0 +1,43 @@
+
+<form method="get" action="{% if search_action_url %}{{ search_action_url }}{% else %}{% url 'helpdesk:helpdesk' %}{% endif %}"
+      class="panel-soft p-5">
+
+  <div class="flex items-start justify-between gap-4">
+    <div>
+      <h2 class="h2-section">
+        {{ search_title|default:"Buscar en el centro de ayuda" }}
+      </h2>
+      <p class="mt-1 p-muted">
+        {{ search_subtitle|default:"Escribe una palabra clave: cancelación, cambios, reembolso..." }}
+      </p>
+    </div>
+    {% if search_badge %}
+      <span class="badge badge-neutral hover-lift">{{ search_badge }}</span>
+    {% endif %}
+  </div>
+
+  <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+    <div class="w-full">
+      <label class="sr-only" for="helpdesk_q">Buscar</label>
+      <input
+        id="helpdesk_q"
+        class="input"
+        type="text"
+        name="q"
+        value="{{ request.GET.q|default:'' }}"
+        placeholder="{{ search_placeholder|default:'Buscar artículos…' }}"
+      />
+    </div>
+
+    <button class="btn btn-primary sm:w-auto w-full" type="submit">
+      {{ search_button|default:"Buscar" }}
+    </button>
+
+    {% if request.GET.q or q %}
+      <a href="{% url 'helpdesk:helpdesk' %}" class="btn btn-ghost sm:w-auto w-full text-center">
+        Limpiar
+      </a>
+    {% endif %}
+  </div>
+
+</form>
