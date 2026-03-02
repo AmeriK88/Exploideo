@@ -18,76 +18,84 @@
 
     <!-- Filters -->
     <div data-animate="fade-up">
-      <div class="card">
-        <div class="card-body relative">
-          <!-- Subtle top gradient -->
-          <div class="hero-top-glow"></div>
 
-          <div class="mb-4">
-            <h2 class="h2-section">Buscar y filtrar</h2>
-            <p class="mt-1 p-muted">
-              Ajusta tu búsqueda y ordena resultados.
-            </p>
+      {# ✅ MOBILE: pills (solo action_url) #}
+      <div class="lg:hidden">
+        {% include "components/experience_search_card.html" with action_url=experiences_list_url %}
+      </div>
+
+      {# ✅ DESKTOP: mantienes tu form actual (no rompes layout) #}
+      <div class="hidden lg:block">
+        <div class="card">
+          <div class="card-body relative">
+            <div class="hero-top-glow"></div>
+
+            <div class="mb-4">
+              <h2 class="h2-section">Buscar y filtrar</h2>
+              <p class="mt-1 p-muted">Ajusta tu búsqueda y ordena resultados.</p>
+            </div>
+
+            <form method="get" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
+              <div class="lg:col-span-2">
+                <label class="label">Buscar</label>
+                <input class="input" type="text" name="q" value="{{ filters.q }}" placeholder="Museos, familia, senderismo...">
+              </div>
+
+              <div class="lg:col-span-2">
+                <label class="label">Categoría</label>
+                <select class="input" name="category">
+                  <option value="">Todas</option>
+                  {% for c in categories %}
+                    <option value="{{ c.slug }}" {% if filters.category == c.slug %}selected{% endif %}>
+                      {{ c.name }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <div>
+                <label class="label">Precio mín (€)</label>
+                <input class="input" type="number" step="0.01" name="min_price" value="{{ filters.min_price }}">
+              </div>
+
+              <div>
+                <label class="label">Precio máx (€)</label>
+                <input class="input" type="number" step="0.01" name="max_price" value="{{ filters.max_price }}">
+              </div>
+
+              <div class="lg:col-span-2">
+                <label class="label">Duración máx (min)</label>
+                <input class="input" type="number" name="max_duration" value="{{ filters.max_duration }}" placeholder="Ej: 180">
+              </div>
+
+              <div class="lg:col-span-2">
+                <label class="label">Ordenar</label>
+                <select class="input" name="sort">
+                  <option value="recent" {% if filters.sort == "recent" %}selected{% endif %}>Más recientes</option>
+                  <option value="popular" {% if filters.sort == "popular" %}selected{% endif %}>Más populares</option>
+                  <option value="price_asc" {% if filters.sort == "price_asc" %}selected{% endif %}>Precio: menor a mayor</option>
+                  <option value="price_desc" {% if filters.sort == "price_desc" %}selected{% endif %}>Precio: mayor a menor</option>
+                  <option value="duration_asc" {% if filters.sort == "duration_asc" %}selected{% endif %}>Duración: menor a mayor</option>
+                  <option value="duration_desc" {% if filters.sort == "duration_desc" %}selected{% endif %}>Duración: mayor a menor</option>
+                </select>
+              </div>
+
+              <div class="lg:col-span-2 flex items-end gap-2">
+                <button type="submit" class="btn btn-primary w-full">Aplicar</button>
+                <a href="{{ experiences_list_url }}" class="btn btn-ghost w-full text-center">Limpiar</a>
+              </div>
+            </form>
+
           </div>
-
-          <form method="get" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
-            <div class="lg:col-span-2">
-              <label class="label">Buscar</label>
-              <input class="input" type="text" name="q" value="{{ filters.q }}" placeholder="Museos, familia, senderismo...">
-            </div>
-
-            <div class="lg:col-span-2">
-              <label class="label">Categoría</label>
-              <select class="input" name="category">
-                <option value="">Todas</option>
-                {% for c in categories %}
-                  <option value="{{ c.slug }}" {% if filters.category == c.slug %}selected{% endif %}>
-                    {{ c.name }}
-                  </option>
-                {% endfor %}
-              </select>
-            </div>
-
-            <div>
-              <label class="label">Precio mín (€)</label>
-              <input class="input" type="number" step="0.01" name="min_price" value="{{ filters.min_price }}">
-            </div>
-
-            <div>
-              <label class="label">Precio máx (€)</label>
-              <input class="input" type="number" step="0.01" name="max_price" value="{{ filters.max_price }}">
-            </div>
-
-            <div class="lg:col-span-2">
-              <label class="label">Duración máx (min)</label>
-              <input class="input" type="number" name="max_duration" value="{{ filters.max_duration }}" placeholder="Ej: 180">
-            </div>
-
-            <div class="lg:col-span-2">
-              <label class="label">Ordenar</label>
-              <select class="input" name="sort">
-                <option value="recent" {% if filters.sort == "recent" %}selected{% endif %}>Más recientes</option>
-                <option value="popular" {% if filters.sort == "popular" %}selected{% endif %}>Más populares</option>
-                <option value="price_asc" {% if filters.sort == "price_asc" %}selected{% endif %}>Precio: menor a mayor</option>
-                <option value="price_desc" {% if filters.sort == "price_desc" %}selected{% endif %}>Precio: mayor a menor</option>
-                <option value="duration_asc" {% if filters.sort == "duration_asc" %}selected{% endif %}>Duración: menor a mayor</option>
-                <option value="duration_desc" {% if filters.sort == "duration_desc" %}selected{% endif %}>Duración: mayor a menor</option>
-              </select>
-            </div>
-
-            <div class="lg:col-span-2 flex items-end gap-2">
-              <button type="submit" class="btn btn-primary w-full">Aplicar</button>
-              <a href="{{ experiences_list_url }}" class="btn btn-ghost w-full text-center">Limpiar</a>
-            </div>
-          </form>
-
         </div>
       </div>
     </div>
+
+    {% if has_filters %}
+      {% include "components/experience_grid.html" with experiences=experiences empty_title="Ups… no encontramos nada 😅" empty_text="Prueba con otros términos o limpia los filtros." empty_cta_url=experiences_list_url empty_cta_label="Limpiar filtros" %}
+    {% else %}
+      {% include "components/experience_grid.html" with experiences=experiences empty_title="No hay experiencias activas todavía" empty_text="Vuelve más tarde o ajusta los filtros." empty_cta_url=experiences_list_url empty_cta_label="Ver experiencias" %}
+    {% endif %}
+
   </div>
-  {% if has_filters %}
-    {% include "components/experience_grid.html" with experiences=experiences empty_title="Ups… no encontramos nada 😅" empty_text="Prueba con otros términos o limpia los filtros." empty_cta_url=experiences_list_url empty_cta_label="Limpiar filtros" %}
-  {% else %}
-    {% include "components/experience_grid.html" with experiences=experiences empty_title="No hay experiencias activas todavía" empty_text="Vuelve más tarde o ajusta los filtros." empty_cta_url=experiences_list_url empty_cta_label="Ver experiencias" %}
-  {% endif %}
 {% endblock %}

@@ -18,6 +18,12 @@
 
   .avatar { @apply rounded-full object-cover border-2 border-white shadow-lg bg-white; }
 
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+
   /* =========================
      Cards
   ========================== */
@@ -321,6 +327,20 @@
           text-brand-700 ring-1 ring-brand-200;
   }
   .home-landing .home-pill-neutral{ @apply text-slate-700 ring-slate-200; }
+
+  .pill {
+    @apply inline-flex items-center gap-2 whitespace-nowrap
+           rounded-full bg-white/80 ring-1 ring-slate-200/70
+           px-4 py-2 text-sm font-semibold text-slate-700
+           hover:bg-white transition;
+  }
+
+  .pill-icon { @apply text-slate-500; }
+
+  .pill-input {
+    @apply bg-transparent text-sm font-semibold text-slate-700
+           placeholder:text-slate-400 focus:outline-none;
+  }
 
   .home-landing .home-hero-title{ @apply mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl text-slate-900; }
   .home-landing .home-hero-title-accent{ @apply block text-brand-700; }
