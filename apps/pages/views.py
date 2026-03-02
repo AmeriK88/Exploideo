@@ -17,6 +17,8 @@ from django.views.decorators.http import require_POST
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
+from django.urls import reverse
+
 from .models import NewsletterSubscriber
 
 
@@ -35,9 +37,23 @@ def home_view(request):
         .order_by("-created_at")[:6]
     )
 
+    search_cfg = {
+        "title": "Buscar experiencias",
+        "subtitle": "Zona, duración y precio. En 10s.",
+        "badge": "⚡ Rápido",
+        "action_url": reverse("experiences:list"),
+        "query_label": "¿Qué te apetece?",
+        "query_placeholder": "volcanes, senderismo, atardecer...",
+        "button_text": "Buscar experiencias",
+        "show_price": True,
+        "show_duration": True,
+        "helper_text": "✨ Experiencias sin buses: sin prisas, a tu ritmo.",
+    }
+
     return render(request, "pages/home.html", {
         "featured_experiences": featured_experiences,
         "home_reviews": home_reviews,
+        "search_cfg": search_cfg,
     })
 
 
