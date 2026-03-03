@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-02 23:31+0000\n"
+"POT-Creation-Date: 2026-03-02 23:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,8 @@ msgid "English"
 msgstr "Inglés"
 
 #: .\templates\layouts\base.html:98 .\templates\layouts\base.html:118
-#: .\templates\pages\home.html:7 .\templates\pages\landing\landing.html:98
+#: .\templates\pages\cookie_policy.html:14 .\templates\pages\home.html:7
+#: .\templates\pages\landing\landing.html:98
 #: .\templates\pages\landing\landing.html:118
 #: .\templates\pages\landing\landing.html:1250
 #: .\templates\pages\landing\landing.html:1257
@@ -222,7 +223,7 @@ msgstr "Privacy"
 msgid "Términos"
 msgstr "Terms"
 
-#: .\templates\layouts\base.html:424
+#: .\templates\layouts\base.html:424 .\templates\pages\cookie_policy.html:12
 msgid "Cookies"
 msgstr "Cookies"
 
@@ -279,7 +280,8 @@ msgstr ""
 msgid "Cerrar"
 msgstr "Close"
 
-#: .\templates\layouts\base.html:495
+#: .\templates\layouts\base.html:495 .\templates\pages\cookie_policy.html:63
+#: .\templates\pages\cookie_policy.html:95
 msgid "Cookies necesarias"
 msgstr "Necessary cookies"
 
@@ -292,7 +294,8 @@ msgstr "Essential for security, sessions and forms. They can't be disabled."
 msgid "Siempre activas"
 msgstr "Always on"
 
-#: .\templates\layouts\base.html:508
+#: .\templates\layouts\base.html:508 .\templates\pages\cookie_policy.html:70
+#: .\templates\pages\cookie_policy.html:104
 msgid "Cookies funcionales"
 msgstr "Functional cookies"
 
@@ -339,6 +342,262 @@ msgstr "Accept all"
 #: .\templates\layouts\base.html:572
 msgid "Guardar preferencias"
 msgstr "Save preferences"
+
+#: .\templates\pages\cookie_policy.html:4
+#, fuzzy
+#| msgid "Política de Privacidad - Exploideo"
+msgid "Política de Cookies - Exploideo"
+msgstr "Privacy policy - Exploideo"
+
+#: .\templates\pages\cookie_policy.html:13
+#: .\templates\pages\privacy_policy.html:13
+msgid "GDPR"
+msgstr "GDPR"
+
+#: .\templates\pages\cookie_policy.html:17
+#, fuzzy
+#| msgid "Política de cookies"
+msgid "Política de Cookies"
+msgstr "Cookie policy"
+
+#: .\templates\pages\cookie_policy.html:20
+msgid "Qué cookies usamos, para qué sirven y cómo puedes gestionarlas."
+msgstr ""
+
+#: .\templates\pages\cookie_policy.html:25
+#: .\templates\pages\privacy_policy.html:25
+msgid "Última actualización:"
+msgstr "Last updated:"
+
+#: .\templates\pages\cookie_policy.html:26
+#, fuzzy
+#| msgid "26 de enero de 2026"
+msgid "22 de enero de 2026"
+msgstr "January 26, 2026"
+
+#: .\templates\pages\cookie_policy.html:31
+#: .\templates\pages\privacy_policy.html:31
+msgid "Ir a sección"
+msgstr "Go to section"
+
+#: .\templates\pages\cookie_policy.html:33
+msgid "1. Qué son"
+msgstr "1. What they are"
+
+#: .\templates\pages\cookie_policy.html:34
+msgid "2. Tipos"
+msgstr "2. Types"
+
+#: .\templates\pages\cookie_policy.html:35
+msgid "3. Cookies usadas"
+msgstr "Necessary cookies"
+
+#: .\templates\pages\cookie_policy.html:36
+msgid "4. Terceros"
+msgstr "4. Third parties"
+
+#: .\templates\pages\cookie_policy.html:37
+msgid "5. Gestión"
+msgstr "Management"
+
+#: .\templates\pages\cookie_policy.html:38
+msgid "6. Cambios"
+msgstr "6. Changes"
+
+#: .\templates\pages\cookie_policy.html:39
+#: .\templates\pages\cookie_policy.html:175
+msgid "7. Contacto"
+msgstr "7. Contact"
+
+#: .\templates\pages\cookie_policy.html:50
+msgid "1. ¿Qué son las cookies?"
+msgstr "1. What are cookies?"
+
+#: .\templates\pages\cookie_policy.html:52
+msgid ""
+"Las cookies son pequeños archivos de texto que se guardan en tu dispositivo "
+"cuando visitas un sitio web. Sirven para que la web funcione correctamente, "
+"recordar preferencias y, en algunos casos, medir el uso de la plataforma."
+msgstr ""
+"Cookies are small text files stored on your device when you visit a website. "
+"They are used to ensure the website functions properly, remember preferences, "
+"and, in some cases, measure the use of the platform."
+
+#: .\templates\pages\cookie_policy.html:59
+msgid "2. Tipos de cookies"
+msgstr "Cookie preferences"
+
+#: .\templates\pages\cookie_policy.html:65
+msgid ""
+"Imprescindibles para que la web funcione. Sin ellas, no podrías iniciar "
+"sesión, enviar formularios o navegar de forma segura."
+msgstr ""
+"Essential for the website to function. Without them, you would not be able "
+"to log in, submit forms, or browse securely."
+
+#: .\templates\pages\cookie_policy.html:72
+msgid ""
+"Mejoran la experiencia recordando preferencias básicas (por ejemplo idioma o "
+"ajustes)."
+msgstr ""
+"They improve the user experience by remembering basic preferences (such as "
+"language or settings)."
+
+#: .\templates\pages\cookie_policy.html:79
+msgid "Importante:"
+msgstr "Important:"
+
+#: .\templates\pages\cookie_policy.html:80
+msgid ""
+"actualmente no usamos cookies de publicidad ni cookies de seguimiento de "
+"terceros con fines comerciales."
+msgstr ""
+"We currently do not use advertising cookies or third-party tracking cookies "
+"for commercial purposes."
+
+#: .\templates\pages\cookie_policy.html:88
+msgid "3. Cookies que utilizamos"
+msgstr "2. Data we collect"
+
+#: .\templates\pages\cookie_policy.html:90
+msgid ""
+"Estas son las cookies más comunes que se usan en Exploideo (pueden variar "
+"según configuración y entorno):"
+msgstr ""
+"These are the most common cookies used on Exploideo (they may vary depending "
+"on configuration and environment):"
+
+#: .\templates\pages\cookie_policy.html:97
+msgid "django_session: mantiene tu sesión activa (login y navegación segura)."
+msgstr ""
+"django_session: keeps your session active (login and secure browsing)."
+
+#: .\templates\pages\cookie_policy.html:98
+msgid "csrftoken: protección contra ataques CSRF en formularios."
+msgstr ""
+"csrftoken: protection against CSRF attacks in forms."
+
+#: .\templates\pages\cookie_policy.html:99
+msgid ""
+"messages: muestra avisos temporales (éxito/error) dentro de la plataforma."
+msgstr ""
+"messages: displays temporary notifications (success/error) within the platform."
+
+#: .\templates\pages\cookie_policy.html:106
+msgid ""
+"Preferencias básicas (por ejemplo, idioma o interfaz) si activas esas "
+"opciones."
+msgstr ""
+"Basic preferences (for example, language or interface) if you enable those "
+"options."
+
+#: .\templates\pages\cookie_policy.html:107
+msgid ""
+"Mejoras de experiencia para mantener la plataforma consistente entre páginas."
+msgstr ""
+"Experience enhancements to keep the platform consistent across pages."
+
+#: .\templates\pages\cookie_policy.html:111
+msgid "Nota: estas cookies no se usan para publicidad."
+msgstr "Note: these cookies are not used for advertising."
+
+#: .\templates\pages\cookie_policy.html:120
+msgid "4. Cookies de terceros"
+msgstr "Necessary cookies"
+
+#: .\templates\pages\cookie_policy.html:122
+msgid ""
+"En este momento, Exploideo no integra cookies de publicidad de terceros. Si "
+"en el futuro añadimos herramientas externas (por ejemplo analítica), "
+"actualizaremos esta política y, cuando sea aplicable, te daremos control "
+"sobre esas cookies."
+msgstr ""
+"At this time, Exploideo does not integrate third-party advertising cookies. "
+"If we add external tools in the future (for example, analytics), we will "
+"update this policy and, where applicable, provide you with control over "
+"those cookies."
+
+#: .\templates\pages\cookie_policy.html:129
+msgid "5. Cómo gestionar o desactivar cookies"
+msgstr "5. How to manage or disable cookies"
+
+#: .\templates\pages\cookie_policy.html:132
+msgid ""
+"Puedes gestionar tus preferencias de cookies opcionales desde el panel de "
+"preferencias de Exploideo. Las cookies necesarias (seguridad, sesión y "
+"formularios) siempre estarán activas, porque son imprescindibles para que la "
+"plataforma funcione."
+msgstr ""
+"You can manage your optional cookie preferences from the Exploideo "
+"preferences panel. Necessary cookies (security, session, and forms) will "
+"always remain active, as they are essential for the platform to function."
+
+#: .\templates\pages\cookie_policy.html:136
+msgid "Gestionar desde Exploideo (recomendado)"
+msgstr "Manage from Exploideo (recommended)"
+
+#: .\templates\pages\cookie_policy.html:138
+msgid ""
+"Abre el panel de preferencias y activa o desactiva cookies funcionales y de "
+"analítica."
+msgstr ""
+"Open the preferences panel and enable or disable functional and analytics "
+"cookies."
+
+#: .\templates\pages\cookie_policy.html:143
+msgid "Abrir preferencias de cookies"
+msgstr "Cookie preferences"
+
+#: .\templates\pages\cookie_policy.html:146
+msgid "Ver cookies usadas"
+msgstr "Used cookies"
+
+#: .\templates\pages\cookie_policy.html:151
+msgid ""
+"Nota: si ya aceptaste o rechazaste, puedes cambiarlo cuando quieras desde el "
+"footer."
+msgstr "You can change your preferences anytime from the footer."
+
+#: .\templates\pages\cookie_policy.html:156
+msgid "Gestionar desde tu navegador (opcional)"
+msgstr "Manage from your browser (optional)"
+
+#: .\templates\pages\cookie_policy.html:158
+msgid ""
+"También puedes configurar tu navegador para bloquear o eliminar cookies. Ten "
+"en cuenta que si bloqueas cookies necesarias, algunas funciones pueden dejar "
+"de funcionar (por ejemplo iniciar sesión o enviar formularios)."
+msgstr ""
+"You can also configure your browser to block or delete cookies. Please note "
+"that if you block necessary cookies, some features may stop working (for "
+"example, logging in or submitting forms)."
+
+#: .\templates\pages\cookie_policy.html:166
+msgid "6. Cambios a esta política"
+msgstr "6. Changes to this policy"
+
+#: .\templates\pages\cookie_policy.html:168
+msgid ""
+"Podemos actualizar esta Política de Cookies si añadimos nuevas "
+"funcionalidades o cookies. Si el cambio es relevante, lo comunicaremos de "
+"forma visible en la plataforma."
+msgstr ""
+"We may update this Cookie Policy if we add new features or cookies. If the "
+"change is significant, we will communicate it clearly on the platform."
+
+#: .\templates\pages\cookie_policy.html:177
+msgid "Si tienes preguntas sobre el uso de cookies, escríbenos:"
+msgstr "If you have any questions about the use of cookies, please contact us:"
+
+#: .\templates\pages\cookie_policy.html:182
+#: .\templates\pages\privacy_policy.html:140
+msgid "Email:"
+msgstr "Email"
+
+#: .\templates\pages\cookie_policy.html:185
+#: .\templates\pages\privacy_policy.html:143
+msgid "Contactar"
+msgstr "Control"
 
 #: .\templates\pages\home.html:28
 msgid "Beta"
@@ -431,7 +690,7 @@ msgstr "Schedule under control · Book in advance."
 
 #: .\templates\pages\home.html:117
 msgid "Envía solicitud al guía"
-msgstr ""
+msgstr "Send request to the guide"
 
 #: .\templates\pages\home.html:118
 msgid "El guía confirma · sin sorpresas"
@@ -1598,8 +1857,8 @@ msgstr "We’ll notify you when we open access. Nothing more."
 
 #: .\templates\pages\landing\landing.html:1098
 #: .\templates\pages\landing\landing.html:1230
-msgid "tu@email.com"
-msgstr "your@email.com"
+msgid "Introduce tu email"
+msgstr ""
 
 #: .\templates\pages\landing\landing.html:1107
 msgid "¿Dónde estás?"
@@ -1709,10 +1968,6 @@ msgstr "Built in the Canary Islands"
 msgid "Política de Privacidad - Exploideo"
 msgstr "Privacy policy - Exploideo"
 
-#: .\templates\pages\privacy_policy.html:13
-msgid "GDPR"
-msgstr "GDPR"
-
 #: .\templates\pages\privacy_policy.html:17
 msgid "Política de Privacidad"
 msgstr "Privacy policy"
@@ -1722,20 +1977,12 @@ msgid ""
 "Cómo tratamos tus datos personales, para qué los usamos y cuáles son tus "
 "derechos."
 msgstr ""
-"How we handle your personal data, what we use it for, and what your rights are."
-""
-
-#: .\templates\pages\privacy_policy.html:25
-msgid "Última actualización:"
-msgstr "Last updated:"
+"How we handle your personal data, what we use it for, and what your rights "
+"are."
 
 #: .\templates\pages\privacy_policy.html:26
 msgid "26 de enero de 2026"
 msgstr "January 26, 2026"
-
-#: .\templates\pages\privacy_policy.html:31
-msgid "Ir a sección"
-msgstr "Go to section"
 
 #: .\templates\pages\privacy_policy.html:33
 msgid "1. Responsable"
@@ -1767,7 +2014,7 @@ msgid "7. Conservación"
 msgstr "7. Data retention"
 
 #: .\templates\pages\privacy_policy.html:40
-#: .\templates\pages\privacy_policy.html:132
+#: .\templates\pages\privacy_policy.html:133
 msgid "8. Contacto"
 msgstr "8. Contact"
 
@@ -1871,16 +2118,14 @@ msgid "Portabilidad de los datos."
 msgstr "Data portability."
 
 #: .\templates\pages\privacy_policy.html:115
-msgid ""
-"Puedes ejercer tus derechos escribiendo a <strong>info@exploideo.com</strong>"
-msgstr ""
-"You may exercise your rights by writing to <strong>info@exploideo.com</strong>"
+msgid "Puedes ejercer tus derechos escribiendo a"
+msgstr "You may exercise your rights by writing to"
 
-#: .\templates\pages\privacy_policy.html:123
+#: .\templates\pages\privacy_policy.html:124
 msgid "7. Conservación de datos"
 msgstr "7. Data retention"
 
-#: .\templates\pages\privacy_policy.html:125
+#: .\templates\pages\privacy_policy.html:126
 msgid ""
 "Los datos se conservarán mientras exista relación con el usuario y durante "
 "los plazos legales exigidos."
@@ -1888,14 +2133,9 @@ msgstr ""
 "Data will be retained for as long as there is a relationship with the user "
 "and for the legally required retention periods."
 
-#: .\templates\pages\privacy_policy.html:134
+#: .\templates\pages\privacy_policy.html:135
 msgid "Para cualquier cuestión sobre privacidad:"
 msgstr "For any questions regarding privacy:"
 
-#: .\templates\pages\privacy_policy.html:139
-msgid "Email:"
-msgstr "Email"
-
-#: .\templates\pages\privacy_policy.html:142
-msgid "Contactar"
-msgstr "Control"
+#~ msgid "tu@email.com"
+#~ msgstr "your@email.com"
