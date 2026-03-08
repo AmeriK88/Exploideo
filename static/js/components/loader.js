@@ -43,6 +43,20 @@
         if (link.hasAttribute("data-no-loader")) return;
         if (link.target === "_blank") return;
 
+        // Ignore same-document hash navigations (e.g. /es/#waitlist).
+        // They update scroll/fragment without a full navigation, so keeping
+        // the loader open would freeze the UI.
+        try {
+          const targetUrl = new URL(link.href, window.location.href);
+          const isSameDocument =
+            targetUrl.origin === window.location.origin &&
+            targetUrl.pathname === window.location.pathname &&
+            targetUrl.search === window.location.search;
+          if (isSameDocument && targetUrl.hash) return;
+        } catch (_) {
+          // If URL parsing fails, fall through to normal loader behavior.
+        }
+
         show("Cargando…");
         return;
       }
