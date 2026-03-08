@@ -1,13 +1,14 @@
-<div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
-  <div>
-    <h2 class="{{ title_class|default:'text-xl font-semibold tracking-tight' }}">{{ title }}</h2>
+<div class="c-sectionHead">
+  <div class="c-sectionHead__text o-stack o-stack--2">
+    <h2 class="{{ title_class|default:'c-sectionHead__title' }}">{{ title }}</h2>
+
     {% if subtitle %}
-      <p class="mt-1 p-muted">{{ subtitle }}</p>
+      <p class="c-sectionHead__subtitle u-muted">{{ subtitle }}</p>
     {% endif %}
   </div>
 
   {% if cta_url and cta_label %}
-    <a href="{{ cta_url }}" class="{{ cta_class|default:'btn btn-ghost' }}">
+    <a href="{{ cta_url }}" class="{{ cta_class|default:'c-button c-button--ghost c-sectionHead__cta' }}">
       {{ cta_label }}
     </a>
   {% endif %}

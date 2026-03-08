@@ -1,0 +1,137 @@
+{% load static i18n %}
+{% now "Y" as current_year %}
+<footer class="mt-16 border-t border-border bg-background" data-stagger>
+  <div class="{{ container_class|default:'o-container' }} py-12">
+
+    <div class="c-card mb-8">
+      <div class="c-card__body flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between" data-animate="fade-up">
+        <div>
+          <p class="text-base font-semibold u-text tracking-tight">
+            {% trans "¿Quieres enterarte de experiencias nuevas antes que nadie?" %}
+          </p>
+          <p class="mt-1 u-muted">
+            {% trans "Novedades reales, sin spam. 1 email cuando haya algo bueno." %}
+          </p>
+        </div>
+
+        <form method="post" action="{% url 'pages:newsletter_subscribe' %}" class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
+          {% csrf_token %}
+          <input type="hidden" name="source" value="footer" />
+
+          <label class="sr-only" for="footer_email">{% trans "Email" %}</label>
+          <input id="footer_email" type="email" name="email" class="input sm:w-72" placeholder="name@example.com" autocomplete="email" required />
+          <button class="c-button c-button--primary whitespace-nowrap" type="submit">
+            {% trans "Avisarme" %}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(220px,1fr))] items-start gap-8 text-sm" data-stagger>
+      <div class="space-y-4" data-animate="fade-up">
+        <a href="{% url 'pages:home' %}" class="inline-flex items-center gap-3 group">
+          <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-border bg-surface shadow-sm group-hover:shadow-md transition overflow-hidden">
+            <img src="{% static 'img/favicon-192.png' %}" alt="Exploideo" class="h-8 w-auto object-contain" />
+          </span>
+
+          <div class="leading-tight">
+            <p class="text-base font-semibold u-text tracking-tight">Exploideo</p>
+            <p class="p-micro">{% trans "Guías verificados · Experiencias reales" %}</p>
+          </div>
+        </a>
+
+        <p class="u-muted leading-relaxed">
+          {% trans "Plataforma de experiencias auténticas con guías locales verificados." %}
+        </p>
+
+        <div class="flex flex-wrap gap-2">
+          <span class="c-badge c-badge--neutral">📍 {% trans "Canarias" %}</span>
+          <span class="c-badge c-badge--neutral">⭐ {% trans "Reseñas reales" %}</span>
+          <span class="c-badge c-badge--neutral">🧭 {% trans "Guías locales" %}</span>
+        </div>
+
+        <div class="flex items-center gap-3 pt-1">
+          <a href="#" class="c-badge c-badge--neutral u-hover-lift" aria-label="Instagram">📸</a>
+          <a href="#" class="c-badge c-badge--neutral u-hover-lift" aria-label="TikTok">🎵</a>
+          <a href="#" class="c-badge c-badge--neutral u-hover-lift" aria-label="YouTube">▶️</a>
+        </div>
+      </div>
+
+      <div data-animate="fade-up">
+        <h4 class="text-sm font-semibold u-text uppercase tracking-wide">{% trans "Producto" %}</h4>
+        <ul class="mt-3 space-y-2 u-muted">
+          <li>
+            <a href="#" onclick="return false;" class="hover:text-text transition cursor-default" aria-disabled="true">{% trans "Explorar experiencias" %}</a>
+            <p class="p-micro">{% trans "Encuentra planes con disponibilidad real." %}</p>
+          </li>
+
+          <li>
+            <a href="#" onclick="return false;" class="hover:text-text transition cursor-default" aria-disabled="true">{% trans "Convertirme en guía" %}</a>
+            <p class="p-micro">{% trans "Publica y gestiona reservas desde tu panel." %}</p>
+          </li>
+
+          {% if user.is_authenticated %}
+            <li>
+              <a href="#" onclick="return false;" class="hover:text-text transition cursor-default" aria-disabled="true">{% trans "Mi panel" %}</a>
+              <p class="p-micro">{% trans "Reservas, notificaciones y solicitudes." %}</p>
+            </li>
+          {% else %}
+            <li>
+              <a href="#" onclick="return false;" class="hover:text-text transition cursor-default" aria-disabled="true">{% trans "Acceder" %}</a>
+              <p class="p-micro">{% trans "Entra para ver y gestionar tus reservas." %}</p>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <div data-animate="fade-up">
+        <h4 class="text-sm font-semibold u-text uppercase tracking-wide">{% trans "Soporte" %}</h4>
+        <ul class="mt-3 space-y-2 u-muted">
+          <li><a href="{% url 'helpdesk:helpdesk' %}" class="hover:text-text transition">{% trans "Centro de ayuda" %}</a></li>
+          <li><a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-text transition">{% trans "Términos y condiciones" %}</a></li>
+          <li><a href="{% url 'pages:privacy_policy' %}" class="hover:text-text transition">{% trans "Política de privacidad" %}</a></li>
+          <li><a href="{% url 'pages:cookie_policy' %}" class="hover:text-text transition">{% trans "Política de cookies" %}</a></li>
+          <li>
+            <button type="button" class="text-left hover:text-text transition underline decoration-dotted underline-offset-4" data-cookie-open>
+              {% trans "Preferencias de cookies" %}
+            </button>
+          </li>
+
+          <li class="pt-2">
+            <p class="p-micro">{% trans "¿Algo urgente?" %}</p>
+            <a href="mailto:info@exploideo.com" class="hover:text-text transition">info@exploideo.com</a>
+          </li>
+        </ul>
+      </div>
+
+      <div data-animate="fade-up">
+        <h4 class="text-sm font-semibold u-text uppercase tracking-wide">{% trans "Ubicación" %}</h4>
+        <div class="mt-3 space-y-3 u-muted leading-relaxed">
+          <p>{% trans "🌋 Lanzarote, Islas Canarias" %}</p>
+
+          <div class="panel-soft">
+            <p class="text-sm font-semibold u-text">{% trans "Hecho para evitar sorpresas" %}</p>
+            <p class="mt-1 text-xs u-muted">
+              {% trans "Calendario real, guías verificados y gestión de cambios/cancelaciones clara." %}
+            </p>
+          </div>
+
+          <a href="{% url 'helpdesk:helpdesk' %}" class="c-button c-button--ghost w-full sm:w-auto">
+            {% trans "Necesito ayuda" %}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-10 border-t border-border pt-5 pb-24 sm:pb-0 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-micro">
+      <p>{% blocktrans with year=current_year %}© {{ year }} Exploideo · Todos los derechos reservados{% endblocktrans %}</p>
+
+      <div class="flex flex-wrap items-center gap-3 justify-center sm:justify-end">
+        <a href="{% url 'pages:privacy_policy' %}" class="hover:text-text transition">{% trans "Privacidad" %}</a>
+        <span class="text-(--border)">·</span>
+        <a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-text transition">{% trans "Términos" %}</a>
+        <span class="text-(--border)">·</span>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,10 @@
+<div class="c-card">
+  <div class="c-card__body relative">
+    <div class="u-hero-top-glow"></div>
+    <p class="u-muted">{{ label }}</p>
+    <p class="mt-2 text-2xl font-semibold u-text">
+      {{ value }}{% if suffix %} {{ suffix }}{% endif %}
+    </p>
+    <p class="{{ help_class|default:'c-form__help' }}">{{ help_text }}</p>
+  </div>
+</div>

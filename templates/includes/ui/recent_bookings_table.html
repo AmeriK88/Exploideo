@@ -1,0 +1,35 @@
+<div class="c-card">
+  <div class="c-card__body relative">
+    <div class="u-hero-top-glow"></div>
+    <div class="flex items-center justify-between">
+      <h2 class="h2-section">{{ title }}</h2>
+      <a href="{{ view_all_href }}" class="c-button c-button--ghost">{{ view_all_label|default:"Ver todas" }}</a>
+    </div>
+
+    <div class="mt-4 overflow-x-auto">
+      <table class="w-full text-left text-sm">
+        <thead class="{{ head_class|default:'u-muted' }}">
+          <tr class="border-b border-(--border)">
+            <th class="py-2 pr-3 font-medium">Experiencia</th>
+            <th class="py-2 pr-3 font-medium">Fecha</th>
+            <th class="py-2 pr-3 font-medium">Personas</th>
+            <th class="py-2 pr-3 font-medium">Estado</th>
+          </tr>
+        </thead>
+
+        <tbody class="u-muted" data-stagger>
+          {% for booking in bookings %}
+            <tr class="border-b border-(--border)" data-animate="fade-up">
+              <td class="py-3 pr-3 font-medium u-text">{{ booking.experience.title }}</td>
+              <td class="py-3 pr-3">{{ booking.date }}</td>
+              <td class="py-3 pr-3">{{ booking.people }}</td>
+              <td class="py-3 pr-3">
+                {% include "includes/ui/booking_status_badge.html" with status=booking.status %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

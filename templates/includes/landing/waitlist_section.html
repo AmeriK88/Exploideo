@@ -1,0 +1,149 @@
+{% load i18n %}
+<section id="waitlist" class="c-previewSection">
+  <div class="o-container o-container--wide py-14">
+    <div class="relative overflow-hidden rounded-3xl border border-border bg-surface p-8 md:p-10 lg:p-12 shadow-sm">
+      <div class="pointer-events-none absolute inset-0">
+        <div class="absolute -top-28 right-0 h-72 w-72 rounded-full bg-(--color-brand-200)/70 blur-3xl"></div>
+        <div class="absolute -bottom-28 left-0 h-72 w-72 rounded-full bg-(--color-secondary-200)/60 blur-3xl"></div>
+      </div>
+
+      <div class="relative grid gap-8 lg:gap-10 lg:grid-cols-2 lg:items-start">
+
+        <!-- Columna izquierda -->
+        <div class="px-1 sm:px-2 lg:pr-6">
+          <div class="space-y-6" data-stagger>
+            <div class="space-y-3">
+              <p class="testimonial-quote" data-animate="fade-up">{% trans "Acceso anticipado" %}</p>
+              <h2 class="text-3xl font-bold tracking-tight" data-animate="fade-up">
+                {% trans "Sé de los primeros en entrar." %}
+              </h2>
+              <p class="u-muted leading-relaxed" data-animate="fade-up">
+                {% trans "Abriremos plazas por fases. Si estás en la lista, te avisamos antes que al resto." %}
+                <span class="font-semibold u-text">{% trans "Un email cuando abramos acceso." %}</span>
+              </p>
+            </div>
+
+            <div class="grid gap-4 sm:grid-cols-2" data-stagger>
+              <article class="c-card" data-animate="fade-up">
+                <div class="c-card__body">
+                  <div class="space-y-2">
+                    <p class="text-sm font-semibold">{% trans "Viajeros" %}</p>
+                    <p class="u-muted leading-relaxed">
+                      {% trans "Panel + facturas · cambios y cancelación hasta 48h" %}
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+              <article class="c-card" data-animate="fade-up">
+                <div class="c-card__body">
+                  <div class="space-y-2">
+                    <p class="text-sm font-semibold">{% trans "Guías" %}</p>
+                    <p class="u-muted leading-relaxed">
+                      {% trans "Reservas, métricas y facturación · sin cuota fija" %}
+                    </p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna derecha -->
+        <div class="px-1 sm:px-2 lg:pl-2">
+          <article class="c-card" data-stagger>
+            <div class="c-card__body">
+              <form method="post" action="{% url 'pages:newsletter_subscribe' %}" class="space-y-6" data-animate="fade-up">
+                {% csrf_token %}
+                <input type="hidden" name="source" value="landing" />
+                <input type="hidden" name="next" value="{% url 'pages:home' %}#waitlist" />
+
+                <div class="space-y-2">
+                  <label class="c-form__label" for="waitlist_email">{% trans "Email" %}</label>
+                  <p class="p-micro">{% trans "Te avisaremos cuando abramos acceso. Nada más." %}</p>
+                  <input
+                    id="waitlist_email"
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="{% trans 'Introduce tu email' %}"
+                    class="c-form__input"
+                  />
+                </div>
+
+                <div class="grid gap-4 sm:grid-cols-2">
+                  <div class="space-y-2">
+                    <label class="c-form__label" for="waitlist_region">{% trans "¿Dónde estás?" %}</label>
+                    <select id="waitlist_region" name="region" class="c-form__input">
+                      <option value="">{% trans "Prefiero no decirlo" %}</option>
+                      <option value="canarias">{% trans "Canarias" %}</option>
+                      <option value="peninsula">{% trans "Península" %}</option>
+                      <option value="baleares">{% trans "Baleares" %}</option>
+                      <option value="extranjero">{% trans "Extranjero" %}</option>
+                    </select>
+                  </div>
+
+                  <div class="space-y-2">
+                    <label class="c-form__label" for="waitlist_role">{% trans "¿Eres…?" %}</label>
+                    <select id="waitlist_role" name="role" class="c-form__input">
+                      <option value="">{% trans "Prefiero no decirlo" %}</option>
+                      <option value="traveler">{% trans "Viajero" %}</option>
+                      <option value="guide">{% trans "Guía" %}</option>
+                      <option value="both">{% trans "Ambos" %}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div id="waitlist_island_wrap" class="hidden">
+                  <div class="space-y-2">
+                    <label class="c-form__label" for="waitlist_island">{% trans "¿Qué isla?" %}</label>
+                    <select id="waitlist_island" name="island" class="c-form__input">
+                      <option value="">{% trans "Elige una" %}</option>
+                      <option value="lanzarote">{% trans "Lanzarote" %}</option>
+                      <option value="fuerteventura">{% trans "Fuerteventura" %}</option>
+                      <option value="gran_canaria">{% trans "Gran Canaria" %}</option>
+                      <option value="tenerife">{% trans "Tenerife" %}</option>
+                      <option value="la_gomera">{% trans "La Gomera" %}</option>
+                      <option value="la_palma">{% trans "La Palma" %}</option>
+                      <option value="el_hierro">{% trans "El Hierro" %}</option>
+                      <option value="la_graciosa">{% trans "La Graciosa" %}</option>
+                      <option value="otra">{% trans "Otra" %}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div id="waitlist_official_wrap" class="hidden">
+                  <label class="flex items-center gap-3 rounded-2xl border border-border bg-surface px-4 py-3">
+                    <input id="waitlist_official" type="checkbox" name="is_official_guide" class="h-4 w-4 shrink-0" />
+                    <span class="text-sm u-text leading-relaxed">
+                      {% trans "Soy guía oficial (lo verificaremos más adelante)" %}
+                    </span>
+                  </label>
+                </div>
+
+                <div>
+                  <label class="flex items-start gap-3" for="waitlist_consent">
+                    <input id="waitlist_consent" type="checkbox" name="consent" required class="mt-1 h-4 w-4 shrink-0" />
+                    <span class="p-micro u-muted leading-relaxed">
+                      {% trans "Acepto recibir un email cuando abramos acceso. Puedes darte de baja cuando quieras." %}
+                    </span>
+                  </label>
+                </div>
+
+                <div class="space-y-3">
+                  <button type="submit" class="w-full c-button c-button--primary">
+                    {% trans "Acceso anticipado" %}
+                  </button>
+                  <p class="p-micro">
+                    {% trans "Cero spam: si no hay algo sólido que contar, no te escribimos." %}
+                  </p>
+                </div>
+              </form>
+            </div>
+          </article>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

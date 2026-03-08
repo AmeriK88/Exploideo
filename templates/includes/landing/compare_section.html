@@ -1,0 +1,164 @@
+{% load i18n %}
+<section class="c-previewSection relative overflow-hidden">
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <div class="absolute -top-24 left-10 h-64 w-64 rounded-full bg-(--color-brand-200)/45 blur-3xl"></div>
+    <div class="absolute -bottom-24 right-10 h-64 w-64 rounded-full bg-(--color-secondary-200)/35 blur-3xl"></div>
+  </div>
+
+  <div class="o-container o-container--wide relative py-16" data-stagger>
+    <div class="o-stack o-stack--6">
+      <div class="o-stack o-stack--4">
+        <div
+          class="inline-flex items-center gap-2 rounded-full border border-(--border) bg-(--surface-2) px-3 py-1.5 text-xs font-semibold u-muted backdrop-blur"
+          data-animate="fade-up"
+        >
+          <span class="c-badge c-badge--neutral c-badge--soft">✨</span>
+          {% trans "Antes vs Después" %}
+        </div>
+
+        <h2 class="text-3xl font-extrabold tracking-tight" data-animate="fade-up">
+          {% trans "Más control →" %}
+          <span class="text-brand-700">{% trans "mejor experiencia" %}</span>.
+        </h2>
+
+        <p class="max-w-2xl text-base leading-relaxed u-muted" data-animate="fade-up">
+          {% trans "Exploideo convierte dudas en claridad:" %}
+          <span class="font-semibold u-text">{% trans "contexto" %}</span>,
+          <span class="font-semibold u-text">{% trans "estado" %}</span> {% trans "y" %}
+          <span class="font-semibold u-text">{% trans "seguimiento" %}</span>.
+        </p>
+      </div>
+
+      <div class="grid gap-6 sm:grid-cols-2" data-stagger>
+        <article class="c-card c-card--interactive" data-animate="fade-up">
+          <div class="c-card__body">
+            <div class="o-stack o-stack--6">
+              <div class="flex items-center justify-between gap-4">
+                <p class="inline-flex items-center gap-2 text-xs font-semibold u-muted">
+                  <span class="c-badge c-badge--danger c-badge--soft">✕</span>
+                  {% trans "Antes" %}
+                </p>
+                <span class="c-badge c-badge--neutral c-badge--soft">{% trans "Caos" %}</span>
+              </div>
+
+              <ul class="space-y-4 text-sm u-muted">
+                <li class="flex items-start gap-3">
+                  <span class="c-badge c-badge--danger c-badge--soft shrink-0">✕</span>
+                  <span>{% trans "Mensajes dispersos, sin trazabilidad." %}</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="c-badge c-badge--danger c-badge--soft shrink-0">✕</span>
+                  <span>{% trans "Disponibilidad poco clara o demasiado flexible." %}</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="c-badge c-badge--danger c-badge--soft shrink-0">✕</span>
+                  <span>{% trans "Información repartida en mil sitios." %}</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="c-badge c-badge--danger c-badge--soft shrink-0">✕</span>
+                  <span>{% trans "Dudas de: ¿dónde, cómo y cuándo?" %}</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="c-badge c-badge--danger c-badge--soft shrink-0">✕</span>
+                  <span>{% trans "Sin historial ni registro de lo hablado." %}</span>
+                </li>
+              </ul>
+
+              <div class="c-card__body rounded-2xl border border-(--border) bg-(--surface-2) p-6">
+                <p class="text-xs font-semibold u-text">{% trans "Resultado" %}</p>
+                <p class="mt-3 text-xs u-muted">
+                  {% trans "Más dudas → menos conversiones → peor experiencia." %}
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="c-card c-card--interactive" data-animate="fade-up">
+          <div class="c-card__body">
+            <div class="o-stack o-stack--6">
+              <div class="flex items-center justify-between gap-4">
+                <p class="inline-flex items-center gap-2 text-xs font-semibold u-text">
+                  <span class="c-badge c-badge--success c-badge--soft">✓</span>
+                  {% trans "Con Exploideo" %}
+                </p>
+                <span class="c-badge c-badge--info c-badge--soft">{% trans "Control" %}</span>
+              </div>
+
+              <ul class="space-y-4 text-sm u-text">
+                <li class="flex items-start gap-3">
+                  <span class="c-badge c-badge--success c-badge--soft shrink-0">✓</span>
+                  <span>{% trans "Chat por reserva con contexto y estado." %}</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="c-badge c-badge--success c-badge--soft shrink-0">✓</span>
+                  <span>{% trans "Disponibilidad centralizada y reglas claras." %}</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="c-badge c-badge--success c-badge--soft shrink-0">✓</span>
+                  <span>{% trans "Todo lo necesario visible para el viajero." %}</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="c-badge c-badge--success c-badge--soft shrink-0">✓</span>
+                  <span>{% trans "Historial y trazabilidad automática." %}</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="c-badge c-badge--success c-badge--soft shrink-0">✓</span>
+                  <span>{% trans "Dashboard para gestionar reservas y experiencias." %}</span>
+                </li>
+              </ul>
+
+              <div class="c-card__body rounded-2xl border border-(--border) bg-(--surface-2) p-6">
+                <p class="text-xs font-semibold u-text">{% trans "Resultado" %}</p>
+                <p class="mt-3 text-xs u-muted">
+                  {% trans "Más claridad → mejor decisión → más reservas." %}
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="grid gap-5 sm:grid-cols-3" data-stagger>
+        <article class="c-card c-card--interactive">
+          <div class="c-card__body">
+            <div class="o-stack o-stack--4">
+              <div class="flex items-center justify-between gap-4">
+                <p class="text-xs font-semibold u-muted">{% trans "Decisión" %}</p>
+                <span class="c-badge c-badge--warning c-badge--soft">⚡</span>
+              </div>
+              <p class="text-lg font-bold">{% trans "Más rápida" %}</p>
+              <p class="text-sm u-muted">{% trans "Contexto claro desde el inicio." %}</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="c-card c-card--interactive">
+          <div class="c-card__body">
+            <div class="o-stack o-stack--4">
+              <div class="flex items-center justify-between gap-4">
+                <p class="text-xs font-semibold u-muted">{% trans "Gestión" %}</p>
+                <span class="c-badge c-badge--info c-badge--soft">🧾</span>
+              </div>
+              <p class="text-lg font-bold">{% trans "En un sitio" %}</p>
+              <p class="text-sm u-muted">{% trans "Panel + recibos + cambios." %}</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="c-card c-card--interactive">
+          <div class="c-card__body">
+            <div class="o-stack o-stack--4">
+              <div class="flex items-center justify-between gap-4">
+                <p class="text-xs font-semibold u-muted">{% trans "Confianza" %}</p>
+                <span class="c-badge c-badge--success c-badge--soft">🛡️</span>
+              </div>
+              <p class="text-lg font-bold">{% trans "Verificable" %}</p>
+              <p class="text-sm u-muted">{% trans "Reseñas reales + verificación." %}</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>

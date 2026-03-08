@@ -1,0 +1,17 @@
+{% if messages %}
+  <div class="o-container pt-4" aria-live="polite" aria-atomic="true">
+    <div class="o-stack o-stack--2" data-stagger>
+
+      {% for message in messages %}
+        <div
+          data-animate="fade-down"
+          role="{% if message.tags == 'error' %}alert{% else %}status{% endif %}"
+          class="c-alert c-alert--{{ message.tags|default:'neutral' }}"
+        >
+          {{ message }}
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+{% endif %}

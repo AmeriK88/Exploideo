@@ -1,0 +1,7 @@
+<article class="{{ card_class|default:'c-card' }}{% if extra_class %} {{ extra_class }}{% endif %}">
+  <div class="{{ body_class|default:'c-card__body' }}">
+    {% if title %}<h3 class="{{ title_class|default:'h3-section' }}">{{ title }}</h3>{% endif %}
+    {% if text %}<p class="{{ text_class|default:'mt-2 u-muted' }}">{{ text }}</p>{% endif %}
+    {% if body %}{{ body|safe }}{% endif %}
+  </div>
+</article>

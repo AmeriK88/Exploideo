@@ -1,0 +1,13 @@
+<a href="{{ href }}" class="{{ class }}">
+  {% if label_left %}
+    <span>{{ label_left }}</span>
+  {% else %}
+    {{ label }}
+  {% endif %}
+
+  {% if badge_count %}
+    <span class="{{ badge_class|default:'notification-badge' }}">
+      {{ badge_count }}
+    </span>
+  {% endif %}
+</a>

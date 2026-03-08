@@ -1,11 +1,11 @@
 <div class="panel-soft p-6">
   <div class="flex items-start justify-between gap-4">
     <div>
-      <h2 class="p-large font-semibold">{{ search_cfg.title }}</h2>
-      <p class="mt-1 p-muted">{{ search_cfg.subtitle }}</p>
+      <h2 class="text-2xl u-text font-semibold">{{ search_cfg.title }}</h2>
+      <p class="mt-1 u-muted">{{ search_cfg.subtitle }}</p>
     </div>
     {% if search_cfg.badge %}
-      <span class="badge badge-neutral hover-lift">{{ search_cfg.badge }}</span>
+      <span class="c-badge c-badge--neutral u-hover-lift">{{ search_cfg.badge }}</span>
     {% endif %}
   </div>
 
@@ -38,12 +38,12 @@
       </div>
     {% endif %}
 
-    <button class="btn btn-primary w-full" type="submit">
+    <button class="c-button c-button--primary w-full" type="submit">
       {{ search_cfg.button_text|default:"Buscar" }}
     </button>
 
     {% if search_cfg.helper_text %}
-      <div class="rounded-xl border border-slate-200 bg-white px-4 py-3 p-body">
+      <div class="rounded-xl border border-border bg-surface-soft px-4 py-3 p-body">
         {{ search_cfg.helper_text }}
       </div>
     {% endif %}

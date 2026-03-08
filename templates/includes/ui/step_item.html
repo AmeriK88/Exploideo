@@ -1,0 +1,10 @@
+<div class="step-item"{% if animate %} data-animate="{{ animate }}"{% endif %}>
+  <p class="label-title">{{ title }}</p>
+  <p class="mt-1 u-muted">
+    {% if text %}
+      {{ text }}
+    {% else %}
+      {{ value }}{% if suffix %} {{ suffix }}{% endif %}
+    {% endif %}
+  </p>
+</div>

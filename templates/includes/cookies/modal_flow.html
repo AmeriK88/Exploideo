@@ -1,0 +1,89 @@
+{% load i18n %}
+<div id="cookie-modal" class="fixed inset-0 z-70" aria-hidden="true">
+  <div class="cookie-modal__backdrop absolute inset-0"></div>
+
+  <div class="cookie-modal__wrap">
+    <div class="cookie-modal__card">
+      <div class="cookie-modal__header">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="badge">🍪 {% trans "Preferencias" %}</span>
+              <span class="badge">{% trans "Control total" %}</span>
+            </div>
+            <h2 class="mt-3 text-xl font-semibold u-text">{% trans "Gestiona tus cookies" %}</h2>
+            <p class="mt-1 u-muted">{% trans "Elige qué cookies opcionales permites. Las necesarias siempre están activas." %}</p>
+          </div>
+
+          <button type="button" class="c-button c-button--ghost" data-cookie-action="close" aria-label="{% trans 'Cerrar' %}">{% trans "Cerrar" %}</button>
+        </div>
+      </div>
+
+      <div class="cookie-modal__body">
+        <div class="space-y-4">
+          <div class="rounded-2xl border border-(--border) bg-(--surface-2) p-5">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="label-title">{% trans "Cookies necesarias" %}</p>
+                <p class="mt-1 u-muted">{% trans "Esenciales para seguridad, sesiones y formularios. No se pueden desactivar." %}</p>
+              </div>
+              <span class="c-badge c-badge--emerald">{% trans "Siempre activas" %}</span>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-(--border) bg-(--surface-2) p-5">
+            <div class="flex items-start justify-between gap-4">
+              <div class="min-w-0">
+                <p class="label-title">{% trans "Cookies funcionales" %}</p>
+                <p class="mt-1 u-muted">{% trans "Mejoran la experiencia (preferencias básicas, UX)." %}</p>
+              </div>
+              <label class="inline-flex items-center gap-2">
+                <input type="checkbox" class="h-4 w-4" data-cookie-toggle="functional">
+                <span class="text-sm u-muted">{% trans "Activar" %}</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-(--border) bg-(--surface-2) p-5">
+            <div class="flex items-start justify-between gap-4">
+              <div class="min-w-0">
+                <p class="label-title">{% trans "Analítica" %}</p>
+                <p class="mt-1 u-muted">{% trans "Nos ayuda a entender el uso de la plataforma para mejorarla (sin publicidad)." %}</p>
+              </div>
+              <label class="inline-flex items-center gap-2">
+                <input type="checkbox" class="h-4 w-4" data-cookie-toggle="analytics">
+                <span class="text-sm u-muted">{% trans "Activar" %}</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="rounded-2xl border border-(--border) bg-(--surface-2) p-5">
+            <div class="flex items-start justify-between gap-4">
+              <div class="min-w-0">
+                <p class="label-title">{% trans "Marketing" %}</p>
+                <p class="mt-1 u-muted">{% trans "Personalización y campañas. (Ahora mismo no usamos cookies de marketing.)" %}</p>
+              </div>
+              <label class="inline-flex items-center gap-2">
+                <input type="checkbox" class="h-4 w-4" data-cookie-toggle="marketing">
+                <span class="text-sm u-muted">{% trans "Activar" %}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <p class="mt-4 p-micro">
+          {% trans "Puedes cambiar esto cuando quieras. Para más info:" %}
+          <a href="{% url 'pages:cookie_policy' %}" class="font-semibold">{% trans "Política de cookies" %}</a>.
+        </p>
+      </div>
+
+      <div class="cookie-modal__footer">
+        <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+          <button type="button" class="c-button c-button--ghost" data-cookie-action="reject">{% trans "Rechazar todo" %}</button>
+          <button type="button" class="c-button c-button--ghost" data-cookie-action="accept">{% trans "Aceptar todo" %}</button>
+          <button type="button" class="c-button c-button--primary" data-cookie-action="save">{% trans "Guardar preferencias" %}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

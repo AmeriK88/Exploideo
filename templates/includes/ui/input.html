@@ -1,0 +1,11 @@
+{% if label %}<label {% if id %}for="{{ id }}"{% endif %} class="{{ label_class|default:'label' }}">{{ label }}</label>{% endif %}
+<input
+  {% if id %}id="{{ id }}"{% endif %}
+  type="{{ type|default:'text' }}"
+  name="{{ name }}"
+  {% if value %}value="{{ value }}"{% endif %}
+  class="{{ class|default:'input' }}{% if extra_class %} {{ extra_class }}{% endif %}"
+  {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+  {% if autocomplete %}autocomplete="{{ autocomplete }}"{% endif %}
+  {% if required %}required{% endif %}
+>

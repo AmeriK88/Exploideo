@@ -1,0 +1,263 @@
+{% load static i18n %}
+<header class="c-nav nav-grain" aria-label="Navegacion principal" data-nav-overflow>
+  {% get_available_languages as LANGUAGES %}
+  {% get_current_language as CURRENT_LANGUAGE %}
+  <div class="{{ container_class|default:'o-container' }} c-nav__container">
+    <div class="c-nav__inner" data-stagger>
+
+      <div class="c-nav__brand" data-animate="fade-down">
+        <a href="{% url 'pages:home' %}" class="c-nav__brandLink" aria-label="{% trans 'Ir a inicio' %}">
+          <picture>
+            <source srcset="{% static 'img/exploideo-social.webp' %}" type="image/webp">
+            <img
+              src="{% static 'img/exploideo-social.webp' %}"
+              alt="{% trans 'Exploideo' %}"
+              fetchpriority="high"
+              decoding="async"
+              class="c-nav__logo"
+            >
+          </picture>
+        </a>
+
+        <a href="{% url 'pages:home' %}" class="c-nav__pill c-button c-button--primary">
+          {% trans "Exploideo" %}
+        </a>
+
+        <nav class="c-nav__inlineLinks hidden md:flex items-center gap-1 text-sm" aria-label="{% trans 'Enlaces principales' %}">
+          {% if PRELAUNCH_MODE %}
+            <a href="{% url 'pages:home' %}#how" class="c-nav__link c-nav__link--primary">{% trans "Cómo funciona" %}</a>
+            <a href="{% url 'pages:home' %}#waitlist" class="c-nav__link c-nav__collapse-on-overflow">{% trans "Acceso" %}</a>
+          {% elif variant == 'landing' %}
+            <a href="#how" class="c-nav__link c-nav__link--primary">{% trans "Cómo funciona" %}</a>
+            <a href="#waitlist" class="c-nav__link c-nav__collapse-on-overflow">{% trans "Acceso" %}</a>
+          {% else %}
+            <a
+              href="{% url 'experiences:list' %}"
+              class="{% if request.resolver_match.app_name == 'experiences' %}c-nav__link c-nav__link--primary bg-(--surface-2) text-(--color-brand-500) font-semibold{% else %}c-nav__link c-nav__link--primary{% endif %}"
+            >
+              {% trans "Explorar" %}
+            </a>
+
+            {% if user.is_authenticated %}
+              <a
+                href="{% url 'pages:dashboard' %}"
+                class="{% if request.resolver_match.app_name == 'pages' and request.resolver_match.url_name == 'dashboard' %}c-nav__link c-nav__collapse-on-overflow bg-(--surface-2) text-(--color-brand-500) font-semibold{% else %}c-nav__link c-nav__collapse-on-overflow{% endif %}"
+              >
+                {% trans "Mi panel" %}
+              </a>
+
+              <a
+                href="{% url 'messages:inbox' %}"
+                class="{% if request.resolver_match.app_name == 'messages' and request.resolver_match.url_name == 'inbox' %}c-nav__link c-nav__collapse-on-overflow bg-(--surface-2) text-(--color-brand-500) font-semibold{% else %}c-nav__link c-nav__collapse-on-overflow{% endif %}"
+              >
+                {% trans "Mensajes" %}
+                {% if unread_messages_count|default:0 %}
+                  <span class="c-nav__badge">{{ unread_messages_count }}</span>
+                {% endif %}
+              </a>
+            {% endif %}
+          {% endif %}
+        </nav>
+      </div>
+
+      <div class="c-nav__cta" data-animate="fade-down">
+        <form action="{% url 'set_language' %}" method="post" class="c-lang" aria-label="{% trans 'Selector de idioma' %}">
+          {% csrf_token %}
+          {% if PRELAUNCH_MODE %}
+            <input type="hidden" name="next" value="{% url 'pages:home' %}">
+          {% else %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+          {% endif %}
+          <span class="c-lang__icon" aria-hidden="true">🌍</span>
+          <select name="language" class="c-lang__select" onchange="this.form.submit()" aria-label="{% trans 'Idioma' %}">
+            {% for lang_code, lang_name in LANGUAGES %}
+              <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
+                {{ lang_code|upper }}
+              </option>
+            {% endfor %}
+          </select>
+          <span class="c-lang__chev" aria-hidden="true">▾</span>
+        </form>
+
+        {% if PRELAUNCH_MODE %}
+          <a href="{% url 'pages:home' %}#waitlist" class="c-button c-button--primary hidden! lg:inline-flex! c-nav__collapse-on-overflow">
+            {% trans "Quiero acceso" %}
+          </a>
+        {% elif user.is_authenticated %}
+          {% if variant != 'landing' %}
+            <a
+              href="{% if user.is_guide %}{% url 'bookings:guide_list' %}{% else %}{% url 'bookings:traveler_list' %}{% endif %}"
+              class="{% if request.resolver_match.app_name == 'bookings' and request.resolver_match.url_name == 'guide_list' or request.resolver_match.app_name == 'bookings' and request.resolver_match.url_name == 'traveler_list' %}c-button c-button--ghost hidden! md:inline-flex! c-nav__collapse-on-overflow bg-(--surface-2) text-(--color-brand-500) font-semibold{% else %}c-button c-button--ghost hidden! md:inline-flex! c-nav__collapse-on-overflow{% endif %}"
+            >
+              {% trans "Reservas" %}
+              {% if user.is_guide and unseen_guide_bookings|default:0 %}
+                <span class="c-nav__badge">{{ unseen_guide_bookings }}</span>
+              {% elif not user.is_guide and unseen_traveler_bookings|default:0 %}
+                <span class="c-nav__badge">{{ unseen_traveler_bookings }}</span>
+              {% endif %}
+            </a>
+          {% else %}
+            <a href="{% url 'pages:dashboard' %}" class="c-button c-button--ghost hidden! md:inline-flex! c-nav__collapse-on-overflow">
+              {% trans "Mi panel" %}
+            </a>
+          {% endif %}
+
+          <details class="relative account-dd hidden md:block c-nav__collapse-on-overflow">
+            <summary class="list-none cursor-pointer">
+              <span class="c-button c-button--ghost inline-flex items-center gap-2">
+                <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-(--surface-2) text-xs font-semibold u-text">
+                  {{ user.username|slice:":2"|upper }}
+                </span>
+                <span class="hidden lg:inline u-text">{{ user.username }}</span>
+                <span class="chev u-muted transition-transform">▾</span>
+              </span>
+            </summary>
+
+            <div class="account-dd__panel right-0 mt-2 w-56 p-2" role="menu" aria-label="{% trans 'Menú de cuenta' %}">
+              <div class="px-3 py-2">
+                <p class="p-micro">{% trans "Sesión iniciada como" %}</p>
+                <p class="text-sm font-semibold u-text truncate">{{ user.username }}</p>
+              </div>
+
+              <div class="h-px bg-(--border)"></div>
+
+              <div class="text-sm space-y-2 p-2">
+                <a
+                  href="{% url 'pages:dashboard' %}"
+                  class="{% if request.resolver_match.app_name == 'pages' and request.resolver_match.url_name == 'dashboard' %}block rounded-xl px-3 py-2 bg-(--surface-2) text-(--color-brand-500) font-semibold{% else %}block rounded-xl px-3 py-2 u-text hover:bg-(--border){% endif %}"
+                >
+                  {% trans "Mi panel" %}
+                </a>
+
+                <a
+                  href="{% if user.is_guide %}{% url 'bookings:guide_list' %}{% else %}{% url 'bookings:traveler_list' %}{% endif %}"
+                  class="{% if request.resolver_match.app_name == 'bookings' and request.resolver_match.url_name == 'guide_list' or request.resolver_match.app_name == 'bookings' and request.resolver_match.url_name == 'traveler_list' %}block rounded-xl px-3 py-2 bg-(--surface-2) text-(--color-brand-500) font-semibold{% else %}block rounded-xl px-3 py-2 u-text hover:bg-(--border){% endif %}"
+                >
+                  {% trans "Reservas" %}
+                </a>
+
+                <a
+                  href="{% url 'messages:inbox' %}"
+                  class="{% if request.resolver_match.app_name == 'messages' and request.resolver_match.url_name == 'inbox' %}flex items-center justify-between rounded-xl px-3 py-2 bg-(--surface-2) text-(--color-brand-500) font-semibold{% else %}flex items-center justify-between rounded-xl px-3 py-2 u-text hover:bg-(--border){% endif %}"
+                >
+                  <span>{% trans "Mensajes" %}</span>
+                  {% if unread_messages_count|default:0 %}
+                    <span class="c-nav__badge">{{ unread_messages_count }}</span>
+                  {% endif %}
+                </a>
+
+                <a href="{% url 'accounts:logout' %}" class="mt-1 block rounded-xl bg-(--surface-strong) px-3 py-2 font-medium text-(--surface) hover:bg-(--surface-strong-hover)">
+                  {% trans "Salir" %}
+                </a>
+              </div>
+            </div>
+          </details>
+
+        {% else %}
+          {% if variant == 'landing' %}
+            <a href="#waitlist" class="c-button c-button--primary hidden! lg:inline-flex! c-nav__collapse-on-overflow">
+              {% trans "Quiero acceso" %}
+            </a>
+          {% endif %}
+          <a href="{% url 'accounts:login' %}" class="c-button c-button--ghost hidden! lg:inline-flex! c-nav__collapse-on-overflow">
+            {% trans "Login" %}
+          </a>
+          <a href="{% url 'accounts:register' %}" class="c-button c-button--primary hidden! lg:inline-flex!">
+            {% trans "Registro" %}
+          </a>
+        {% endif %}
+
+        <details class="relative c-nav__overflow hidden md:block">
+          <summary class="list-none cursor-pointer">
+            <span class="c-button c-button--ghost" aria-label="{% trans 'Más acciones' %}">
+              {% trans "Más" %} <span class="ml-2 u-muted">▾</span>
+            </span>
+          </summary>
+
+          <div class="mobile-menu right-0 mt-2 w-64 p-2" role="menu" aria-label="{% trans 'Menú secundario' %}">
+            <div class="text-sm space-y-2 p-2">
+              {% if PRELAUNCH_MODE %}
+                <a href="{% url 'pages:home' %}#waitlist" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
+                  {% trans "Acceso" %}
+                </a>
+              {% elif variant == 'landing' %}
+                <a href="#waitlist" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
+                  {% trans "Acceso" %}
+                </a>
+                {% if not user.is_authenticated %}
+                  <a href="{% url 'accounts:login' %}" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
+                    {% trans "Login" %}
+                  </a>
+                  <a href="#waitlist" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
+                    {% trans "Quiero acceso" %}
+                  </a>
+                {% endif %}
+              {% else %}
+                {% if user.is_authenticated %}
+                  {% include "includes/layout/navbar_account_menu_links.html" with show_booking_badge=True %}
+                {% else %}
+                  <a href="{% url 'accounts:login' %}" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
+                    {% trans "Login" %}
+                  </a>
+                {% endif %}
+              {% endif %}
+            </div>
+          </div>
+        </details>
+
+        <details class="relative md:hidden">
+          <summary class="list-none cursor-pointer">
+            <span class="c-button c-button--ghost">
+              {% trans "Menú" %} <span class="ml-2 u-muted">▾</span>
+            </span>
+          </summary>
+
+          <div class="mobile-menu right-0 mt-2 w-64 p-2" role="menu" aria-label="{% trans 'Menú móvil' %}">
+            <div class="text-sm space-y-2 p-2">
+              {% if PRELAUNCH_MODE %}
+                <a href="{% url 'pages:home' %}#how" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
+                  {% trans "Cómo funciona" %}
+                </a>
+                <a href="{% url 'pages:home' %}#waitlist" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
+                  {% trans "Acceso" %}
+                </a>
+              {% elif variant == 'landing' %}
+                <a href="#how" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
+                  {% trans "Cómo funciona" %}
+                </a>
+                <a href="#waitlist" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
+                  {% trans "Acceso" %}
+                </a>
+              {% else %}
+                <a
+                  href="{% url 'experiences:list' %}"
+                  class="{% if request.resolver_match.app_name == 'experiences' %}block rounded-xl px-3 py-2 bg-(--surface-2) text-(--color-brand-500) font-semibold{% else %}block rounded-xl px-3 py-2 u-text hover:bg-(--border){% endif %}"
+                >
+                  {% trans "Explorar" %}
+                </a>
+              {% endif %}
+
+              {% if not PRELAUNCH_MODE and user.is_authenticated %}
+                {% include "includes/layout/navbar_account_menu_links.html" %}
+              {% elif not PRELAUNCH_MODE %}
+                {% if variant == 'landing' %}
+                  <a href="#waitlist" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
+                    {% trans "Quiero acceso" %}
+                  </a>
+                {% endif %}
+                <div class="my-1 h-px bg-(--border)"></div>
+                <a href="{% url 'accounts:login' %}" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
+                  {% trans "Login" %}
+                </a>
+                <a href="{% url 'accounts:register' %}" class="mt-1 block rounded-xl bg-(--surface-strong) px-3 py-2 font-medium text-(--surface) hover:bg-(--surface-strong-hover)">
+                  {% trans "Registro" %}
+                </a>
+              {% endif %}
+            </div>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </div>
+</header>

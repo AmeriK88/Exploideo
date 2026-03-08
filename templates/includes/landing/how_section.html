@@ -1,0 +1,26 @@
+{% load i18n %}
+<section id="how" class="c-previewSection">
+  <div class="o-container o-container--wide py-14">
+    <div class="text-center" data-stagger>
+      <p class="testimonial-quote" data-animate="fade-up">{% trans "Cómo funciona" %}</p>
+      <h2 class="mt-2 text-3xl font-bold tracking-tight" data-animate="fade-up">{% trans "Reserva con contexto. Gestiona sin caos." %}</h2>
+      <p class="mx-auto mt-3 max-w-2xl u-muted" data-animate="fade-up">
+        {% blocktrans %}
+          Aquí no vas a ciegas: ves <span class="font-semibold u-text">qué incluye</span>,
+          <span class="font-semibold u-text">cómo será</span> y
+          <span class="font-semibold u-text">en qué punto está</span> tu solicitud en todo momento.
+        {% endblocktrans %}
+      </p>
+    </div>
+
+    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
+      <article class="c-card" data-animate="scale-in"><div class="c-card__body"><p class="text-xs font-semibold u-muted">{% trans "Paso 1" %}</p><h3 class="mt-2 font-bold">{% trans "Explora con criterio" %}</h3><p class="mt-2 u-muted">{% blocktrans %}Filtra por tipo de plan, idioma, dificultad y duración. Cada experiencia viene con detalles reales (qué llevar, punto de encuentro, reglas).{% endblocktrans %}</p></div></article>
+      <article class="c-card" data-animate="scale-in"><div class="c-card__body"><p class="text-xs font-semibold u-muted">{% trans "Paso 2" %}</p><h3 class="mt-2 font-bold">{% trans "Solicita tu fecha" %}</h3><p class="mt-2 u-muted">{% blocktrans %}Envías una <span class="font-semibold u-text">solicitud</span> con grupo, preferencias y notas. Nada de “te confirmo por WhatsApp”: queda todo registrado desde el minuto 1.{% endblocktrans %}</p></div></article>
+      <article class="c-card" data-animate="scale-in"><div class="c-card__body"><p class="text-xs font-semibold u-muted">{% trans "Paso 3" %}</p><h3 class="mt-2 font-bold">{% trans "Estado claro (sin dudas)" %}</h3><p class="mt-2 u-muted">{% blocktrans %}El guía revisa solicitud. Tú ves el estado: <span class="font-semibold u-text">pendiente → aceptada</span>. Cambios y mensajes quedan con trazabilidad.{% endblocktrans %}</p></div></article>
+      <article class="c-card" data-animate="scale-in"><div class="c-card__body"><p class="text-xs font-semibold u-muted">{% trans "Paso 4" %}</p><h3 class="mt-2 font-bold">{% trans "Vive y valida" %}</h3><p class="mt-2 u-muted">{% blocktrans %}Después, dejas tu reseña. Solo cuentan opiniones de <span class="font-semibold u-text">reservas reales</span>: más confianza para los siguientes viajeros.{% endblocktrans %}</p></div></article>
+    </div>
+          <p class="inline-flex max-w-3xl items-center justify-center rounded-full border border-(--border) bg-(--surface-2) px-5 py-2 text-center text-sm font-medium u-text shadow-sm" data-animate="fade-up">{% trans "Resultado: menos incertidumbre para viajeros y más control para guías." %}
+          </p>
+  </div>
+
+</section>

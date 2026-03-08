@@ -1,22 +1,13 @@
-
+{# Defaults for all variants: verified/exercise/location/actions on; status/flag/reply off. #}
 {% if variant == "my_reviews" %}
-  {% with show_verified=1 show_status=1 show_experience=1 show_location=1 show_flag_reason=1 show_guide_reply=1 show_actions=1 %}
-    {% include "components/review_card_body.html" with r=r show_verified=show_verified show_status=show_status show_experience=show_experience show_location=show_location show_flag_reason=show_flag_reason show_guide_reply=show_guide_reply show_actions=show_actions %}
-  {% endwith %}
+  {% include "components/review_card_body.html" with show_verified=1 show_status=1 show_experience=1 show_location=1 show_flag_reason=1 show_guide_reply=1 show_actions=1 %}
 
 {% elif variant == "experience_detail" %}
-  {% with show_verified=0 show_status=0 show_experience=0 show_location=0 show_flag_reason=0 show_guide_reply=0 show_actions=0 %}
-    {% include "components/review_card_body.html" with r=r show_verified=show_verified show_status=show_status show_experience=show_experience show_location=show_location show_flag_reason=show_flag_reason show_guide_reply=show_guide_reply show_actions=show_actions %}
-  {% endwith %}
+  {% include "components/review_card_body.html" with show_verified=0 show_status=0 show_experience=0 show_location=0 show_flag_reason=0 show_guide_reply=0 show_actions=0 %}
 
 {% elif variant == "public_profile" %}
-  {% with show_verified=1 show_status=0 show_experience=1 show_location=1 show_flag_reason=0 show_guide_reply=1 show_actions=1 %}
-    {% include "components/review_card_body.html" with r=r show_verified=show_verified show_status=show_status show_experience=show_experience show_location=show_location show_flag_reason=show_flag_reason show_guide_reply=show_guide_reply show_actions=show_actions %}
-  {% endwith %}
+  {% include "components/review_card_body.html" with show_verified=1 show_status=0 show_experience=1 show_location=1 show_flag_reason=0 show_guide_reply=1 show_actions=1 %}
 
 {% else %}
-  {# fallback seguro #}
-  {% with show_verified=1 show_status=0 show_experience=1 show_location=1 show_flag_reason=0 show_guide_reply=0 show_actions=1 %}
-    {% include "components/review_card_body.html" with r=r show_verified=show_verified show_status=show_status show_experience=show_experience show_location=show_location show_flag_reason=show_flag_reason show_guide_reply=show_guide_reply show_actions=show_actions %}
-  {% endwith %}
+  {% include "components/review_card_body.html" with show_verified=1 show_status=0 show_experience=1 show_location=1 show_flag_reason=0 show_guide_reply=0 show_actions=1 %}
 {% endif %}

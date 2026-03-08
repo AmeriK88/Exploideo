@@ -1,0 +1,17 @@
+{% with s=status|lower %}
+  {% if s == "accepted" %}
+    <span class="c-badge c-badge--status-accepted {{ extra_class|default:'' }}">Aceptada</span>
+  {% elif s == "pending" %}
+    <span class="c-badge c-badge--status-pending {{ extra_class|default:'' }}">Pendiente</span>
+  {% elif s == "change_requested" %}
+    <span class="c-badge c-badge--status-change_requested {{ extra_class|default:'' }}">Cambio solicitado</span>
+  {% elif s == "cancel_requested" %}
+    <span class="c-badge c-badge--status-cancel_requested {{ extra_class|default:'' }}">Cancelación solicitada</span>
+  {% elif s == "rejected" %}
+    <span class="c-badge c-badge--status-rejected {{ extra_class|default:'' }}">Rechazada</span>
+  {% elif s == "canceled" %}
+    <span class="c-badge c-badge--status-canceled {{ extra_class|default:'' }}">Cancelada</span>
+  {% else %}
+    <span class="c-badge c-badge--neutral {{ extra_class|default:'' }}">{{ status }}</span>
+  {% endif %}
+{% endwith %}

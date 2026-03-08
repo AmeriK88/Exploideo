@@ -1,11 +1,15 @@
-<div class="{{ wrapper_class|default:'card' }}">
-  <div class="{{ body_class|default:'card-body' }}">
-    <h3 class="{{ title_class|default:'text-base font-semibold' }}">{{ title }}</h3>
+<div class="{{ wrapper_class|default:'c-card' }}">
+  <div class="{{ body_class|default:'c-card__body' }}">
+    
+    <h3 class="{{ title_class|default:'text-base font-semibold' }}">
+      {{ title }}
+    </h3>
 
     {% if text %}
-      <p class="{{ text_class|default:'mt-1 p-muted' }}">
+      <p class="{{ text_class|default:'mt-1 u-muted' }}">
         {{ text }}
       </p>
     {% endif %}
+
   </div>
 </div>

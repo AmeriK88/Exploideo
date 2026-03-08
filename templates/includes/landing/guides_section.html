@@ -1,0 +1,118 @@
+{% load i18n %}
+<section class="c-previewSection">
+  <div class="o-container o-container--wide grid gap-10 py-14 lg:grid-cols-2 lg:items-center">
+    <article class="c-card" data-stagger>
+      <div class="c-card__body">
+        <div class="o-stack o-stack--6">
+          <div>
+            <p class="testimonial-quote" data-animate="fade-up">{% trans "Para guías" %}</p>
+            <h2 class="mt-3 text-3xl font-bold tracking-tight" data-animate="fade-up">
+              {% trans "No más improvisación." %}
+              <span class="text-brand-700">{% trans "Trabaja bajo tus reglas." %}</span>
+            </h2>
+
+            <p class="mt-4 u-muted" data-animate="fade-up">
+              {% blocktrans %}
+              Exploideo no te consigue volumen. Te da estructura.
+              Agenda real, cupos definidos, condiciones claras y reservas con previsión.
+              {% endblocktrans %}
+            </p>
+          </div>
+
+          <div class="space-y-5" data-stagger>
+            <div class="flex items-start gap-4" data-animate="fade-up">
+              <span class="c-badge c-badge--success c-badge--soft shrink-0">✓</span>
+              <div>
+                <p class="font-semibold">{% trans "Sin cuotas fijas · Sin contratos que te aten" %}</p>
+                <p class="mt-1 u-muted">{% trans "Solo comisión por excursión 14%." %}</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4" data-animate="fade-up">
+              <span class="c-badge c-badge--success c-badge--soft shrink-0">✓</span>
+              <div>
+                <p class="font-semibold">{% trans "Reservas sin caos" %}</p>
+                <p class="mt-1 u-muted">{% trans "Acepta o rechaza con mensajes automáticos." %}</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4" data-animate="fade-up">
+              <span class="c-badge c-badge--success c-badge--soft shrink-0">✓</span>
+              <div>
+                <p class="font-semibold">{% trans "Perfil verificado" %}</p>
+                <p class="mt-1 u-muted">{% trans "Más confianza → más conversiones." %}</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4" data-animate="fade-up">
+              <span class="c-badge c-badge--success c-badge--soft shrink-0">✓</span>
+              <div>
+                <p class="font-semibold">{% trans "Panel de ingresos" %}</p>
+                <p class="mt-1 u-muted">{% trans "Control de facturación y rendimiento." %}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid gap-3 pt-2">
+            <a href="#waitlist" class="c-button c-button--primary w-full">
+              {% trans "Soy guía · Quiero entrar primero" %}
+            </a>
+            <a href="#waitlist" class="c-button c-button--ghost w-full">
+              {% trans "Soy viajero · Quiero acceso" %}
+            </a>
+          </div>
+
+          <p class="p-micro" data-animate="fade-up">
+            {% trans "Primero abrimos plazas limitadas para perfiles verificados." %}
+          </p>
+        </div>
+      </div>
+    </article>
+
+    <article class="c-card" data-stagger>
+      <div class="c-card__body">
+        <div class="o-stack o-stack--6">
+          <div class="flex items-center justify-between gap-4" data-animate="fade-up">
+            <h3 class="text-lg font-bold">{% trans "Lo que tendrás desde el día 1" %}</h3>
+            <span class="c-badge c-badge--neutral c-badge--soft">{% trans "Roadmap" %}</span>
+          </div>
+
+          <div class="grid gap-4 sm:grid-cols-2" data-stagger>
+            <article class="c-card" data-animate="fade-up">
+              <div class="c-card__body">
+                <p class="text-sm font-semibold">{% trans "Editor de experiencias" %}</p>
+                <p class="mt-2 u-muted">{% trans "Fotos, rutas, detalles, idiomas y extras." %}</p>
+              </div>
+            </article>
+
+            <article class="c-card" data-animate="fade-up">
+              <div class="c-card__body">
+                <p class="text-sm font-semibold">{% trans "Calendario simple" %}</p>
+                <p class="mt-2 u-muted">{% trans "Bloquea fechas y ajusta capacidad." %}</p>
+              </div>
+            </article>
+
+            <article class="c-card" data-animate="fade-up">
+              <div class="c-card__body">
+                <p class="text-sm font-semibold">{% trans "Mensajería clara" %}</p>
+                <p class="mt-2 u-muted">{% trans "Menos idas y vueltas, más reservas." %}</p>
+              </div>
+            </article>
+
+            <article class="c-card" data-animate="fade-up">
+              <div class="c-card__body">
+                <p class="text-sm font-semibold">{% trans "Facturas y control" %}</p>
+                <p class="mt-2 u-muted">{% trans "Ingresos por mes, rectificaciones, etc." %}</p>
+              </div>
+            </article>
+          </div>
+
+          <div class="c-card__body rounded-2xl border border-(--border) bg-(--surface-2) px-6 py-5" data-animate="fade-up">
+            <p class="text-sm font-semibold u-text">{% trans "Idea central" %}</p>
+            <p class="mt-2 text-sm u-muted">{% trans "Tu experiencia es premium. La gestión también debe serlo." %}</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

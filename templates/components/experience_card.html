@@ -1,6 +1,6 @@
-<article class="card group overflow-hidden h-full flex flex-col">
+<article class="c-card group overflow-hidden h-full flex flex-col">
   <!-- Media -->
-  <div class="relative w-full bg-slate-100 aspect-16/10 overflow-hidden">
+  <div class="relative w-full bg-surface-soft aspect-16/10 overflow-hidden">
     {% if experience.image %}
       <img
         src="{{ experience.image.url }}"
@@ -10,15 +10,15 @@
       />
       <div class="pointer-events-none absolute inset-0 bg-linear-to-t from-black/10 via-transparent to-transparent"></div>
     {% else %}
-      <div class="flex h-full w-full items-center justify-center text-slate-400 text-sm">
+      <div class="flex h-full w-full items-center justify-center u-muted text-sm">
         Sin imagen
       </div>
     {% endif %}
   </div>
 
   <!-- Body -->
-  <div class="card-body flex flex-col flex-1">
-    <h3 class="h3-card-experience clamp-2">
+  <div class="c-card__body flex flex-col flex-1">
+    <h3 class="text-lg font-semibold leading-tight u-text clamp-2">
       {{ experience.title }}
     </h3>
 
@@ -33,7 +33,7 @@
               loading="lazy"
             />
           {% else %}
-            <div class="h-9 w-9 rounded-full bg-slate-200 flex items-center justify-center text-xs font-semibold text-slate-600">
+            <div class="h-9 w-9 rounded-full bg-surface-soft flex items-center justify-center text-xs font-semibold u-muted">
               {{ experience.guide.username|slice:":1"|upper }}
             </div>
           {% endif %}
@@ -55,47 +55,47 @@
     {# ===== Badges resumen ===== #}
     <div class="mt-3 flex flex-wrap gap-2 text-sm">
       {% if experience.location %}
-        <span class="badge badge-neutral hover-lift">📍 {{ experience.location }}</span>
+        <span class="c-badge c-badge--neutral u-hover-lift">📍 {{ experience.location }}</span>
       {% endif %}
 
       {% if experience.duration_minutes %}
-        <span class="badge badge-neutral hover-lift">⏱ {{ experience.duration_minutes }} min</span>
+        <span class="c-badge c-badge--neutral u-hover-lift">⏱ {{ experience.duration_minutes }} min</span>
       {% endif %}
 
       {# Dificultad #}
       {% if experience.difficulty %}
         {% if experience.difficulty == "easy" %}
-          <span class="badge badge-neutral hover-lift">🟢 Fácil</span>
-          <span class="badge badge-neutral hover-lift">👨‍👩‍👧‍👦 Apta para todos</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">🟢 Fácil</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">👨‍👩‍👧‍👦 Apta para todos</span>
         {% elif experience.difficulty == "moderate" %}
-          <span class="badge badge-neutral hover-lift">🟠 Moderado</span>
-          <span class="badge badge-neutral hover-lift">🧒 Menores acompañados</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">🟠 Moderado</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">🧒 Menores acompañados</span>
         {% elif experience.difficulty == "hard" %}
-          <span class="badge badge-neutral hover-lift">🔴 Difícil</span>
-          <span class="badge badge-neutral hover-lift">⛔ Sin menores</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">🔴 Difícil</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">⛔ Sin menores</span>
         {% else %}
-          <span class="badge badge-neutral hover-lift">⚙️ {{ experience.get_difficulty_display|default:experience.difficulty }}</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">⚙️ {{ experience.get_difficulty_display|default:experience.difficulty }}</span>
         {% endif %}
       {% endif %}
     </div>
 
     <div class="mt-auto pt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div class="flex items-baseline gap-2">
-        <span class="text-xl font-bold text-slate-900">{{ experience.price }} €</span>
+        <span class="text-xl font-bold u-text">{{ experience.price }} €</span>
         <span class="p-micro">por adulto</span>
       </div>
 
-      <a href="{% url 'experiences:detail' experience.pk %}" class="btn btn-primary w-full sm:w-auto">
+      <a href="{% url 'experiences:detail' experience.pk %}" class="c-button c-button--primary w-full sm:w-auto">
         Info
       </a>
     </div>
 
     {% if user.is_authenticated and user.is_guide and experience.guide == user %}
       <div class="mt-3 flex flex-col gap-2 sm:flex-row">
-        <a href="{% url 'availability:manage' experience.pk %}" class="btn btn-ghost w-full sm:w-auto">
+        <a href="{% url 'availability:manage' experience.pk %}" class="c-button c-button--ghost w-full sm:w-auto">
           Disponibilidad
         </a>
-        <a href="{% url 'experiences:edit' experience.pk %}" class="btn btn-ghost w-full sm:w-auto">
+        <a href="{% url 'experiences:edit' experience.pk %}" class="c-button c-button--ghost w-full sm:w-auto">
           Editar
         </a>
       </div>

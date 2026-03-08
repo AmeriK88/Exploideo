@@ -1,0 +1,33 @@
+{% load i18n %}
+<div id="cookie-banner" class="fixed inset-x-0 bottom-0 z-60">
+  <div class="o-container pb-4">
+    <div class="c-card">
+      <div class="c-card__body">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div class="min-w-0">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="badge">🍪 {% trans "Cookies" %}</span>
+              <span class="c-badge c-badge--blue">{% trans "Preferencias" %}</span>
+            </div>
+
+            <p class="mt-3 text-sm u-muted leading-relaxed">
+              {% trans "Usamos cookies necesarias para que la plataforma funcione (login, seguridad)." %}
+              {% trans "Puedes aceptar cookies opcionales para mejorar la experiencia y medir uso." %}
+              <a href="{% url 'pages:cookie_policy' %}" class="font-semibold">{% trans "Ver política" %}</a>.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end sm:shrink-0">
+            <button type="button" class="c-button c-button--ghost" data-cookie-action="reject">{% trans "Rechazar" %}</button>
+            <button type="button" class="c-button c-button--ghost" data-cookie-action="manage">{% trans "Configurar" %}</button>
+            <button type="button" class="c-button c-button--primary" data-cookie-action="accept">{% trans "Aceptar" %}</button>
+          </div>
+        </div>
+
+        <p class="mt-3 p-micro">
+          {% trans "Puedes cambiar tus preferencias cuando quieras desde el footer." %}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

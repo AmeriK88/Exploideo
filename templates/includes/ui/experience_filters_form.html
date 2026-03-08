@@ -1,0 +1,52 @@
+<form method="get" action="{{ action_url }}" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
+  <div class="lg:col-span-2">
+    <label class="label">Buscar</label>
+    <input class="input" type="text" name="q" value="{{ q_value|default:'' }}" placeholder="{{ q_placeholder|default:'Museos, familia, senderismo...' }}">
+  </div>
+
+  <div class="lg:col-span-2">
+    <label class="label">Categoría</label>
+    <select class="input" name="category">
+      <option value="">Todas</option>
+      {% for c in categories %}
+        <option value="{{ c.slug }}" {% if category_value == c.slug %}selected{% endif %}>
+          {{ c.name }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div>
+    <label class="label">Precio mín (€)</label>
+    <input class="input" type="number" step="0.01" name="min_price" value="{{ min_price_value|default:'' }}">
+  </div>
+
+  <div>
+    <label class="label">Precio máx (€)</label>
+    <input class="input" type="number" step="0.01" name="max_price" value="{{ max_price_value|default:'' }}">
+  </div>
+
+  <div class="lg:col-span-2">
+    <label class="label">Duración máx (min)</label>
+    <input class="input" type="number" name="max_duration" value="{{ max_duration_value|default:'' }}" placeholder="Ej: 180">
+  </div>
+
+  <div class="lg:col-span-2">
+    <label class="label">Ordenar</label>
+    <select class="input" name="sort">
+      <option value="recent" {% if sort_value == "recent" %}selected{% endif %}>Más recientes</option>
+      {% if show_popular|default:True %}
+        <option value="popular" {% if sort_value == "popular" %}selected{% endif %}>Más populares</option>
+      {% endif %}
+      <option value="price_asc" {% if sort_value == "price_asc" %}selected{% endif %}>Precio: menor a mayor</option>
+      <option value="price_desc" {% if sort_value == "price_desc" %}selected{% endif %}>Precio: mayor a menor</option>
+      <option value="duration_asc" {% if sort_value == "duration_asc" %}selected{% endif %}>Duración: menor a mayor</option>
+      <option value="duration_desc" {% if sort_value == "duration_desc" %}selected{% endif %}>Duración: mayor a menor</option>
+    </select>
+  </div>
+
+  <div class="lg:col-span-2 flex items-end gap-2">
+    <button type="submit" class="c-button c-button--primary w-full">Aplicar</button>
+    <a href="{{ reset_url }}" class="c-button c-button--ghost w-full text-center">Limpiar</a>
+  </div>
+</form>

@@ -1,7 +1,6 @@
-{# templates/components/review_card_body.html #}
 
-<div class="card">
-  <div class="card-body">
+<div class="c-card">
+  <div class="c-card__body">
     <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
 
       <div class="flex items-start gap-4">
@@ -10,11 +9,11 @@
             <img
               src="{{ r.traveler.traveler_profile.avatar.url }}"
               alt="{{ r.traveler.username }}"
-              class="h-12 w-12 rounded-full object-cover border border-slate-200 bg-white"
+              class="h-12 w-12 rounded-full object-cover border border-border bg-surface"
               loading="lazy"
             >
           {% else %}
-            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-200 text-sm font-semibold text-slate-700">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-surface-soft text-sm font-semibold u-text">
               {{ r.traveler.username|slice:":2"|upper }}
             </div>
           {% endif %}
@@ -22,24 +21,24 @@
 
         <div class="min-w-0">
           <div class="flex flex-wrap items-center gap-2">
-            <p class="p-secondary">{{ r.traveler.username }}</p>
+            <p class="font-medium u-text">{{ r.traveler.username }}</p>
 
             {% if show_verified and r.traveler_verified %}
-              <span class="badge badge-emerald hover-lift">✅ Viajero verificado</span>
+              <span class="c-badge c-badge--emerald u-hover-lift">✅ Viajero verificado</span>
             {% endif %}
 
             {% if show_status %}
               {% if r.status == "published" %}
-                <span class="badge badge-emerald hover-lift">Publicada</span>
+                <span class="c-badge c-badge--emerald u-hover-lift">Publicada</span>
               {% elif r.status == "pending" %}
-                <span class="badge badge-amber hover-lift">Pendiente</span>
+                <span class="c-badge c-badge--amber u-hover-lift">Pendiente</span>
               {% elif r.status == "flagged" %}
-                <span class="badge badge-red hover-lift">Marcada</span>
+                <span class="c-badge c-badge--red u-hover-lift">Marcada</span>
               {% endif %}
             {% endif %}
           </div>
 
-          <p class="help">{{ r.created_at|date:"d M Y" }}</p>
+          <p class="c-form__help">{{ r.created_at|date:"d M Y" }}</p>
         
           {% if show_experience %}
             <div class="mt-3">
@@ -53,9 +52,9 @@
           {% endif %}
 
           <div class="mt-3 flex flex-wrap items-center gap-2">
-            <span class="badge badge-neutral hover-lift">⭐ {{ r.rating }}/5</span>
+            <span class="c-badge c-badge--neutral u-hover-lift">⭐ {{ r.rating }}/5</span>
             {% if show_location and r.experience.location %}
-              <span class="badge badge-neutral hover-lift">📍 {{ r.experience.location }}</span>
+              <span class="c-badge c-badge--neutral u-hover-lift">📍 {{ r.experience.location }}</span>
             {% endif %}
           </div>
 
@@ -72,7 +71,7 @@
               <p class="step-message">Respuesta del guía</p>
               <p class="mt-1 p-body">{{ r.guide_reply }}</p>
               {% if r.guide_replied_at %}
-                <p class="help">{{ r.guide_replied_at|date:"d M Y" }}</p>
+                <p class="c-form__help">{{ r.guide_replied_at|date:"d M Y" }}</p>
               {% endif %}
             </div>
           {% endif %}
@@ -81,7 +80,7 @@
 
       {% if show_actions %}
         <div class="flex justify-end sm:justify-start">
-          <a class="btn btn-ghost" href="{% url 'experiences:detail' r.experience.pk %}">
+          <a class="c-button c-button--ghost" href="{% url 'experiences:detail' r.experience.pk %}">
             Ver experiencia
           </a>
         </div>

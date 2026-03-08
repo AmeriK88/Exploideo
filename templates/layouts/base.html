@@ -2,6 +2,7 @@
 {% get_current_language as CURRENT_LANGUAGE %}
 {% now "Y" as current_year %}
 <!doctype html>
+<html lang="{{ CURRENT_LANGUAGE }}">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -68,7 +69,6 @@
   <!-- Preload images -->
   <link rel="preload" as="image" href="{% static 'img/exploideo-logo.webp' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
   <link rel="preload" as="image" href="{% static 'img/exploideo-logo.png' %}" imagesizes="(max-width: 768px) 48px, 80px" fetchpriority="high"/>
-  <link rel="preload" as="image" href="{% static 'img/exploideo-social.png' %}" fetchpriority="high"/>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -80,511 +80,59 @@
   {% block extra_head %}{% endblock %}
 </head>
 
-<body class="home-landing min-h-screen bg-slate-50 text-slate-800 antialiased font-sans {% block body_class %}{% endblock %}">
+<body class="theme-exploideo app-shell m-0 min-h-screen w-full bg-background text-text antialiased font-sans {% block body_class %}{% endblock %}">
 
-    <!-- =========================================================
-      NAVBAR (minimal, sin links a la app)
-    ========================================================== -->
-    <header class="nav-grain">
-      <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6" data-stagger>
-        <!-- Brand -->
-        <div class="flex min-w-0 items-center gap-3" data-animate="fade-down">
-
-          <a href="{% url 'pages:home' %}" class="flex items-center shrink-0">
-            <picture>
-              <source srcset="{% static 'img/exploideo-logo.webp' %}" type="image/webp">
-              <img
-                src="{% static 'img/exploideo-logo.png' %}"
-                alt="{% trans 'Exploideo' %}"
-                fetchpriority="high"
-                decoding="async"
-                class="h-20 w-auto shrink-0 transition-transform hover:scale-105 drop-shadow-md"
-              >
-            </picture>
-          </a>
-
-          <!-- En móvil se oculta para que no se solape -->
-          <a
-            href="{% url 'pages:home' %}"
-            class="hidden sm:inline-flex px-4 py-1.5 rounded-full
-                  text-sm font-semibold tracking-wide
-                  text-white
-                  bg-linear-to-r from-brand-700 to-brand-500
-                  shadow-[0_0_20px_rgba(47,140,255,0.25)]
-                  hover:shadow-[0_0_30px_rgba(47,140,255,0.40)]
-                  transition-all duration-300"
-            aria-label="{% trans 'Ir a inicio' %}"
-          >
-            {% trans "Exploideo" %}
-          </a>
-        </div>
-
-        <!-- CTA -->
-        <div class="flex shrink-0 items-center gap-2 sm:gap-3" data-animate="fade-down">
-          <span class="hidden min-[765px]:inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700">
-            <span class="inline-block h-2 w-2 rounded-full bg-emerald-500"></span>
-            {% trans "Lista de espera abierta" %}
-          </span>
-          
-          <!-- Language switch -->
-          <form action="{% url 'set_language' %}" method="post" class="flex items-center">
-            {% csrf_token %}
-            <input name="next" type="hidden" value="{{ request.get_full_path }}" />
-
-            {% get_available_languages as LANGUAGES %}
-            {% get_current_language as CURRENT_LANGUAGE %}
-
-            <div class="relative">
-              <!-- Icono -->
-              <span class="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-slate-500 text-xs sm:text-sm">
-                🌍
-              </span>
-
-              <select
-                name="language"
-                onchange="this.form.submit();"
-                class="appearance-none rounded-full border border-slate-200 bg-white
-                      pl-7 pr-7
-                      h-9 sm:h-10
-                      text-xs sm:text-sm
-                      font-semibold text-slate-700 shadow-sm
-                      hover:bg-slate-50 transition
-                      focus:outline-none focus:ring-2 focus:ring-brand-500/30"
-              >
-                {% for lang_code, lang_name in LANGUAGES %}
-                  <option value="{{ lang_code }}" {% if lang_code == CURRENT_LANGUAGE %}selected{% endif %}>
-                    {{ lang_code|upper }}
-                  </option>
-                {% endfor %}
-              </select>
-
-              <!-- Flechita -->
-              <span class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-slate-500">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 sm:h-4 sm:w-4" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" />
-                </svg>
-              </span>
-            </div>
-          </form>
-
-          <a href="#waitlist" class="inline-flex items-center justify-center rounded-2xl btn btn-primary px-5 py-3">
-            <span class="sm:hidden">{% trans "Acceso anticipado" %}</span>
-            <span class="hidden sm:inline">{% trans "Quiero acceso anticipado" %}</span>
-          </a>
-        </div>
-      </div>
-    </header>
+    {# ---------------------------------------------- #}
+    {# header block: can be overridden by landing or other pages #}
+    {# ---------------------------------------------- #}
+    {% block header %}
+      {% include "includes/layout/navbar.html" with variant="flow" %}
+    {% endblock %}
 
     <!-- Messages -->
-    {% if messages %}
-      <div class="mx-auto max-w-6xl px-4 pt-4 sm:px-6" aria-live="polite" aria-atomic="true">
-        <div class="space-y-2" data-stagger>
-          {% for message in messages %}
-            {% if message.tags == "success" %}
-              <div data-animate="fade-down" role="status"
-                  class="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900">
-                {{ message }}
-              </div>
-            {% elif message.tags == "error" %}
-              <div data-animate="fade-down" role="alert"
-                  class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
-                {{ message }}
-              </div>
-            {% elif message.tags == "warning" %}
-              <div data-animate="fade-down" role="status"
-                  class="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-                {{ message }}
-              </div>
-            {% elif message.tags == "info" %}
-              <div data-animate="fade-down" role="status"
-                  class="rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-900">
-                {{ message }}
-              </div>
-            {% else %}
-              <div data-animate="fade-down" role="status"
-                  class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700">
-                {{ message }}
-              </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-    {% endif %}
+    {% include "includes/ui/flash_messages.html" %}
 
     {% block body %}
       <main id="page"
-            class="page-enter flex-1 w-full {% block main_class %}mx-auto max-w-6xl px-4 py-6 sm:px-6 pb-16{% endblock %}"
+        class="page-shell page-enter flex-1 w-full min-w-0 {% block main_shell_class %}{% endblock %}"
             data-page>
 
-          {% block content %}{% endblock %}
+          <div class="{% block main_class %}o-container py-8 lg:py-10 pb-16{% endblock %}">
+
+            {% block content %}{% endblock %}
+
+          </div>
 
       </main>
     {% endblock %}
 
     <!-- Footer -->
-    <footer class="mt-16 border-t border-slate-200 bg-linear-to-b from-white to-slate-50" data-stagger>
-      <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    {% block footer %}
+    {% include "includes/layout/footer.html" with container_class="o-container" %}
+    {% endblock %}
 
-        <!-- Top CTA strip -->
-        <div class="card mb-8">
-          <div class="card-body flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between" data-animate="fade-up">
-            <div>
-              <p class="text-base font-semibold text-slate-900 tracking-tight">
-                {% trans "¿Quieres enterarte de experiencias nuevas antes que nadie?" %}
-              </p>
-              <p class="mt-1 p-muted">
-                {% trans "Novedades reales, sin spam. 1 email cuando haya algo bueno." %}
-              </p>
-            </div>
+    {% block cookies %}
+      <!-- Cookie Consent: Banner + Preferences Modal -->
+      {% include "includes/cookies/banner_flow.html" %}
+      {% include "includes/cookies/modal_flow.html" %}
 
-            <form method="post" action="{% url 'pages:newsletter_subscribe' %}"
-                  class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
-              {% csrf_token %}
-              <input type="hidden" name="source" value="footer" />
+      <script defer src="{% static 'js/cookies/ui.js' %}"></script>
 
-              <label class="sr-only" for="footer_email">{% trans "Email" %}</label>
-              <input
-                id="footer_email"
-                type="email"
-                name="email"
-                class="input sm:w-72"
-                placeholder="name@example.com"
-                autocomplete="email"
-                required
-              />
-              <button class="btn btn-primary whitespace-nowrap" type="submit">
-                {% trans "Avisarme" %}
-              </button>
-            </form>
-          </div>
-        </div>
-
-        <!-- Main grid -->
-        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-sm" data-stagger>
-
-          <!-- Brand -->
-          <div class="space-y-4" data-animate="fade-up">
-            <a href="{% url 'pages:home' %}" class="inline-flex items-center gap-3 group">
-              <span class="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm group-hover:shadow-md transition overflow-hidden">
-                <img
-                  src="{% static 'img/favicon-192.png' %}"
-                  alt="Exploideo"
-                  class="h-8 w-auto object-contain"
-                />
-              </span>
-
-              <div class="leading-tight">
-                <p class="text-base font-semibold text-slate-900 tracking-tight">
-                  Exploideo
-                </p>
-                <p class="p-micro">
-                  {% trans "Guías verificados · Experiencias reales" %}
-                </p>
-              </div>
-            </a>
-
-            <p class="text-slate-600 leading-relaxed">
-              {% trans "Plataforma de experiencias auténticas con guías locales verificados." %}
-            </p>
-
-            <!-- Trust chips -->
-            <div class="flex flex-wrap gap-2">
-              <span class="badge badge-neutral">📍 {% trans "Canarias" %}</span>
-              <span class="badge badge-neutral">⭐ {% trans "Reseñas reales" %}</span>
-              <span class="badge badge-neutral">🧭 {% trans "Guías locales" %}</span>
-            </div>
-
-            <!-- Social -->
-            <div class="flex items-center gap-3 pt-1">
-              <a href="#" class="badge badge-neutral hover-lift" aria-label="Instagram">📸</a>
-              <a href="#" class="badge badge-neutral hover-lift" aria-label="TikTok">🎵</a>
-              <a href="#" class="badge badge-neutral hover-lift" aria-label="YouTube">▶️</a>
-            </div>
-          </div>
-
-          <!-- Producto -->
-          <div data-animate="fade-up">
-            <h4 class="h3-card uppercase tracking-wide">{% trans "Producto" %}</h4>
-            <ul class="mt-3 space-y-2 text-slate-600">
-              <li>
-                <a href="#"
-                  onclick="return false;"
-                  class="hover:text-slate-900 transition cursor-default"
-                  aria-disabled="true">
-                  {% trans "Explorar experiencias" %}
-                </a>
-                <p class="p-micro">{% trans "Encuentra planes con disponibilidad real." %}</p>
-              </li>
-
-              <li>
-                <a href="#"
-                  onclick="return false;"
-                  class="hover:text-slate-900 transition cursor-default"
-                  aria-disabled="true">
-                  {% trans "Convertirme en guía" %}
-                </a>
-                <p class="p-micro">{% trans "Publica y gestiona reservas desde tu panel." %}</p>
-              </li>
-
-              {% if user.is_authenticated %}
-                <li>
-                  <a href="#"
-                    onclick="return false;"
-                    class="hover:text-slate-900 transition cursor-default"
-                    aria-disabled="true">
-                    {% trans "Mi panel" %}
-                  </a>
-                  <p class="p-micro">{% trans "Reservas, notificaciones y solicitudes." %}</p>
-                </li>
-              {% else %}
-                <li>
-                  <a href="#"
-                    onclick="return false;"
-                    class="hover:text-slate-900 transition cursor-default"
-                    aria-disabled="true">
-                    {% trans "Acceder" %}
-                  </a>
-                  <p class="p-micro">{% trans "Entra para ver y gestionar tus reservas." %}</p>
-                </li>
-              {% endif %}
-            </ul>
-          </div>
-
-          <!-- Soporte -->
-          <div data-animate="fade-up">
-            <h4 class="h3-card uppercase tracking-wide">{% trans "Soporte" %}</h4>
-            <ul class="mt-3 space-y-2 text-slate-600">
-              <li><a href="{% url 'helpdesk:helpdesk' %}" class="hover:text-slate-900 transition">{% trans "Centro de ayuda" %}</a></li>
-              <li><a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-slate-900 transition">{% trans "Términos y condiciones" %}</a></li>
-              <li><a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-900 transition">{% trans "Política de privacidad" %}</a></li>
-              <li><a href="{% url 'pages:cookie_policy' %}" class="hover:text-slate-900 transition">{% trans "Política de cookies" %}</a></li>
-              <li>
-                <button
-                  type="button"
-                  class="text-left hover:text-slate-900 transition underline decoration-dotted underline-offset-4"
-                  data-cookie-open
-                >
-                  {% trans "Preferencias de cookies" %}
-                </button>
-              </li>
-
-              <li class="pt-2">
-                <p class="p-micro">{% trans "¿Algo urgente?" %}</p>
-                <a href="mailto:info@exploideo.com" class="hover:text-slate-900 transition">
-                  info@exploideo.com
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <!-- Local -->
-          <div data-animate="fade-up">
-            <h4 class="h3-card uppercase tracking-wide">{% trans "Ubicación" %}</h4>
-            <div class="mt-3 space-y-3 text-slate-600 leading-relaxed">
-              <p>{% trans "🌋 Lanzarote, Islas Canarias" %}</p>
-
-              <div class="panel-soft">
-                <p class="h3-card">{% trans "Hecho para evitar sorpresas" %}</p>
-                <p class="mt-1 text-xs text-slate-600">
-                  {% trans "Calendario real, guías verificados y gestión de cambios/cancelaciones clara." %}
-                </p>
-              </div>
-
-              <a href="{% url 'helpdesk:helpdesk' %}" class="btn btn-ghost w-full sm:w-auto">
-                {% trans "Necesito ayuda" %}
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bottom bar -->
-        <div class="mt-10 border-t border-slate-200 pt-5 pb-24 sm:pb-0 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-micro">
-          <p>
-            {% blocktrans with year=current_year %}© {{ year }} Exploideo · Todos los derechos reservados{% endblocktrans %}
-          </p>
-
-          <div class="flex flex-wrap items-center gap-3 justify-center sm:justify-end">
-            <a href="{% url 'pages:privacy_policy' %}" class="hover:text-slate-700 transition">{% trans "Privacidad" %}</a>
-            <span class="text-slate-300">·</span>
-            <a href="{% url 'pages:terms_and_conditions' %}" class="hover:text-slate-700 transition">{% trans "Términos" %}</a>
-            <span class="text-slate-300">·</span>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <!-- Cookie Consent: Banner + Preferences Modal -->
-    <div id="cookie-banner" class="fixed inset-x-0 bottom-0 z-60">
-      <div class="mx-auto max-w-6xl px-4 pb-4 sm:px-6">
-        <div class="card">
-          <div class="card-body">
-            <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div class="min-w-0">
-                <div class="flex flex-wrap items-center gap-2">
-                  <span class="badge">🍪 {% trans "Cookies" %}</span>
-                  <span class="badge badge-blue">{% trans "Preferencias" %}</span>
-                </div>
-
-                <p class="mt-3 text-sm text-slate-700 leading-relaxed">
-                  {% trans "Usamos cookies necesarias para que la plataforma funcione (login, seguridad)." %}
-                  {% trans "Puedes aceptar cookies opcionales para mejorar la experiencia y medir uso." %}
-                  <a href="{% url 'pages:cookie_policy' %}" class="font-semibold">{% trans "Ver política" %}</a>.
-                </p>
-              </div>
-
-              <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end sm:shrink-0">
-                <button type="button" class="btn btn-ghost" data-cookie-action="reject">
-                  {% trans "Rechazar" %}
-                </button>
-                <button type="button" class="btn btn-ghost" data-cookie-action="manage">
-                  {% trans "Configurar" %}
-                </button>
-                <button type="button" class="btn btn-primary" data-cookie-action="accept">
-                  {% trans "Aceptar" %}
-                </button>
-              </div>
-            </div>
-
-            <p class="mt-3 p-micro">
-              {% trans "Puedes cambiar tus preferencias cuando quieras desde el footer." %}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal -->
-    <div id="cookie-modal" class="fixed inset-0 z-70" aria-hidden="true">
-      <div class="absolute inset-0 bg-slate-900/50"></div>
-
-      <div class="cookie-modal__wrap">
-        <div class="cookie-modal__card">
-
-          <!-- HEADER (fijo) -->
-          <div class="cookie-modal__header">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <div class="flex flex-wrap items-center gap-2">
-                  <span class="badge">🍪 {% trans "Preferencias" %}</span>
-                  <span class="badge">{% trans "Control total" %}</span>
-                </div>
-                <h2 class="mt-3 text-xl font-semibold text-slate-900">{% trans "Gestiona tus cookies" %}</h2>
-                <p class="mt-1 p-muted">
-                  {% trans "Elige qué cookies opcionales permites. Las necesarias siempre están activas." %}
-                </p>
-              </div>
-
-              <button
-                type="button"
-                class="btn btn-ghost"
-                data-cookie-action="close"
-                aria-label="{% trans 'Cerrar' %}"
-              >
-                {% trans "Cerrar" %}
-              </button>
-            </div>
-          </div>
-
-          <!-- BODY (scrollea) -->
-          <div class="cookie-modal__body">
-            <div class="space-y-4">
-              <!-- Necessary -->
-              <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                <div class="flex items-start justify-between gap-4">
-                  <div>
-                    <p class="label-title">{% trans "Cookies necesarias" %}</p>
-                    <p class="mt-1 p-muted">
-                      {% trans "Esenciales para seguridad, sesiones y formularios. No se pueden desactivar." %}
-                    </p>
-                  </div>
-                  <span class="badge badge-emerald">{% trans "Siempre activas" %}</span>
-                </div>
-              </div>
-
-              <!-- Functional -->
-              <div class="rounded-2xl border border-slate-200 bg-white p-5">
-                <div class="flex items-start justify-between gap-4">
-                  <div class="min-w-0">
-                    <p class="label-title">{% trans "Cookies funcionales" %}</p>
-                    <p class="mt-1 p-muted">
-                      {% trans "Mejoran la experiencia (preferencias básicas, UX)." %}
-                    </p>
-                  </div>
-
-                  <label class="inline-flex items-center gap-2">
-                    <input type="checkbox" class="h-4 w-4" data-cookie-toggle="functional">
-                    <span class="text-sm text-slate-700">{% trans "Activar" %}</span>
-                  </label>
-                </div>
-              </div>
-
-              <!-- Analytics -->
-              <div class="rounded-2xl border border-slate-200 bg-white p-5">
-                <div class="flex items-start justify-between gap-4">
-                  <div class="min-w-0">
-                    <p class="label-title">{% trans "Analítica" %}</p>
-                    <p class="mt-1 p-muted">
-                      {% trans "Nos ayuda a entender el uso de la plataforma para mejorarla (sin publicidad)." %}
-                    </p>
-                  </div>
-
-                  <label class="inline-flex items-center gap-2">
-                    <input type="checkbox" class="h-4 w-4" data-cookie-toggle="analytics">
-                    <span class="text-sm text-slate-700">{% trans "Activar" %}</span>
-                  </label>
-                </div>
-              </div>
-
-              <!-- Marketing -->
-              <div class="rounded-2xl border border-slate-200 bg-white p-5">
-                <div class="flex items-start justify-between gap-4">
-                  <div class="min-w-0">
-                    <p class="label-title">{% trans "Marketing" %}</p>
-                    <p class="mt-1 p-muted">
-                      {% trans "Personalización y campañas. (Ahora mismo no usamos cookies de marketing.)" %}
-                    </p>
-                  </div>
-
-                  <label class="inline-flex items-center gap-2">
-                    <input type="checkbox" class="h-4 w-4" data-cookie-toggle="marketing">
-                    <span class="text-sm text-slate-700">{% trans "Activar" %}</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <p class="mt-4 p-micro">
-              {% trans "Puedes cambiar esto cuando quieras. Para más info:" %}
-              <a href="{% url 'pages:cookie_policy' %}" class="font-semibold">{% trans "Política de cookies" %}</a>.
-            </p>
-          </div>
-
-          <!-- FOOTER (fijo, botones siempre visibles) -->
-          <div class="cookie-modal__footer">
-            <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-              <button type="button" class="btn btn-ghost" data-cookie-action="reject">
-                {% trans "Rechazar todo" %}
-              </button>
-              <button type="button" class="btn btn-ghost" data-cookie-action="accept">
-                {% trans "Aceptar todo" %}
-              </button>
-              <button type="button" class="btn btn-primary" data-cookie-action="save">
-                {% trans "Guardar preferencias" %}
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
+      {% if ENABLE_ANALYTICS and GA_MEASUREMENT_ID %}
+        <script>
+          window.GA_ID = "{{ GA_MEASUREMENT_ID|escapejs }}";
+        </script>
+        <script defer src="{% static 'js/cookies/consent.js' %}"></script>
+      {% endif %}
+    {% endblock %}
 
     {% include "components/loader.html" with id="app-loader" label="Cargando..." %}
 
     <!-- Scripts -->
     <script defer src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script defer src="{% static 'js/bookings/booking_calendar.js' %}"></script>
-    <script src="{% static 'js/cookies/consent.js' %}"></script>
     <script src="{% static 'js/components/loader.js' %}"></script>
+    <script defer src="{% static 'js/components/navbar_overflow.js' %}"></script>
     <script type="module" src="{% static 'js/animations/index.js' %}"></script>
 
     {% block extra_js %}{% endblock %}
