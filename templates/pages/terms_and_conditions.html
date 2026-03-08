@@ -3,26 +3,26 @@
 {% block title %}{% trans "Términos y Condiciones - Exploideo" %}{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto px-4 py-10">
+<div class="o-section o-section--narrow">
 
   <!-- Header -->
-  <div class="card overflow-hidden">
-    <div class="card-body">
+  <div class="c-card overflow-hidden">
+    <div class="c-card__body">
       <div class="flex flex-wrap items-center gap-2">
-        <span class="badge">📄 {% trans "Legal" %}</span>
-        <span class="badge">🇪🇸 {% trans "España" %}</span>
-        <span class="badge badge-blue">🔒 {% trans "Transparencia" %}</span>
+        <span class="c-badge">📄 {% trans "Legal" %}</span>
+        <span class="c-badge">🇪🇸 {% trans "España" %}</span>
+        <span class="c-badge c-badge--blue">🔒 {% trans "Transparencia" %}</span>
       </div>
 
       <h1 class="h1-hero">{% trans "Términos y Condiciones" %}</h1>
 
-      <p class="mt-2 p-muted">
+      <p class="mt-2 u-muted">
         {% trans "Lo importante, explicado claro: cómo funciona Exploideo, qué puedes esperar y qué esperamos de ti." %}
       </p>
 
-      <div class="mt-5 content-box-blue">
-        <p class="p-muted">
-          <span class="font-semibold text-slate-900">{% trans "Última actualización:" %}</span>
+      <div class="mt-5 rounded-2xl border border-border bg-surface-soft px-5 py-4">
+        <p class="u-muted">
+          <span class="font-semibold u-text">{% trans "Última actualización:" %}</span>
           {{ current_date|default:_("26 de enero de 2026") }}
         </p>
       </div>
@@ -30,19 +30,19 @@
       <div class="mt-6">
         <p class="label-title">{% trans "Ir a sección" %}</p>
         <div class="mt-2 flex flex-wrap gap-2">
-          <a href="#aceptacion" class="badge badge-neutral hover-lift">1. {% trans "Aceptación" %}</a>
-          <a href="#servicio" class="badge badge-neutral hover-lift">2. {% trans "Servicio" %}</a>
-          <a href="#cuentas" class="badge badge-neutral hover-lift">3. {% trans "Cuentas" %}</a>
-          <a href="#reservas" class="badge badge-neutral hover-lift">4. {% trans "Reservas" %}</a>
-          <a href="#cancelaciones" class="badge badge-neutral hover-lift">5. {% trans "Cancelaciones" %}</a>
-          <a href="#cambios" class="badge badge-neutral hover-lift">12. {% trans "Cambios" %}</a>
-          <a href="#contenido" class="badge badge-neutral hover-lift">7. {% trans "Reseñas" %}</a>
-          <a href="#limitacion" class="badge badge-neutral hover-lift">8. {% trans "Limitación" %}</a>
-          <a href="#propiedad" class="badge badge-neutral hover-lift">9. {% trans "Propiedad" %}</a>
-          <a href="#terminacion" class="badge badge-neutral hover-lift">10. {% trans "Terminación" %}</a>
-          <a href="#ley" class="badge badge-neutral hover-lift">11. {% trans "Ley" %}</a>
-          <a href="#responsabilidades" class="badge badge-neutral hover-lift">6. {% trans "Responsabilidades" %}</a>
-          <a href="#contacto" class="badge badge-neutral hover-lift">13. {% trans "Contacto" %}</a>
+          <a href="#aceptacion" class="c-badge c-badge--neutral u-hover-lift">1. {% trans "Aceptación" %}</a>
+          <a href="#servicio" class="c-badge c-badge--neutral u-hover-lift">2. {% trans "Servicio" %}</a>
+          <a href="#cuentas" class="c-badge c-badge--neutral u-hover-lift">3. {% trans "Cuentas" %}</a>
+          <a href="#reservas" class="c-badge c-badge--neutral u-hover-lift">4. {% trans "Reservas" %}</a>
+          <a href="#cancelaciones" class="c-badge c-badge--neutral u-hover-lift">5. {% trans "Cancelaciones" %}</a>
+          <a href="#cambios" class="c-badge c-badge--neutral u-hover-lift">12. {% trans "Cambios" %}</a>
+          <a href="#contenido" class="c-badge c-badge--neutral u-hover-lift">7. {% trans "Reseñas" %}</a>
+          <a href="#limitacion" class="c-badge c-badge--neutral u-hover-lift">8. {% trans "Limitación" %}</a>
+          <a href="#propiedad" class="c-badge c-badge--neutral u-hover-lift">9. {% trans "Propiedad" %}</a>
+          <a href="#terminacion" class="c-badge c-badge--neutral u-hover-lift">10. {% trans "Terminación" %}</a>
+          <a href="#ley" class="c-badge c-badge--neutral u-hover-lift">11. {% trans "Ley" %}</a>
+          <a href="#responsabilidades" class="c-badge c-badge--neutral u-hover-lift">6. {% trans "Responsabilidades" %}</a>
+          <a href="#contacto" class="c-badge c-badge--neutral u-hover-lift">13. {% trans "Contacto" %}</a>
         </div>
       </div>
     </div>
@@ -50,10 +50,10 @@
 
   <div class="mt-6 space-y-4">
 
-    <section class="card">
-      <div class="card-body">
-        <div class="content-box-blue">
-          <p class="p-blue">
+    <section class="c-card">
+      <div class="c-card__body">
+        <div class="rounded-2xl border border-border bg-surface-soft px-5 py-4">
+          <p class="u-text">
             <strong>{% trans "Exploideo actúa como intermediario entre viajeros y guías." %}</strong>
             {% trans "Las experiencias las presta el guía." %}
           </p>
@@ -61,8 +61,8 @@
       </div>
     </section>
 
-    <section id="aceptacion" class="card">
-      <div class="card-body">
+    <section id="aceptacion" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">{% trans "1. Aceptación de términos" %}</h2>
         <p class="mt-2 p-body">
           {% trans "Al acceder y usar Exploideo, aceptas estos Términos y Condiciones. Si no estás de acuerdo, no uses la plataforma." %}
@@ -70,8 +70,8 @@
       </div>
     </section>
 
-    <section id="servicio" class="card">
-      <div class="card-body">
+    <section id="servicio" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">{% trans "2. Descripción del servicio" %}</h2>
         <p class="mt-2 p-body">
           {% trans "Exploideo conecta viajeros con guías locales. No somos responsables directos de las experiencias, solo facilitamos el contacto." %}
@@ -79,8 +79,8 @@
       </div>
     </section>
 
-    <section id="cuentas" class="card">
-      <div class="card-body">
+    <section id="cuentas" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">{% trans "3. Cuentas de usuario" %}</h2>
         <ul class="mt-3 space-y-2 p-body list-bullets">
           <li>{% trans "Proporcionar información veraz y actualizada." %}</li>
@@ -90,8 +90,8 @@
       </div>
     </section>
 
-    <section id="reservas" class="card">
-      <div class="card-body">
+    <section id="reservas" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">{% trans "4. Reservas y pagos" %}</h2>
         <ul class="mt-3 space-y-2 p-body list-bullets">
           <li>{% trans "Sujetas a confirmación del guía." %}</li>
@@ -108,8 +108,8 @@
       </div>
     </section>
 
-    <section id="cancelaciones" class="card">
-      <div class="card-body">
+    <section id="cancelaciones" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">{% trans "5. Cancelaciones, cambios y reembolsos" %}</h2>
 
         <ul class="mt-3 space-y-2 p-body list-bullets">
@@ -145,8 +145,8 @@
       </div>
     </section>
 
-    <section id="responsabilidades" class="card">
-      <div class="card-body">
+    <section id="responsabilidades" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">{% trans "6. Responsabilidades" %}</h2>
         <ul class="mt-3 space-y-2 p-body list-bullets">
           <li><strong>{% trans "Guías:" %}</strong> {% trans "seguridad, licencias y seguros." %}</li>
@@ -154,7 +154,7 @@
           <li><strong>{% trans "Plataforma:" %}</strong> {% trans "intermediación sin ejecución directa." %}</li>
         </ul>
 
-        <h3 id="transporte" class="h3-card mt-4">{% trans "6.1 Transporte y desplazamientos" %}</h3>
+        <h3 id="transporte" class="text-sm font-semibold u-text mt-4">{% trans "6.1 Transporte y desplazamientos" %}</h3>
         <ul class="mt-3 space-y-2 p-body list-bullets">
           <li>{% trans "No prestamos servicios de transporte." %}</li>
           <li>{% trans "El viajero es responsable de su desplazamiento." %}</li>
@@ -163,8 +163,8 @@
       </div>
     </section>
 
-    <section id="contenido" class="card">
-      <div class="card-body">
+    <section id="contenido" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">{% trans "7. Contenido y reseñas" %}</h2>
         <ul class="mt-3 space-y-2 p-body list-bullets">
           <li>{% trans "Reseñas honestas y respetuosas." %}</li>
@@ -173,8 +173,8 @@
       </div>
     </section>
 
-    <section id="limitacion" class="card">
-      <div class="card-body">
+    <section id="limitacion" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">{% trans "8. Limitación de responsabilidad" %}</h2>
         <p class="mt-2 p-body">
           {% trans "Nuestra responsabilidad máxima es el importe efectivamente pagado por la reserva." %}
@@ -182,8 +182,8 @@
       </div>
     </section>
 
-    <section id="propiedad" class="card">
-      <div class="card-body">
+    <section id="propiedad" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">{% trans "9. Propiedad intelectual" %}</h2>
         <p class="mt-2 p-body">
           {% trans "Todo el contenido pertenece a Exploideo o a sus licenciantes." %}
@@ -191,8 +191,8 @@
       </div>
     </section>
 
-    <section id="terminacion" class="card">
-      <div class="card-body">
+    <section id="terminacion" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">{% trans "10. Terminación" %}</h2>
         <p class="mt-2 p-body">
           {% trans "Podemos suspender cuentas por incumplimiento de estos términos." %}
@@ -200,8 +200,8 @@
       </div>
     </section>
 
-    <section id="ley" class="card">
-      <div class="card-body">
+    <section id="ley" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">{% trans "11. Ley aplicable" %}</h2>
         <p class="mt-2 p-body">
           {% trans "Legislación española y tribunales competentes." %}
@@ -209,8 +209,8 @@
       </div>
     </section>
 
-    <section id="cambios" class="card">
-      <div class="card-body">
+    <section id="cambios" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">{% trans "12. Cambios" %}</h2>
         <p class="mt-2 p-body">
           {% trans "Los cambios relevantes serán notificados." %}
@@ -218,8 +218,8 @@
       </div>
     </section>
 
-    <section id="contacto" class="card">
-      <div class="card-body">
+    <section id="contacto" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">{% trans "13. Contacto" %}</h2>
         <p class="mt-2 p-body">
           {% trans "Si tienes dudas, escríbenos:" %}
@@ -229,14 +229,14 @@
           <p class="p-body">
             {% trans "Email:" %} <strong>info@exploideo.com</strong>
           </p>
-          <a href="mailto:info@exploideo.com" class="btn btn-primary">
+          <a href="mailto:info@exploideo.com" class="c-button c-button--primary">
             {% trans "Contactar" %}
           </a>
         </div>
 
-        <div class="mt-4 panel-soft">
+        <div class="mt-4 c-panel c-panel--soft">
           <p class="label-title">{% trans "Resumen rápido" %}</p>
-          <p class="mt-1 p-muted">
+          <p class="mt-1 u-muted">
             {% trans "Plataforma intermediaria, guías verificados y reglas claras." %}
           </p>
         </div>

@@ -2,66 +2,46 @@
 {% block title %}Panel del Guía{% endblock %}
 
 {% block dashboard_content %}
-  <div class="flex flex-col gap-6">
+  {% url 'bookings:guide_list' as bookings_guide_list_url %}
+  <div class="o-stack o-stack--6">
 
     <!-- Header -->
     <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between" data-animate="fade-up">
       <div>
         <h1 class="h1-page">Panel del Guía</h1>
-          <p class="mt-1 p-muted">
-            Gestiona tus experiencias, disponibilidad y reservas desde aquí.
-          </p>
+        <p class="mt-1 u-muted">
+          Gestiona tus experiencias, disponibilidad y reservas desde aquí.
+        </p>
       </div>
 
       <div class="flex flex-wrap gap-2">
-        <a href="{% url 'experiences:create' %}" class="btn btn-primary">
+        <a href="{% url 'experiences:create' %}" class="c-button c-button--primary">
           + Nueva experiencia
         </a>
-        <a href="{% url 'experiences:list' %}" class="btn btn-ghost">
+        <a href="{% url 'experiences:list' %}" class="c-button c-button--ghost">
           Mis experiencias →
         </a>
       </div>
     </div>
 
     <!-- KPIs -->
-    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-stagger>
+    <div class="grid gap-4 grid-cols-[repeat(auto-fit,minmax(220px,1fr))]" data-stagger>
       <div data-animate="fade-up">
-        <div class="card">
-      <div class="card-body relative">
-        <!-- Subtle top gradient -->
-        <div class="hero-top-glow"></div>
-            <p class="p-muted">Experiencias</p>
-            <p class="mt-2 p-large">
-              {{ kpis.experiences|default:"—" }}
-            </p>
-            <p class="mt-1 p-micro">Total Publicadas / activas</p>
-          </div>
-        </div>
+        {% include "includes/ui/kpi_card.html" with label="Experiencias" value=kpis.experiences|default:"—" help_text="Total Publicadas / activas" help_class="mt-1 p-micro" %}
       </div>
 
       <div data-animate="fade-up">
-        <div class="card">
-      <div class="card-body relative">
-        <!-- Subtle top gradient -->
-        <div class="hero-top-glow"></div>
-            <p class="p-muted">Reservas (30 días)</p>
-            <p class="mt-2 p-large">
-              {{ kpis.bookings_30d|default:"—" }}
-            </p>
-            <p class="mt-1 p-micro">Recibidas recientemente</p>
-          </div>
-        </div>
+        {% include "includes/ui/kpi_card.html" with label="Reservas (30 días)" value=kpis.bookings_30d|default:"—" help_text="Recibidas recientemente" help_class="mt-1 p-micro" %}
       </div>
 
       <div data-animate="fade-up">
-        <div class="card">
-      <div class="card-body relative">
-        <!-- Subtle top gradient -->
-        <div class="hero-top-glow"></div>
-            <p class="p-muted">Pendientes</p>
-            <p class="mt-2 p-large">
-              {{ kpis.pending|default:"—" }}
-            </p>
+        <div class="c-card">
+          <div class="c-card__body relative">
+            <div class="u-hero-top-glow"></div>
+
+            <p class="u-muted">Pendientes</p>
+            <p class="mt-2 text-2xl font-semibold u-text">{{ kpis.pending|default:"—" }}</p>
+
             <p class="mt-1 p-micro">
               Por confirmar/gestionar
               {% if kpis.pending_new or kpis.pending_change or kpis.pending_cancel %}
@@ -75,29 +55,18 @@
       </div>
 
       <div data-animate="fade-up">
-        <div class="card">
-      <div class="card-body relative">
-        <!-- Subtle top gradient -->
-        <div class="hero-top-glow"></div>
-            <p class="p-muted">Ingresos</p>
-            <p class="mt-2 p-large">
-              {{ kpis.revenue_30d|default:"—" }} €
-            </p>
-            <p class="mt-1 p-micro">Total generado (30 días)</p>
-          </div>
-        </div>
+        {% include "includes/ui/kpi_card.html" with label="Ingresos" value=kpis.revenue_30d|default:"—" suffix="€" help_text="Total generado (30 días)" help_class="mt-1 p-micro" %}
       </div>
     </div>
 
-    <!-- Reviews card link -->
+    <!-- Reviews card link (sin doble sombra) -->
     <div data-animate="fade-up">
-      <a href="{% url 'reviews:guide_list' %}"
-         class="block card hover-lift soft-shadow">
-        <div class="card-body relative">
-          <!-- Subtle top gradient -->
-          <div class="hero-top-glow"></div>
-          <p class="p-muted">Reseñas</p>
-          <p class="mt-2 p-large">
+      <a href="{% url 'reviews:guide_list' %}" class="block c-card c-card--interactive">
+        <div class="c-card__body relative">
+          <div class="u-hero-top-glow"></div>
+
+          <p class="u-muted">Reseñas</p>
+          <p class="mt-2 text-2xl font-semibold u-text">
             {{ kpis.reviews|default:"—" }}
           </p>
           <p class="mt-1 p-micro">Ver todas →</p>
@@ -107,118 +76,59 @@
 
     <!-- Quick actions + Next steps -->
     <div class="grid gap-4 lg:grid-cols-2" data-stagger>
-      <div data-animate="fade-up">
-        <div class="card">
-          <div class="card-body">
-            <h2 class="h2-section">Acciones rápidas</h2>
-            <p class="mt-1 p-muted">
-              Lo típico del día a día.
-            </p>
-            <div class="mt-4 flex flex-col gap-2">
-              <a href="{% url 'experiences:create' %}" class="btn btn-primary w-full">Crear experiencia</a>
-              <a href="{% url 'experiences:list' %}" class="btn btn-ghost w-full">Gestionar experiencias →</a>
-              <a href="{% url 'bookings:guide_list' %}" class="btn btn-ghost w-full flex items-center justify-between">
-                <span>Ver reservas recibidas →</span>
 
-                {% if unseen_guide_bookings %}
-                  <span class="notification-badge">
-                    {{ unseen_guide_bookings }}
-                  </span>
-                {% endif %}
+      <!-- Acciones rápidas -->
+      <div data-animate="fade-up">
+        <div class="c-card">
+          <div class="c-card__body">
+            <h2 class="h2-section">Acciones rápidas</h2>
+            <p class="mt-1 u-muted">Lo típico del día a día.</p>
+
+            <div class="mt-4 flex flex-col gap-2">
+              <a href="{% url 'experiences:create' %}" class="c-button c-button--primary w-full">
+                Crear experiencia
               </a>
+              <a href="{% url 'experiences:list' %}" class="c-button c-button--ghost w-full">
+                Gestionar experiencias →
+              </a>
+              {% include "includes/ui/action_link.html" with href=bookings_guide_list_url class="c-button c-button--ghost w-full flex items-center justify-between" label_left="Ver reservas recibidas →" badge_count=unseen_guide_bookings %}
             </div>
           </div>
         </div>
       </div>
 
+      <!-- Siguiente paso recomendado (mini-cards token-driven) -->
       <div data-animate="fade-up">
-        <div class="card">
-          <div class="card-body">
+        <div class="c-card">
+          <div class="c-card__body">
             <h2 class="h2-section">Siguiente paso recomendado</h2>
-            <p class="mt-1 p-muted">
-
+            <p class="mt-1 u-muted">
               Para vender más, asegúrate de tener disponibilidad y fotos.
             </p>
 
             <div class="mt-4 space-y-3" data-stagger>
-              <div class="step-item" data-animate="fade-up">
-                <p class="label-title">✅ Completa tu perfil</p>
-                <p class="mt-1 p-muted">
-              Bio, idiomas, foto y verificación.</p>
+              <div class="rounded-2xl border border-border bg-surface-soft px-4 py-3 u-soft-shadow" data-animate="fade-up">
+                {% include "includes/ui/step_item.html" with title="✅ Completa tu perfil" text="Bio, idiomas, foto y verificación." %}
               </div>
 
-              <div class="step-item" data-animate="fade-up">
-                <p class="label-title">📅 Ajusta disponibilidad</p>
-                <p class="mt-1 p-muted">
-              Reglas, horarios y bloqueos.</p>
+              <div class="rounded-2xl border border-border bg-surface-soft px-4 py-3 u-soft-shadow" data-animate="fade-up">
+                {% include "includes/ui/step_item.html" with title="📅 Ajusta disponibilidad" text="Reglas, horarios y bloqueos." %}
               </div>
 
-              <div class="step-item" data-animate="fade-up">
-                <p class="label-title">📷 Añade buenas fotos</p>
-                <p class="mt-1 p-muted">
-              Las experiencias con fotos convierten mejor.</p>
+              <div class="rounded-2xl border border-border bg-surface-soft px-4 py-3 u-soft-shadow" data-animate="fade-up">
+                {% include "includes/ui/step_item.html" with title="📷 Añade buenas fotos" text="Las experiencias con fotos convierten mejor." %}
               </div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
 
     <!-- Recent bookings -->
     {% if recent_bookings %}
       <div data-animate="fade-up">
-        <div class="card">
-          <div class="card-body relative">
-            <!-- Subtle top gradient -->
-            <div class="hero-top-glow"></div>
-            <div class="flex items-center justify-between">
-              <h2 class="h2-section">Reservas recientes</h2>
-              <a href="{% url 'bookings:guide_list' %}" class="btn btn-ghost">Ver todas →</a>
-            </div>
-
-            <div class="mt-4 overflow-x-auto">
-              <table class="w-full text-left text-sm">
-                <thead class="p-muted">
-                  <tr class="border-b border-slate-200">
-                    <th class="py-2 pr-3 font-medium">Experiencia</th>
-                    <th class="py-2 pr-3 font-medium">Fecha</th>
-                    <th class="py-2 pr-3 font-medium">Personas</th>
-                    <th class="py-2 pr-3 font-medium">Estado</th>
-                  </tr>
-                </thead>
-
-                <tbody class="text-slate-700" data-stagger>
-                  {% for b in recent_bookings %}
-                    <tr class="border-b border-slate-100" data-animate="fade-up">
-                      <td class="py-3 pr-3 p-secondary">{{ b.experience.title }}</td>
-                      <td class="py-3 pr-3">{{ b.date }}</td>
-                      <td class="py-3 pr-3">{{ b.people }}</td>
-                      <td class="py-3 pr-3">
-                        {% with s=b.status|lower %}
-                          {% if s == "accepted" %}
-                            <span class="badge badge-status-accepted">Aceptada</span>
-                          {% elif s == "pending" %}
-                            <span class="badge badge-status-pending">Pendiente</span>
-                          {% elif s == "change_requested" %}
-                            <span class="badge badge-status-change_requested">Cambio solicitado</span>
-                          {% elif s == "cancel_requested" %}
-                            <span class="badge badge-status-cancel_requested">Cancelación solicitada</span>
-                          {% elif s == "rejected" %}
-                            <span class="badge badge-status-rejected">Rechazada</span>
-                          {% elif s == "canceled" %}
-                            <span class="badge status-banner-update-rejected">Cancelada</span>
-                          {% else %}
-                            <span class="badge badge-neutral">{{ b.status }}</span>
-                          {% endif %}
-                        {% endwith %}
-                      </td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+        {% include "includes/ui/recent_bookings_table.html" with title="Reservas recientes" view_all_href=bookings_guide_list_url view_all_label="Ver todas →" head_class="u-muted" bookings=recent_bookings %}
       </div>
     {% endif %}
 

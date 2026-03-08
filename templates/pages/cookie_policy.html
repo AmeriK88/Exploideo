@@ -4,25 +4,25 @@
 {% block title %}{% trans "Política de Cookies - Exploideo" %}{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto px-4 py-10">
+<div class="o-section o-section--narrow">
   <!-- Header -->
-  <div class="card overflow-hidden">
-    <div class="card-body">
+  <div class="c-card overflow-hidden">
+    <div class="c-card__body">
       <div class="flex flex-wrap items-center gap-2">
         <span class="badge">🍪 {% trans "Cookies" %}</span>
         <span class="badge">🇪🇺 {% trans "GDPR" %}</span>
-        <span class="badge badge-blue">{% trans "Exploideo" %}</span>
+        <span class="c-badge c-badge--blue">{% trans "Exploideo" %}</span>
       </div>
 
       <h1 class="h1-hero">{% trans "Política de Cookies" %}</h1>
 
-      <p class="mt-2 p-muted">
+      <p class="mt-3 u-muted">
         {% trans "Qué cookies usamos, para qué sirven y cómo puedes gestionarlas." %}
       </p>
 
-      <div class="mt-5 content-box-blue">
-        <p class="p-muted">
-          <span class="font-semibold text-slate-900">{% trans "Última actualización:" %}</span>
+      <div class="mt-5 rounded-2xl border border-border bg-surface-soft px-5 py-4">
+        <p class="u-muted">
+          <span class="font-semibold u-text">{% trans "Última actualización:" %}</span>
           {{ current_date|default:_("22 de enero de 2026") }}
         </p>
       </div>
@@ -30,51 +30,51 @@
       <div class="mt-6">
         <p class="label-title">{% trans "Ir a sección" %}</p>
         <div class="mt-2 flex flex-wrap gap-2">
-          <a href="#what" class="badge badge-neutral hover-lift">{% trans "1. Qué son" %}</a>
-          <a href="#types" class="badge badge-neutral hover-lift">{% trans "2. Tipos" %}</a>
-          <a href="#list" class="badge badge-neutral hover-lift">{% trans "3. Cookies usadas" %}</a>
-          <a href="#third" class="badge badge-neutral hover-lift">{% trans "4. Terceros" %}</a>
-          <a href="#manage" class="badge badge-neutral hover-lift">{% trans "5. Gestión" %}</a>
-          <a href="#changes" class="badge badge-neutral hover-lift">{% trans "6. Cambios" %}</a>
-          <a href="#contact" class="badge badge-neutral hover-lift">{% trans "7. Contacto" %}</a>
+          <a href="#what" class="c-badge c-badge--neutral u-hover-lift">{% trans "1. Qué son" %}</a>
+          <a href="#types" class="c-badge c-badge--neutral u-hover-lift">{% trans "2. Tipos" %}</a>
+          <a href="#list" class="c-badge c-badge--neutral u-hover-lift">{% trans "3. Cookies usadas" %}</a>
+          <a href="#third" class="c-badge c-badge--neutral u-hover-lift">{% trans "4. Terceros" %}</a>
+          <a href="#manage" class="c-badge c-badge--neutral u-hover-lift">{% trans "5. Gestión" %}</a>
+          <a href="#changes" class="c-badge c-badge--neutral u-hover-lift">{% trans "6. Cambios" %}</a>
+          <a href="#contact" class="c-badge c-badge--neutral u-hover-lift">{% trans "7. Contacto" %}</a>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Content -->
-  <div class="mt-6 space-y-4">
+  <div class="mt-8 space-y-6 lg:space-y-7">
 
-    <section id="what" class="card">
-      <div class="card-body">
+    <section id="what" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">1. {% trans "¿Qué son las cookies?" %}</h2>
-        <p class="mt-2 p-body">
+        <p class="mt-3 p-body leading-relaxed">
           {% trans "Las cookies son pequeños archivos de texto que se guardan en tu dispositivo cuando visitas un sitio web. Sirven para que la web funcione correctamente, recordar preferencias y, en algunos casos, medir el uso de la plataforma." %}
         </p>
       </div>
     </section>
 
-    <section id="types" class="card">
-      <div class="card-body">
+    <section id="types" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">2. {% trans "Tipos de cookies" %}</h2>
 
         <div class="mt-4 grid gap-4 sm:grid-cols-2">
           <div class="content-box">
-            <h3 class="h3-card">{% trans "Cookies necesarias" %}</h3>
-            <p class="mt-2 p-body">
+            <h3 class="text-sm font-semibold u-text">{% trans "Cookies necesarias" %}</h3>
+            <p class="mt-3 p-body leading-relaxed">
               {% trans "Imprescindibles para que la web funcione. Sin ellas, no podrías iniciar sesión, enviar formularios o navegar de forma segura." %}
             </p>
           </div>
 
           <div class="content-box">
-            <h3 class="h3-card">{% trans "Cookies funcionales" %}</h3>
-            <p class="mt-2 p-body">
+            <h3 class="text-sm font-semibold u-text">{% trans "Cookies funcionales" %}</h3>
+            <p class="mt-3 p-body leading-relaxed">
               {% trans "Mejoran la experiencia recordando preferencias básicas (por ejemplo idioma o ajustes)." %}
             </p>
           </div>
         </div>
 
-        <div class="mt-4 content-box-blue">
+        <div class="mt-4 rounded-2xl border border-border bg-surface-soft px-5 py-4">
           <p class="p-blue">
             <span class="font-semibold">{% trans "Importante:" %}</span>
             {% trans "actualmente no usamos cookies de publicidad ni cookies de seguimiento de terceros con fines comerciales." %}
@@ -83,16 +83,16 @@
       </div>
     </section>
 
-    <section id="list" class="card">
-      <div class="card-body">
+    <section id="list" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">3. {% trans "Cookies que utilizamos" %}</h2>
-        <p class="mt-2 p-body">
+        <p class="mt-3 p-body leading-relaxed">
           {% trans "Estas son las cookies más comunes que se usan en Exploideo (pueden variar según configuración y entorno):" %}
         </p>
 
         <div class="mt-4 grid gap-4 sm:grid-cols-2">
           <div class="content-box">
-            <h3 class="h3-card">{% trans "Cookies necesarias" %}</h3>
+            <h3 class="text-sm font-semibold u-text">{% trans "Cookies necesarias" %}</h3>
             <ul class="mt-3 space-y-2 p-body list-bullets">
               <li>{% trans "django_session: mantiene tu sesión activa (login y navegación segura)." %}</li>
               <li>{% trans "csrftoken: protección contra ataques CSRF en formularios." %}</li>
@@ -101,7 +101,7 @@
           </div>
 
           <div class="content-box">
-            <h3 class="h3-card">{% trans "Cookies funcionales" %}</h3>
+            <h3 class="text-sm font-semibold u-text">{% trans "Cookies funcionales" %}</h3>
             <ul class="mt-3 space-y-2 p-body list-bullets">
               <li>{% trans "Preferencias básicas (por ejemplo, idioma o interfaz) si activas esas opciones." %}</li>
               <li>{% trans "Mejoras de experiencia para mantener la plataforma consistente entre páginas." %}</li>
@@ -115,34 +115,34 @@
       </div>
     </section>
 
-    <section id="third" class="card">
-      <div class="card-body">
+    <section id="third" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">4. {% trans "Cookies de terceros" %}</h2>
-        <p class="mt-2 p-body">
+        <p class="mt-3 p-body leading-relaxed">
           {% trans "En este momento, Exploideo no integra cookies de publicidad de terceros. Si en el futuro añadimos herramientas externas (por ejemplo analítica), actualizaremos esta política y, cuando sea aplicable, te daremos control sobre esas cookies." %}
         </p>
       </div>
     </section>
 
-    <section id="manage" class="card">
-      <div class="card-body">
+    <section id="manage" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">5. {% trans "Cómo gestionar o desactivar cookies" %}</h2>
 
-        <p class="mt-2 p-body">
+        <p class="mt-3 p-body leading-relaxed">
           {% trans "Puedes gestionar tus preferencias de cookies opcionales desde el panel de preferencias de Exploideo. Las cookies necesarias (seguridad, sesión y formularios) siempre estarán activas, porque son imprescindibles para que la plataforma funcione." %}
         </p>
 
-        <div class="mt-4 content-box-blue">
-          <h3 class="h3-card-blue">{% trans "Gestionar desde Exploideo (recomendado)" %}</h3>
-          <p class="mt-2 p-blue-soft">
+        <div class="mt-4 rounded-2xl border border-border bg-surface-soft px-5 py-4">
+          <h3 class="text-sm font-semibold u-text">{% trans "Gestionar desde Exploideo (recomendado)" %}</h3>
+          <p class="mt-3 p-blue-soft leading-relaxed">
             {% trans "Abre el panel de preferencias y activa o desactiva cookies funcionales y de analítica." %}
           </p>
 
           <div class="mt-3 flex flex-col gap-2 sm:flex-row">
-            <button type="button" class="btn btn-primary" data-cookie-open>
+            <button type="button" class="c-button c-button--primary" data-cookie-open>
               {% trans "Abrir preferencias de cookies" %}
             </button>
-            <a href="#list" class="btn btn-ghost">
+            <a href="#list" class="c-button c-button--ghost">
               {% trans "Ver cookies usadas" %}
             </a>
           </div>
@@ -153,27 +153,27 @@
         </div>
 
         <div class="mt-4 content-box">
-          <h3 class="h3-card">{% trans "Gestionar desde tu navegador (opcional)" %}</h3>
-          <p class="mt-2 p-body">
+          <h3 class="text-sm font-semibold u-text">{% trans "Gestionar desde tu navegador (opcional)" %}</h3>
+          <p class="mt-3 p-body leading-relaxed">
             {% trans "También puedes configurar tu navegador para bloquear o eliminar cookies. Ten en cuenta que si bloqueas cookies necesarias, algunas funciones pueden dejar de funcionar (por ejemplo iniciar sesión o enviar formularios)." %}
           </p>
         </div>
       </div>
     </section>
 
-    <section id="changes" class="card">
-      <div class="card-body">
+    <section id="changes" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">6. {% trans "Cambios a esta política" %}</h2>
-        <p class="mt-2 p-body">
+        <p class="mt-3 p-body leading-relaxed">
           {% trans "Podemos actualizar esta Política de Cookies si añadimos nuevas funcionalidades o cookies. Si el cambio es relevante, lo comunicaremos de forma visible en la plataforma." %}
         </p>
       </div>
     </section>
 
-    <section id="contact" class="card">
-      <div class="card-body">
+    <section id="contact" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">7. {% trans "Contacto" %}</h2>
-        <p class="mt-2 p-body">
+        <p class="mt-3 p-body leading-relaxed">
           {% trans "Si tienes preguntas sobre el uso de cookies, escríbenos:" %}
         </p>
 
@@ -181,7 +181,7 @@
           <p class="p-body">
             {% trans "Email:" %} <strong>info@exploideo.com</strong>
           </p>
-          <a href="mailto:info@exploideo.com" class="btn btn-primary">
+          <a href="mailto:info@exploideo.com" class="c-button c-button--primary">
             {% trans "Contactar" %}
           </a>
         </div>

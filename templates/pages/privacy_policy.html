@@ -4,25 +4,25 @@
 {% block title %}{% trans "Política de Privacidad - Exploideo" %}{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto px-4 py-10">
+<div class="o-section o-section--narrow">
   <!-- Header -->
-  <div class="card overflow-hidden">
-    <div class="card-body">
+  <div class="c-card overflow-hidden">
+    <div class="c-card__body">
       <div class="flex flex-wrap items-center gap-2">
         <span class="badge">🔐 {% trans "Privacidad" %}</span>
         <span class="badge">🇪🇺 {% trans "GDPR" %}</span>
-        <span class="badge badge-blue">{% trans "Exploideo" %}</span>
+        <span class="c-badge c-badge--blue">{% trans "Exploideo" %}</span>
       </div>
 
       <h1 class="h1-hero">{% trans "Política de Privacidad" %}</h1>
 
-      <p class="mt-2 p-muted">
+      <p class="mt-2 u-muted">
         {% trans "Cómo tratamos tus datos personales, para qué los usamos y cuáles son tus derechos." %}
       </p>
 
-      <div class="mt-5 content-box-blue">
-        <p class="p-muted">
-          <span class="font-semibold text-slate-900">{% trans "Última actualización:" %}</span>
+      <div class="mt-5 rounded-2xl border border-border bg-surface-soft px-5 py-4">
+        <p class="u-muted">
+          <span class="font-semibold u-text">{% trans "Última actualización:" %}</span>
           {{ current_date|default:_("26 de enero de 2026") }}
         </p>
       </div>
@@ -30,14 +30,14 @@
       <div class="mt-6">
         <p class="label-title">{% trans "Ir a sección" %}</p>
         <div class="mt-2 flex flex-wrap gap-2">
-          <a href="#responsable" class="badge badge-neutral hover-lift">{% trans "1. Responsable" %}</a>
-          <a href="#datos" class="badge badge-neutral hover-lift">{% trans "2. Datos" %}</a>
-          <a href="#finalidad" class="badge badge-neutral hover-lift">{% trans "3. Finalidad" %}</a>
-          <a href="#legitimacion" class="badge badge-neutral hover-lift">{% trans "4. Base legal" %}</a>
-          <a href="#cesiones" class="badge badge-neutral hover-lift">{% trans "5. Cesiones" %}</a>
-          <a href="#derechos" class="badge badge-neutral hover-lift">{% trans "6. Derechos" %}</a>
-          <a href="#conservacion" class="badge badge-neutral hover-lift">{% trans "7. Conservación" %}</a>
-          <a href="#contacto" class="badge badge-neutral hover-lift">{% trans "8. Contacto" %}</a>
+          <a href="#responsable" class="c-badge c-badge--neutral u-hover-lift">{% trans "1. Responsable" %}</a>
+          <a href="#datos" class="c-badge c-badge--neutral u-hover-lift">{% trans "2. Datos" %}</a>
+          <a href="#finalidad" class="c-badge c-badge--neutral u-hover-lift">{% trans "3. Finalidad" %}</a>
+          <a href="#legitimacion" class="c-badge c-badge--neutral u-hover-lift">{% trans "4. Base legal" %}</a>
+          <a href="#cesiones" class="c-badge c-badge--neutral u-hover-lift">{% trans "5. Cesiones" %}</a>
+          <a href="#derechos" class="c-badge c-badge--neutral u-hover-lift">{% trans "6. Derechos" %}</a>
+          <a href="#conservacion" class="c-badge c-badge--neutral u-hover-lift">{% trans "7. Conservación" %}</a>
+          <a href="#contacto" class="c-badge c-badge--neutral u-hover-lift">{% trans "8. Contacto" %}</a>
         </div>
       </div>
     </div>
@@ -45,8 +45,8 @@
 
   <div class="mt-6 space-y-4">
 
-    <section id="responsable" class="card">
-      <div class="card-body">
+    <section id="responsable" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">1. {% trans "Responsable del tratamiento" %}</h2>
         <p class="p-body">
           {% trans "Exploideo es responsable del tratamiento de los datos personales de los usuarios de la plataforma." %}
@@ -57,8 +57,8 @@
       </div>
     </section>
 
-    <section id="datos" class="card">
-      <div class="card-body">
+    <section id="datos" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">2. {% trans "Datos que recopilamos" %}</h2>
         <ul class="mt-2 list-bullets p-body">
           <li>{% trans "Datos de identificación: nombre, email, foto, idioma." %}</li>
@@ -69,8 +69,8 @@
       </div>
     </section>
 
-    <section id="finalidad" class="card">
-      <div class="card-body">
+    <section id="finalidad" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">3. {% trans "Finalidad del tratamiento" %}</h2>
         <ul class="mt-2 list-bullets p-body">
           <li>{% trans "Gestionar tu cuenta y perfil." %}</li>
@@ -81,8 +81,8 @@
       </div>
     </section>
 
-    <section id="legitimacion" class="card">
-      <div class="card-body">
+    <section id="legitimacion" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">4. {% trans "Base legal" %}</h2>
         <p class="p-body">
           {% trans "El tratamiento se basa en el consentimiento del usuario, la ejecución de un contrato y el cumplimiento de obligaciones legales." %}
@@ -90,8 +90,8 @@
       </div>
     </section>
 
-    <section id="cesiones" class="card">
-      <div class="card-body">
+    <section id="cesiones" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">5. {% trans "Cesión de datos" %}</h2>
         <p class="p-body">
           {% trans "No se ceden datos a terceros salvo obligación legal o proveedores necesarios para el funcionamiento (hosting, correo, pagos)." %}
@@ -99,8 +99,8 @@
       </div>
     </section>
 
-    <section id="derechos" class="card">
-      <div class="card-body">
+    <section id="derechos" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">{% trans "6. Derechos del usuario" %}</h2>
         <ul class="mt-2 list-bullets p-body">
           <li>{% trans "Acceder a tus datos." %}</li>
@@ -110,8 +110,8 @@
           <li>{% trans "Portabilidad de los datos." %}</li>
         </ul>
 
-        <div class="mt-4 content-box-blue">
-          <p class="p-blue">
+        <div class="mt-4 rounded-2xl border border-border bg-surface-soft px-5 py-4">
+          <p class="u-text">
             {% trans "Puedes ejercer tus derechos escribiendo a" %} <strong>info@exploideo.com</strong>
 
           </p>
@@ -119,8 +119,8 @@
       </div>
     </section>
 
-    <section id="conservacion" class="card">
-      <div class="card-body">
+    <section id="conservacion" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">7. {% trans "Conservación de datos" %}</h2>
         <p class="p-body">
           {% trans "Los datos se conservarán mientras exista relación con el usuario y durante los plazos legales exigidos." %}
@@ -128,8 +128,8 @@
       </div>
     </section>
 
-    <section id="contacto" class="card">
-      <div class="card-body">
+    <section id="contacto" class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">8. {% trans "Contacto" %}</h2>
         <p class="p-body">
           {% trans "Para cualquier cuestión sobre privacidad:" %}
@@ -139,7 +139,7 @@
           <p class="p-body">
             {% trans "Email:" %} <strong>info@exploideo.com</strong>
           </p>
-          <a href="mailto:info@exploideo.com" class="btn btn-primary">
+          <a href="mailto:info@exploideo.com" class="c-button c-button--primary">
             {% trans "Contactar" %}
           </a>
         </div>
