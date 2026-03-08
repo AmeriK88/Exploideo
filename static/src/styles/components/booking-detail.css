@@ -1,0 +1,25 @@
+/* Booking detail semantic hierarchy */
+.c-bookingDetail__statusStack {
+  gap: var(--space-3);
+}
+
+.c-bookingDetail__alert {
+  border-left-width: 3px;
+  border-left-style: solid;
+  box-shadow: var(--shadow-sm);
+}
+
+.c-bookingDetail__alertActions {
+  align-items: center;
+}
+
+.c-bookingDetail__summaryCard {
+  min-height: 100%;
+  box-shadow: var(--shadow-sm);
+}
+
+@media (min-width: 1024px) {
+  .c-bookingDetail__summaryCard {
+    padding: var(--space-5);
+  }
+}

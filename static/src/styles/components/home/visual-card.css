@@ -1,0 +1,61 @@
+.c-visual-card,
+.c-visualCard {
+  border-radius: var(--radius-3xl);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+}
+
+.c-visual-card__media,
+.c-visualCard__media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-100);
+  aspect-ratio: 16 / 11;
+}
+.c-visual-card__img,
+.c-visualCard__img { height: 100%; width: 100%; object-fit: cover; }
+
+.c-visual-card__overlay,
+.c-visualCard__overlay {
+  pointer-events: none;
+  position: absolute; inset:0;
+  background:
+    linear-gradient(180deg, var(--image-overlay-a) 0%, var(--image-overlay-b) 45%, var(--image-overlay-c) 100%),
+    linear-gradient(60deg, var(--image-overlay-d), var(--image-overlay-e), transparent);
+}
+
+.c-visual-card__chip,
+.c-visualCard__badgeTop {
+  position: absolute; left: 1rem; top: 1rem;
+  border-radius: var(--radius-xl); background: color-mix(in oklab, var(--surface) 85%, transparent);
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-xs);
+  color: var(--text);
+  backdrop-filter: blur(4px);
+  border: 1px solid color-mix(in oklab, var(--surface) 60%, transparent);
+}
+
+.c-visual-card__mini,
+.c-visualCard__badgeBottom {
+  position: absolute; bottom: 1rem; left:1rem; right:1rem;
+  border-radius: var(--radius-xl); background: color-mix(in oklab, var(--surface) 85%, transparent);
+  padding: var(--space-4);
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-3);
+  backdrop-filter: blur(4px);
+  border: 1px solid color-mix(in oklab, var(--surface) 65%, transparent);
+  box-shadow: 0 10px 24px color-mix(in oklab, var(--color-surface-900) 20%, transparent);
+}
+.c-visual-card__mini-title,
+.c-visualCard__mini-title { font-size: var(--font-size-xs); font-weight: 600; color: var(--text); }
+.c-visual-card__mini-sub,
+.c-visualCard__mini-sub { font-size: var(--font-size-xs); color: var(--muted); }
+.c-visual-card__mini-badge,
+.c-visualCard__mini-badge { flex-shrink:0; border-radius: var(--radius-full); background: var(--color-secondary-600); padding: var(--space-1) var(--space-3); font-size: var(--font-size-xs); font-weight: 600; color: var(--on-strong); }
+
+.c-visual-card--search { margin-top: var(--space-4); }
+.c-visual-card--trust { margin-top: var(--space-6); }
+
+

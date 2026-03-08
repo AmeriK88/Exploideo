@@ -1,42 +1,77 @@
 @config "../../tailwind.config.js";
 @import "tailwindcss";
 
+/* =========================================================
+   ITCSS — SETTINGS
+   Tokens y variables globales
+========================================================= */
+@import "./styles/settings/_tokens.css";
 
-/* Layout + UI */
-@import "./styles/layout.css";
-@import "./styles/ui.css";
+/* =========================================================
+   GENERIC
+   Reset + base global
+========================================================= */
+@import "./styles/generic/reset.css";
+@import "./styles/generic/base.css";
 
-/* Features */
+/* =========================================================
+   ELEMENTS
+   HTML básico (h1, p, etc.)
+========================================================= */
+@import "./styles/elements/typography.css";
+
+/* =========================================================
+   OBJECTS
+   Layout reutilizable
+========================================================= */
+@import "./styles/objects/stack.css";
+@import "./styles/objects/grid.css";
+@import "./styles/objects/layout.css";
+@import "./styles/objects/o-container.css";
+
+/* =========================================================
+   COMPONENTS
+   UI reutilizable
+========================================================= */
+
+@import "./styles/components/button.css";
+@import "./styles/components/badge.css";
+@import "./styles/components/pill.css";
+@import "./styles/components/form.css";
+@import "./styles/components/card.css";
+@import "./styles/components/panel.css";
+@import "./styles/components/alert.css";
+@import "./styles/components/booking-detail.css";
+@import "./styles/components/navbar.css";
+
+
+/* =========================================================
+   FEATURES
+   Funcionalidad JS / UI extra
+========================================================= */
+
 @import "./styles/features/dropdowns.css";
 @import "./styles/features/cookies.css";
 @import "./styles/features/loader.css";
-@import "./styles/features/nav_bar.css";
 
-/* Motions (al final para que mande) */
+/* =========================================================
+   LANDING COMPONENTS
+========================================================= */
+
+@import "./styles/components/home/hero.css";
+@import "./styles/components/home/visual-card.css";
+@import "./styles/components/home/preview-section.css";
+
+/* =========================================================
+   MOTIONS
+   Animaciones (siempre al final)
+========================================================= */
+
 @import "./styles/motions.css";
 
-/* -----------------------------
-   BASE
------------------------------- */
-@layer base {
-  html { @apply scroll-smooth; }
+/* =========================================================
+   UTILITIES
+========================================================= */
 
-  body { @apply bg-surface-50 text-slate-800 antialiased font-sans; }
-
-  a { @apply transition-colors; }
-
-  :focus-visible {
-    @apply outline-none ring-2 ring-brand-500/60 ring-offset-2 ring-offset-surface-50;
-  }
-}
-
-/* Opcional: reduce motion */
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
-}
+@import "./styles/utilities/_surfaces.css";
+@import "./styles/utilities/utilities.css";

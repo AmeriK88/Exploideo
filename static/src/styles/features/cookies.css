@@ -10,10 +10,22 @@
     pointer-events: auto;
   }
 
+  /* Keep banner visual identical across landing and non-landing pages. */
+  #cookie-banner .c-card{
+    border-color: var(--border);
+    border-radius: var(--radius-3xl, 28px);
+    background: color-mix(in oklab, var(--glass-2) 96%, var(--surface));
+    box-shadow: var(--shadow-glass);
+    backdrop-filter: var(--blur-12);
+    -webkit-backdrop-filter: var(--blur-12);
+  }
+
   #cookie-modal{
     opacity: 0;
     pointer-events: none;
     overscroll-behavior: contain;
+    display: grid;
+    place-items: center;
   }
   #cookie-modal.is-open{
     opacity: 1;
@@ -39,17 +51,30 @@
   }
 
   .cookie-modal__wrap{
-    @apply relative mx-auto flex min-h-dvh max-w-4xl items-end px-4 py-6 sm:items-center sm:px-6;
+    @apply relative w-full max-w-4xl px-4 py-6 sm:px-6;
   }
+
   .cookie-modal__card{
-    @apply w-full max-h-[85dvh] overflow-hidden flex flex-col rounded-2xl border border-slate-200 bg-white shadow-lg;
+    @apply w-full max-h-[85dvh] overflow-hidden flex flex-col rounded-2xl border shadow-lg;
+    background: color-mix(in oklab, var(--glass-2) 92%, var(--surface));
+    border-color: var(--border);
+    box-shadow: var(--shadow-glass);
+    backdrop-filter: var(--blur-12);
+    -webkit-backdrop-filter: var(--blur-12);
   }
-  .cookie-modal__header{ @apply p-6 border-b border-slate-200 bg-white; }
+  .cookie-modal__header{ @apply p-6 border-b; background: transparent; border-color: var(--border); }
   .cookie-modal__body{
     @apply flex-1 min-h-0 overflow-y-auto p-6 overscroll-contain;
     -webkit-overflow-scrolling: touch;
   }
-  .cookie-modal__footer{ @apply p-6 border-t border-slate-200 bg-white; }
+  .cookie-modal__footer{ @apply p-6 border-t; background: transparent; border-color: var(--border); }
+
+  #cookie-modal > .cookie-modal__backdrop{
+    background: var(--overlay-dark-soft);
+  }
+  .theme-exploideo #cookie-modal > .cookie-modal__backdrop{
+    background: var(--overlay-dark-strong);
+  }
 
   @media (prefers-reduced-motion: reduce){
     #cookie-banner,

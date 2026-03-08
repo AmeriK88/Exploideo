@@ -1,0 +1,166 @@
+/* =========================
+   Preview Section
+========================= */
+.c-previewSection{
+  border-block: 1px solid var(--border);
+  background: color-mix(in oklab, var(--surface) 84%, var(--bg));
+}
+
+.c-previewSection .o-container{
+  padding-block: var(--space-8);
+}
+
+.c-previewSection__head{
+  display:flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+@media (min-width: 640px){
+  .c-previewSection__head{
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+.c-previewSection__title{
+  margin-top: var(--space-2);
+  font-size: var(--font-size-h2);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.c-previewSection__lead{
+  margin-top: var(--space-3);
+  max-width: 42rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.c-previewSection__cta{
+  align-self: flex-start;
+}
+@media (min-width: 640px){
+  .c-previewSection__cta{ align-self: auto; }
+}
+
+.c-previewGrid{
+  margin-top: var(--space-7);
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .c-previewGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .c-previewGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* =========================
+   Preview Card
+========================= */
+.c-previewCard{
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: var(--radius-3xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-default), box-shadow var(--transition-default);
+}
+.c-previewCard:hover{
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.c-previewCard--brand { --glow: color-mix(in oklab, var(--color-brand-500) 12%, transparent); }
+.c-previewCard--accent { --glow: color-mix(in oklab, var(--color-secondary-500) 14%, transparent); }
+
+.c-previewCard__body{
+  padding: var(--space-6);
+}
+
+.c-previewCard__top{
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.c-previewCard__title{
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+}
+
+.c-previewCard__text{
+  margin-top: var(--space-2);
+  color: var(--muted);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}
+
+/* =========================
+   Device Frame (fake browser)
+========================= */
+.c-deviceFrame{
+  position: relative;
+  padding: var(--space-4);
+  background: var(--surface-2);
+}
+
+.c-deviceFrame__glow{
+  position:absolute;
+  inset:0;
+  opacity: 0;
+  pointer-events:none;
+  transition: opacity var(--transition-default);
+  background: radial-gradient(600px circle at 20% 10%, var(--glow), transparent 45%);
+}
+.c-previewCard:hover .c-deviceFrame__glow{ opacity: 1; }
+
+.c-deviceFrame__chrome{
+  display:flex;
+  align-items:center;
+  gap: var(--space-2);
+  padding: .75rem 1rem;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: var(--radius-3xl) var(--radius-3xl) 0 0;
+  background: var(--surface);
+}
+
+.c-deviceFrame__label{
+  margin-left: var(--space-2);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: color-mix(in oklab, var(--text) 70%, var(--muted));
+}
+
+.c-dot{
+  width: .6rem;
+  height: .6rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--border) 55%, transparent);
+}
+
+.c-deviceFrame__img{
+  width: 100%;
+  height: auto;
+  display:block;
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-3xl) var(--radius-3xl);
+  background: var(--surface);
+}
+
+/* note */
+.c-previewSection__note{
+  margin-top: var(--space-6);
+  color: color-mix(in oklab, var(--muted) 85%, transparent);
+}

@@ -1,0 +1,46 @@
+/* utilities prefixed u- */
+.u-hover-lift { transition: transform var(--transition-default); }
+.u-hover-lift:hover { transform: translateY(-2px); }
+.u-soft-shadow { box-shadow: var(--shadow-sm); }
+.u-soft-shadow:hover { box-shadow: var(--shadow-md); }
+.u-focus-ring:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 35%, transparent);
+}
+
+.u-hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.u-hide-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Clamp multitline text */
+.u-clamp-1, .u-clamp-2, .u-clamp-3, .u-clamp-4 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.u-clamp-1 { -webkit-line-clamp: 1; }
+.u-clamp-2 { -webkit-line-clamp: 2; }
+.u-clamp-3 { -webkit-line-clamp: 3; }
+.u-clamp-4 { -webkit-line-clamp: 4; }
+
+/* hero glow utility (previously .hero-top-glow) */
+.u-hero-top-glow {
+  @apply pointer-events-none absolute inset-x-0 -top-24 h-48;
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--color-brand-200) 70%, transparent), transparent);
+}
+
+/* list bullets helper */
+.u-list-bullets > li { @apply flex gap-2; }
+.u-list-bullets > li::before { content: "•"; color: color-mix(in oklab, var(--muted) 80%, var(--surface)); }
+
+/* Legacy aliases to ease migration */
+.hero-top-glow {
+  pointer-events: none;
+  position: absolute;
+  inset-inline: 0;
+  top: -6rem;
+  height: 12rem;
+  background: linear-gradient(to bottom, color-mix(in oklab, var(--color-brand-200) 70%, transparent), transparent);
+}
+.hover-lift { transition: transform var(--transition-default); }
+.hover-lift:hover { transform: translateY(-2px); }
+.p-muted { color: var(--muted); }

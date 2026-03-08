@@ -3,7 +3,7 @@
   .loader-overlay{
     @apply fixed inset-0 flex items-center justify-center opacity-0 pointer-events-none;
     z-index: 2147483647;
-    background: rgba(2, 6, 23, .45);
+    background: var(--overlay-dark);
     backdrop-filter: blur(6px);
     transition: opacity .2s ease;
   }
@@ -14,7 +14,9 @@
   }
 
   .loader-card{
-    @apply rounded-2xl border border-white/15 bg-slate-900/60 px-6 py-5 shadow-lg;
+    @apply rounded-2xl px-6 py-5 shadow-lg;
+    border: 1px solid var(--loader-card-border);
+    background: var(--loader-card-bg);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -22,7 +24,8 @@
   }
 
   .loader-label{
-    @apply mt-3 text-sm text-white/90 text-center;
+    @apply mt-3 text-sm text-center;
+    color: var(--loader-label);
   }
 
   .orbital-loader{
@@ -49,8 +52,8 @@
     width: var(--dot);
     height: var(--dot);
     border-radius: 9999px;
-    background: rgba(255,255,255,.92);
-    box-shadow: 0 0 0 1px rgba(255,255,255,.25);
+    background: var(--loader-dot-bg);
+    box-shadow: 0 0 0 1px var(--loader-dot-ring);
     transform: translate(-50%, -50%);
     animation: dot-pulse .9s ease-in-out infinite;
   }

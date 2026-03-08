@@ -1,43 +1,216 @@
 @layer components {
-  /* Account dropdown: panel animado */
-  .account-dd > .account-dd__panel{
-    z-index: 60;
+  /* =========================
+     Panels base
+  ========================= */
+  .account-dd > .account-dd__panel,
+  .c-nav details > .mobile-menu {
+    position: absolute;
+    z-index: 80;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-2xl);
+
+    background: color-mix(in oklab, var(--surface) 88%, transparent);
+    backdrop-filter: blur(16px) saturate(135%);
+    -webkit-backdrop-filter: blur(16px) saturate(135%);
+
+    box-shadow:
+      var(--shadow-md),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+    isolation: isolate;
+  }
+
+  /* capa interna suave */
+  .account-dd > .account-dd__panel::before,
+  .c-nav details > .mobile-menu::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.04),
+      rgba(255, 255, 255, 0.015)
+    );
+    z-index: 0;
+  }
+
+  .account-dd > .account-dd__panel > *,
+  .c-nav details > .mobile-menu > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* =========================
+     Account dropdown
+  ========================= */
+  .account-dd > .account-dd__panel {
+    top: calc(100% + 0.6rem);
+    right: 0;
+    min-width: 16rem;
+    padding: 0.75rem;
     transform-origin: top right;
     opacity: 0;
-    transform: translateY(-6px) scale(.98);
+    transform: translateY(-6px) scale(0.98);
     max-height: 0;
     pointer-events: none;
-    transition: opacity .18s ease, transform .18s ease, max-height .22s ease;
+    transition: opacity 0.18s ease, transform 0.18s ease, max-height 0.22s ease;
   }
-  .account-dd[open] > .account-dd__panel{
+
+  .account-dd[open] > .account-dd__panel {
     opacity: 1;
     transform: translateY(0) scale(1);
     max-height: 70vh;
     pointer-events: auto;
   }
-  .account-dd[open] .chev{ transform: rotate(180deg); }
 
-  /* Mobile menu dropdown (si le pones class="mobile-menu" al panel) */
-  details > .mobile-menu{
-    z-index: 60;
+  .account-dd[open] .chev {
+    transform: rotate(180deg);
+  }
+
+  /* =========================
+     Mobile menu
+  ========================= */
+  .c-nav details > .mobile-menu {
+    top: calc(100% + 0.6rem);
+    right: 0;
+    left: auto;
+    width: min(22rem, calc(100vw - 2rem));
+    padding: 0.75rem;
     transform-origin: top right;
     opacity: 0;
-    transform: translateY(-6px) scale(.98);
+    transform: translateY(-6px) scale(0.98);
     max-height: 0;
     pointer-events: none;
-    transition: opacity .18s ease, transform .18s ease, max-height .22s ease;
+    transition: opacity 0.18s ease, transform 0.18s ease, max-height 0.22s ease;
   }
-  details[open] > .mobile-menu{
+
+  .c-nav details[open] > .mobile-menu {
     opacity: 1;
     transform: translateY(0) scale(1);
-    max-height: 70vh;
+    max-height: min(75vh, 34rem);
     pointer-events: auto;
   }
 
-  @media (prefers-reduced-motion: reduce){
+  /* =========================
+     Header / wrappers inside dropdowns
+  ========================= */
+  .account-dd > .account-dd__panel .account-dd__meta,
+  .c-nav details > .mobile-menu .menu-meta {
+    padding: 0.25rem 0.25rem 0.5rem;
+  }
+
+  .account-dd > .account-dd__panel .account-dd__group,
+  .c-nav details > .mobile-menu .menu-group {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  /* =========================
+     Links/items inside dropdowns
+  ========================= */
+  .account-dd > .account-dd__panel a,
+  .account-dd > .account-dd__panel button,
+  .c-nav details > .mobile-menu a,
+  .c-nav details > .mobile-menu button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+    min-height: 46px;
+    padding: 0.7rem 0.85rem;
+    border-radius: var(--radius-xl);
+
+    color: var(--text);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    line-height: 1.35;
+    text-align: left;
+    text-decoration: none;
+
+    transition:
+      background-color var(--transition-default),
+      color var(--transition-default),
+      transform var(--transition-default),
+      border-color var(--transition-default);
+  }
+
+  .account-dd > .account-dd__panel a + a,
+  .account-dd > .account-dd__panel button + button,
+  .account-dd > .account-dd__panel a + button,
+  .account-dd > .account-dd__panel button + a,
+  .c-nav details > .mobile-menu a + a,
+  .c-nav details > .mobile-menu button + button,
+  .c-nav details > .mobile-menu a + button,
+  .c-nav details > .mobile-menu button + a {
+    margin-top: 0.35rem;
+  }
+
+  .account-dd > .account-dd__panel a:hover,
+  .account-dd > .account-dd__panel button:hover,
+  .c-nav details > .mobile-menu a:hover,
+  .c-nav details > .mobile-menu button:hover {
+    background: var(--surface-2);
+    color: var(--color-brand-400);
+  }
+
+  .account-dd > .account-dd__panel a:focus-visible,
+  .account-dd > .account-dd__panel button:focus-visible,
+  .c-nav details > .mobile-menu a:focus-visible,
+  .c-nav details > .mobile-menu button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 35%, transparent);
+  }
+
+  /* =========================
+     Divider
+  ========================= */
+  .account-dd > .account-dd__panel hr,
+  .c-nav details > .mobile-menu hr {
+    margin: 0.55rem 0;
+    border: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  /* =========================
+     Special CTA item
+  ========================= */
+  .account-dd > .account-dd__panel .is-danger,
+  .c-nav details > .mobile-menu .is-danger {
+    background: var(--surface-strong);
+    color: #fff;
+  }
+
+  .account-dd > .account-dd__panel .is-danger:hover,
+  .c-nav details > .mobile-menu .is-danger:hover {
+    background: var(--surface-strong-hover);
+    color: #fff;
+  }
+
+  /* =========================
+     Fallback sin blur
+  ========================= */
+  @supports not (backdrop-filter: blur(12px)) {
+    .account-dd > .account-dd__panel,
+    .c-nav details > .mobile-menu {
+      background: color-mix(in oklab, var(--surface) 96%, var(--bg));
+    }
+  }
+
+  /* =========================
+     Reduced motion
+  ========================= */
+  @media (prefers-reduced-motion: reduce) {
     .account-dd > .account-dd__panel,
     .account-dd .chev,
-    details > .mobile-menu{
+    .c-nav details > .mobile-menu,
+    .account-dd > .account-dd__panel a,
+    .account-dd > .account-dd__panel button,
+    .c-nav details > .mobile-menu a,
+    .c-nav details > .mobile-menu button {
       transition: none;
     }
   }

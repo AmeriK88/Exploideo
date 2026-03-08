@@ -1,0 +1,45 @@
+.c-alert{
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--font-size-sm);
+  box-shadow: var(--shadow-sm);
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* neutral / default */
+.c-alert--neutral{
+  background: var(--alert-neutral-bg);
+  border-color: var(--alert-neutral-border);
+  color: var(--alert-neutral-text);
+}
+
+/* Django: success */
+.c-alert--success{
+  background: var(--alert-success-bg);
+  border-color: var(--alert-success-border);
+  color: var(--alert-success-text);
+}
+
+/* Django: info */
+.c-alert--info{
+  background: var(--alert-info-bg);
+  border-color: var(--alert-info-border);
+  color: var(--alert-info-text);
+}
+
+/* Django: warning */
+.c-alert--warning{
+  background: var(--alert-warning-bg);
+  border-color: var(--alert-warning-border);
+  color: var(--alert-warning-text);
+}
+
+/* Django: error (y también danger por compat) */
+.c-alert--error,
+.c-alert--danger{
+  background: var(--alert-danger-bg);
+  border-color: var(--alert-danger-border);
+  color: var(--alert-danger-text);
+}

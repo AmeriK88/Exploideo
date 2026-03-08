@@ -1,0 +1,14 @@
+/* grid object */
+.o-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .o-grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .o-grid--3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .o-grid--3\@lg { grid-template-columns: repeat(3, 1fr); }
+}

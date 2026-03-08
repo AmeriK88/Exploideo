@@ -1,0 +1,82 @@
+/* =========================================================
+  c-pill
+========================================================= */
+
+.c-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+
+  padding: var(--space-2) var(--space-3);
+
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+
+  background: var(--color-surface);
+  color: var(--color-text);
+
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+
+  white-space: nowrap;
+
+  transition:
+    background-color var(--transition-default),
+    border-color var(--transition-default),
+    color var(--transition-default);
+}
+
+.c-pill:hover {
+  background: var(--color-surface-hover);
+}
+
+.c-pill--neutral {
+  border-color: var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+/* =========================================================
+  icon
+========================================================= */
+
+.c-pill__icon {
+  display: inline-flex;
+  color: var(--color-text-muted);
+}
+
+/* =========================================================
+  input variant (si usas pill con input)
+========================================================= */
+
+.c-pill__input {
+  border: none;
+  outline: none;
+  background: transparent;
+
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+
+  color: inherit;
+}
+
+/* =========================================================
+  status variant (nav)
+========================================================= */
+
+.c-pill--status {
+  border-color: var(--border);
+  background: var(--glass-1);
+  color: var(--muted);
+}
+
+/* =========================================================
+  glass variant (hero)
+========================================================= */
+
+.c-pill--glass {
+  border-color: var(--border);
+  background: var(--glass-1);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+}

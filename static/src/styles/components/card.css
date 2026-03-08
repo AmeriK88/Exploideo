@@ -1,0 +1,124 @@
+/* =========================================================
+  Card base (neutral)
+========================================================= */
+
+.c-card,
+.card {
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2xl);
+
+  background: var(--surface);
+  color: var(--text);
+
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition-default),
+    box-shadow var(--transition-default),
+    border-color var(--transition-default),
+    background-color var(--transition-default);
+}
+
+.c-card__body,
+.card-body {
+  padding: var(--space-5);
+}
+
+.c-card__footer{
+  margin-top: auto;
+  padding: var(--space-4) var(--space-6);
+}
+
+
+/* Hover lift (opcional) */
+.c-card--interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Accesibilidad: si dentro hay link/button focus */
+.c-card:focus-within {
+  box-shadow: 0 0 0 3px var(--color-ring);
+}
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .c-card { transition: none; }
+  .c-card--interactive:hover { transform: none; }
+}
+
+/* =========================================================
+  Dark / glass system (landing / theme)
+  Si tus tokens ya definen esto, perfecto.
+========================================================= */
+
+.theme-exploideo.landing .c-card,
+.theme-exploideo .c-card--glass {
+  border-color: var(--stroke-1);
+  background: linear-gradient(
+    180deg,
+    var(--glass-1),
+    var(--glass-2)
+  );
+  border-radius: var(--radius-3xl, 28px);
+  backdrop-filter: var(--blur-12);
+  box-shadow: var(--shadow-glass);
+}
+
+/* Hover en glass */
+.theme-exploideo.landing .c-card--interactive:hover,
+.theme-exploideo.landing .c-card--glass.c-card--interactive:hover {
+  box-shadow: var(--shadow-glass);
+}
+
+/* =========================================================
+  Booking variant (imagen de fondo + overlay)
+========================================================= */
+
+.c-card--booking {
+  isolation: isolate; /* para que el overlay funcione bien */
+}
+
+.c-card--booking .c-card__background {
+  position: absolute;
+  inset: 0;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  opacity: 0.45;
+  transform: scale(1.05);
+  filter: saturate(.95) contrast(.95);
+  z-index: 0;
+}
+
+/* Overlay (gradiente para legibilidad) */
+.c-card--booking .c-card__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+
+  background:
+    radial-gradient(700px 260px at 20% 0%, color-mix(in oklab, var(--color-brand-500) 22%, transparent), transparent 60%),
+    radial-gradient(650px 240px at 80% 10%, color-mix(in oklab, var(--color-secondary-500) 14%, transparent), transparent 55%),
+    linear-gradient(180deg, color-mix(in oklab, var(--color-surface-900) 35%, transparent), color-mix(in oklab, var(--color-surface-900) 62%, transparent));
+}
+
+/* Contenido por encima */
+.c-card--booking .c-card__content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Si es booking + glass, subimos contraste un pelín */
+.theme-exploideo.landing .c-card--booking,
+.theme-exploideo.landing .c-card--booking.c-card--glass {
+  border-color: var(--glass-border-strong);
+}

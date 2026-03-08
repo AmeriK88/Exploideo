@@ -1,0 +1,244 @@
+/* =========================================================
+  Button (core)
+========================================================= */
+
+.c-button,
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  line-height: 1;
+
+  border-radius: var(--radius-xl);
+  border: 1px solid transparent;
+
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  text-decoration: none;
+  white-space: nowrap;
+
+  min-height: 44px; /* target táctil */
+  transform: translateZ(0);
+
+  transition:
+    transform var(--transition-default),
+    background-color var(--transition-default),
+    color var(--transition-default),
+    border-color var(--transition-default),
+    box-shadow var(--transition-default),
+    filter var(--transition-default);
+}
+
+/* evita herencias raras de <a> global */
+.c-button,
+.c-button:hover,
+.c-button:visited,
+.c-button:focus-visible,
+.btn,
+.btn:hover,
+.btn:visited,
+.btn:focus-visible {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* hover feedback */
+.c-button:hover,
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+/* active */
+.c-button:active,
+.btn:active {
+  transform: translateY(0);
+}
+
+/* accesibilidad */
+.c-button:focus-visible,
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--ring) 35%, transparent);
+}
+
+/* reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .c-button,
+  .btn {
+    transition: none;
+  }
+
+  .c-button:hover,
+  .c-button:active,
+  .btn:hover,
+  .btn:active {
+    transform: none;
+  }
+}
+
+/* =========================================================
+  Variants
+========================================================= */
+
+/* Primary (Landing friendly: gradient + glow) */
+.c-button--primary,
+.btn-primary {
+  background: var(--button-primary-bg);
+  color: var(--on-strong);
+  box-shadow: var(--button-primary-shadow);
+}
+
+.c-button--primary:visited,
+.btn-primary:visited {
+  color: var(--on-strong);
+}
+
+.c-button--primary:hover,
+.c-button--primary:focus-visible,
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  color: var(--on-strong);
+  box-shadow: var(--button-primary-shadow);
+  filter: brightness(1.02);
+}
+
+.c-button--primary:active,
+.btn-primary:active {
+  color: var(--on-strong);
+  filter: brightness(0.98);
+}
+
+/* Accent (secondary CTA) */
+.c-button--accent {
+  background: linear-gradient(135deg, var(--color-brand-600), var(--color-brand-400));
+  color: var(--on-strong);
+}
+
+.c-button--accent:visited {
+  color: var(--on-strong);
+}
+
+.c-button--accent:hover,
+.c-button--accent:focus-visible {
+  color: var(--on-strong);
+  filter: brightness(1.03);
+}
+
+/* Dark */
+.c-button--dark {
+  background: var(--color-surface-900);
+  color: var(--on-strong);
+}
+
+.c-button--dark:visited {
+  color: var(--on-strong);
+}
+
+.c-button--dark:hover,
+.c-button--dark:focus-visible {
+  color: var(--on-strong);
+  filter: brightness(1.05);
+}
+
+/* Ghost (default light) */
+.c-button--ghost,
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.c-button--ghost:hover,
+.c-button--ghost:focus-visible,
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+  background: var(--color-surface-100);
+  color: var(--color-text);
+}
+
+/* Ghost on dark (glass) — úsalo en el HERO */
+.c-button--ghost.c-button--on-dark {
+  background: var(--glass-fill-06);
+  color: var(--text-on-glass-88);
+  border-color: var(--glass-border-weak);
+  backdrop-filter: blur(10px);
+}
+
+.c-button--ghost.c-button--on-dark:hover,
+.c-button--ghost.c-button--on-dark:focus-visible {
+  background: var(--glass-fill-08);
+  border-color: var(--glass-border-strong);
+  color: var(--text-on-glass-88);
+}
+
+/* Danger */
+.c-button--danger,
+.btn-danger {
+  background: var(--button-danger-bg);
+  color: var(--on-strong);
+}
+
+.c-button--danger:visited,
+.btn-danger:visited {
+  color: var(--on-strong);
+}
+
+.c-button--danger:hover,
+.c-button--danger:focus-visible,
+.btn-danger:hover,
+.btn-danger:focus-visible {
+  background: var(--button-danger-bg-hover);
+  color: var(--on-strong);
+}
+
+/* =========================================================
+  Sizes
+========================================================= */
+
+.c-button--sm {
+  min-height: 36px;
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-size-xs);
+  border-radius: var(--radius-lg, var(--radius-xl));
+}
+
+.c-button--lg {
+  min-height: 48px;
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--font-size-base);
+  border-radius: var(--radius-2xl, var(--radius-xl));
+}
+
+/* =========================================================
+  Utilities / modifiers
+========================================================= */
+
+/* full width */
+.c-button--block {
+  width: 100%;
+}
+
+/* icon-only button */
+.c-button--icon {
+  padding: var(--space-2);
+  min-width: 44px;
+}
+
+/* =========================================================
+  Disabled
+========================================================= */
+
+.c-button:disabled,
+.c-button[aria-disabled="true"],
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}

@@ -1,0 +1,97 @@
+/* badge.css */
+.c-badge,
+.badge {
+  display:inline-flex;
+  align-items:center;
+  gap: var(--space-1);
+  border-radius: var(--badge-radius, var(--radius-xl));
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--badge-fs, var(--font-size-xs));
+  font-weight: var(--badge-fw, 600);
+  line-height: 1;
+  white-space: nowrap;
+
+  background: var(--badge-bg, var(--surface-2));
+  border: 1px solid var(--badge-border, var(--border));
+  color: var(--badge-text, var(--text));
+
+  transition:
+    background-color var(--transition-default),
+    border-color var(--transition-default),
+    color var(--transition-default),
+    transform var(--transition-default);
+}
+
+/* Variants */
+.c-badge--soft{
+  background: var(--badge-bg);
+}
+.c-badge--outline{
+  background: transparent;
+}
+.c-badge--solid{
+  /* solid: misma familia pero más contraste (se puede ajustar por token si quieres) */
+  background: color-mix(in oklab, var(--badge-bg) 60%, black);
+}
+
+/* Icon-only badge: fixed compact bubble independent from text badge sizing */
+.c-badge--icon {
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  gap: 0;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.c-badge--neutral,
+.badge-neutral {
+  --badge-bg: var(--badge-neutral-bg);
+  --badge-border: var(--badge-neutral-border);
+  --badge-text: var(--badge-neutral-text);
+}
+
+.c-badge--success,
+.badge-emerald {
+  --badge-bg: var(--badge-success-bg);
+  --badge-border: var(--badge-success-border);
+  --badge-text: var(--badge-success-text);
+}
+
+.c-badge--warning,
+.badge-amber {
+  --badge-bg: var(--badge-warning-bg);
+  --badge-border: var(--badge-warning-border);
+  --badge-text: var(--badge-warning-text);
+}
+
+.c-badge--danger,
+.badge-red {
+  --badge-bg: var(--badge-danger-bg);
+  --badge-border: var(--badge-danger-border);
+  --badge-text: var(--badge-danger-text);
+}
+
+.c-badge--info,
+.badge-blue {
+  --badge-bg: var(--badge-info-bg);
+  --badge-border: var(--badge-info-border);
+  --badge-text: var(--badge-info-text);
+}
+
+/* Compat aliases used in templates */
+.c-badge--emerald { --badge-bg: var(--badge-success-bg); --badge-border: var(--badge-success-border); --badge-text: var(--badge-success-text); }
+.c-badge--amber { --badge-bg: var(--badge-warning-bg); --badge-border: var(--badge-warning-border); --badge-text: var(--badge-warning-text); }
+.c-badge--red { --badge-bg: var(--badge-danger-bg); --badge-border: var(--badge-danger-border); --badge-text: var(--badge-danger-text); }
+.c-badge--blue { --badge-bg: var(--badge-info-bg); --badge-border: var(--badge-info-border); --badge-text: var(--badge-info-text); }
+
+/* Booking status variants */
+.c-badge--status-accepted { --badge-bg: var(--badge-success-bg); --badge-border: var(--badge-success-border); --badge-text: var(--badge-success-text); }
+.c-badge--status-pending,
+.c-badge--status-change_requested,
+.c-badge--status-cancel_requested { --badge-bg: var(--badge-warning-bg); --badge-border: var(--badge-warning-border); --badge-text: var(--badge-warning-text); }
+.c-badge--status-rejected,
+.c-badge--status-canceled,
+.c-badge--status-cancel { --badge-bg: var(--badge-danger-bg); --badge-border: var(--badge-danger-border); --badge-text: var(--badge-danger-text); }

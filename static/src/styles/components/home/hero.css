@@ -1,0 +1,186 @@
+/* hero.css (monolito/dark) */
+
+.c-hero {
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-12) var(--space-4) var(--space-10);
+  color: var(--text-on-glass-92);
+  isolation: isolate;
+}
+
+/* landing spacing */
+body.landing .c-hero {
+  padding-top: var(--space-16);
+  padding-bottom: var(--space-14);
+}
+
+/* DARK BACKGROUND like the monolith */
+.c-hero--dark {
+  background: var(--bg-grad-1), var(--bg-grad-2), var(--bg-grad-3);
+}
+
+/* decorative blobs shared by landing/home heroes */
+.c-hero__bg {
+  @apply pointer-events-none absolute inset-0;
+  z-index: 0;
+}
+
+.c-hero__blob {
+  @apply absolute rounded-full blur-3xl;
+}
+
+.c-hero__blob--a {
+  @apply -top-24 left-1/2 h-72 w-152 -translate-x-1/2 bg-brand-200/70;
+}
+
+.c-hero__blob--b {
+  @apply -bottom-32 left-1/3 h-72 w-160 bg-solar-200/55;
+}
+
+/* layout */
+.c-hero__inner {
+  position: relative;
+  z-index: 1;
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--container-7xl);
+}
+
+.c-hero__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .c-hero__grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  }
+}
+
+.c-hero__grid > * {
+  min-width: 0;
+}
+
+.c-hero__visual {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+/* Kicker badge (glass) */
+.c-hero__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border-weak);
+  background: var(--glass-fill-06);
+  backdrop-filter: blur(10px);
+  font-size: 13px;
+  color: var(--text-on-glass-72);
+}
+
+.c-hero__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: var(--accent-glow);
+}
+
+/* typography */
+.c-hero__title {
+  margin: 14px 0 10px;
+  font-size: clamp(34px, 4.3vw, 54px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: var(--text-on-glass-92);
+}
+
+.c-hero__lead {
+  margin: 0 0 18px;
+  font-size: clamp(15px, 1.35vw, 18px);
+  color: var(--text-on-glass-72);
+  line-height: 1.55;
+  max-width: 52ch;
+}
+
+.c-hero__titleAccent {
+  display: block;
+  color: color-mix(in oklab, var(--color-brand-500) 80%, var(--surface));
+}
+
+.c-hero__note {
+  margin-top: var(--space-4);
+  font-size: var(--font-size-xs);
+  color: var(--text-on-glass-72);
+}
+
+.c-miniCard {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--glass-border-mid);
+  background: var(--glass-fill-08);
+  backdrop-filter: blur(8px);
+  padding: var(--space-3) var(--space-4);
+}
+
+.c-miniCard__title {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--text-on-glass-95);
+}
+
+.c-miniCard__text {
+  margin-top: var(--space-1);
+  font-size: var(--font-size-xs);
+  color: var(--text-on-glass-74);
+  line-height: 1.5;
+}
+
+.c-ctaYes {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--glass-border-mid);
+  background: var(--glass-fill-05);
+  padding: var(--space-3) var(--space-4);
+  color: var(--text-on-glass-88);
+  font-size: var(--font-size-sm);
+}
+
+/* CTAs row */
+.c-hero__cta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.c-hero__cta .c-button--primary {
+  background: var(--primary-grad);
+  color: var(--on-strong);
+  box-shadow: var(--primary-shadow);
+}
+
+.c-hero__cta .c-button--ghost {
+  background: transparent;
+  border: 1px solid var(--glass-border-weak);
+  color: var(--text-on-glass-92);
+  backdrop-filter: blur(10px);
+}
+
+.c-hero__cta .c-button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}
+
+/* responsive */
+@media (max-width: 900px) {
+  .c-hero__grid {
+    grid-template-columns: 1fr;
+  }
+}

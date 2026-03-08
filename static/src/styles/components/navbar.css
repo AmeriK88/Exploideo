@@ -1,0 +1,257 @@
+/* =========================================================
+  c-nav (Landing header) — dark + glass + glow (token-driven)
+========================================================= */
+
+.c-nav.nav-grain {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  isolation: isolate;
+
+  background: var(--glass-2);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: var(--blur-12);
+  transform: translateZ(0);
+}
+
+.c-nav.nav-grain::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background:
+    radial-gradient(800px 220px at 20% 0%,
+      color-mix(in oklab, var(--color-brand-500) 35%, transparent),
+      transparent 60%),
+    radial-gradient(650px 220px at 80% 0%,
+      color-mix(in oklab, var(--accent) 22%, transparent),
+      transparent 55%);
+  opacity:.95;
+}
+
+.c-nav.nav-grain > *{
+  position: relative;
+  z-index: 1;
+}
+
+/* Use one shared navbar container width for flow and landing. */
+.c-nav__container {
+  max-width: 80rem;
+}
+
+/* Layout */
+.c-nav__inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: var(--space-4);
+  height: 64px; /* equivalente a h-16 */
+}
+
+.c-nav__brand{
+  display:flex;
+  align-items:center;
+  gap: var(--space-3);
+  min-width:0;
+  flex: 1 1 auto;
+}
+
+.c-nav__brandLink{
+  display:flex;
+  align-items:center;
+  flex-shrink:0;
+}
+
+.c-nav__logo{
+  height: 56px; /* NO 80px dentro de un header de 64px */
+  width: auto;
+  flex-shrink: 0;
+  transition: transform var(--transition-default);
+  filter: drop-shadow(var(--nav-logo-shadow));
+}
+.c-nav__logo:hover{ transform: scale(1.05); }
+
+.c-nav__pill{
+  display:none;
+  padding: 6px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+@media (min-width: 640px){
+  .c-nav__pill{ display:inline-flex; }
+}
+
+.c-nav__cta{
+  display:flex;
+  align-items:center;
+  gap: var(--space-2);
+  flex: 0 0 auto;
+}
+
+/* Keep navbar controls visually stable regardless of variant content. */
+.c-nav__cta .c-button {
+  min-height: 40px;
+  padding: 8px 14px;
+  font-size: var(--font-size-sm);
+}
+
+.c-nav__overflow {
+  display: none;
+}
+
+.c-nav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: var(--muted);
+  transition: color var(--transition-default), background-color var(--transition-default);
+}
+
+.c-nav__link:hover {
+  color: var(--text);
+  background: var(--glass-1);
+}
+
+.c-nav__badge {
+  display: inline-flex;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--on-strong);
+  background: var(--color-brand-500);
+}
+
+/* CTA: por si tu btn-primary es muy alto */
+.c-nav__ctaBtn{
+  padding: 10px 18px;
+  border-radius: var(--radius-2xl);
+}
+
+.c-dot{
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+.c-dot--live{
+  background: var(--accent);
+  box-shadow: var(--accent-glow);
+}
+
+/* =========================================================
+  c-lang (selector idioma)
+========================================================= */
+.c-lang{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.c-lang__icon{
+  pointer-events:none;
+  position:absolute;
+  left:10px;
+  top:50%;
+  transform: translateY(-50%);
+  opacity:.85;
+  font-size:14px;
+}
+
+.c-lang__chev{
+  pointer-events:none;
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+}
+
+.c-lang__select{
+  appearance:none;
+  height: 40px;
+  border-radius: 999px;
+  padding-left: 32px;
+  padding-right: 32px;
+
+  border: 1px solid var(--border);
+  background: var(--glass-1);
+  color: var(--text);
+
+  box-shadow: var(--nav-select-shadow);
+  transition: background var(--transition-default), box-shadow var(--transition-default);
+}
+
+@media (max-width: 767px) {
+  .c-nav__inner {
+    height: 60px;
+    gap: var(--space-2);
+  }
+
+  .c-nav__logo {
+    height: 44px;
+  }
+
+  .c-nav__cta {
+    gap: var(--space-1);
+  }
+
+  .c-nav__cta .c-button {
+    min-height: 38px;
+    padding: 7px 12px;
+  }
+
+  .c-lang__select {
+    height: 38px;
+    min-width: 64px;
+    padding-left: 30px;
+    padding-right: 28px;
+  }
+}
+
+.c-lang__select:hover{
+  background: color-mix(in oklab, var(--glass-1) 70%, white);
+}
+
+.c-lang__select:focus-visible{
+  outline:none;
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-brand-500) 25%, transparent),
+              var(--nav-select-shadow);
+}
+
+/* Dropdown options */
+.c-lang__select option{
+  color: var(--text);
+}
+
+/* Fallback sin blur */
+@supports not (backdrop-filter: blur(12px)){
+  .c-nav.nav-grain{
+    background: color-mix(in oklab, var(--bg) 75%, black);
+  }
+}
+
+@media (min-width: 768px) {
+  .c-nav__inlineLinks {
+    min-width: 0;
+  }
+
+  .c-nav__link--primary {
+    white-space: nowrap;
+  }
+
+  .c-nav--overflow .c-nav__collapse-on-overflow {
+    display: none !important;
+  }
+
+  .c-nav--overflow .c-nav__overflow {
+    display: block;
+  }
+}

@@ -1,0 +1,21 @@
+/* superficies */
+.u-surface{
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.u-surface-2{
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+/* texto */
+.u-text{ color: var(--text); }
+.u-muted{ color: var(--muted); }
+
+/* glass (monolito) */
+.u-glass{
+  background: linear-gradient(180deg, var(--surface), var(--surface-2));
+  backdrop-filter: var(--blur-12);
+  box-shadow: var(--shadow);
+}

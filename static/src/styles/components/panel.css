@@ -1,0 +1,52 @@
+/* Grid del bloque */
+.c-panels {
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* Hero: 1col móvil, 2col sm, 3col lg */
+.c-panels--hero {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .c-panels--hero { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .c-panels--hero { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* Sección: permite 4 en desktop */
+.c-panels--section {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .c-panels--section { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .c-panels--section { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* Card */
+.c-panel {
+  border-radius: var(--radius-2xl, 24px);
+  padding: var(--space-5);
+  border: 1px solid var(--glass-border-weak);
+  background: var(--glass-fill-06);
+  backdrop-filter: blur(10px);
+}
+
+/* Tipografía */
+.c-panel__kicker {
+  font-size: var(--font-size-xs);
+  color: var(--text-on-glass-70);
+}
+.c-panel__title {
+  margin-top: 2px;
+  font-weight: 700;
+  color: var(--text-on-glass-95);
+}
+.c-panel__desc {
+  margin-top: var(--space-1);
+  font-size: var(--font-size-xs);
+  color: var(--text-on-glass-72);
+}
