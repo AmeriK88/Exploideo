@@ -36,6 +36,11 @@ SITE_ID = env.int("SITE_ID")
 
 CANONICAL_HOST = env("CANONICAL_HOST", default=None) if IS_PROD else None
 
+# Global prelaunch gate: only landing/legal/newsletter routes stay public when enabled.
+PRELAUNCH_MODE = env.bool("PRELAUNCH_MODE", default=False)
+
+# Analytics (solo GA4, sin segmentación ni nada avanzado por ahora)
+GA_MEASUREMENT_ID = os.getenv("GA_MEASUREMENT_ID", "")
 
 # ===== Application =====
 INSTALLED_APPS = [
@@ -70,6 +75,9 @@ MIDDLEWARE = [
     # Redirección a dominio canónico (si configuras CANONICAL_HOST)
     "core.middlewares.redirection_middleware.CanonicalHostMiddleware",
 
+    # Gate de pre-lanzamiento para bloquear rutas internas.
+    "core.middlewares.redirection_middleware.PrelaunchAccessMiddleware",
+
     # WhiteNoise (sirve estáticos en prod sin líos)
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
@@ -92,8 +100,10 @@ TEMPLATES = [
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.request",
+                "django.template.context_processors.i18n",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "core.context_processors.app_flags",
                 "core.context_processors.booking_badges",
             ],
         },
