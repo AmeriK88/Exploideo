@@ -6,47 +6,47 @@
 
   <div data-animate="fade-up">
     <h1 class="h1-page">Mis facturas</h1>
-    <p class="mt-1 p-muted">Consulta tus facturas emitidas.</p>
+    <p class="mt-1 u-muted">Consulta tus facturas emitidas.</p>
   </div>
 
   {% if invoices %}
-    <div class="space-y-3" data-stagger>
+    <div class="grid gap-5 sm:gap-6" data-stagger>
       {% for inv in invoices %}
-        <div class="card hover-lift">
-          <div class="card-body flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"  data-animate="scale-in">
+        <div class="c-card u-hover-lift">
+          <div class="c-card__body p-4 sm:p-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
 
             <div class="min-w-0">
               <div class="flex flex-wrap items-center gap-2">
-                <span class="badge badge-neutral">🧾 {{ inv.number|default:"(Draft)" }}</span>
+                <span class="c-badge c-badge--neutral">🧾 {{ inv.number|default:"(Draft)" }}</span>
 
                 {% if inv.kind == "rectificative" %}
-                  <span class="badge badge-red">Rectificativa</span>
+                  <span class="c-badge c-badge--danger">Rectificativa</span>
                 {% endif %}
 
                 {% if inv.status == "issued" %}
-                  <span class="badge badge-emerald">Emitida</span>
+                  <span class="c-badge c-badge--success">Emitida</span>
                 {% elif inv.status == "draft" %}
-                  <span class="badge badge-amber">Borrador</span>
+                  <span class="c-badge c-badge--warning">Borrador</span>
                 {% else %}
-                  <span class="badge badge-red">Anulada</span>
+                  <span class="c-badge c-badge--danger">Anulada</span>
                 {% endif %}
               </div>
 
-              <p class="mt-2 text-sm text-slate-700">
+              <p class="mt-2 text-sm u-text">
                 Total: <span class="font-semibold">{{ inv.total }} {{ inv.currency }}</span>
                 {% if inv.issued_at %} · Emitida: {{ inv.issued_at|date:"d/m/Y H:i" }}{% endif %}
               </p>
 
               {# Booking directo (factura normal) o booking de la original (rectificativa) #}
               {% if inv.booking %}
-                <p class="mt-1 text-xs text-slate-500">
+                <p class="mt-1 text-xs u-muted">
                   Reserva: {{ inv.booking.experience.title }} · {{ inv.booking.date }}
                 </p>
               {% elif inv.rectifies and inv.rectifies.booking %}
-                <p class="mt-1 text-xs text-slate-500">
+                <p class="mt-1 text-xs u-muted">
                   Reserva: {{ inv.rectifies.booking.experience.title }} · {{ inv.rectifies.booking.date }}
                 </p>
-                <p class="mt-1 text-xs text-slate-500">
+                <p class="mt-1 text-xs u-muted">
                   Rectifica a: <span class="font-medium">{{ inv.rectifies.number }}</span>
                 </p>
               {% endif %}
@@ -54,12 +54,12 @@
 
             <div class="flex flex-wrap gap-2">
               {% if inv.booking %}
-                <a class="btn btn-ghost" href="{% url 'bookings:detail' inv.booking.pk %}">Ver reserva</a>
+                <a class="c-button c-button--ghost" href="{% url 'bookings:detail' inv.booking.pk %}">Ver reserva</a>
               {% elif inv.rectifies and inv.rectifies.booking %}
-                <a class="btn btn-ghost" href="{% url 'bookings:detail' inv.rectifies.booking.pk %}">Ver reserva</a>
+                <a class="c-button c-button--ghost" href="{% url 'bookings:detail' inv.rectifies.booking.pk %}">Ver reserva</a>
               {% endif %}
 
-              <a class="btn btn-primary" href="{% url 'billing:invoice_detail' inv.pk %}">Ver factura</a>
+              <a class="c-button c-button--primary" href="{% url 'billing:invoice_detail' inv.pk %}">Ver factura</a>
             </div>
 
           </div>
@@ -67,10 +67,10 @@
       {% endfor %}
     </div>
   {% else %}
-    <div class="card" data-animate="scale-in">
-      <div class="card-body">
+    <div class="c-card" data-animate="scale-in">
+      <div class="c-card__body">
         <h2 class="h2-section">Aún no tienes facturas</h2>
-        <p class="mt-1 p-muted">Cuando se emita una factura aparecerá aquí.</p>
+        <p class="mt-1 u-muted">Cuando se emita una factura aparecerá aquí.</p>
       </div>
     </div>
   {% endif %}

@@ -7,7 +7,7 @@
   <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between" data-animate="fade-up">
     <div>
       <h1 class="h1-page">Factura {{ invoice.number }}</h1>
-      <p class="mt-1 p-muted">
+      <p class="mt-1 u-muted">
         {% if invoice.issued_at %}
           Emitida: {{ invoice.issued_at|date:"d/m/Y H:i" }}
         {% else %}
@@ -17,31 +17,31 @@
     </div>
 
     <div class="flex gap-2">
-      <a href="{% url 'billing:my_invoices' %}" class="btn btn-ghost">← Volver</a>
+      <a href="{% url 'billing:my_invoices' %}" class="c-button c-button--ghost">← Volver</a>
       {% if booking %}
-        <a href="{% url 'bookings:detail' booking.pk %}" class="btn btn-ghost">Ver reserva</a>
+        <a href="{% url 'bookings:detail' booking.pk %}" class="c-button c-button--ghost">Ver reserva</a>
       {% endif %}
     </div>
   </div>
 
   {% if invoice.kind == "rectificative" %}
     <div class="mt-2 flex flex-wrap items-center gap-2">
-      <span class="badge badge-red">Rectificativa</span>
+      <span class="c-badge c-badge--danger">Rectificativa</span>
       {% if invoice.rectifies %}
-        <a class="btn btn-ghost" href="{% url 'billing:invoice_detail' invoice.rectifies.pk %}">
+        <a class="c-button c-button--ghost" href="{% url 'billing:invoice_detail' invoice.rectifies.pk %}">
           Ver factura original
         </a>
       {% endif %}
     </div>
   {% endif %}
 
-  <div class="card hover-lift">
-    <div class="card-body" data-animate="scale-in">
+  <div class="c-card u-hover-lift">
+    <div class="c-card__body" data-animate="scale-in">
 
       <div class="grid gap-6 lg:grid-cols-2">
         <div>
           <h2 class="h2-section">Cliente</h2>
-          <p class="mt-2 text-sm text-slate-700">
+          <p class="mt-2 text-sm u-text">
             <span class="font-semibold">{{ invoice.customer_name }}</span><br>
             {{ invoice.customer_email }}
           </p>
@@ -49,7 +49,7 @@
 
         <div class="lg:text-right">
           <h2 class="h2-section">Resumen</h2>
-          <p class="mt-2 text-sm text-slate-700">
+          <p class="mt-2 text-sm u-text">
             Subtotal: <span class="font-semibold">{{ invoice.subtotal }} {{ invoice.currency }}</span><br>
             IVA: <span class="font-semibold">{{ invoice.tax_total }} {{ invoice.currency }}</span><br>
             Total: <span class="font-semibold">{{ invoice.total }} {{ invoice.currency }}</span>
@@ -57,13 +57,13 @@
         </div>
       </div>
 
-      <div class="mt-6 border-t border-slate-200 pt-4">
+      <div class="mt-6 border-t border-(--border) pt-4">
         <h2 class="h2-section">Líneas</h2>
 
         <div class="mt-3 overflow-x-auto">
           <table class="min-w-full text-sm">
-            <thead class="text-slate-600">
-              <tr class="border-b border-slate-200">
+            <thead class="u-muted">
+              <tr class="border-b border-(--border)">
                 <th class="py-2 text-left font-semibold">Descripción</th>
                 <th class="py-2 text-right font-semibold">Cant.</th>
                 <th class="py-2 text-right font-semibold">Precio</th>
@@ -71,9 +71,9 @@
                 <th class="py-2 text-right font-semibold">Total</th>
               </tr>
             </thead>
-            <tbody class="text-slate-700">
+            <tbody class="u-text">
               {% for it in invoice.items.all %}
-                <tr class="border-b border-slate-100">
+                <tr class="border-b border-(--border)">
                   <td class="py-2 pr-4">{{ it.description }}</td>
                   <td class="py-2 text-right">{{ it.quantity }}</td>
                   <td class="py-2 text-right">{{ it.unit_price }}</td>
@@ -88,16 +88,16 @@
         <div class="mt-4 flex justify-end">
           <div class="w-full max-w-sm space-y-1 text-sm">
             <div class="flex justify-between">
-              <span class="text-slate-600">Subtotal</span>
+              <span class="u-muted">Subtotal</span>
               <span class="font-semibold">{{ invoice.subtotal }} {{ invoice.currency }}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-slate-600">IVA</span>
+              <span class="u-muted">IVA</span>
               <span class="font-semibold">{{ invoice.tax_total }} {{ invoice.currency }}</span>
             </div>
-            <div class="flex justify-between border-t border-slate-200 pt-2">
-              <span class="text-slate-900 font-semibold">Total</span>
-              <span class="text-slate-900 font-semibold">{{ invoice.total }} {{ invoice.currency }}</span>
+            <div class="flex justify-between border-t border-(--border) pt-2">
+              <span class="u-text font-semibold">Total</span>
+              <span class="u-text font-semibold">{{ invoice.total }} {{ invoice.currency }}</span>
             </div>
           </div>
         </div>

@@ -2,39 +2,45 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-  <div class="mx-auto max-w-md" data-animate="fade-up">
-    {# wrapper animado #}
-    <div>
-      <div class="card">
-        <div class="card-body">
-          <h1 class="h1-page">Iniciar sesión</h1>
-          <p class="mt-1 p-muted">
-            Accede a tu cuenta para gestionar tus experiencias y reservas.
-          </p>
+  <div class="min-h-[calc(100dvh-10rem)] grid place-items-center py-10" data-animate="fade-up">
+    <div class="w-full o-section--narrow">
+      <div class="c-card">
+        <div class="c-card__body relative o-stack o-stack--4">
+          <div class="u-hero-top-glow"></div>
 
-          <form method="post" class="mt-6 space-y-4">
+          <div>
+            <h1 class="h1-page">Iniciar sesión</h1>
+            <p class="mt-1 u-muted">
+            Accede a tu cuenta para gestionar tus experiencias y reservas.
+            </p>
+          </div>
+
+          <form method="post" class="o-stack o-stack--4">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ next|default:'' }}">
 
             <div>
-              <label class="label">Usuario</label>
-              <input type="text" name="username" class="input" required autofocus />
+              <label class="label" for="id_username">Usuario</label>
+              <input id="id_username" type="text" name="username" class="input" required autofocus />
             </div>
 
             <div>
-              <label class="label">Contraseña</label>
-              <input type="password" name="password" class="input" required />
+              <label class="label" for="id_password">Contraseña</label>
+              <input id="id_password" type="password" name="password" class="input" required />
             </div>
 
-            <button type="submit" class="btn btn-primary w-full">Entrar</button>
+            <button type="submit" class="c-button c-button--primary w-full">
+              Entrar
+            </button>
           </form>
 
-          <div class="mt-4 text-center text-sm">
-            <span class="p-muted">¿No tienes cuenta?</span>
-            <a href="{% url 'accounts:register' %}" class="ml-1 account-input">
+          <div class="text-center text-sm">
+            <span class="u-muted">¿No tienes cuenta?</span>
+            <a href="{% url 'accounts:register' %}" class="ml-1 u-text underline decoration-dotted underline-offset-4 hover:opacity-90">
               Crear cuenta
             </a>
           </div>
+
         </div>
       </div>
     </div>

@@ -3,55 +3,55 @@
 {% block title %}Reseñar{% endblock %}
 
 {% block dashboard_content %}
-  <div class="flex flex-col gap-6">
+  <div class="o-stack o-stack--6">
     <div>
       <h1 class="h1-page">Dejar reseña</h1>
-      <p class="mt-1 p-muted">
-        Experiencia: <span class="secondary">{{ experience.title }}</span>
+      <p class="mt-1 u-muted">
+        Experiencia: <span class="font-medium u-text">{{ experience.title }}</span>
       </p>
 
       {% if stats.count %}
         <div class="mt-3 flex flex-wrap gap-2">
-          <span class="badge">⭐ Media: {{ stats.avg|floatformat:1 }}</span>
-          <span class="badge">🧾 Reseñas: {{ stats.count }}</span>
+          <span class="c-badge">⭐ Media: {{ stats.avg|floatformat:1 }}</span>
+          <span class="c-badge">🧾 Reseñas: {{ stats.count }}</span>
         </div>
       {% endif %}
     </div>
 
-    <div class="card">
-      <div class="card-body">
+    <div class="c-card">
+      <div class="c-card__body">
         <form method="post" class="space-y-4">
           {% csrf_token %}
 
           {% if form.non_field_errors %}
-            <div class="form-error">
+            <div class="c-form__error">
               {{ form.non_field_errors }}
             </div>
           {% endif %}
 
           {% for field in form %}
             <div>
-              <label for="{{ field.id_for_label }}" class="label">{{ field.label }}</label>
+              <label for="{{ field.id_for_label }}" class="c-form__label">{{ field.label }}</label>
 
               {% if field.field.widget.input_type == "textarea" %}
-                {{ field|add_class:"input min-h-[140px]" }}
+                {{ field|add_class:"c-form__input min-h-[140px]" }}
               {% else %}
-                {{ field|add_class:"input" }}
+                {{ field|add_class:"c-form__input" }}
               {% endif %}
 
               {% if field.help_text %}
-                <p class="help">{{ field.help_text|safe }}</p>
+                <p class="c-form__help">{{ field.help_text|safe }}</p>
               {% endif %}
 
               {% if field.errors %}
-                <p class="field-error">{{ field.errors|striptags }}</p>
+                <p class="c-form__error">{{ field.errors|striptags }}</p>
               {% endif %}
             </div>
           {% endfor %}
 
           <div class="flex flex-col gap-2 sm:flex-row sm:justify-end">
-            <a href="{% url 'experiences:detail' experience.pk %}" class="btn btn-ghost">Cancelar</a>
-            <button class="btn btn-primary" type="submit">Guardar reseña</button>
+            <a href="{% url 'experiences:detail' experience.pk %}" class="c-button c-button--ghost">Cancelar</a>
+            <button class="c-button c-button--primary" type="submit">Guardar reseña</button>
           </div>
         </form>
       </div>

@@ -8,18 +8,18 @@
     <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
       <div>
         <h1 class="h1-page">Crear experiencia</h1>
-        <p class="mt-1 p-muted">
+        <p class="mt-1 u-muted">
           Añade los datos básicos. Luego podrás ajustar disponibilidad y fotos.
         </p>
       </div>
 
-      <a href="{% url 'experiences:list' %}" class="btn btn-ghost">
+      <a href="{% url 'experiences:list' %}" class="c-button c-button--ghost">
         Volver al listado
       </a>
     </div>
 
-    <div class="card">
-      <div class="card-body">
+    <div class="c-card">
+      <div class="c-card__body">
         <form method="post" enctype="multipart/form-data" class="space-y-6">
           {% csrf_token %}
 
@@ -44,7 +44,7 @@
                 {% if field.field.widget.input_type == "file" %}
                   <div class="file-upload">
                     {{ field|add_class:"input w-full max-w-full" }}
-                    <p class="mt-1 text-xs text-slate-500">
+                    <p class="mt-1 text-xs u-muted">
                       Sube una imagen representativa de la experiencia.
                     </p>
                   </div>
@@ -59,7 +59,7 @@
                 {% endif %}
 
                 {% if field.help_text %}
-                  <p class="help">{{ field.help_text|safe }}</p>
+                  <p class="c-form__help">{{ field.help_text|safe }}</p>
                 {% endif %}
 
                 {% if field.errors %}
@@ -70,10 +70,10 @@
           </div>
 
           <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-            <a href="{% url 'experiences:list' %}" class="btn btn-ghost">
+            <a href="{% url 'experiences:list' %}" class="c-button c-button--ghost">
               Cancelar
             </a>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="c-button c-button--primary">
               Guardar
             </button>
           </div>

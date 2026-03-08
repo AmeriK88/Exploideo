@@ -8,55 +8,55 @@
     <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
       <div>
         <h1 class="h1-page">Editar experiencia</h1>
-        <p class="mt-1 p-muted">
-          <span class="p-secondary">{{ exp.title }}</span>
+        <p class="mt-1 u-muted">
+          <span class="font-medium u-text">{{ exp.title }}</span>
         </p>
       </div>
 
       <div class="flex flex-wrap gap-2">
-        <a href="{% url 'experiences:detail' exp.pk %}" class="btn btn-ghost">Ver detalle</a>
-        <a href="{% url 'experiences:list' %}" class="btn btn-ghost">Volver</a>
+        <a href="{% url 'experiences:detail' exp.pk %}" class="c-button c-button--ghost">Ver detalle</a>
+        <a href="{% url 'experiences:list' %}" class="c-button c-button--ghost">Volver</a>
       </div>
     </div>
 
     {# Resumen rápido de disponibilidad #}
-    <div class="card">
-      <div class="card-body">
+    <div class="c-card">
+      <div class="c-card__body">
         <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div class="min-w-0">
             <h2 class="h2-section">Disponibilidad</h2>
-            <p class="mt-1 p-muted">
+            <p class="mt-1 u-muted">
               Ajusta cupos diarios, máximo por excursión, rango de fechas y días permitidos.
             </p>
 
             {% if availability %}
               <div class="mt-4 flex flex-wrap gap-2">
                 {% if availability.is_enabled %}
-                  <span class="badge hover-lift">✅ Reservas abiertas</span>
+                  <span class="badge u-hover-lift">✅ Reservas abiertas</span>
                 {% else %}
-                  <span class="badge badge-neutral hover-lift">⛔ Reservas cerradas</span>
+                  <span class="c-badge c-badge--neutral u-hover-lift">⛔ Reservas cerradas</span>
                 {% endif %}
 
                 {% if availability.max_people_per_booking %}
-                  <span class="badge hover-lift">👥 Máx/Excursión: {{ availability.max_people_per_booking }}</span>
+                  <span class="badge u-hover-lift">👥 Máx/Excursión: {{ availability.max_people_per_booking }}</span>
                 {% else %}
-                  <span class="badge badge-neutral hover-lift">👥 Máx/Excursión: sin límite</span>
+                  <span class="c-badge c-badge--neutral u-hover-lift">👥 Máx/Excursión: sin límite</span>
                 {% endif %}
 
                 {% if availability.daily_capacity_people %}
-                  <span class="badge hover-lift">📦 Capacidad diaria: {{ availability.daily_capacity_people }} pax</span>
+                  <span class="badge u-hover-lift">📦 Capacidad diaria: {{ availability.daily_capacity_people }} pax</span>
                 {% else %}
-                  <span class="badge badge-neutral hover-lift">📦 Capacidad diaria: sin límite</span>
+                  <span class="c-badge c-badge--neutral u-hover-lift">📦 Capacidad diaria: sin límite</span>
                 {% endif %}
 
                 {% if availability.daily_capacity_bookings %}
-                  <span class="badge hover-lift">🗓️ Máx tours/día: {{ availability.daily_capacity_bookings }}</span>
+                  <span class="badge u-hover-lift">🗓️ Máx tours/día: {{ availability.daily_capacity_bookings }}</span>
                 {% else %}
-                  <span class="badge badge-neutral hover-lift">🗓️ Máx tours/día: sin límite</span>
+                  <span class="c-badge c-badge--neutral u-hover-lift">🗓️ Máx tours/día: sin límite</span>
                 {% endif %}
 
                 {% if availability.start_date or availability.end_date %}
-                  <span class="badge hover-lift">
+                  <span class="badge u-hover-lift">
                     📅 Rango:
                     {{ availability.start_date|default:"—" }}
                     →
@@ -67,7 +67,7 @@
             {% endif %}
           </div>
 
-          <a href="{% url 'availability:manage' exp.pk %}" class="btn btn-primary">
+          <a href="{% url 'availability:manage' exp.pk %}" class="c-button c-button--primary">
             Editar
           </a>
         </div>
@@ -75,8 +75,8 @@
     </div>
 
     <!-- Form -->
-    <div class="card">
-      <div class="card-body">
+    <div class="c-card">
+      <div class="c-card__body">
         <form method="post" enctype="multipart/form-data" class="space-y-6">
           {% csrf_token %}
 
@@ -97,7 +97,7 @@
                 {% elif field.field.widget.input_type == "file" %}
                   <div class="file-upload">
                     {{ field|add_class:"input" }}
-                    <p class="help">Sube una imagen representativa (JPG/PNG).</p>
+                    <p class="c-form__help">Sube una imagen representativa (JPG/PNG).</p>
                   </div>
 
                 {% else %}
@@ -105,7 +105,7 @@
                 {% endif %}
 
                 {% if field.help_text %}
-                  <p class="help">{{ field.help_text|safe }}</p>
+                  <p class="c-form__help">{{ field.help_text|safe }}</p>
                 {% endif %}
 
                 {% if field.errors %}
@@ -116,10 +116,10 @@
           </div>
 
           <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-            <a href="{% url 'experiences:detail' exp.pk %}" class="btn btn-ghost">
+            <a href="{% url 'experiences:detail' exp.pk %}" class="c-button c-button--ghost">
               Cancelar
             </a>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="c-button c-button--primary">
               Guardar cambios
             </button>
           </div>

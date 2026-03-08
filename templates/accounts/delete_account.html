@@ -3,8 +3,8 @@
 
 {% block content %}
 <section class="mt-8">
-  <div class="card">
-    <div class="card-body">
+  <div class="c-card">
+    <div class="c-card__body">
       <h1 class="text-xl label-title-secondary">Eliminar cuenta</h1>
 
       <div class="mt-3 alert alert-danger">
@@ -38,7 +38,7 @@
           <label class="label">{{ form.confirm.label }}</label>
           {{ form.confirm }}
           {% if form.confirm.help_text %}
-            <p class="help">{{ form.confirm.help_text|safe }}</p>
+            <p class="c-form__help">{{ form.confirm.help_text|safe }}</p>
           {% endif %}
           {% if form.confirm.errors %}
             <p class="field-error">{{ form.confirm.errors|striptags }}</p>
@@ -57,7 +57,7 @@
             spellcheck="false"
           />
           {% if form.phrase.help_text %}
-            <p class="help">{{ form.phrase.help_text|safe }}</p>
+            <p class="c-form__help">{{ form.phrase.help_text|safe }}</p>
           {% endif %}
           {% if form.phrase.errors %}
             <p class="field-error">{{ form.phrase.errors|striptags }}</p>
@@ -68,7 +68,7 @@
           <button type="submit" class="btn btn-danger">
             Desactivar mi cuenta
           </button>
-          <a href="{% url 'pages:dashboard' %}" class="btn btn-ghost">
+          <a href="{% url 'pages:dashboard' %}" class="c-button c-button--ghost">
             Cancelar
           </a>
         </div>

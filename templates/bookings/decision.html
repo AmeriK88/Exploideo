@@ -4,19 +4,19 @@
 {% block title %}Gestionar reserva{% endblock %}
 
 {% block dashboard_content %}
-  <div class="card">
-    <div class="card-body">
+  <div class="c-card">
+    <div class="c-card__body">
       <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <h1 class="h1-page">
           {% if action == "accept" %}Aceptar reserva{% else %}Rechazar reserva{% endif %}
         </h1>
 
-        <span class="badge badge-neutral hover-lift">
+        <span class="c-badge c-badge--neutral u-hover-lift">
           {{ booking.get_status_display }}
         </span>
       </div>
 
-      <p class="mt-2 p-muted">
+      <p class="mt-2 u-muted">
         Revisa los datos de la solicitud antes de confirmar.
       </p>
 
@@ -25,32 +25,32 @@
         <div class="grid gap-3 sm:grid-cols-2">
           <div>
             <p class="p-micro">Experiencia</p>
-            <p class="p-secondary">{{ booking.experience.title }}</p>
+            <p class="font-medium u-text">{{ booking.experience.title }}</p>
           </div>
 
           <div>
             <p class="p-micro">Viajero</p>
-            <p class="p-secondary">{{ booking.traveler.username }}</p>
+            <p class="font-medium u-text">{{ booking.traveler.username }}</p>
           </div>
 
           <div>
             <p class="p-micro">Fecha</p>
-            <p class="p-secondary">{{ booking.date }}</p>
+            <p class="font-medium u-text">{{ booking.date }}</p>
           </div>
 
           <div>
             <p class="p-micro">Total</p>
-            <p class="p-secondary">{{ booking.total_price }}€</p>
+            <p class="font-medium u-text">{{ booking.total_price }}€</p>
           </div>
         </div>
 
         <div class="mt-4 flex flex-wrap gap-2">
-          <span class="badge badge-neutral hover-lift">👤 {{ booking.adults }} adultos</span>
-          <span class="badge badge-neutral hover-lift">🧒 {{ booking.children }} niños</span>
-          <span class="badge badge-neutral hover-lift">👶 {{ booking.infants }} bebés</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">👤 {{ booking.adults }} adultos</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">🧒 {{ booking.children }} niños</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">👶 {{ booking.infants }} bebés</span>
 
           {# Transporte: viene fijado por la experience (snapshot en booking) #}
-          <span class="badge badge-neutral hover-lift">
+          <span class="c-badge c-badge--neutral u-hover-lift">
             {% if booking.transport_mode == "own_vehicle" %}
               🚗
             {% elif booking.transport_mode == "bicycle" %}
@@ -62,13 +62,13 @@
           </span>
 
           {% if booking.preferred_language %}
-            <span class="badge badge-neutral hover-lift">
+            <span class="c-badge c-badge--neutral u-hover-lift">
               🗣 {{ booking.preferred_language }}
             </span>
           {% endif %}
 
           {% if booking.pickup_notes %}
-            <span class="badge badge-neutral hover-lift">📍 Punto de encuentro: {{ booking.pickup_notes }}</span>
+            <span class="c-badge c-badge--neutral u-hover-lift">📍 Punto de encuentro: {{ booking.pickup_notes }}</span>
           {% endif %}
         </div>
 
@@ -79,7 +79,7 @@
         {% csrf_token %}
 
         {% if form.non_field_errors %}
-          <div class="rounded-2xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          <div class="c-alert c-alert--danger">
             {{ form.non_field_errors|striptags }}
           </div>
         {% endif %}
@@ -138,11 +138,11 @@
         {% endfor %}
 
         <div class="flex flex-col gap-2 sm:flex-row">
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" class="c-button c-button--primary">
             {% if action == "accept" %}Confirmar aceptación{% else %}Confirmar rechazo{% endif %}
           </button>
 
-          <a href="{% url 'bookings:guide_list' %}" class="btn btn-ghost text-center">
+          <a href="{% url 'bookings:guide_list' %}" class="c-button c-button--ghost text-center">
             Volver
           </a>
         </div>

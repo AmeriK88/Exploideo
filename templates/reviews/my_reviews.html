@@ -2,16 +2,16 @@
 {% block title %}Mis reseñas{% endblock %}
 
 {% block dashboard_content %}
-  <div class="flex flex-col gap-6">
+  <div class="o-stack o-stack--6">
     <div data-animate="fade-up">
       <h1 class="h1-page">Mis reseñas</h1>
-        <p class="mt-1 p-muted">
+        <p class="mt-1 u-muted">
           Tus reseñas (publicadas, pendientes o marcadas).
         </p>
     </div>
 
     {% if reviews %}
-      <div class="space-y-3" data-stagger>
+      <div class="o-stack o-stack--3" data-stagger>
         {% for r in reviews %}
           <div data-animate="fade-up">
             {% include "components/review_card.html" with r=r variant="my_reviews" %}
@@ -19,9 +19,9 @@
         {% endfor %}
       </div>
     {% else %}
-      <div class="card" data-animate="fade-up">
-        <div class="card-body">
-          <p class="mt-1 p-muted">Aún no has dejado reseñas.</p>
+      <div class="c-card" data-animate="fade-up">
+        <div class="c-card__body">
+          <p class="mt-1 u-muted">Aún no has dejado reseñas.</p>
         </div>
       </div>
     {% endif %}

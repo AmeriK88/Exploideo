@@ -4,23 +4,23 @@
 {% block title %}Reservar{% endblock %}
 
 {% block content %}
-  <div class="mx-auto max-w-lg">
-    <div class="card">
-      <div class="card-body">
+  <div class="o-section--narrow">
+    <div class="c-card">
+      <div class="c-card__body">
         <div class="flex items-start justify-between gap-4">
           <div>
             <h1 class="h1-page">Reservar experiencia</h1>
-            <p class="mt-1 p-muted">{{ experience.title }}</p>
+            <p class="mt-1 u-muted">{{ experience.title }}</p>
           </div>
 
           <div class="shrink-0">
-            <a href="{% url 'experiences:detail' experience.pk %}" class="btn btn-ghost sm:w-auto">
+            <a href="{% url 'experiences:detail' experience.pk %}" class="c-button c-button--ghost sm:w-auto">
               ← Volver al detalle
             </a>
           </div>
         </div>
 
-        <form method="post" class="mt-6 space-y-6">
+        <form method="post" class="mt-6 o-stack o-stack--6">
           {% csrf_token %}
 
           {% if form.non_field_errors %}
@@ -32,7 +32,7 @@
           <!-- Fecha -->
           <div>
             <h2 class="label-title">1) Fecha</h2>
-            <p class="mt-1 p-muted">Elige el día en que quieres hacer la experiencia.</p>
+            <p class="mt-1 u-muted">Elige el día en que quieres hacer la experiencia.</p>
 
             <div class="mt-4">
               <label class="label">{{ form.date.label }}</label>
@@ -44,10 +44,10 @@
               </div>
 
               <!-- Mensaje dinámico del calendario (JS lo rellena) -->
-              <p id="calendar-hint" class="help-secondary hidden"></p>
+              <p id="calendar-hint" class="u-muted text-sm hidden"></p>
 
               {% if form.date.help_text %}
-                <p class="help-secondary">{{ form.date.help_text|safe }}</p>
+                <p class="u-muted text-sm">{{ form.date.help_text|safe }}</p>
               {% endif %}
 
               {% if form.date.errors %}
@@ -59,7 +59,7 @@
           <!-- Personas -->
           <div class="panel-soft">
             <h2 class="label-title">2) Personas</h2>
-            <p class="mt-1 p-muted">
+            <p class="mt-1 u-muted">
               Adultos (precio completo), niños (50%) y bebés (gratis).
             </p>
 
@@ -87,11 +87,11 @@
           <!-- Desplazamiento + Localización cliente -->
           <div class="panel-soft">
             <h2 class="label-title">3) Desplazamiento y localización</h2>
-            <p class="mt-1 p-muted">
+            <p class="mt-1 u-muted">
               Punto de encuentro según tu alojamiento. Indica dónde te hospedas para que el guía organice el punto de inicio.
             </p>
 
-            <div class="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+            <div class="mt-4 rounded-xl border border-border bg-surface-soft p-3 text-sm u-text">
               {% if experience.transport_requirement == "own_vehicle" %}
                 🚗
               {% elif experience.transport_requirement == "bicycle" %}
@@ -100,7 +100,7 @@
                 🥾
               {% endif %}
               Desplazamiento requerido:
-              <span class="font-semibold text-slate-900">
+              <span class="font-semibold u-text">
                 {{ experience.get_transport_requirement_display }}
               </span>
             </div>
@@ -108,7 +108,7 @@
             <div class="mt-4">
               <label class="label-title">{{ form.pickup_notes.label }}</label>
               {{ form.pickup_notes|add_class:"input" }}
-              <p class="help-secondary">
+              <p class="u-muted text-sm">
                 Ej: “Arrecife centro”, “Lobby Hotel X”, “Entrada de la playa”.
               </p>
               {% if form.pickup_notes.errors %}<p class="field-error">{{ form.pickup_notes.errors|striptags }}</p>{% endif %}
@@ -118,7 +118,7 @@
           <!-- Idioma preferido -->
           <div class="panel-soft">
             <h2 class="label-title">4) Idioma</h2>
-            <p class="mt-1 p-muted">
+            <p class="mt-1 u-muted">
               Elige el idioma en el que quieres realizar la experiencia.
             </p>
 
@@ -126,10 +126,10 @@
               <label class="label">{{ form.preferred_language.label }}</label>
               {{ form.preferred_language|add_class:"input" }}
 
-              <p class="help-secondary">Ayuda al guía a preparar la experiencia.</p>
+              <p class="u-muted text-sm">Ayuda al guía a preparar la experiencia.</p>
 
               {% if form.preferred_language.help_text %}
-                <p class="help-secondary">{{ form.preferred_language.help_text }}</p>
+                <p class="u-muted text-sm">{{ form.preferred_language.help_text }}</p>
               {% endif %}
 
               {% if form.preferred_language.errors %}
@@ -141,7 +141,7 @@
           <!-- Notas -->
           <div class="panel-soft">
             <h2 class="label-title">5) Comentarios</h2>
-            <p class="mt-1 p-muted">
+            <p class="mt-1 u-muted">
               Cuenta cualquier detalle importante (ritmo, restricciones, alergias, necesidades, etc.).
             </p>
 
@@ -152,11 +152,11 @@
             </div>
           </div>
 
-          <button type="submit" class="btn btn-primary w-full">
+          <button type="submit" class="c-button c-button--primary w-full">
             Enviar reserva
           </button>
 
-          <div class="help-secondary">
+          <div class="u-muted text-sm">
             Al enviar la solicitud aceptas las condiciones de la experiencia y las políticas de cancelación.
           </div>
         </form>

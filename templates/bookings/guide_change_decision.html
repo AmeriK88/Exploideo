@@ -8,32 +8,32 @@
   <!-- Header -->
   <div>
     <h1 class="h1-page">Solicitud de cambio</h1>
-    <p class="mt-1 p-muted">
+    <p class="mt-1 u-muted">
       Compara la reserva actual con la propuesta del viajero.
     </p>
   </div>
 
   {# Aviso si el sistema bloqueó el cambio #}
   {% if booking.extras.change_blocked_reason %}
-    <div class="card">
-      <div class="card-body">
-        <div class="rounded-2xl border border-red-200 bg-red-50 p-4">
-          <p class="text-sm font-semibold text-red-800">
+    <div class="c-card">
+      <div class="c-card__body">
+        <div class="c-alert c-alert--danger">
+          <p class="text-sm font-semibold u-text">
             ⚠ Cambio bloqueado automáticamente
           </p>
-          <p class="mt-1 text-sm text-red-700">
+          <p class="mt-1 text-sm u-muted">
             {{ booking.extras.change_blocked_reason }}
           </p>
-          <p class="mt-2 text-xs text-red-700/80">
+          <p class="mt-2 text-xs u-muted">
             Este cambio no puede aprobarse porque no cumple las normas de la experiencia.
           </p>
         </div>
 
         <div class="mt-4 flex flex-wrap gap-2">
-          <a class="btn btn-ghost" href="{% url 'bookings:detail' booking.pk %}">
+          <a class="c-button c-button--ghost" href="{% url 'bookings:detail' booking.pk %}">
             Ver detalle
           </a>
-          <a class="btn btn-primary" href="{% url 'bookings:guide_list' %}">
+          <a class="c-button c-button--primary" href="{% url 'bookings:guide_list' %}">
             Volver a reservas
           </a>
         </div>
@@ -45,23 +45,23 @@
   <div class="grid gap-6 lg:grid-cols-2">
 
     <!-- Reserva actual -->
-    <div class="card">
-      <div class="card-body">
+    <div class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">Reserva actual</h2>
 
         <div class="mt-4 flex flex-wrap gap-2">
-          <span class="badge hover-lift">📅 {{ booking.date }}</span>
-          <span class="badge hover-lift">👥 {{ booking.people }} pax</span>
+          <span class="badge u-hover-lift">📅 {{ booking.date }}</span>
+          <span class="badge u-hover-lift">👥 {{ booking.people }} pax</span>
 
-          <span class="badge hover-lift">
+          <span class="badge u-hover-lift">
             🚗 {{ booking.get_transport_mode_display }}
           </span>
 
-          <span class="badge hover-lift">
+          <span class="badge u-hover-lift">
             📍 {{ booking.pickup_notes|default:"Por concretar" }}
           </span>
 
-          <span class="badge hover-lift">
+          <span class="badge u-hover-lift">
             🗣 {{ booking.preferred_language|default:"—" }}
           </span>
         </div>
@@ -69,8 +69,8 @@
     </div>
 
     <!-- Cambio solicitado -->
-    <div class="card">
-      <div class="card-body">
+    <div class="c-card">
+      <div class="c-card__body">
         <h2 class="h2-section">Cambio solicitado</h2>
 
         {% with cr=booking.extras.change_request %}
@@ -78,35 +78,35 @@
             <div class="mt-4 flex flex-wrap gap-2">
 
               {% if cr.date %}
-                <span class="badge hover-lift">📅 {{ cr.date }}</span>
+                <span class="badge u-hover-lift">📅 {{ cr.date }}</span>
               {% endif %}
 
-              <span class="badge hover-lift">
+              <span class="badge u-hover-lift">
                 👤 {{ cr.adults|default:0 }}
                 / 🧒 {{ cr.children|default:0 }}
                 / 👶 {{ cr.infants|default:0 }}
               </span>
 
               {# 🚗 Transporte ya NO se puede cambiar #}
-              <span class="badge hover-lift">
+              <span class="badge u-hover-lift">
                 🚗 {{ booking.get_transport_mode_display }}
               </span>
 
               {% if cr.pickup_notes %}
-                <span class="badge hover-lift">
+                <span class="badge u-hover-lift">
                   📍 {{ cr.pickup_notes }}
                 </span>
               {% endif %}
 
               {% if cr.preferred_language %}
-                <span class="badge badge-neutral hover-lift">
+                <span class="c-badge c-badge--neutral u-hover-lift">
                   🗣 {{ language_labels|dict_get:cr.preferred_language|default:cr.preferred_language }}
                 </span>
               {% endif %}
             </div>
 
           {% else %}
-            <p class="p-muted mt-3">
+            <p class="u-muted mt-3">
               No se encontraron datos de cambio.
             </p>
           {% endif %}
@@ -117,8 +117,8 @@
   </div>
 
   <!-- Acciones -->
-  <div class="card">
-    <div class="card-body">
+  <div class="c-card">
+    <div class="c-card__body">
       <div class="flex flex-wrap gap-2">
 
         {# Si está bloqueado, NO mostrar botones de aceptar/rechazar #}
@@ -126,25 +126,25 @@
 
           <form method="post" action="{% url 'bookings:guide_change_decide' booking.pk 'accept' %}">
             {% csrf_token %}
-            <button class="btn btn-primary" type="submit">
+            <button class="c-button c-button--primary" type="submit">
               Aceptar cambio
             </button>
           </form>
 
           <form method="post" action="{% url 'bookings:guide_change_decide' booking.pk 'reject' %}">
             {% csrf_token %}
-            <button class="btn btn-ghost" type="submit">
+            <button class="c-button c-button--ghost" type="submit">
               Rechazar
             </button>
           </form>
 
         {% endif %}
 
-        <a class="btn btn-ghost" href="{% url 'bookings:detail' booking.pk %}">
+        <a class="c-button c-button--ghost" href="{% url 'bookings:detail' booking.pk %}">
           Ver detalle
         </a>
 
-        <a class="btn btn-ghost" href="{% url 'bookings:guide_list' %}">
+        <a class="c-button c-button--ghost" href="{% url 'bookings:guide_list' %}">
           Volver a reservas
         </a>
 

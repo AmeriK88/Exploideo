@@ -3,27 +3,27 @@
 {% block title %}Mi Perfil{% endblock %}
 
 {% block dashboard_content %}
-  <div class="flex flex-col gap-6">
+  <div class="o-stack o-stack--6">
 
     <!-- Header (opcional: en card para consistencia visual) -->
-    <div class="card">
-      <div class="card-body relative">
+    <div class="c-card">
+      <div class="c-card__body relative">
         <!-- Subtle top gradient -->
-        <div class="hero-top-glow"></div>
+        <div class="u-hero-top-glow"></div>
         <h1 class="h1-page">Mi Perfil</h1>
-        <p class="mt-1 p-muted">
+        <p class="mt-1 u-muted">
           Actualiza tus datos. Estos se usarán para tus reservas y comunicaciones.
         </p>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-body">
+    <div class="c-card">
+      <div class="c-card__body">
         <form method="post" class="space-y-6">
           {% csrf_token %}
 
           {% if form.non_field_errors %}
-            <div class="form-error">
+            <div class="c-form__error">
               {{ form.non_field_errors }}
             </div>
           {% endif %}
@@ -31,38 +31,38 @@
           <div class="grid gap-4 sm:grid-cols-2">
             {% for field in form %}
               <div class="{% if field.field.widget.input_type == 'textarea' %}sm:col-span-2{% endif %}">
-                <label for="{{ field.id_for_label }}" class="label">{{ field.label }}</label>
+                <label for="{{ field.id_for_label }}" class="c-form__label">{{ field.label }}</label>
 
                 {% if forloop.first %}
                   {% if field.field.widget.input_type == "textarea" %}
-                    {{ field|add_class:"input min-h-[120px]" }}
+                    {{ field|add_class:"c-form__input min-h-[120px]" }}
                   {% else %}
-                    {{ field|add_class:"input" }}
+                    {{ field|add_class:"c-form__input" }}
                   {% endif %}
                 {% else %}
                   {% if field.field.widget.input_type == "textarea" %}
-                    {{ field|add_class:"input min-h-[120px]" }}
+                    {{ field|add_class:"c-form__input min-h-[120px]" }}
                   {% else %}
-                    {{ field|add_class:"input" }}
+                    {{ field|add_class:"c-form__input" }}
                   {% endif %}
                 {% endif %}
 
                 {% if field.help_text %}
-                  <p class="help">{{ field.help_text|safe }}</p>
+                  <p class="c-form__help">{{ field.help_text|safe }}</p>
                 {% endif %}
 
                 {% if field.errors %}
-                  <p class="field-error">{{ field.errors|striptags }}</p>
+                  <p class="c-form__error">{{ field.errors|striptags }}</p>
                 {% endif %}
               </div>
             {% endfor %}
           </div>
 
           <div class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-            <a href="{% url 'pages:dashboard' %}" class="btn btn-ghost">
+            <a href="{% url 'pages:dashboard' %}" class="c-button c-button--ghost">
               Cancelar
             </a>
-            <button type="submit" class="btn btn-primary">
+            <button type="submit" class="c-button c-button--primary">
               Guardar cambios
             </button>
           </div>
@@ -71,13 +71,13 @@
     </div>
 
     <!-- Danger zone -->
-    <div class="card">
-      <div class="card-body relative">
+    <div class="c-card">
+      <div class="c-card__body relative">
         <!-- Subtle top gradient -->
-        <div class="hero-top-glow"></div>
+        <div class="u-hero-top-glow"></div>
         <h2 class="h2-section">Zona de peligro</h2>
 
-        <div class="mt-3 alert alert-danger">
+        <div class="mt-3 c-alert c-alert--danger">
           <p class="font-semibold">Esta acción es irreversible.</p>
           <p class="mt-1">
             Tu cuenta se desactivará definitivamente y no podrás volver a iniciar sesión.
@@ -86,12 +86,12 @@
         </div>
 
         <div class="mt-4">
-          <a href="{% url 'accounts:delete' %}" class="btn btn-danger">
+          <a href="{% url 'accounts:delete' %}" class="c-button c-button--danger">
             Eliminar mi cuenta
           </a>
         </div>
 
-        <p class="mt-3 p-micro">
+        <p class="mt-3 text-xs">
           Si tienes dudas, contacta con soporte antes de continuar.
         </p>
       </div>

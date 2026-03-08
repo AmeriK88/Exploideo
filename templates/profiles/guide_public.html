@@ -2,161 +2,166 @@
 {% block title %}Guía - {{ profile.display_name|default:guide_user.username }}{% endblock %}
 
 {% block content %}
-  <div class="flex flex-col gap-8">
+  <div class="o-stack o-stack--xl">
 
     <!-- Header -->
-    <div class="card">
-      <div class="card-body relative">
+    <section class="c-card">
+      <div class="c-card__body u-relative">
         <!-- Subtle top gradient -->
-        <div class="hero-top-glow"></div>
+        <div class="u-hero-top-glow"></div>
 
-        {# Avatar pequeño en la esquina #}
-        {% if profile.avatar %}
-          <img
-            src="{{ profile.avatar.url }}"
-            alt="{{ profile.display_name|default:guide_user.username }}"
-            class="absolute top-4 right-4 h-16 w-16 sm:h-20 sm:w-20 avatar"
-          />
-        {% endif %}
+        <div class="o-stack o-stack--6">
+          <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+            <div class="min-w-0 flex-1">
+              <div class="flex flex-wrap items-center gap-2">
+                <h1 class="h1-page m-0">
+                  {{ profile.display_name|default:guide_user.username }}
+                </h1>
 
-        <div class="flex flex-col gap-3">
-          <div>
-            <h1 class="h1-page">
-              {{ profile.display_name|default:guide_user.username }}
+                {% if profile.verification_status == "verified" %}
+                  <span class="c-badge c-badge--success">✔ Verificado</span>
+                {% elif profile.verification_status == "pending" %}
+                  <span class="c-badge c-badge--status-pending">⏳ En revisión</span>
+                {% elif profile.verification_status == "rejected" %}
+                  <span class="c-badge c-badge--status-canceled">✖ No verificado</span>
+                {% else %}
+                  <span class="c-badge c-badge--neutral">No verificado</span>
+                {% endif %}
+              </div>
 
-              {% if profile.verification_status == "verified" %}
-                <span class="ml-2 badge badge-emerald">✔ Verificado</span>
-              {% elif profile.verification_status == "pending" %}
-                <span class="ml-2 badge badge-amber">⏳ En revisión</span>
-              {% elif profile.verification_status == "rejected" %}
-                <span class="ml-2 badge badge-red">✖ No verificado</span>
-              {% else %}
-                <span class="ml-2 badge badge-neutral">No verificado</span>
+              <p class="mt-3 u-muted max-w-2xl">
+                {% if profile.verification_status == "verified" %}
+                  Guía verificado oficialmente
+                {% elif profile.verification_status == "pending" %}
+                  Documentación pendiente de validación por el equipo
+                {% else %}
+                  Perfil sin verificación oficial
+                {% endif %}
+              </p>
+            </div>
+
+            <div class="flex items-start gap-3 sm:flex-col sm:items-end">
+              {% if profile.avatar %}
+                <img
+                  src="{{ profile.avatar.url }}"
+                  alt="{{ profile.display_name|default:guide_user.username }}"
+                  class="h-20 w-20 rounded-full object-cover border-2 border-(--surface) shadow-sm sm:h-24 sm:w-24"
+                />
               {% endif %}
-            </h1>
 
-            <p class="mt-2 p-muted">
-              {% if profile.verification_status == "verified" %}
-                Guía verificado oficialmente
-              {% elif profile.verification_status == "pending" %}
-                Documentación pendiente de validación por el equipo
-              {% else %}
-                Perfil sin verificación oficial
-              {% endif %}
-            </p>
+              <a href="{% url 'experiences:list' %}" class="c-button c-button--ghost">
+                Ver experiencias
+              </a>
+            </div>
           </div>
 
-          <div class="flex justify-end">
-            <a href="{% url 'experiences:list' %}" class="btn btn-ghost">
-              Ver experiencias
-            </a>
-          </div>
-        </div>
-
-        {% if profile.bio %}
-          <div class="mt-4">
-            <h2 class="h2-section">Sobre mí</h2>
-            <p class="mt-2 p-body">
-              {{ profile.bio }}
-            </p>
-          </div>
-        {% endif %}
-
-        <div class="mt-5 flex flex-wrap gap-2">
-
-          {# ✅ Idiomas (ManyToMany) #}
-          {% with langs=profile.languages.all %}
-            {% if langs %}
-              <span class="badge badge-neutral hover-lift">
-                🗣
-                {% for lang in langs %}
-                  {{ lang.code|upper }}{% if not forloop.last %} · {% endif %}
-                {% endfor %}
-              </span>
-            {% endif %}
-          {% endwith %}
-
-          {% if profile.website %}
-            <a class="badge badge-neutral hover-lift" href="{{ profile.website }}" target="_blank" rel="noopener">
-              🔗 Web
-            </a>
+          {% if profile.bio %}
+            <div class="o-stack o-stack--2">
+              <h2 class="h2-section m-0">Sobre mí</h2>
+              <p class="u-muted leading-relaxed">
+                {{ profile.bio }}
+              </p>
+            </div>
           {% endif %}
+
+          <div class="flex flex-wrap gap-3">
+            {% with langs=profile.languages.all %}
+              {% if langs %}
+                <span class="c-badge c-badge--neutral u-hover-lift">
+                  🗣
+                  {% for lang in langs %}
+                    {{ lang.code|upper }}{% if not forloop.last %} · {% endif %}
+                  {% endfor %}
+                </span>
+              {% endif %}
+            {% endwith %}
+
+            {% if profile.website %}
+              <a class="c-badge c-badge--neutral u-hover-lift" href="{{ profile.website }}" target="_blank" rel="noopener">
+                🔗 Web
+              </a>
+            {% endif %}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- Experiences -->
-    <div>
+    <section class="o-stack o-stack--5">
       <div class="flex items-end justify-between gap-4">
-        <div>
-          <h2 class="text-xl font-semibold tracking-tight">Experiencias activas</h2>
-          <p class="mt-1 p-muted">
+        <div class="o-stack o-stack--1">
+          <h2 class="text-xl font-semibold tracking-tight m-0">Experiencias activas</h2>
+          <p class="u-muted">
             Planes disponibles con este guía.
           </p>
         </div>
       </div>
 
       {% if experiences %}
-        <div class="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-6">
           {% for experience in experiences %}
             {% include "components/experience_card.html" with experience=experience %}
           {% endfor %}
         </div>
       {% else %}
-        <div class="mt-5 card">
-          <div class="card-body">
-            <h3 class="text-base font-semibold">Este guía aún no tiene experiencias activas</h3>
-            <p class="mt-1 p-muted">
-              Vuelve más tarde o explora otras experiencias.
-            </p>
-            <div class="mt-4">
-              <a href="{% url 'experiences:list' %}" class="btn btn-primary">
-                Explorar experiencias
-              </a>
+        <div class="c-card">
+          <div class="c-card__body">
+            <div class="o-stack o-stack--3">
+              <h3 class="text-base font-semibold m-0">Este guía aún no tiene experiencias activas</h3>
+              <p class="u-muted">
+                Vuelve más tarde o explora otras experiencias.
+              </p>
+              <div>
+                <a href="{% url 'experiences:list' %}" class="c-button c-button--primary">
+                  Explorar experiencias
+                </a>
+              </div>
             </div>
           </div>
         </div>
       {% endif %}
-    </div>
+    </section>
 
     <!-- Reviews -->
-    <div>
-      <div class="flex items-end justify-between gap-4">
-        <div>
-          <h2 class="text-xl font-semibold tracking-tight">Reseñas</h2>
-          <p class="mt-1 p-muted">
+    <section class="o-stack o-stack--5">
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div class="o-stack o-stack--1">
+          <h2 class="text-xl font-semibold tracking-tight m-0">Reseñas</h2>
+          <p class="u-muted">
             Opiniones de viajeros que han reservado con este guía.
           </p>
         </div>
 
         {% if review_stats.count %}
           <div class="flex flex-wrap items-center gap-2">
-            <span class="badge badge-neutral hover-lift">⭐ {{ review_stats.avg|floatformat:1 }}/5</span>
-            <span class="badge badge-neutral hover-lift">🧾 {{ review_stats.count }} reseñas</span>
+            <span class="c-badge c-badge--neutral u-hover-lift">⭐ {{ review_stats.avg|floatformat:1 }}/5</span>
+            <span class="c-badge c-badge--neutral u-hover-lift">🧾 {{ review_stats.count }} reseñas</span>
           </div>
         {% endif %}
       </div>
 
       {% if recent_reviews %}
-        <div class="mt-5 space-y-3">
+        <div class="space-y-4">
           {% for r in recent_reviews %}
             {% include "components/review_card.html" with r=r show_status=0 show_experience=1 show_verified=0 show_location=0 show_flag_reason=0 show_guide_reply=0 show_actions=1 %}
           {% endfor %}
         </div>
       {% else %}
-        <div class="mt-5 card">
-          <div class="card-body">
-            <h3 class="text-base font-semibold">Aún no hay reseñas</h3>
-            <p class="mt-1 p-muted">
-              Cuando los viajeros dejen reseñas, aparecerán aquí.
-            </p>
+        <div class="c-card">
+          <div class="c-card__body">
+            <div class="o-stack o-stack--2">
+              <h3 class="text-base font-semibold m-0">Aún no hay reseñas</h3>
+              <p class="u-muted">
+                Cuando los viajeros dejen reseñas, aparecerán aquí.
+              </p>
+            </div>
           </div>
         </div>
       {% endif %}
-    </div>
+    </section>
 
-    <div>
-      <a href="{% url 'experiences:list' %}" class="p-muted hover:underline">
+    <div class="pt-2">
+      <a href="{% url 'experiences:list' %}" class="u-muted hover:underline">
         ← Volver a experiencias
       </a>
     </div>

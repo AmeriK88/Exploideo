@@ -4,40 +4,44 @@
 {% block title %}Registro{% endblock %}
 
 {% block content %}
-  <div class="mx-auto max-w-md" data-animate="fade-up">
-    <div class="card">
-      <div class="card-body">
-        <h1 class="h1-page">Crear cuenta</h1>
-          <p class="mt-1 p-muted">
-            Regístrate para explorar experiencias o convertirte en guía.
-          </p>
+  <div class="min-h-[calc(100dvh-10rem)] grid place-items-center py-10" data-animate="fade-up">
+    <div class="w-full o-section--narrow">
+      <div class="c-card">
+        <div class="c-card__body o-stack o-stack--4">
+          <div>
+            <h1 class="h1-page">Crear cuenta</h1>
+            <p class="mt-1 u-muted">
+              Regístrate para explorar experiencias o convertirte en guía.
+            </p>
+          </div>
 
-        <form method="post" class="mt-6 space-y-4">
-          {% csrf_token %}
+          <form method="post" class="o-stack o-stack--4">
+            {% csrf_token %}
 
-          {% for field in form %}
-            <div>
-              <label class="label">{{ field.label }}</label>
-              {{ field|add_class:"input" }}
+            {% for field in form %}
+              <div>
+                <label class="label">{{ field.label }}</label>
+                {{ field|add_class:"input" }}
 
-              {% if field.errors %}
-                <p class="field-error">
-                  {{ field.errors|striptags }}
-                </p>
-              {% endif %}
-            </div>
-          {% endfor %}
+                {% if field.errors %}
+                  <p class="field-error">
+                    {{ field.errors|striptags }}
+                  </p>
+                {% endif %}
+              </div>
+            {% endfor %}
 
-          <button type="submit" class="btn btn-primary w-full">
-            Crear cuenta
-          </button>
-        </form>
+            <button type="submit" class="c-button c-button--primary w-full">
+              Crear cuenta
+            </button>
+          </form>
 
-        <div class="mt-4 text-center text-sm">
-          <span class="p-muted">¿Ya tienes cuenta?</span>
-          <a href="{% url 'accounts:login' %}" class="ml-2 account-input">
-            Iniciar sesión
-          </a>
+          <div class="text-center text-sm">
+            <span class="u-muted">¿Ya tienes cuenta?</span>
+            <a href="{% url 'accounts:login' %}" class="ml-2 account-input">
+              Iniciar sesión
+            </a>
+          </div>
         </div>
       </div>
     </div>

@@ -2,30 +2,28 @@
 {% block title %}Eliminar experiencia{% endblock %}
 
 {% block dashboard_content %}
-  <div class="mx-auto max-w-lg">
-    <div class="card border-red-200">
-      <div class="card-body">
-        <h1 class="text-xl font-semibold text-red-700">Eliminar experiencia</h1>
+  <div class="o-section--narrow">
+    <div class="c-card border-(--alert-danger-border)">
+      <div class="c-card__body">
+        <h1 class="text-xl font-semibold text-(--alert-danger-text)">Eliminar experiencia</h1>
 
-        <p class="mt-2 text-sm text-slate-700">
+        <p class="mt-2 text-sm u-text">
           ¿Estás seguro de que quieres eliminar la experiencia
-          <strong class="text-slate-900">“{{ exp.title }}”</strong>?
+          <strong class="u-text">“{{ exp.title }}”</strong>?
         </p>
 
-        <p class="mt-1 text-sm text-slate-500">
+        <p class="mt-1 text-sm u-muted">
           Esta acción no se puede deshacer y se perderán todas las reservas asociadas.
         </p>
 
         <form method="post" class="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
           {% csrf_token %}
 
-          <a href="{% url 'experiences:detail' exp.pk %}" class="btn btn-ghost">
+          <a href="{% url 'experiences:detail' exp.pk %}" class="c-button c-button--ghost">
             Cancelar
           </a>
 
-          <button type="submit"
-                  class="btn px-4 py-2 text-sm font-medium rounded-lg
-                         bg-red-600 text-white hover:bg-red-700">
+          <button type="submit" class="c-button c-button--danger">
             Sí, eliminar
           </button>
         </form>

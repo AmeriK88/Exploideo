@@ -2,21 +2,21 @@
 {% block title %}{{ article.title }} - Centro de Ayuda{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto px-4 py-10">
+<div class="o-section o-section--narrow">
 
-  <div class="card">
-    <div class="card-body">
+  <div class="c-card">
+    <div class="c-card__body">
       <div class="flex flex-wrap items-center gap-2">
         <span class="badge">📚 Centro de ayuda</span>
 
-        <a href="{% url 'helpdesk:helpdesk' %}" class="badge hover-lift">
+        <a href="{% url 'helpdesk:helpdesk' %}" class="badge u-hover-lift">
           ← Volver
         </a>
 
         <span class="badge">{{ article.category.name }}</span>
 
         {% if article.is_featured %}
-          <span class="badge badge-blue">Destacado</span>
+          <span class="c-badge c-badge--blue">Destacado</span>
         {% endif %}
       </div>
 
@@ -36,13 +36,13 @@
               <li class="doc-item">
                 <div class="min-w-0">
                   <a href="{% url 'helpdesk:article_detail' a.slug %}"
-                    class="p-secondary hover-lift">
+                    class="font-medium u-text u-hover-lift">
                     {{ a.title }}
                   </a>
 
                   <p class="p-micro mt-1">
                     {% if a.is_featured %}
-                      <span class="badge badge-blue">Destacado</span>
+                      <span class="c-badge c-badge--blue">Destacado</span>
                     {% else %}
                       {{ a.category.name }}
                     {% endif %}

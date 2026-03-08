@@ -2,22 +2,22 @@
 {% block title %}Centro de Ayuda - Exploideo{% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto px-4 py-10">
+<div class="o-section o-section--narrow">
 
-  <div class="card">
-    <div class="card-body">
+  <div class="c-card">
+    <div class="c-card__body">
       <div class="flex flex-wrap items-center gap-2">
         <span class="badge">📚 Centro de ayuda</span>
 
         {% if q %}
-          <a href="{% url 'helpdesk:helpdesk' %}" class="badge hover-lift">
+          <a href="{% url 'helpdesk:helpdesk' %}" class="badge u-hover-lift">
             ← Volver
           </a>
         {% endif %}
       </div>
 
       <h1 class="h1-hero">Centro de Ayuda</h1>
-      <p class="mt-2 p-muted">
+      <p class="mt-2 u-muted">
         Encuentra respuestas claras. Si no lo ves aquí, contáctanos.
       </p>
 
@@ -25,7 +25,7 @@
         <p class="p-body">
           Email: <strong>info@exploideo.com</strong>
         </p>
-        <a href="mailto:info@exploideo.com" class="btn btn-primary">
+        <a href="mailto:info@exploideo.com" class="c-button c-button--primary">
           Contactar
         </a>
       </div>
@@ -48,13 +48,13 @@
 
   <div class="mt-6 space-y-4">
     {% for category in categories %}
-      <section class="card">
-        <div class="card-body">
+      <section class="c-card">
+        <div class="c-card__body">
           <div class="flex items-start justify-between gap-4">
             <div>
               <h2 class="h2-section">{{ category.name }}</h2>
               {% if category.description %}
-                <p class="mt-1 p-muted">{{ category.description }}</p>
+                <p class="mt-1 u-muted">{{ category.description }}</p>
               {% endif %}
             </div>
             <span class="badge">
@@ -69,13 +69,13 @@
                   <li class="doc-item">
                     <div class="min-w-0">
                       <a href="{% url 'helpdesk:article_detail' article.slug %}"
-                         class="p-secondary hover:text-slate-900 transition clamp-1">
+                         class="font-medium u-text hover:u-text transition clamp-1">
                         {{ article.title }}
                       </a>
                       <p class="p-micro mt-1">
                         {{ article.category.name }}
                         {% if article.is_featured %}
-                          <span class="badge badge-blue ml-2">Destacado</span>
+                          <span class="c-badge c-badge--blue ml-2">Destacado</span>
                         {% endif %}
                       </p>
                     </div>
@@ -84,7 +84,7 @@
                   </li>
                 {% endif %}
               {% empty %}
-                <li class="p-muted">No se encontraron artículos para esta búsqueda.</li>
+                <li class="u-muted">No se encontraron artículos para esta búsqueda.</li>
               {% endfor %}
             </ul>
           </div>

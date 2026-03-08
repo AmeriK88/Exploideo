@@ -5,39 +5,34 @@
 
 {% block dashboard_content %}
 
-{# Contenedor general: en móvil sin card, en sm+ con card #}
 <section class="-mx-4 sm:mx-0">
-  <div class="sm:card sm:overflow-hidden">
-    <div class="sm:card-body sm:p-0">
+  <div class="sm:c-card sm:overflow-hidden">
+    <div class="sm:c-card__body sm:p-0">
 
-      {# ===== Shell: header / messages / composer ===== #}
-      <div class="bg-white sm:rounded-2xl sm:border sm:border-slate-200">
+      <div class="sm:rounded-2xl sm:border border-border bg-surface">
 
-        {# ===== Header sticky ===== #}
-        <header class="sticky top-0 z-10 border-b border-slate-200 bg-white/95 backdrop-blur">
+        <header class="sticky top-0 z-10 border-b border-border bg-surface/95 backdrop-blur">
           <div class="px-4 sm:px-6 py-4 flex items-center justify-between gap-3">
             <div class="min-w-0">
-              <h1 class="text-base sm:text-lg font-semibold text-slate-900 truncate">
+              <h1 class="text-base sm:text-lg font-semibold u-text truncate">
                 {{ booking.experience.title }}
               </h1>
-              <p class="text-xs sm:text-sm text-slate-500 truncate">
+              <p class="text-xs sm:text-sm u-muted truncate">
                 Chat de la reserva · {{ booking.date }}
               </p>
             </div>
 
-            <a href="{% url 'bookings:detail' booking.pk %}"
-               class="btn btn-ghost shrink-0">
+            <a href="{% url 'bookings:detail' booking.pk %}" class="c-button c-button--ghost shrink-0">
               ← Volver
             </a>
           </div>
         </header>
 
-        {# ===== Messages area (altura “app”) ===== #}
         <div
           id="chat-scroll"
           class="
             px-4 sm:px-6 py-5
-            bg-slate-50
+            bg-surface-soft
             overflow-y-auto
             h-[calc(100vh-220px)]
             sm:h-[calc(100vh-260px)]
@@ -48,14 +43,12 @@
               {% for msg in chat_messages %}
                 <div class="flex {% if msg.sender == request.user %}justify-end{% else %}justify-start{% endif %}">
                   <div class="max-w-[85%] sm:max-w-[70%]">
-
-                    {# Bubble #}
                     <div class="
                       rounded-2xl px-4 py-2 shadow-sm
                       {% if msg.sender == request.user %}
-                        bg-blue-600 text-white
+                        bg-(--color-brand-500) text-(--surface)
                       {% else %}
-                        bg-white text-slate-800 border border-slate-200
+                        bg-surface u-text border border-border
                       {% endif %}
                     ">
                       <div class="text-sm leading-relaxed wrap-break-word">
@@ -66,25 +59,20 @@
                         {{ msg.created_at|date:"d/m/Y H:i" }}
                       </div>
                     </div>
-
                   </div>
                 </div>
               {% endfor %}
             </div>
 
             <div id="chat-bottom"></div>
-
           {% else %}
             <div class="py-10 text-center">
-              <p class="text-slate-500">
-                No hay mensajes todavía. Inicia la conversación 👇
-              </p>
+              <p class="u-muted">No hay mensajes todavía. Inicia la conversación 👇</p>
             </div>
           {% endif %}
         </div>
 
-        {# ===== Composer sticky bottom ===== #}
-        <footer class="sticky bottom-0 z-10 border-t border-slate-200 bg-white/95 backdrop-blur">
+        <footer class="sticky bottom-0 z-10 border-t border-border bg-surface/95 backdrop-blur">
           <form
             method="post"
             action="{% url 'messages:send_message' booking.id %}"
@@ -100,18 +88,19 @@
                 placeholder="Escribe un mensaje…"
                 class="
                   w-full resize-none
-                  rounded-2xl border border-slate-300 bg-white
-                  p-3 text-slate-800
-                  focus:outline-none focus:ring-2 focus:ring-blue-500
+                  rounded-2xl border border-border
+                  bg-surface
+                  p-3 u-text
+                  focus:outline-none focus:ring-2 focus:ring-ring
                 "
               ></textarea>
 
-              <p class="mt-1 text-[11px] text-slate-400">
+              <p class="mt-1 text-[11px] u-muted">
                 Enter para enviar · Shift+Enter para salto de línea
               </p>
             </div>
 
-            <button type="submit" class="btn btn-primary shrink-0">
+            <button type="submit" class="c-button c-button--primary shrink-0">
               Enviar
             </button>
           </form>
@@ -122,8 +111,8 @@
   </div>
 </section>
 
-{% block extra_js %}
-  <script src="{% static 'js/messages/chat.js' %}"></script>
 {% endblock %}
 
+{% block extra_js %}
+  <script defer src="{% static 'js/messages/chat.js' %}"></script>
 {% endblock %}
