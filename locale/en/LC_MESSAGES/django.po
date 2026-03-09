@@ -1967,6 +1967,8 @@ msgid ""
 "Cómo tratamos tus datos personales, para qué los usamos y cuáles son tus "
 "derechos."
 msgstr ""
+"How we handle your personal data, what we use it for, and what your rights "
+"are."
 
 #: .\templates\pages\privacy_policy.html:26
 #: .\templates\pages\terms_and_conditions.html:26
@@ -1976,13 +1978,14 @@ msgstr "January 26, 2026"
 #: .\templates\pages\privacy_policy.html:33
 msgid "1. Responsable"
 msgstr "1. Data controller"
+
 #: .\templates\pages\privacy_policy.html:34
 msgid "2. Datos"
-msgstr ""
+msgstr "2. Data"
 
 #: .\templates\pages\privacy_policy.html:35
 msgid "3. Finalidad"
-msgstr ""
+msgstr "3. Purpose"
 
 #: .\templates\pages\privacy_policy.html:36
 msgid "4. Base legal"
