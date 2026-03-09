@@ -50,8 +50,8 @@
         </div>
 
         <!-- Columna derecha -->
-        <div class="px-1 sm:px-2 lg:pl-2">
-          <article class="c-card" data-stagger>
+        <div class="px-1 sm:px-2 lg:pl-2 c-waitlistFormCol">
+          <article class="c-card c-waitlistCard" data-stagger>
             <div class="c-card__body">
               <form method="post" action="{% url 'pages:newsletter_subscribe' %}" class="space-y-6" data-animate="fade-up">
                 {% csrf_token %}

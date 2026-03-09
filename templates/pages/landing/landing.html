@@ -1,7 +1,7 @@
 {% extends "layouts/base.html" %}
 {% load static i18n %}
 
-{% block main_class %}o-container o-container--wide px-0 py-0{% endblock %}
+{% block main_class %}px-0 py-0{% endblock %}
 
 {% block header %}
   {% include "includes/layout/navbar.html" with variant="landing" %}
@@ -23,84 +23,84 @@
         <div class="o-stack o-stack--4" data-stagger>
           <div class="o-cluster o-cluster--2" data-animate="fade-up">
             <span class="c-pill c-pill--neutral">🚀 {% trans "Pre-lanzamiento" %}</span>
-            <span class="c-pill c-pill--neutral">🏝️ Lanzarote-release</span>
+            <span class="c-pill c-pill--neutral">🌍 {% trans "Lanzamiento inicial en Canarias" %}</span>
             <span class="c-pill c-pill--neutral">✅ {% trans "Guías verificados" %}</span>
           </div>
 
           <h1 class="c-hero__title" data-animate="fade-up">
-            {% trans "Experiencias sin filtro" %}
-            <span class="c-hero__titleAccent">{% trans "Tu ruta se vive mejor" %}</span>
-            {% trans "cuando alguien te la cuenta." %}
+            {% trans "Experiencias auténticas" %}
+            <span class="c-hero__titleAccent">{% trans "con guías locales verificados" %}</span>
+            {% trans "sin improvisaciones." %}
           </h1>
 
           <p class="c-hero__lead" data-animate="fade-up">
             {% blocktrans %}
-              Exploideo conecta <span class="u-text">viajeros</span> con
-              <span class="u-text">guías locales verificados</span>.
-              Hay <span class="u-text">calendario inteligente</span>,
-              <span class="u-text">reglas claras</span> y
-              <span class="u-text">antelación</span>.
+              Exploideo te ayuda a <span class="u-text">encontrar y reservar experiencias locales</span>
+              con <span class="u-text">grupos reducidos</span>,
+              <span class="u-text">condiciones claras</span> y
+              <span class="u-text">comunicación directa con el guía</span>.
+              Empezamos en <span class="u-text">Canarias</span> y creceremos hacia nuevos destinos.
             {% endblocktrans %}
           </p>
 
           <div class="o-grid o-grid--2" data-stagger>
             <div class="c-miniCard" data-animate="fade-up">
               <p class="c-miniCard__title">{% trans "Para viajeros" %}</p>
-              <p class="c-miniCard__text">{% trans "Detalles antes de reservar, estado visible y todo en un panel." %}</p>
+              <p class="c-miniCard__text">{% trans "Descubre experiencias con información clara antes de reservar: precio, duración, plazas y guía verificado." %}</p>
             </div>
             <div class="c-miniCard" data-animate="fade-up">
-              <p class="c-miniCard__title">{% trans "Para guías" %}</p>
-              <p class="c-miniCard__text">{% trans "Agenda real, cupos, reglas y facturación clara." %}</p>
+              <p class="c-miniCard__title">{% trans "Sin caos ni sorpresas" %}</p>
+              <p class="c-miniCard__text">{% trans "Menos mensajes dispersos, menos dudas de última hora y más claridad en todo el proceso." %}</p>
             </div>
           </div>
 
           <div class="o-cta-actions" data-animate="fade-up">
-            <a href="#waitlist" class="c-button c-button--primary">{% trans "Unirme a la lista (gratis)" %} →</a>
+            <a href="#waitlist" class="c-button c-button--primary">{% trans "Quiero acceso anticipado" %} →</a>
             <a href="#how" class="c-button c-button--ghost">{% trans "Ver cómo funciona" %}</a>
           </div>
 
           <div class="o-grid o-grid--2">
             <div class="c-ctaYes">
-              <p><strong>✅ {% trans "24h mínimo" %}</strong> {% trans "sin excursiones “para mañana”." %}</p>
+              <p><strong>✅ {% trans "Condiciones claras" %}</strong> {% trans "antes de reservar, sin letra pequeña ni improvisaciones." %}</p>
             </div>
             <div class="c-ctaYes">
-              <p><strong>✅ {% trans "Control total" %}</strong> {% trans "días, cupos y plazas por experiencia." %}</p>
+              <p><strong>✅ {% trans "Plazas y disponibilidad visibles" %}</strong> {% trans "para reservar con más confianza." %}</p>
             </div>
           </div>
         </div>
 
-<div class="c-hero__visual" data-stagger>
-  <div class="c-visual-card" data-animate="scale-in">
-    <div class="c-visual-card__media">
-      <img
-        src="{% static 'img/landing/img-hero.png' %}"
-        alt="{% trans 'Acantilados y costa de Lanzarote' %}"
-        width="1600"
-        height="1100"
-        loading="eager"
-        fetchpriority="high"
-        class="c-visual-card__img"
-      />
-      <div class="c-visual-card__overlay"></div>
+        <div class="c-hero__visual" data-stagger>
+          <div class="c-visual-card" data-animate="scale-in">
+            <div class="c-visual-card__media">
+              <img
+                src="{% static 'img/landing/img-hero.png' %}"
+                alt="{% trans 'Paisaje costero y experiencia local en Canarias' %}"
+                width="1600"
+                height="1100"
+                loading="eager"
+                fetchpriority="high"
+                class="c-visual-card__img"
+              />
+              <div class="c-visual-card__overlay"></div>
 
-      <div class="c-visual-card__chip">
-        🔥 {% trans "Top esta semana" %} · {% trans "Ruta Volcánica" %}
-      </div>
+              <div class="c-visual-card__chip">
+                🔥 {% trans "Top esta semana" %} · {% trans "Experiencia destacada" %}
+              </div>
 
-      <div class="c-visual-card__mini">
-        <div>
-          <p class="c-visual-card__mini-title">{% trans "Experiencias curadas" %}</p>
-          <p class="c-visual-card__mini-sub">{% trans "Calidad y no cantidad" %}</p>
+              <div class="c-visual-card__mini">
+                <div>
+                  <p class="c-visual-card__mini-title">{% trans "Experiencias locales verificadas" %}</p>
+                  <p class="c-visual-card__mini-sub">{% trans "Más claridad, menos ruido" %}</p>
+                </div>
+                <span class="c-visual-card__mini-badge">{% trans "Reserva" %}</span>
+              </div>
+            </div>
+
+            <p class="c-hero__note" data-animate="fade-up">
+              {% trans "✨ Acceso anticipado · 0 spam · Te avisamos cuando abramos nuevas plazas y destinos." %}
+            </p>
+          </div>
         </div>
-        <span class="c-visual-card__mini-badge">{% trans "Estados" %}</span>
-      </div>
-    </div>
-
-    <p class="c-hero__note" data-animate="fade-up">
-      {% trans "✨ Acceso anticipado · 0 spam · Un email cuando abramos plazas." %}
-    </p>
-  </div>
-</div>
       </div>
     </div>
   </section>
@@ -111,10 +111,10 @@
         <div class="o-stack o-stack--3">
           <p class="testimonial-quote" data-animate="fade-up">{% trans "Un vistazo rápido" %}</p>
           <h2 class="c-previewSection__title" data-animate="fade-up">{% trans "Así se ve Exploideo por dentro." %}</h2>
-          <p class="c-previewSection__lead" data-animate="fade-up">{% trans "Capturas reales del producto: descubre experiencias, conoce al guía y gestiona tu reserva con claridad." %}</p>
+          <p class="c-previewSection__lead" data-animate="fade-up">{% trans "Explora experiencias, conoce al guía antes de reservar y gestiona todo con más claridad desde un solo sitio." %}</p>
         </div>
 
-        <a href="#waitlist" class="c-button c-button--primary c-previewSection__cta">{% trans "Quiero acceso" %}</a>
+        <a href="#waitlist" class="c-button c-button--primary c-previewSection__cta">{% trans "Quiero entrar antes del lanzamiento" %}</a>
       </div>
 
       <div class="o-grid o-grid--3 c-previewGrid" data-stagger>
@@ -125,8 +125,11 @@
             <img src="{% static 'img/landing/explorar.webp' %}" alt="{% trans 'Explorar experiencias en Exploideo' %}" class="c-deviceFrame__img" loading="lazy" />
           </div>
           <div class="c-previewCard__body">
-            <div class="o-cluster o-cluster--3 c-previewCard__top"><h3 class="c-previewCard__title">{% trans "Descubre experiencias verificadas" %}</h3><span class="c-badge c-badge--neutral c-badge--soft">{% trans "Explorar" %}</span></div>
-            <p class="c-previewCard__text">{% trans "Encuentra planes con precio, duración y guía verificado desde el primer vistazo." %}</p>
+            <div class="o-cluster o-cluster--3 c-previewCard__top">
+              <h3 class="c-previewCard__title">{% trans "Descubre experiencias con información útil desde el primer vistazo" %}</h3>
+              <span class="c-badge c-badge--neutral c-badge--soft">{% trans "Explorar" %}</span>
+            </div>
+            <p class="c-previewCard__text">{% trans "Consulta precio, duración, plazas y tipo de experiencia sin perderte entre mensajes o información incompleta." %}</p>
           </div>
         </article>
 
@@ -137,8 +140,11 @@
             <img src="{% static 'img/landing/guia.webp' %}" alt="{% trans 'Perfil del guía en Exploideo' %}" class="c-deviceFrame__img" loading="lazy" />
           </div>
           <div class="c-previewCard__body">
-            <div class="o-cluster o-cluster--3 c-previewCard__top"><h3 class="c-previewCard__title">{% trans "Conoce al guía antes de reservar" %}</h3><span class="c-badge c-badge--neutral c-badge--soft">{% trans "Perfil" %}</span></div>
-            <p class="c-previewCard__text">{% trans "Verificación, estilo y experiencias activas para decidir con confianza." %}</p>
+            <div class="o-cluster o-cluster--3 c-previewCard__top">
+              <h3 class="c-previewCard__title">{% trans "Conoce al guía antes de decidir" %}</h3>
+              <span class="c-badge c-badge--neutral c-badge--soft">{% trans "Perfil" %}</span>
+            </div>
+            <p class="c-previewCard__text">{% trans "Revisa verificación, estilo y experiencias activas para reservar con más confianza y menos incertidumbre." %}</p>
           </div>
         </article>
 
@@ -149,13 +155,16 @@
             <img src="{% static 'img/landing/reserva.webp' %}" alt="{% trans 'Detalle de reserva con chat en Exploideo' %}" class="c-deviceFrame__img" loading="lazy" />
           </div>
           <div class="c-previewCard__body">
-            <div class="o-cluster o-cluster--3 c-previewCard__top"><h3 class="c-previewCard__title">{% trans "Reserva clara, comunicación directa" %}</h3><span class="c-badge c-badge--neutral c-badge--soft">{% trans "Gestión" %}</span></div>
-            <p class="c-previewCard__text">{% trans "Confirmación, cancelación y chat con el guía: sin sorpresas de última hora." %}</p>
+            <div class="o-cluster o-cluster--3 c-previewCard__top">
+              <h3 class="c-previewCard__title">{% trans "Reserva con claridad y comunicación directa" %}</h3>
+              <span class="c-badge c-badge--neutral c-badge--soft">{% trans "Gestión" %}</span>
+            </div>
+            <p class="c-previewCard__text">{% trans "Consulta condiciones, recibe confirmación y habla con el guía sin sorpresas de última hora." %}</p>
           </div>
         </article>
       </div>
 
-      <p class="p-micro c-previewSection__note" data-animate="fade-up">{% trans "*Capturas reales del producto. Acceso por fases cuando abramos plazas." %}</p>
+      <p class="p-micro c-previewSection__note" data-animate="fade-up">{% trans "*Capturas reales del producto. El acceso se abrirá por fases, empezando en Canarias." %}</p>
     </div>
   </section>
 

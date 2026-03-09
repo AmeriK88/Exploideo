@@ -164,3 +164,21 @@
   margin-top: var(--space-6);
   color: color-mix(in oklab, var(--muted) 85%, transparent);
 }
+
+@media (max-width: 767px) {
+  #waitlist .c-waitlistFormCol {
+    padding-inline: 0;
+  }
+
+  #waitlist .c-waitlistCard {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+  }
+
+  #waitlist .c-waitlistCard .c-card__body {
+    padding: 0;
+  }
+}
