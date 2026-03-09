@@ -25,7 +25,6 @@ DEBUG = env.bool("DEBUG", default=False)
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])
 
 # Para detectar prod sin inventos: Railway expone RAILWAY_ENVIRONMENT
-# Si no, puedes usar tu propia variable: ENVIRONMENT=production
 ENVIRONMENT = env("ENVIRONMENT", default=os.getenv("RAILWAY_ENVIRONMENT", "local")).lower() # type: ignore[attr-defined]
 IS_PROD = (ENVIRONMENT in ("prod", "production"))
 
