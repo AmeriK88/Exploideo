@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib import messages
 from django.db.models import Avg, Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
@@ -10,6 +12,31 @@ from core.decorators import guide_required
 
 from .forms import ExperienceForm
 from .models import Category, Experience
+from .services.geocoding import geocode_experience_location
+
+
+GEOCODING_FIELDS = ("location", "city", "island", "province", "region", "country")
+
+
+def _location_fields_changed(original_values, cleaned_data):
+    for field_name in GEOCODING_FIELDS:
+        before = (original_values.get(field_name) or "").strip()
+        after = (cleaned_data.get(field_name) or "").strip()
+        if before != after:
+            return True
+    return False
+
+
+def _apply_geocoding_if_available(exp):
+    coordinates = geocode_experience_location(exp)
+    if not coordinates:
+        return False
+
+    latitude, longitude = coordinates
+    exp.latitude = Decimal(str(latitude))
+    exp.longitude = Decimal(str(longitude))
+    exp.save(update_fields=["latitude", "longitude"])
+    return True
 
 
 def _extract_filters(request):
@@ -177,11 +204,19 @@ def my_experiences(request):
 @guide_required
 def experience_create(request):
     if request.method == "POST":
-        form = ExperienceForm(request.POST, request.FILES) 
+        form = ExperienceForm(request.POST, request.FILES)
         if form.is_valid():
             exp = form.save(commit=False)
             exp.guide = request.user
             exp.save()
+
+            geocoded = _apply_geocoding_if_available(exp)
+            if not geocoded:
+                messages.info(
+                    request,
+                    "Experiencia guardada. No se pudieron resolver coordenadas automáticamente por ahora.",
+                )
+
             messages.success(request, "Experiencia creada correctamente.")
             return redirect("experiences:list")
     else:
@@ -233,6 +268,7 @@ def experience_detail(request, pk):
 @guide_required
 def experience_edit(request, pk):
     exp = get_object_or_404(Experience, pk=pk, guide=request.user)
+    original_location_values = {field: getattr(exp, field, "") for field in GEOCODING_FIELDS}
 
     # asegura que exista siempre (así el template puede mostrar resumen/CTA sin ifs raros)
     availability, _ = ExperienceAvailability.objects.get_or_create(experience=exp)
@@ -240,7 +276,16 @@ def experience_edit(request, pk):
     if request.method == "POST":
         form = ExperienceForm(request.POST, request.FILES, instance=exp)
         if form.is_valid():
-            form.save()
+            exp = form.save()
+
+            if _location_fields_changed(original_location_values, form.cleaned_data):
+                geocoded = _apply_geocoding_if_available(exp)
+                if not geocoded:
+                    messages.info(
+                        request,
+                        "Se guardaron los cambios, pero no se pudieron actualizar las coordenadas automáticamente.",
+                    )
+
             messages.success(request, "Experiencia actualizada.")
             return redirect("experiences:detail", pk=exp.pk)
     else:
