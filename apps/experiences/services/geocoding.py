@@ -67,7 +67,12 @@ def geocode_experience_location(experience) -> Optional[tuple[float, float]]:
     try:
         response = requests.get(
             NOMINATIM_SEARCH_URL,
-            params={"q": query, "format": "json", "limit": 1},
+            params={
+                "q": query,
+                "format": "json",
+                "limit": 1,
+                "countrycodes": "es",
+            },
             headers={
                 "User-Agent": NOMINATIM_USER_AGENT,
                 "Accept-Language": "es",
