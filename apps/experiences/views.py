@@ -1,18 +1,75 @@
 from django.contrib import messages
-from django.db.models import Q, Count
+from django.db.models import Avg, Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
-from core.decorators import guide_required
+from apps.availability.models import ExperienceAvailability
 from apps.bookings.models import Booking
-from .forms import ExperienceForm
-from .models import Category, Experience
-from apps.reviews.models import Review 
-
-from django.db.models import Avg, Count
 from apps.reviews.models import Review
 from apps.reviews.services import traveler_can_review
+from core.decorators import guide_required
 
-from apps.availability.models import ExperienceAvailability
+from .forms import ExperienceForm
+from .models import Category, Experience
+
+
+def _extract_filters(request):
+    return {
+        "q": request.GET.get("q", "").strip(),
+        "category": request.GET.get("category", "").strip(),
+        "island": request.GET.get("island", "").strip(),
+        "city": request.GET.get("city", "").strip(),
+        "min_price": request.GET.get("min_price", "").strip(),
+        "max_price": request.GET.get("max_price", "").strip(),
+        "max_duration": request.GET.get("max_duration", "").strip(),
+        "sort": request.GET.get("sort", "recent").strip(),
+    }
+
+
+def _apply_common_experience_filters(experiences, filters):
+    if filters["q"]:
+        q_value = filters["q"]
+        experiences = experiences.filter(
+            Q(title__icontains=q_value)
+            | Q(description__icontains=q_value)
+            | Q(location__icontains=q_value)
+            | Q(country__icontains=q_value)
+            | Q(region__icontains=q_value)
+            | Q(province__icontains=q_value)
+            | Q(island__icontains=q_value)
+            | Q(city__icontains=q_value)
+            | Q(tags__icontains=q_value)
+            | Q(guide__username__icontains=q_value)
+            | Q(category__name__icontains=q_value)
+        )
+
+    if filters["category"]:
+        experiences = experiences.filter(category__slug=filters["category"])
+
+    if filters["island"]:
+        experiences = experiences.filter(island__iexact=filters["island"])
+
+    if filters["city"]:
+        experiences = experiences.filter(city__iexact=filters["city"])
+
+    if filters["min_price"]:
+        try:
+            experiences = experiences.filter(price__gte=float(filters["min_price"]))
+        except ValueError:
+            pass
+
+    if filters["max_price"]:
+        try:
+            experiences = experiences.filter(price__lte=float(filters["max_price"]))
+        except ValueError:
+            pass
+
+    if filters["max_duration"]:
+        try:
+            experiences = experiences.filter(duration_minutes__lte=int(filters["max_duration"]))
+        except ValueError:
+            pass
+
+    return experiences
 
 
 def experience_list(request):
@@ -26,58 +83,34 @@ def experience_list(request):
     )
 
     categories = Category.objects.all()
+    filters = _extract_filters(request)
 
-    # Filtros por querystring
-    q = request.GET.get("q", "").strip()
-    category_slug = request.GET.get("category", "").strip()
-    min_price = request.GET.get("min_price", "").strip()
-    max_price = request.GET.get("max_price", "").strip()
-    max_duration = request.GET.get("max_duration", "").strip()
-    sort = request.GET.get("sort", "recent").strip()
     # ¿Hay filtros activos? (para cambiar el empty state)
-    has_filters = any([q, category_slug, min_price, max_price, max_duration, sort != "recent"])
+    has_filters = any(
+        [
+            filters["q"],
+            filters["category"],
+            filters["island"],
+            filters["city"],
+            filters["min_price"],
+            filters["max_price"],
+            filters["max_duration"],
+            filters["sort"] != "recent",
+        ]
+    )
 
-    if q:
-        experiences = experiences.filter(
-            Q(title__icontains=q)
-            | Q(description__icontains=q)
-            | Q(location__icontains=q)
-            | Q(tags__icontains=q)
-            | Q(guide__username__icontains=q)
-            | Q(category__name__icontains=q)
-        )
-
-    if category_slug:
-        experiences = experiences.filter(category__slug=category_slug)
-
-    if min_price:
-        try:
-            experiences = experiences.filter(price__gte=float(min_price))
-        except ValueError:
-            pass
-
-    if max_price:
-        try:
-            experiences = experiences.filter(price__lte=float(max_price))
-        except ValueError:
-            pass
-
-    if max_duration:
-        try:
-            experiences = experiences.filter(duration_minutes__lte=int(max_duration))
-        except ValueError:
-            pass
+    experiences = _apply_common_experience_filters(experiences, filters)
 
     # Ordenación
-    if sort == "price_asc":
+    if filters["sort"] == "price_asc":
         experiences = experiences.order_by("price", "-created_at")
-    elif sort == "price_desc":
+    elif filters["sort"] == "price_desc":
         experiences = experiences.order_by("-price", "-created_at")
-    elif sort == "duration_asc":
+    elif filters["sort"] == "duration_asc":
         experiences = experiences.order_by("duration_minutes", "-created_at")
-    elif sort == "duration_desc":
+    elif filters["sort"] == "duration_desc":
         experiences = experiences.order_by("-duration_minutes", "-created_at")
-    elif sort == "popular":
+    elif filters["sort"] == "popular":
         experiences = experiences.annotate(
             bookings_count=Count(
                 "bookings",
@@ -91,14 +124,7 @@ def experience_list(request):
         "experiences": experiences,
         "categories": categories,
         "has_filters": has_filters,
-        "filters": {
-            "q": q,
-            "category": category_slug,
-            "min_price": min_price,
-            "max_price": max_price,
-            "max_duration": max_duration,
-            "sort": sort,
-        },
+        "filters": filters,
     }
     return render(request, "experiences/list.html", context)
 
@@ -110,54 +136,31 @@ def my_experiences(request):
     )
 
     categories = Category.objects.all()
+    filters = _extract_filters(request)
 
-    # Filtros por querystring
-    q = request.GET.get("q", "").strip()
-    category_slug = request.GET.get("category", "").strip()
-    min_price = request.GET.get("min_price", "").strip()
-    max_price = request.GET.get("max_price", "").strip()
-    max_duration = request.GET.get("max_duration", "").strip()
-    sort = request.GET.get("sort", "recent").strip()
+    has_filters = any(
+        [
+            filters["q"],
+            filters["category"],
+            filters["island"],
+            filters["city"],
+            filters["min_price"],
+            filters["max_price"],
+            filters["max_duration"],
+            filters["sort"] != "recent",
+        ]
+    )
 
-    has_filters = any([q, category_slug, min_price, max_price, max_duration, sort != "recent"])
-
-    if q:
-        experiences = experiences.filter(
-            Q(title__icontains=q)
-            | Q(description__icontains=q)
-            | Q(location__icontains=q)
-            | Q(tags__icontains=q)
-        )
-
-    if category_slug:
-        experiences = experiences.filter(category__slug=category_slug)
-
-    if min_price:
-        try:
-            experiences = experiences.filter(price__gte=float(min_price))
-        except ValueError:
-            pass
-
-    if max_price:
-        try:
-            experiences = experiences.filter(price__lte=float(max_price))
-        except ValueError:
-            pass
-
-    if max_duration:
-        try:
-            experiences = experiences.filter(duration_minutes__lte=int(max_duration))
-        except ValueError:
-            pass
+    experiences = _apply_common_experience_filters(experiences, filters)
 
     # Ordenación (igual estilo que list)
-    if sort == "price_asc":
+    if filters["sort"] == "price_asc":
         experiences = experiences.order_by("price", "-created_at")
-    elif sort == "price_desc":
+    elif filters["sort"] == "price_desc":
         experiences = experiences.order_by("-price", "-created_at")
-    elif sort == "duration_asc":
+    elif filters["sort"] == "duration_asc":
         experiences = experiences.order_by("duration_minutes", "-created_at")
-    elif sort == "duration_desc":
+    elif filters["sort"] == "duration_desc":
         experiences = experiences.order_by("-duration_minutes", "-created_at")
     else:
         experiences = experiences.order_by("-created_at")
@@ -166,14 +169,7 @@ def my_experiences(request):
         "experiences": experiences,
         "categories": categories,
         "has_filters": has_filters,
-        "filters": {
-            "q": q,
-            "category": category_slug,
-            "min_price": min_price,
-            "max_price": max_price,
-            "max_duration": max_duration,
-            "sort": sort,
-        },
+        "filters": filters,
     }
     return render(request, "experiences/my_list.html", context)
 
