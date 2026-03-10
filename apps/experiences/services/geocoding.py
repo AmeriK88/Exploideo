@@ -58,7 +58,7 @@ def geocode_experience_location(experience) -> Optional[tuple[float, float]]:
     cache_key = _cache_key_for_query(query)
     try:
         cached = cache.get(cache_key)
-        if cached:
+        if cached is not None:
             return cached
     except Exception:
         # Cache backend issues must never break geocoding flow.
@@ -68,7 +68,10 @@ def geocode_experience_location(experience) -> Optional[tuple[float, float]]:
         response = requests.get(
             NOMINATIM_SEARCH_URL,
             params={"q": query, "format": "json", "limit": 1},
-            headers={"User-Agent": NOMINATIM_USER_AGENT},
+            headers={
+                "User-Agent": NOMINATIM_USER_AGENT,
+                "Accept-Language": "es",
+            },
             timeout=getattr(settings, "GEOCODING_TIMEOUT", 5),
         )
         response.raise_for_status()
@@ -100,7 +103,7 @@ def geocode_experience_location(experience) -> Optional[tuple[float, float]]:
             timeout=getattr(settings, "GEOCODING_CACHE_TTL", DEFAULT_GEOCODING_CACHE_TTL),
         )
     except Exception:
-        # Cache backend issues must never block successful geocoding.
+        # Cache backend issues must never interrupt the request lifecycle.
         pass
 
     return coordinates
