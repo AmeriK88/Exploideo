@@ -94,3 +94,13 @@ class PrelaunchLegalAccessTests(TestCase):
 		self.assertEqual(response.status_code, 200)
 		match = resolve(response.wsgi_request.path)
 		self.assertEqual(f"{match.app_name}:{match.url_name}", "pages:home")
+
+
+class HomeNearMeCtaTests(TestCase):
+	@override_settings(PRELAUNCH_MODE=False)
+	def test_app_home_contains_near_me_cta_targeting_experiences_list(self):
+		response = self.client.get(reverse("pages:app_home"))
+
+		self.assertEqual(response.status_code, 200)
+		self.assertContains(response, "data-near-me-trigger")
+		self.assertContains(response, reverse("experiences:list"))

@@ -23,6 +23,8 @@ from .models import NewsletterSubscriber
 
 
 def home_view(request):
+    categories = Category.objects.all()
+
     featured_experiences = (
         Experience.objects
         .filter(is_active=True)
@@ -54,6 +56,7 @@ def home_view(request):
         "featured_experiences": featured_experiences,
         "home_reviews": home_reviews,
         "search_cfg": search_cfg,
+        "categories": categories,
     })
 
 

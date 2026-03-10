@@ -1,4 +1,13 @@
 <form method="get" action="{{ action_url }}" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
+  {% if near_me_active and filters.user_lat and filters.user_lng %}
+    <input type="hidden" name="near_me" value="1">
+    <input type="hidden" name="user_lat" value="{{ filters.user_lat }}">
+    <input type="hidden" name="user_lng" value="{{ filters.user_lng }}">
+    {% if filters.max_km %}
+      <input type="hidden" name="max_km" value="{{ filters.max_km }}">
+    {% endif %}
+  {% endif %}
+
   <div class="lg:col-span-2">
     <label class="label">Buscar</label>
     <input class="input" type="text" name="q" value="{{ q_value|default:'' }}" placeholder="{{ q_placeholder|default:'Museos, familia, senderismo...' }}">
@@ -58,5 +67,27 @@
   <div class="lg:col-span-2 flex items-end gap-2">
     <button type="submit" class="c-button c-button--primary w-full">Aplicar</button>
     <a href="{{ reset_url }}" class="c-button c-button--ghost w-full text-center">Limpiar</a>
+  </div>
+
+  <div class="lg:col-span-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+    <button
+      type="button"
+      class="c-button {% if near_me_active %}c-button--primary{% else %}c-button--ghost{% endif %} w-full sm:w-auto"
+      data-near-me-trigger
+      data-near-me-target="{{ action_url }}"
+      aria-pressed="{% if near_me_active %}true{% else %}false{% endif %}"
+    >
+      {% if near_me_active %}Cerca de mí activo{% else %}Cerca de mí{% endif %}
+    </button>
+
+    <p class="p-micro" data-near-me-feedback>
+      {% if near_me_error %}
+        {{ near_me_error }}
+      {% elif near_me_active %}
+        Mostrando experiencias cerca de tu ubicación.
+      {% else %}
+        Activa Cerca de mí para ordenar por distancia.
+      {% endif %}
+    </p>
   </div>
 </form>

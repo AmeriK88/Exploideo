@@ -14,10 +14,8 @@ DEFAULT_GEOCODING_CACHE_TTL = 86400
 
 def _build_geocoding_query(experience) -> str:
     values = [
-        getattr(experience, "location", ""),
         getattr(experience, "city", ""),
         getattr(experience, "island", ""),
-        getattr(experience, "province", ""),
         getattr(experience, "region", ""),
         getattr(experience, "country", ""),
     ]

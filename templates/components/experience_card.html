@@ -66,6 +66,10 @@
         <span class="c-badge c-badge--neutral u-hover-lift">⏱ {{ experience.duration_minutes }} min</span>
       {% endif %}
 
+      {% if experience.distance_km is not None %}
+        <span class="c-badge c-badge--neutral u-hover-lift">📏 {{ experience.distance_km }} km de ti</span>
+      {% endif %}
+
       {# Dificultad #}
       {% if experience.difficulty %}
         {% if experience.difficulty == "easy" %}

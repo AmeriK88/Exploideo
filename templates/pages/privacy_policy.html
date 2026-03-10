@@ -23,7 +23,7 @@
       <div class="mt-5 rounded-2xl border border-border bg-surface-soft px-5 py-4">
         <p class="u-muted">
           <span class="font-semibold u-text">{% trans "Última actualización:" %}</span>
-          {{ current_date|default:_("26 de enero de 2026") }}
+          {{ current_date|default:_("10 de marzo de 2026") }}
         </p>
       </div>
 
@@ -34,10 +34,12 @@
           <a href="#datos" class="c-badge c-badge--neutral u-hover-lift">{% trans "2. Datos" %}</a>
           <a href="#finalidad" class="c-badge c-badge--neutral u-hover-lift">{% trans "3. Finalidad" %}</a>
           <a href="#legitimacion" class="c-badge c-badge--neutral u-hover-lift">{% trans "4. Base legal" %}</a>
-          <a href="#cesiones" class="c-badge c-badge--neutral u-hover-lift">{% trans "5. Cesiones" %}</a>
-          <a href="#derechos" class="c-badge c-badge--neutral u-hover-lift">{% trans "6. Derechos" %}</a>
+          <a href="#destinatarios" class="c-badge c-badge--neutral u-hover-lift">{% trans "5. Destinatarios" %}</a>
+          <a href="#transferencias" class="c-badge c-badge--neutral u-hover-lift">{% trans "6. Transferencias" %}</a>
           <a href="#conservacion" class="c-badge c-badge--neutral u-hover-lift">{% trans "7. Conservación" %}</a>
-          <a href="#contacto" class="c-badge c-badge--neutral u-hover-lift">{% trans "8. Contacto" %}</a>
+          <a href="#derechos" class="c-badge c-badge--neutral u-hover-lift">{% trans "8. Derechos" %}</a>
+          <a href="#seguridad" class="c-badge c-badge--neutral u-hover-lift">{% trans "9. Seguridad" %}</a>
+          <a href="#contacto" class="c-badge c-badge--neutral u-hover-lift">{% trans "10. Contacto" %}</a>
         </div>
       </div>
     </div>
@@ -54,6 +56,9 @@
         <p class="mt-2 p-body">
           {% trans "Email de contacto:" %} <strong>info@exploideo.com</strong>
         </p>
+        <p class="mt-2 p-body">
+          {% trans "Si en el futuro designamos un Delegado de Protección de Datos o habilitamos un canal específico de privacidad, actualizaremos esta política para reflejarlo." %}
+        </p>
       </div>
     </section>
 
@@ -61,10 +66,14 @@
       <div class="c-card__body">
         <h2 class="h2-section">2. {% trans "Datos que recopilamos" %}</h2>
         <ul class="mt-2 list-bullets p-body">
-          <li>{% trans "Datos de identificación: nombre, email, foto, idioma." %}</li>
-          <li>{% trans "Datos de cuenta: credenciales y preferencias." %}</li>
-          <li>{% trans "Datos de reservas: fechas, personas, experiencias." %}</li>
-          <li>{% trans "Comunicaciones con soporte." %}</li>
+          <li>{% trans "Datos de identificación y perfil: nombre, email, nombre de usuario, imagen de perfil, idioma y otra información que decidas completar en tu cuenta." %}</li>
+          <li>{% trans "Datos de cuenta: credenciales de acceso, rol de usuario, configuración básica y preferencias relacionadas con el uso de la plataforma." %}</li>
+          <li>{% trans "Datos de reservas: fechas, número de personas, experiencia reservada, estado de la reserva, facturación y comunicaciones vinculadas a la gestión de la reserva." %}</li>
+          <li>{% trans "Datos de comunicaciones: mensajes enviados a soporte o a otros usuarios dentro de las funcionalidades habilitadas en la plataforma." %}</li>
+          <li>{% trans "Datos de experiencias publicadas por guías: lugar, ciudad, isla, región, descripciones, imágenes, precios, disponibilidad y demás información asociada a la experiencia." %}</li>
+          <li>{% trans "Coordenadas geográficas derivadas automáticamente a partir de la ubicación textual proporcionada para mejorar la búsqueda y navegación dentro de la plataforma." %}</li>
+          <li>{% trans "Datos de geolocalización del dispositivo del usuario cuando este utiliza voluntariamente funciones como 'Near me' y concede permiso a través de su navegador." %}</li>
+          <li>{% trans "Datos técnicos básicos, de seguridad y de funcionamiento necesarios para operar la plataforma, prevenir abusos y diagnosticar incidencias." %}</li>
         </ul>
       </div>
     </section>
@@ -73,10 +82,15 @@
       <div class="c-card__body">
         <h2 class="h2-section">3. {% trans "Finalidad del tratamiento" %}</h2>
         <ul class="mt-2 list-bullets p-body">
-          <li>{% trans "Gestionar tu cuenta y perfil." %}</li>
-          <li>{% trans "Procesar reservas entre viajeros y guías." %}</li>
-          <li>{% trans "Enviar notificaciones y comunicaciones del servicio." %}</li>
-          <li>{% trans "Mejorar la plataforma y la experiencia de usuario." %}</li>
+          <li>{% trans "Gestionar tu cuenta, autenticación y perfil dentro de la plataforma." %}</li>
+          <li>{% trans "Permitir la publicación, edición y gestión de experiencias por parte de los guías." %}</li>
+          <li>{% trans "Procesar reservas, cambios, cancelaciones, pagos, facturación y comunicaciones relacionadas con el servicio." %}</li>
+          <li>{% trans "Facilitar la comunicación entre viajeros y guías cuando la funcionalidad esté disponible." %}</li>
+          <li>{% trans "Mostrar experiencias cercanas o relevantes según la ubicación o la zona seleccionada por el usuario." %}</li>
+          <li>{% trans "Resolver automáticamente coordenadas geográficas a partir de ubicaciones textuales para mejorar el descubrimiento de experiencias y funciones como la ordenación por proximidad." %}</li>
+          <li>{% trans "Atender solicitudes, incidencias, soporte técnico y reclamaciones." %}</li>
+          <li>{% trans "Mejorar el funcionamiento, seguridad, fiabilidad y experiencia de uso de la plataforma." %}</li>
+          <li>{% trans "Cumplir obligaciones legales, contables, fiscales o de seguridad que resulten aplicables." %}</li>
         </ul>
       </div>
     </section>
@@ -85,37 +99,48 @@
       <div class="c-card__body">
         <h2 class="h2-section">4. {% trans "Base legal" %}</h2>
         <p class="p-body">
-          {% trans "El tratamiento se basa en el consentimiento del usuario, la ejecución de un contrato y el cumplimiento de obligaciones legales." %}
+          {% trans "Tratamos tus datos personales cuando ello es necesario para la ejecución de la relación contractual o precontractual contigo, para el cumplimiento de obligaciones legales aplicables, sobre la base de tu consentimiento cuando sea necesario, y en determinados casos sobre la base de nuestro interés legítimo en mantener la plataforma segura, operativa y correctamente gestionada." %}
+        </p>
+        <p class="mt-2 p-body">
+          {% trans "En el caso de funciones de geolocalización como 'Near me', la ubicación del dispositivo se utiliza únicamente cuando el usuario decide activarla y concede permiso desde su navegador." %}
+        </p>
+        <p class="mt-2 p-body">
+          {% trans "Cuando el tratamiento se base en tu consentimiento, podrás retirarlo en cualquier momento, sin que ello afecte a la licitud del tratamiento realizado con anterioridad a su retirada." %}
         </p>
       </div>
     </section>
 
-    <section id="cesiones" class="c-card">
+    <section id="destinatarios" class="c-card">
       <div class="c-card__body">
-        <h2 class="h2-section">5. {% trans "Cesión de datos" %}</h2>
+        <h2 class="h2-section">5. {% trans "Destinatarios y acceso a los datos" %}</h2>
         <p class="p-body">
-          {% trans "No se ceden datos a terceros salvo obligación legal o proveedores necesarios para el funcionamiento (hosting, correo, pagos)." %}
+          {% trans "No vendemos tus datos personales a terceros." %}
         </p>
+        <p class="mt-2 p-body">
+          {% trans "Tus datos podrán ser comunicados o accesibles, según corresponda, a:" %}
+        </p>
+        <ul class="mt-2 list-bullets p-body">
+          <li>{% trans "Guías o viajeros implicados en una reserva, en la medida necesaria para gestionar la experiencia contratada." %}</li>
+          <li>{% trans "Proveedores tecnológicos que actúan por cuenta de Exploideo, como servicios de alojamiento, correo electrónico, infraestructura, soporte técnico o herramientas necesarias para operar la plataforma." %}</li>
+          <li>{% trans "Proveedores de pago, facturación o prevención de fraude cuando resulte necesario para procesar operaciones económicas o cumplir obligaciones legales." %}</li>
+          <li>{% trans "Proveedores técnicos de localización o geocodificación cuando sea necesario convertir ubicaciones textuales en coordenadas o facilitar funciones de búsqueda por proximidad." %}</li>
+          <li>{% trans "Administraciones públicas, jueces, tribunales o autoridades competentes cuando exista obligación legal." %}</li>
+        </ul>
       </div>
     </section>
 
-    <section id="derechos" class="c-card">
+    <section id="transferencias" class="c-card">
       <div class="c-card__body">
-        <h2 class="h2-section">{% trans "6. Derechos del usuario" %}</h2>
-        <ul class="mt-2 list-bullets p-body">
-          <li>{% trans "Acceder a tus datos." %}</li>
-          <li>{% trans "Rectificar datos incorrectos." %}</li>
-          <li>{% trans "Solicitar la supresión." %}</li>
-          <li>{% trans "Limitar u oponerte al tratamiento." %}</li>
-          <li>{% trans "Portabilidad de los datos." %}</li>
-        </ul>
-
-        <div class="mt-4 rounded-2xl border border-border bg-surface-soft px-5 py-4">
-          <p class="u-text">
-            {% trans "Puedes ejercer tus derechos escribiendo a" %} <strong>info@exploideo.com</strong>
-
-          </p>
-        </div>
+        <h2 class="h2-section">6. {% trans "Transferencias internacionales de datos" %}</h2>
+        <p class="p-body">
+          {% trans "Con carácter general, procuramos utilizar proveedores ubicados en el Espacio Económico Europeo o que ofrezcan garantías adecuadas conforme a la normativa de protección de datos aplicable." %}
+        </p>
+        <p class="mt-2 p-body">
+          {% trans "No obstante, algunos proveedores técnicos utilizados para operar la plataforma podrían estar ubicados fuera del Espacio Económico Europeo o implicar accesos internacionales a datos. En esos casos, adoptaremos las garantías adecuadas exigidas por la normativa aplicable." %}
+        </p>
+        <p class="mt-2 p-body">
+          {% trans "Si deseas más información sobre las garantías aplicadas en cada caso, puedes solicitarla escribiendo a info@exploideo.com." %}
+        </p>
       </div>
     </section>
 
@@ -123,16 +148,62 @@
       <div class="c-card__body">
         <h2 class="h2-section">7. {% trans "Conservación de datos" %}</h2>
         <p class="p-body">
-          {% trans "Los datos se conservarán mientras exista relación con el usuario y durante los plazos legales exigidos." %}
+          {% trans "Conservaremos tus datos personales mientras tu cuenta permanezca activa o mientras sean necesarios para prestarte el servicio, gestionar reservas, atender incidencias o cumplir obligaciones legales." %}
+        </p>
+        <p class="mt-2 p-body">
+          {% trans "Los datos de reservas, pagos, facturación y soporte podrán conservarse durante los plazos exigidos por la normativa fiscal, contable, de consumo o por la necesidad de atender posibles responsabilidades." %}
+        </p>
+        <p class="mt-2 p-body">
+          {% trans "Los datos de ubicación asociados a las experiencias de los guías se mantendrán mientras esas experiencias permanezcan activas o mientras resulte necesario para la operativa de la plataforma." %}
+        </p>
+        <p class="mt-2 p-body">
+          {% trans "La ubicación utilizada para funciones como 'Near me' se emplea para mostrar resultados cercanos durante la interacción del usuario y, salvo que se indique expresamente otra cosa, no se almacena de forma permanente en nuestros sistemas." %}
+        </p>
+      </div>
+    </section>
+
+    <section id="derechos" class="c-card">
+      <div class="c-card__body">
+        <h2 class="h2-section">8. {% trans "Derechos del usuario" %}</h2>
+        <ul class="mt-2 list-bullets p-body">
+          <li>{% trans "Acceder a tus datos personales." %}</li>
+          <li>{% trans "Rectificar datos incorrectos o incompletos." %}</li>
+          <li>{% trans "Solicitar la supresión de tus datos cuando proceda." %}</li>
+          <li>{% trans "Solicitar la limitación del tratamiento." %}</li>
+          <li>{% trans "Oponerte al tratamiento en los casos previstos legalmente." %}</li>
+          <li>{% trans "Solicitar la portabilidad de tus datos cuando proceda." %}</li>
+          <li>{% trans "Retirar tu consentimiento en cualquier momento cuando el tratamiento se base en él." %}</li>
+        </ul>
+
+        <div class="mt-4 rounded-2xl border border-border bg-surface-soft px-5 py-4">
+          <p class="u-text">
+            {% trans "Puedes ejercer tus derechos escribiendo a" %} <strong>info@exploideo.com</strong>
+          </p>
+        </div>
+
+        <p class="mt-4 p-body">
+          {% trans "Asimismo, si consideras que el tratamiento de tus datos no se ajusta a la normativa aplicable, tienes derecho a presentar una reclamación ante la autoridad de control competente, en España la Agencia Española de Protección de Datos (AEPD)." %}
+        </p>
+      </div>
+    </section>
+
+    <section id="seguridad" class="c-card">
+      <div class="c-card__body">
+        <h2 class="h2-section">9. {% trans "Seguridad" %}</h2>
+        <p class="p-body">
+          {% trans "Aplicamos medidas técnicas y organizativas razonables para proteger los datos personales frente a accesos no autorizados, pérdida, alteración o divulgación indebida." %}
+        </p>
+        <p class="mt-2 p-body">
+          {% trans "No obstante, ningún sistema es completamente invulnerable, por lo que no podemos garantizar una seguridad absoluta en todos los casos." %}
         </p>
       </div>
     </section>
 
     <section id="contacto" class="c-card">
       <div class="c-card__body">
-        <h2 class="h2-section">8. {% trans "Contacto" %}</h2>
+        <h2 class="h2-section">10. {% trans "Contacto" %}</h2>
         <p class="p-body">
-          {% trans "Para cualquier cuestión sobre privacidad:" %}
+          {% trans "Para cualquier cuestión relacionada con privacidad o protección de datos:" %}
         </p>
 
         <div class="mt-4 contact-box">

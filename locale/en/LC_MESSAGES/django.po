@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-09 10:40+0000\n"
+"POT-Creation-Date: 2026-03-10 16:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: English <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\config\settings.py:146
+#: .\config\settings.py:149
 msgid "Spanish"
 msgstr "Spanish"
 
-#: .\config\settings.py:147
+#: .\config\settings.py:150
 msgid "English"
 msgstr "English"
 
@@ -1072,7 +1072,7 @@ msgstr "Cookie Policy - Exploideo"
 #: .\templates\pages\cookie_policy.html:13
 #: .\templates\pages\privacy_policy.html:13
 msgid "GDPR"
-msgstr "GDPR"
+msgstr "5. Recipients"
 
 #: .\templates\pages\cookie_policy.html:17
 msgid "Política de Cookies"
@@ -1161,7 +1161,8 @@ msgstr ""
 "settings)."
 
 #: .\templates\pages\cookie_policy.html:79
-#: .\templates\pages\terms_and_conditions.html:141
+#: .\templates\pages\terms_and_conditions.html:100
+#: .\templates\pages\terms_and_conditions.html:151
 msgid "Importante:"
 msgstr "Important:"
 
@@ -1304,7 +1305,7 @@ msgstr ""
 "change is significant, we will communicate it clearly on the platform."
 
 #: .\templates\pages\cookie_policy.html:175
-#: .\templates\pages\privacy_policy.html:133
+#: .\templates\pages\privacy_policy.html:204
 #: .\templates\pages\terms_and_conditions.html:45
 msgid "Contacto"
 msgstr "Contact"
@@ -1314,14 +1315,14 @@ msgid "Si tienes preguntas sobre el uso de cookies, escríbenos:"
 msgstr "If you have questions about our use of cookies, contact us:"
 
 #: .\templates\pages\cookie_policy.html:182
-#: .\templates\pages\privacy_policy.html:140
-#: .\templates\pages\terms_and_conditions.html:230
+#: .\templates\pages\privacy_policy.html:211
+#: .\templates\pages\terms_and_conditions.html:271
 msgid "Email:"
 msgstr "Email:"
 
 #: .\templates\pages\cookie_policy.html:185
-#: .\templates\pages\privacy_policy.html:143
-#: .\templates\pages\terms_and_conditions.html:233
+#: .\templates\pages\privacy_policy.html:214
+#: .\templates\pages\terms_and_conditions.html:274
 msgid "Contactar"
 msgstr "Contact us"
 
@@ -1967,13 +1968,15 @@ msgid ""
 "Cómo tratamos tus datos personales, para qué los usamos y cuáles son tus "
 "derechos."
 msgstr ""
-"How we handle your personal data, what we use it for, and what your rights "
-"are."
+"Identification and profile data: name, email, username, profile image, "
+"language, and any other information you choose to complete in your "
+"account.How we handle your personal data, what we use it for, and what your "
+"rights are."
 
 #: .\templates\pages\privacy_policy.html:26
 #: .\templates\pages\terms_and_conditions.html:26
-msgid "26 de enero de 2026"
-msgstr "January 26, 2026"
+msgid "10 de marzo de 2026"
+msgstr "March 10th 2026"
 
 #: .\templates\pages\privacy_policy.html:33
 msgid "1. Responsable"
@@ -1992,26 +1995,34 @@ msgid "4. Base legal"
 msgstr "4. Legal basis"
 
 #: .\templates\pages\privacy_policy.html:37
-msgid "5. Cesiones"
-msgstr "5. Data sharing"
+msgid "5. Destinatarios"
+msgstr "5. Recipients"
 
 #: .\templates\pages\privacy_policy.html:38
-msgid "6. Derechos"
-msgstr "6. Rights"
+msgid "6. Transferencias"
+msgstr "6. Transparency"
 
 #: .\templates\pages\privacy_policy.html:39
 msgid "7. Conservación"
 msgstr "7. Data retention"
 
 #: .\templates\pages\privacy_policy.html:40
-msgid "8. Contacto"
-msgstr "8. Contact"
+msgid "8. Derechos"
+msgstr "8. Rights"
 
-#: .\templates\pages\privacy_policy.html:50
+#: .\templates\pages\privacy_policy.html:41
+msgid "9. Seguridad"
+msgstr "9. Security"
+
+#: .\templates\pages\privacy_policy.html:42
+msgid "10. Contacto"
+msgstr "10. Contact"
+
+#: .\templates\pages\privacy_policy.html:52
 msgid "Responsable del tratamiento"
 msgstr "Data controller"
 
-#: .\templates\pages\privacy_policy.html:52
+#: .\templates\pages\privacy_policy.html:54
 msgid ""
 "Exploideo es responsable del tratamiento de los datos personales de los "
 "usuarios de la plataforma."
@@ -2019,118 +2030,409 @@ msgstr ""
 "Exploideo is the data controller responsible for processing users' personal "
 "data."
 
-#: .\templates\pages\privacy_policy.html:55
+#: .\templates\pages\privacy_policy.html:57
 msgid "Email de contacto:"
 msgstr "Contact email:"
 
-#: .\templates\pages\privacy_policy.html:62
+#: .\templates\pages\privacy_policy.html:60
+msgid ""
+"Si en el futuro designamos un Delegado de Protección de Datos o habilitamos "
+"un canal específico de privacidad, actualizaremos esta política para "
+"reflejarlo."
+msgstr ""
+"If in the future we appoint a Data Protection Officer or enable a specific "
+"privacy contact channel, we will update this policy accordingly."
+
+#: .\templates\pages\privacy_policy.html:67
 msgid "Datos que recopilamos"
 msgstr "Data we collect"
 
-#: .\templates\pages\privacy_policy.html:64
-msgid "Datos de identificación: nombre, email, foto, idioma."
-msgstr "Identification data: name, email, photo, language."
+#: .\templates\pages\privacy_policy.html:69
+msgid ""
+"Datos de identificación y perfil: nombre, email, nombre de usuario, imagen "
+"de perfil, idioma y otra información que decidas completar en tu cuenta."
+msgstr ""
+"Identification and profile data: name, email, username, profile image, "
+"language, and any other information you choose to complete in your account."
 
-#: .\templates\pages\privacy_policy.html:65
-msgid "Datos de cuenta: credenciales y preferencias."
-msgstr "Account data: credentials and preferences."
+#: .\templates\pages\privacy_policy.html:70
+msgid ""
+"Datos de cuenta: credenciales de acceso, rol de usuario, configuración "
+"básica y preferencias relacionadas con el uso de la plataforma."
+msgstr ""
+"Account data: login credentials, user role, basic settings and preferences "
+"related to the use of the platform."
 
-#: .\templates\pages\privacy_policy.html:66
-msgid "Datos de reservas: fechas, personas, experiencias."
-msgstr "Booking data: dates, participants, experiences."
+#: .\templates\pages\privacy_policy.html:71
+msgid ""
+"Datos de reservas: fechas, número de personas, experiencia reservada, estado "
+"de la reserva, facturación y comunicaciones vinculadas a la gestión de la "
+"reserva."
+msgstr ""
+"Booking data: dates, number of participants, reserved experience, booking "
+"status, billing information and communications related to the management of "
+"the reservation."
 
-#: .\templates\pages\privacy_policy.html:67
-msgid "Comunicaciones con soporte."
-msgstr "Communications with support."
+#: .\templates\pages\privacy_policy.html:72
+msgid ""
+"Datos de comunicaciones: mensajes enviados a soporte o a otros usuarios "
+"dentro de las funcionalidades habilitadas en la plataforma."
+msgstr ""
+"Communication data: messages sent to support or to other users within the "
+"features enabled on the platform."
+
+#: .\templates\pages\privacy_policy.html:73
+msgid ""
+"Datos de experiencias publicadas por guías: lugar, ciudad, isla, región, "
+"descripciones, imágenes, precios, disponibilidad y demás información "
+"asociada a la experiencia."
+msgstr ""
+"Data on experiences published by guides: location, city, island, region, "
+"descriptions, images, prices, availability, and other information associated "
+"with the experience."
 
 #: .\templates\pages\privacy_policy.html:74
+msgid ""
+"Coordenadas geográficas derivadas automáticamente a partir de la ubicación "
+"textual proporcionada para mejorar la búsqueda y navegación dentro de la "
+"plataforma."
+msgstr ""
+"Geographic coordinates automatically derived from the textual location "
+"provided to improve search and navigation within the platform."
+
+#: .\templates\pages\privacy_policy.html:75
+msgid ""
+"Datos de geolocalización del dispositivo del usuario cuando este utiliza "
+"voluntariamente funciones como 'Near me' y concede permiso a través de su "
+"navegador."
+msgstr ""
+"User device geolocation data when the user voluntarily uses features such as "
+"'Near me' and grants permission through their browser."
+
+#: .\templates\pages\privacy_policy.html:76
+msgid ""
+"Datos técnicos básicos, de seguridad y de funcionamiento necesarios para "
+"operar la plataforma, prevenir abusos y diagnosticar incidencias."
+msgstr ""
+"Basic technical, security, and operational data needed to run the platform, "
+"prevent abuse, and diagnose incidents."
+
+#: .\templates\pages\privacy_policy.html:83
 msgid "Finalidad del tratamiento"
 msgstr "Purpose of processing"
 
-#: .\templates\pages\privacy_policy.html:76
-msgid "Gestionar tu cuenta y perfil."
-msgstr "Manage your account and profile."
-
-#: .\templates\pages\privacy_policy.html:77
-msgid "Procesar reservas entre viajeros y guías."
-msgstr "Process bookings between travelers and guides."
-
-#: .\templates\pages\privacy_policy.html:78
-msgid "Enviar notificaciones y comunicaciones del servicio."
-msgstr "Send service notifications and communications."
-
-#: .\templates\pages\privacy_policy.html:79
-msgid "Mejorar la plataforma y la experiencia de usuario."
-msgstr "Improve the platform and user experience."
+#: .\templates\pages\privacy_policy.html:85
+msgid "Gestionar tu cuenta, autenticación y perfil dentro de la plataforma."
+msgstr "Manage your account, authentication, and profile within the platform."
 
 #: .\templates\pages\privacy_policy.html:86
-msgid "Base legal"
-msgstr "Legal basis"
+msgid ""
+"Permitir la publicación, edición y gestión de experiencias por parte de los "
+"guías."
+msgstr "Allow guides to publish, edit, and manage experiences."
+
+#: .\templates\pages\privacy_policy.html:87
+msgid ""
+"Procesar reservas, cambios, cancelaciones, pagos, facturación y "
+"comunicaciones relacionadas con el servicio."
+msgstr ""
+"Process bookings, changes, cancellations, payments, billing, and service-"
+"related communications."
 
 #: .\templates\pages\privacy_policy.html:88
 msgid ""
-"El tratamiento se basa en el consentimiento del usuario, la ejecución de un "
-"contrato y el cumplimiento de obligaciones legales."
+"Facilitar la comunicación entre viajeros y guías cuando la funcionalidad "
+"esté disponible."
 msgstr ""
-"Processing is based on user consent, the performance of a contract, and "
-"compliance with legal obligations."
+"Enable communication between travelers and guides when the feature is "
+"available."
 
-#: .\templates\pages\privacy_policy.html:95
-msgid "Cesión de datos"
-msgstr "Data sharing"
-
-#: .\templates\pages\privacy_policy.html:97
+#: .\templates\pages\privacy_policy.html:89
 msgid ""
-"No se ceden datos a terceros salvo obligación legal o proveedores necesarios "
-"para el funcionamiento (hosting, correo, pagos)."
+"Mostrar experiencias cercanas o relevantes según la ubicación o la zona "
+"seleccionada por el usuario."
 msgstr ""
-"Data is not shared with third parties except where legally required or with "
-"service providers necessary for the operation of the platform (hosting, "
-"email, payments)."
+"Show nearby or relevant experiences based on the location or area selected "
+"by the user."
 
-#: .\templates\pages\privacy_policy.html:104
-msgid "6. Derechos del usuario"
-msgstr "6. User rights"
+#: .\templates\pages\privacy_policy.html:90
+msgid ""
+"Resolver automáticamente coordenadas geográficas a partir de ubicaciones "
+"textuales para mejorar el descubrimiento de experiencias y funciones como la "
+"ordenación por proximidad."
+msgstr ""
+"Automatically resolve geographic coordinates from textual locations to "
+"improve experience discovery and features such as proximity sorting."
 
-#: .\templates\pages\privacy_policy.html:106
-msgid "Acceder a tus datos."
-msgstr "Access your data."
+#: .\templates\pages\privacy_policy.html:91
+msgid "Atender solicitudes, incidencias, soporte técnico y reclamaciones."
+msgstr "Handle requests, incidents, technical support, and complaints."
 
-#: .\templates\pages\privacy_policy.html:107
-msgid "Rectificar datos incorrectos."
-msgstr "Correct inaccurate data."
+#: .\templates\pages\privacy_policy.html:92
+msgid ""
+"Mejorar el funcionamiento, seguridad, fiabilidad y experiencia de uso de la "
+"plataforma."
+msgstr ""
+"Improve the platform's operation, security, reliability, and user experience."
+
+#: .\templates\pages\privacy_policy.html:93
+msgid ""
+"Cumplir obligaciones legales, contables, fiscales o de seguridad que "
+"resulten aplicables."
+msgstr ""
+"Comply with applicable legal, accounting, tax, or security obligations."
+
+#: .\templates\pages\privacy_policy.html:100
+msgid "Base legal"
+msgstr "Legal basis"
+
+#: .\templates\pages\privacy_policy.html:102
+msgid ""
+"Tratamos tus datos personales cuando ello es necesario para la ejecución de "
+"la relación contractual o precontractual contigo, para el cumplimiento de "
+"obligaciones legales aplicables, sobre la base de tu consentimiento cuando "
+"sea necesario, y en determinados casos sobre la base de nuestro interés "
+"legítimo en mantener la plataforma segura, operativa y correctamente "
+"gestionada."
+msgstr ""
+"We process your personal data when necessary for the performance of the "
+"contractual or pre-contractual relationship with you, for compliance with "
+"applicable legal obligations, on the basis of your consent where required, "
+"and in certain cases on the basis of our legitimate interest in keeping the "
+"platform secure, operational, and properly managed."
+
+#: .\templates\pages\privacy_policy.html:105
+msgid ""
+"En el caso de funciones de geolocalización como 'Near me', la ubicación del "
+"dispositivo se utiliza únicamente cuando el usuario decide activarla y "
+"concede permiso desde su navegador."
+msgstr ""
+"In the case of geolocation features such as 'Near me', device location is "
+"used only when the user chooses to enable it and grants permission in their "
+"browser."
 
 #: .\templates\pages\privacy_policy.html:108
-msgid "Solicitar la supresión."
-msgstr "Request deletion."
-
-#: .\templates\pages\privacy_policy.html:109
-msgid "Limitar u oponerte al tratamiento."
-msgstr "Restrict or object to processing."
-
-#: .\templates\pages\privacy_policy.html:110
-msgid "Portabilidad de los datos."
-msgstr "Data portability."
+msgid ""
+"Cuando el tratamiento se base en tu consentimiento, podrás retirarlo en "
+"cualquier momento, sin que ello afecte a la licitud del tratamiento "
+"realizado con anterioridad a su retirada."
+msgstr ""
+"When processing is based on your consent, you may withdraw it at any time, "
+"without affecting the lawfulness of processing carried out prior to its "
+"withdrawal."
 
 #: .\templates\pages\privacy_policy.html:115
-msgid "Puedes ejercer tus derechos escribiendo a"
-msgstr "You can exercise your rights by contacting"
+msgid "Destinatarios y acceso a los datos"
+msgstr "Recipients and access to data"
+
+#: .\templates\pages\privacy_policy.html:117
+msgid "No vendemos tus datos personales a terceros."
+msgstr "We do not sell your personal data to third parties."
+
+#: .\templates\pages\privacy_policy.html:120
+msgid "Tus datos podrán ser comunicados o accesibles, según corresponda, a:"
+msgstr "Your data may be disclosed or made accessible, as applicable, to:"
+
+#: .\templates\pages\privacy_policy.html:123
+msgid ""
+"Guías o viajeros implicados en una reserva, en la medida necesaria para "
+"gestionar la experiencia contratada."
+msgstr ""
+"Guides or travelers involved in a booking, to the extent necessary to manage "
+"the booked experience."
 
 #: .\templates\pages\privacy_policy.html:124
-msgid "Conservación de datos"
-msgstr "Data retention"
+msgid ""
+"Proveedores tecnológicos que actúan por cuenta de Exploideo, como servicios "
+"de alojamiento, correo electrónico, infraestructura, soporte técnico o "
+"herramientas necesarias para operar la plataforma."
+msgstr ""
+"Technology providers acting on behalf of Exploideo, such as hosting, email, "
+"infrastructure, technical support, or tools required to operate the platform."
+
+#: .\templates\pages\privacy_policy.html:125
+msgid ""
+"Proveedores de pago, facturación o prevención de fraude cuando resulte "
+"necesario para procesar operaciones económicas o cumplir obligaciones "
+"legales."
+msgstr ""
+"Payment, billing, or fraud-prevention providers when necessary to process "
+"financial transactions or comply with legal obligations."
 
 #: .\templates\pages\privacy_policy.html:126
 msgid ""
-"Los datos se conservarán mientras exista relación con el usuario y durante "
-"los plazos legales exigidos."
+"Proveedores técnicos de localización o geocodificación cuando sea necesario "
+"convertir ubicaciones textuales en coordenadas o facilitar funciones de "
+"búsqueda por proximidad."
 msgstr ""
-"Data will be retained while a relationship with the user exists and for the "
-"legally required retention periods."
+"Technical location or geocoding providers when necessary to convert textual "
+"locations into coordinates or enable proximity search features."
 
-#: .\templates\pages\privacy_policy.html:135
-msgid "Para cualquier cuestión sobre privacidad:"
-msgstr "For any questions regarding privacy:"
+#: .\templates\pages\privacy_policy.html:127
+msgid ""
+"Administraciones públicas, jueces, tribunales o autoridades competentes "
+"cuando exista obligación legal."
+msgstr ""
+"Public administrations, judges, courts, or competent authorities where "
+"required by law."
+
+#: .\templates\pages\privacy_policy.html:134
+msgid "Transferencias internacionales de datos"
+msgstr "International data transfers"
+
+#: .\templates\pages\privacy_policy.html:136
+msgid ""
+"Con carácter general, procuramos utilizar proveedores ubicados en el Espacio "
+"Económico Europeo o que ofrezcan garantías adecuadas conforme a la normativa "
+"de protección de datos aplicable."
+msgstr ""
+"As a general rule, we seek to use providers located in the European Economic "
+"Area or providers that offer appropriate safeguards under applicable data "
+"protection laws."
+
+#: .\templates\pages\privacy_policy.html:139
+msgid ""
+"No obstante, algunos proveedores técnicos utilizados para operar la "
+"plataforma podrían estar ubicados fuera del Espacio Económico Europeo o "
+"implicar accesos internacionales a datos. En esos casos, adoptaremos las "
+"garantías adecuadas exigidas por la normativa aplicable."
+msgstr ""
+"However, some technical providers used to operate the platform may be "
+"located outside the European Economic Area or involve international access "
+"to data. In such cases, we will implement the appropriate safeguards "
+"required by applicable regulations."
+
+#: .\templates\pages\privacy_policy.html:142
+msgid ""
+"Si deseas más información sobre las garantías aplicadas en cada caso, puedes "
+"solicitarla escribiendo a info@exploideo.com."
+msgstr ""
+"If you would like more information about the safeguards applied in each "
+"case, you can request it by writing to info@exploideo.com."
+
+#: .\templates\pages\privacy_policy.html:149
+msgid "Conservación de datos"
+msgstr "Data retention"
+
+#: .\templates\pages\privacy_policy.html:151
+msgid ""
+"Conservaremos tus datos personales mientras tu cuenta permanezca activa o "
+"mientras sean necesarios para prestarte el servicio, gestionar reservas, "
+"atender incidencias o cumplir obligaciones legales."
+msgstr ""
+"We will retain your personal data while your account remains active or as "
+"long as it is necessary to provide the service, manage bookings, handle "
+"incidents, or comply with legal obligations."
+
+#: .\templates\pages\privacy_policy.html:154
+msgid ""
+"Los datos de reservas, pagos, facturación y soporte podrán conservarse "
+"durante los plazos exigidos por la normativa fiscal, contable, de consumo o "
+"por la necesidad de atender posibles responsabilidades."
+msgstr ""
+"Booking, payment, billing, and support data may be retained for the periods "
+"required by tax, accounting, or consumer regulations, or as needed to "
+"address potential liabilities."
+
+#: .\templates\pages\privacy_policy.html:157
+msgid ""
+"Los datos de ubicación asociados a las experiencias de los guías se "
+"mantendrán mientras esas experiencias permanezcan activas o mientras resulte "
+"necesario para la operativa de la plataforma."
+msgstr ""
+"Location data associated with guides' experiences will be retained while "
+"those experiences remain active or for as long as necessary for platform "
+"operations."
+
+#: .\templates\pages\privacy_policy.html:160
+msgid ""
+"La ubicación utilizada para funciones como 'Near me' se emplea para mostrar "
+"resultados cercanos durante la interacción del usuario y, salvo que se "
+"indique expresamente otra cosa, no se almacena de forma permanente en "
+"nuestros sistemas."
+msgstr ""
+"The location used for features such as 'Near me' is used to show nearby "
+"results during user interaction and, unless expressly stated otherwise, is "
+"not stored permanently in our systems."
+
+#: .\templates\pages\privacy_policy.html:167
+#, fuzzy
+#| msgid "6. Derechos del usuario"
+msgid "Derechos del usuario"
+msgstr "6. User rights"
+
+#: .\templates\pages\privacy_policy.html:169
+msgid "Acceder a tus datos personales."
+msgstr "Access your personal data."
+
+#: .\templates\pages\privacy_policy.html:170
+msgid "Rectificar datos incorrectos o incompletos."
+msgstr "Correct inaccurate or incomplete data."
+
+#: .\templates\pages\privacy_policy.html:171
+msgid "Solicitar la supresión de tus datos cuando proceda."
+msgstr "Request the deletion of your data where applicable."
+
+#: .\templates\pages\privacy_policy.html:172
+msgid "Solicitar la limitación del tratamiento."
+msgstr "Request restriction of processing."
+
+#: .\templates\pages\privacy_policy.html:173
+msgid "Oponerte al tratamiento en los casos previstos legalmente."
+msgstr "Object to processing in the cases provided by law."
+
+#: .\templates\pages\privacy_policy.html:174
+msgid "Solicitar la portabilidad de tus datos cuando proceda."
+msgstr "Request data portability where applicable."
+
+#: .\templates\pages\privacy_policy.html:175
+msgid ""
+"Retirar tu consentimiento en cualquier momento cuando el tratamiento se base "
+"en él."
+msgstr "Withdraw your consent at any time when processing is based on it."
+
+#: .\templates\pages\privacy_policy.html:180
+msgid "Puedes ejercer tus derechos escribiendo a"
+msgstr "You can exercise your rights by contacting"
+
+#: .\templates\pages\privacy_policy.html:185
+msgid ""
+"Asimismo, si consideras que el tratamiento de tus datos no se ajusta a la "
+"normativa aplicable, tienes derecho a presentar una reclamación ante la "
+"autoridad de control competente, en España la Agencia Española de Protección "
+"de Datos (AEPD)."
+msgstr ""
+"Likewise, if you consider that the processing of your data does not comply "
+"with applicable regulations, you have the right to lodge a complaint with "
+"the competent supervisory authority, in Spain the Spanish Data Protection "
+"Agency (AEPD)."
+
+#: .\templates\pages\privacy_policy.html:192
+msgid "Seguridad"
+msgstr "Security"
+
+#: .\templates\pages\privacy_policy.html:194
+msgid ""
+"Aplicamos medidas técnicas y organizativas razonables para proteger los "
+"datos personales frente a accesos no autorizados, pérdida, alteración o "
+"divulgación indebida."
+msgstr ""
+"We apply reasonable technical and organizational measures to protect "
+"personal data against unauthorized access, loss, alteration, or improper "
+"disclosure."
+
+#: .\templates\pages\privacy_policy.html:197
+msgid ""
+"No obstante, ningún sistema es completamente invulnerable, por lo que no "
+"podemos garantizar una seguridad absoluta en todos los casos."
+msgstr ""
+"However, no system is completely invulnerable, so we cannot guarantee "
+"absolute security in all cases."
+
+#: .\templates\pages\privacy_policy.html:206
+msgid ""
+"Para cualquier cuestión relacionada con privacidad o protección de datos:"
+msgstr "For any questions related to privacy or data protection:"
 
 #: .\templates\pages\terms_and_conditions.html:3
 msgid "Términos y Condiciones - Exploideo"
@@ -2177,8 +2479,8 @@ msgid "Cancelaciones"
 msgstr "Cancellations"
 
 #: .\templates\pages\terms_and_conditions.html:38
-msgid "Cambios"
-msgstr "Changes"
+msgid "Responsabilidades"
+msgstr "Responsibilities"
 
 #: .\templates\pages\terms_and_conditions.html:39
 msgid "Reseñas"
@@ -2201,16 +2503,24 @@ msgid "Ley"
 msgstr "Governing law"
 
 #: .\templates\pages\terms_and_conditions.html:44
-msgid "Responsabilidades"
-msgstr "Responsibilities"
+msgid "Cambios"
+msgstr "Changes"
 
 #: .\templates\pages\terms_and_conditions.html:57
-msgid "Exploideo actúa como intermediario entre viajeros y guías."
-msgstr "Exploideo acts as an intermediary between travelers and guides."
+msgid ""
+"Exploideo actúa como plataforma tecnológica e intermediaria entre viajeros y "
+"guías."
+msgstr ""
+"Exploideo acts as a technological platform and intermediary between "
+"travelers and guides."
 
 #: .\templates\pages\terms_and_conditions.html:58
-msgid "Las experiencias las presta el guía."
-msgstr "Experiences are provided by the guide."
+msgid ""
+"Las experiencias son prestadas por el guía, y el contrato de prestación de "
+"la actividad se celebra directamente entre viajero y guía."
+msgstr ""
+"Experiences are provided by the guide, and the service agreement for the "
+"activity is entered into directly between traveler and guide."
 
 #: .\templates\pages\terms_and_conditions.html:66
 msgid "1. Aceptación de términos"
@@ -2219,10 +2529,10 @@ msgstr "1. Acceptance of terms"
 #: .\templates\pages\terms_and_conditions.html:68
 msgid ""
 "Al acceder y usar Exploideo, aceptas estos Términos y Condiciones. Si no "
-"estás de acuerdo, no uses la plataforma."
+"estás de acuerdo con ellos, no debes usar la plataforma."
 msgstr ""
-"By accessing and using Exploideo, you agree to these Terms and Conditions. "
-"If you do not agree, please do not use the platform."
+"By accessing and using Exploideo, you accept these Terms and Conditions. If "
+"you do not agree with them, you must not use the platform."
 
 #: .\templates\pages\terms_and_conditions.html:75
 msgid "2. Descripción del servicio"
@@ -2230,241 +2540,476 @@ msgstr "2. Description of the service"
 
 #: .\templates\pages\terms_and_conditions.html:77
 msgid ""
-"Exploideo conecta viajeros con guías locales. No somos responsables directos "
-"de las experiencias, solo facilitamos el contacto."
+"Exploideo conecta viajeros con guías locales para facilitar el "
+"descubrimiento, solicitud y gestión de reservas de experiencias."
 msgstr ""
-"Exploideo connects travelers with local guides. We are not directly "
-"responsible for the experiences; we only facilitate contact."
+"Exploideo connects travelers with local guides to facilitate the discovery, "
+"request, and booking management of experiences."
 
-#: .\templates\pages\terms_and_conditions.html:84
+#: .\templates\pages\terms_and_conditions.html:80
+msgid ""
+"Exploideo actúa exclusivamente como plataforma tecnológica de intermediación "
+"y no presta directamente las experiencias anunciadas, salvo que se indique "
+"expresamente lo contrario en el futuro."
+msgstr ""
+"Exploideo acts exclusively as an intermediary technology platform and does "
+"not directly provide the advertised experiences, unless expressly stated "
+"otherwise in the future."
+
+#: .\templates\pages\terms_and_conditions.html:83
+msgid ""
+"La información publicada sobre cada experiencia es proporcionada por el "
+"guía, quien es responsable de su exactitud, legalidad y actualización."
+msgstr ""
+"The information published for each experience is provided by the guide, who "
+"is responsible for its accuracy, legality, and updates."
+
+#: .\templates\pages\terms_and_conditions.html:90
 msgid "3. Cuentas de usuario"
 msgstr "3. User accounts"
 
-#: .\templates\pages\terms_and_conditions.html:86
-msgid "Proporcionar información veraz y actualizada."
-msgstr "Provide accurate and up-to-date information."
+#: .\templates\pages\terms_and_conditions.html:92
+msgid ""
+"Debes proporcionar información veraz, actualizada y completa al registrarte "
+"y usar la plataforma."
+msgstr ""
+"You must provide truthful, up-to-date, and complete information when "
+"registering and using the platform."
 
-#: .\templates\pages\terms_and_conditions.html:87
-msgid "Mantener la seguridad de la cuenta."
-msgstr "Maintain account security."
+#: .\templates\pages\terms_and_conditions.html:93
+msgid ""
+"Eres responsable de mantener la confidencialidad de tu cuenta y contraseña."
+msgstr ""
+"You are responsible for keeping your account and password confidential."
 
-#: .\templates\pages\terms_and_conditions.html:88
-msgid "Guías verificados antes de publicar."
-msgstr "Guides must be verified before publishing."
+#: .\templates\pages\terms_and_conditions.html:94
+msgid ""
+"No puedes ceder tu cuenta ni permitir un uso fraudulento o no autorizado de "
+"la misma."
+msgstr ""
+"You may not transfer your account or allow fraudulent or unauthorized use of "
+"it."
 
 #: .\templates\pages\terms_and_conditions.html:95
+msgid ""
+"Los guías deberán completar los procesos de verificación exigidos por "
+"Exploideo antes de publicar experiencias, cuando así se solicite."
+msgstr ""
+"Guides must complete the verification processes required by Exploideo before "
+"publishing experiences, when requested."
+
+#: .\templates\pages\terms_and_conditions.html:101
+msgid ""
+"La verificación realizada por Exploideo puede incluir comprobaciones básicas "
+"de identidad o perfil, pero no sustituye la obligación del guía de contar "
+"con las licencias, seguros, permisos y requisitos legales aplicables a su "
+"actividad."
+msgstr ""
+"Verification performed by Exploideo may include basic identity or profile "
+"checks, but it does not replace the guide's obligation to hold the licenses, "
+"insurance, permits, and legal requirements applicable to their activity."
+
+#: .\templates\pages\terms_and_conditions.html:109
 msgid "4. Reservas y pagos"
 msgstr "4. Bookings and payments"
 
-#: .\templates\pages\terms_and_conditions.html:97
-msgid "Sujetas a confirmación del guía."
-msgstr "Subject to guide confirmation."
+#: .\templates\pages\terms_and_conditions.html:111
+msgid ""
+"Las reservas o solicitudes de reserva están sujetas a confirmación expresa "
+"del guía."
+msgstr ""
+"Bookings or booking requests are subject to the guide's explicit "
+"confirmation."
 
-#: .\templates\pages\terms_and_conditions.html:98
-msgid "Pagos gestionados mediante proveedores externos seguros."
-msgstr "Payments are processed through secure third-party providers."
+#: .\templates\pages\terms_and_conditions.html:112
+msgid "Solicitar una experiencia no implica su confirmación automática."
+msgstr "Requesting an experience does not imply automatic confirmation."
 
-#: .\templates\pages\terms_and_conditions.html:99
-msgid "Precios con impuestos incluidos confirmados al reservar."
-msgstr "Prices include taxes and are confirmed at the time of booking."
+#: .\templates\pages\terms_and_conditions.html:113
+msgid ""
+"Los pagos podrán ser gestionados mediante proveedores externos seguros de "
+"pago."
+msgstr "Payments may be processed through secure external payment providers."
 
-#: .\templates\pages\terms_and_conditions.html:104
+#: .\templates\pages\terms_and_conditions.html:114
+msgid ""
+"El precio total de la experiencia y, en su caso, los impuestos aplicables, "
+"se mostrarán antes de finalizar la reserva o en el momento de confirmación."
+msgstr ""
+"The total price of the experience and, where applicable, the relevant taxes, "
+"will be shown before the booking is completed or at the time of confirmation."
+
+#: .\templates\pages\terms_and_conditions.html:115
+msgid ""
+"La factura o justificante, cuando proceda, podrá emitirse conforme a la "
+"información facilitada en la reserva y a la normativa aplicable."
+msgstr ""
+"The invoice or receipt, where applicable, may be issued in accordance with "
+"the information provided in the booking and applicable regulations."
+
+#: .\templates\pages\terms_and_conditions.html:120
 msgid "Nota:"
 msgstr "Note:"
 
-#: .\templates\pages\terms_and_conditions.html:105
-msgid "Solicitar no implica confirmación automática. El guía debe aceptarla."
+#: .\templates\pages\terms_and_conditions.html:121
+msgid ""
+"La prestación efectiva de la experiencia corresponde al guía, no a Exploideo."
 msgstr ""
-"Submitting a request does not mean automatic confirmation. The guide must "
-"accept it."
+"The actual provision of the experience is the guide's responsibility, not "
+"Exploideo's."
 
-#: .\templates\pages\terms_and_conditions.html:113
+#: .\templates\pages\terms_and_conditions.html:129
 msgid "5. Cancelaciones, cambios y reembolsos"
 msgstr "5. Cancellations, changes, and refunds"
 
-#: .\templates\pages\terms_and_conditions.html:116
+#: .\templates\pages\terms_and_conditions.html:132
 msgid ""
 "El viajero puede cancelar gratuitamente hasta 48 horas antes de la "
-"experiencia."
+"experiencia, salvo que en una experiencia concreta se indique una política "
+"distinta de forma clara y previa."
 msgstr ""
-"Travelers may cancel free of charge up to 48 hours before the experience."
+"Travelers may cancel free of charge up to 48 hours before the experience, "
+"unless a different policy is clearly and previously indicated for a specific "
+"experience."
 
-#: .\templates\pages\terms_and_conditions.html:117
+#: .\templates\pages\terms_and_conditions.html:133
 msgid ""
-"Las solicitudes de cambio de fecha u horario están sujetas a aceptación "
-"expresa del guía."
+"Las solicitudes de cambio de fecha, hora o condiciones están sujetas a "
+"aceptación expresa del guía."
 msgstr ""
-"Requests to change the date or time are subject to the guide’s explicit "
-"approval."
+"Requests to change date, time, or conditions are subject to the guide's "
+"explicit acceptance."
 
-#: .\templates\pages\terms_and_conditions.html:118
+#: .\templates\pages\terms_and_conditions.html:134
 msgid ""
-"Si el guía acepta el cambio, la reserva se actualizará sin coste adicional."
+"Si el guía acepta el cambio, la reserva se actualizará conforme a las nuevas "
+"condiciones aplicables."
 msgstr ""
-"If the guide accepts the change, the booking will be updated at no "
-"additional cost."
+"If the guide accepts the change, the booking will be updated in accordance "
+"with the new applicable conditions."
 
-#: .\templates\pages\terms_and_conditions.html:121
+#: .\templates\pages\terms_and_conditions.html:137
 msgid "Si el guía rechaza una solicitud de cambio, el viajero podrá:"
 msgstr "If the guide rejects a change request, the traveler may:"
 
-#: .\templates\pages\terms_and_conditions.html:123
-msgid "Mantener la fecha original, o"
-msgstr "Keep the original date, or"
+#: .\templates\pages\terms_and_conditions.html:139
+msgid "Mantener la reserva original, o"
+msgstr "Keep the original booking, or"
 
-#: .\templates\pages\terms_and_conditions.html:124
+#: .\templates\pages\terms_and_conditions.html:140
 msgid ""
-"Cancelar la reserva sin penalización, incluso si faltan menos de 48 horas."
-msgstr "Cancel the booking without penalty, even if less than 48 hours remain."
+"Cancelar sin penalización cuando así lo prevea la política aplicable en la "
+"plataforma."
+msgstr ""
+"Cancel without penalty when the applicable policy on the platform so "
+"provides."
 
-#: .\templates\pages\terms_and_conditions.html:128
+#: .\templates\pages\terms_and_conditions.html:144
 msgid ""
 "Si el guía cancela la experiencia o no puede prestarla, el viajero tendrá "
-"derecho al reembolso completo."
+"derecho al reembolso que corresponda según la política aplicable y el estado "
+"del pago."
 msgstr ""
-"If the guide cancels the experience or is unable to provide it, the traveler "
-"is entitled to a full refund."
+"If the guide cancels the experience or cannot provide it, the traveler will "
+"be entitled to the refund that applies under the applicable policy and "
+"payment status."
 
-#: .\templates\pages\terms_and_conditions.html:131
+#: .\templates\pages\terms_and_conditions.html:145
 msgid ""
-"En caso de que existan penalizaciones económicas, estas corresponderán "
-"exclusivamente al guía, incluyendo comisiones de proveedores de pago, cuando "
-"la cancelación o rechazo sea imputable al mismo."
+"Los reembolsos, cuando procedan, se tramitarán a través del mismo método de "
+"pago utilizado, salvo imposibilidad técnica o legal."
 msgstr ""
-"If financial penalties apply, they will be borne exclusively by the guide, "
-"including payment provider fees, when the cancellation or rejection is "
-"attributable to them."
+"Refunds, where applicable, will be processed through the same payment method "
+"used, unless technically or legally impossible."
 
-#: .\templates\pages\terms_and_conditions.html:135
+#: .\templates\pages\terms_and_conditions.html:146
 msgid ""
-"Los reembolsos se procesarán a través del mismo método de pago utilizado y "
-"podrán tardar entre 5 y 10 días hábiles, dependiendo de la entidad bancaria "
-"o proveedor de pagos."
+"Los plazos de abono pueden depender del proveedor de pago o de la entidad "
+"bancaria y no siempre dependen exclusivamente de Exploideo."
 msgstr ""
-"Refunds will be processed through the original payment method and may take "
-"between 5 and 10 business days, depending on the bank or payment provider."
+"Payment posting times may depend on the payment provider or banking entity "
+"and do not always depend exclusively on Exploideo."
 
-#: .\templates\pages\terms_and_conditions.html:142
+#: .\templates\pages\terms_and_conditions.html:152
 msgid ""
-"Exploideo actúa como intermediario técnico en la gestión de pagos y "
-"reembolsos, pero no retiene importes por penalización salvo que se indique "
-"expresamente en el futuro."
+"Exploideo actúa como intermediario técnico en la gestión operativa de "
+"reservas, pagos y reembolsos cuando corresponda, pero no se considera "
+"prestador directo de la experiencia."
 msgstr ""
-"Exploideo acts as a technical intermediary in the management of payments and "
-"refunds, but does not retain penalty amounts unless expressly stated "
-"otherwise in the future."
+"Exploideo acts as a technical intermediary in the operational management of "
+"bookings, payments, and refunds when applicable, but is not considered the "
+"direct provider of the experience."
 
-#: .\templates\pages\terms_and_conditions.html:150
+#: .\templates\pages\terms_and_conditions.html:160
 msgid "6. Responsabilidades"
 msgstr "6. Responsibilities"
 
-#: .\templates\pages\terms_and_conditions.html:152
+#: .\templates\pages\terms_and_conditions.html:162
 msgid "Guías:"
 msgstr "Guides:"
 
-#: .\templates\pages\terms_and_conditions.html:152
-msgid "seguridad, licencias y seguros."
-msgstr "safety, licenses, and insurance."
+#: .\templates\pages\terms_and_conditions.html:162
+msgid ""
+"son responsables de la legalidad de la experiencia, de su correcta "
+"ejecución, de la seguridad, de la información facilitada, y de contar con "
+"licencias, permisos y seguros cuando sean exigibles."
+msgstr ""
+"are responsible for the legality of the experience, its proper execution, "
+"safety, the information provided, and for holding licenses, permits, and "
+"insurance when required."
 
-#: .\templates\pages\terms_and_conditions.html:153
+#: .\templates\pages\terms_and_conditions.html:163
 msgid "Viajeros:"
 msgstr "Travelers:"
 
-#: .\templates\pages\terms_and_conditions.html:153
-msgid "respeto de normas e indicaciones."
-msgstr "compliance with rules and instructions."
+#: .\templates\pages\terms_and_conditions.html:163
+msgid ""
+"son responsables de facilitar datos correctos, seguir las instrucciones "
+"razonables del guía y respetar las normas de seguridad y convivencia."
+msgstr ""
+"are responsible for providing accurate data, following the guide's "
+"reasonable instructions, and respecting safety and coexistence rules."
 
-#: .\templates\pages\terms_and_conditions.html:154
+#: .\templates\pages\terms_and_conditions.html:164
 msgid "Plataforma:"
 msgstr "Platform:"
 
-#: .\templates\pages\terms_and_conditions.html:154
-msgid "intermediación sin ejecución directa."
-msgstr "intermediation without direct service delivery."
+#: .\templates\pages\terms_and_conditions.html:164
+msgid ""
+"facilita la intermediación tecnológica entre las partes, sin ejecutar "
+"directamente la actividad ofrecida por el guía."
+msgstr ""
+"facilitates technological intermediation between the parties, without "
+"directly carrying out the activity offered by the guide."
 
-#: .\templates\pages\terms_and_conditions.html:157
-msgid "6.1 Transporte y desplazamientos"
-msgstr "6.1 Transport and travel"
+#: .\templates\pages\terms_and_conditions.html:167
+msgid "6.1 Actividades al aire libre y asunción de riesgos"
+msgstr "6.1 Outdoor activities and assumption of risk"
 
-#: .\templates\pages\terms_and_conditions.html:159
-msgid "No prestamos servicios de transporte."
-msgstr "We do not provide transport services."
+#: .\templates\pages\terms_and_conditions.html:169
+msgid ""
+"Algunas experiencias pueden desarrollarse al aire libre o implicar actividad "
+"física, condiciones meteorológicas variables o riesgos inherentes a la "
+"naturaleza de la actividad."
+msgstr ""
+"Some experiences may take place outdoors or involve physical activity, "
+"variable weather conditions, or risks inherent to the nature of the activity."
 
-#: .\templates\pages\terms_and_conditions.html:160
-msgid "El viajero es responsable de su desplazamiento."
-msgstr "The traveler is responsible for their own transportation."
+#: .\templates\pages\terms_and_conditions.html:170
+msgid ""
+"El viajero es responsable de valorar si su estado físico, experiencia o "
+"condición personal son adecuados para participar en la actividad."
+msgstr ""
+"The traveler is responsible for assessing whether their physical condition, "
+"experience, or personal circumstances are suitable for participating in the "
+"activity."
 
-#: .\templates\pages\terms_and_conditions.html:161
-msgid "El guía no conduce salvo autorización legal expresa."
-msgstr "The guide does not drive unless expressly authorized by law."
+#: .\templates\pages\terms_and_conditions.html:171
+msgid ""
+"El guía debe informar de forma clara sobre requisitos, dificultad, material "
+"recomendado y condiciones relevantes de seguridad."
+msgstr ""
+"The guide must clearly inform participants about requirements, difficulty, "
+"recommended equipment, and relevant safety conditions."
 
-#: .\templates\pages\terms_and_conditions.html:168
+#: .\templates\pages\terms_and_conditions.html:174
+msgid "6.2 Transporte y desplazamientos"
+msgstr "6.2 Transport and travel"
+
+#: .\templates\pages\terms_and_conditions.html:176
+msgid ""
+"Exploideo no presta servicios de transporte, salvo que se indique "
+"expresamente en una experiencia concreta."
+msgstr ""
+"Exploideo does not provide transport services unless expressly stated in a "
+"specific experience."
+
+#: .\templates\pages\terms_and_conditions.html:177
+msgid ""
+"El viajero es responsable de sus desplazamientos hasta el punto de encuentro "
+"o lugar de realización de la experiencia."
+msgstr ""
+"The traveler is responsible for their own transport to the meeting point or "
+"location where the experience takes place."
+
+#: .\templates\pages\terms_and_conditions.html:178
+msgid ""
+"El guía no presta transporte de viajeros salvo que cuente con habilitación "
+"legal expresa y así se indique claramente en la experiencia."
+msgstr ""
+"The guide does not provide passenger transport unless they hold explicit "
+"legal authorization and this is clearly stated in the experience."
+
+#: .\templates\pages\terms_and_conditions.html:181
+msgid "6.3 Incidencias y disputas entre usuarios"
+msgstr "6.3 Incidents and disputes between users"
+
+#: .\templates\pages\terms_and_conditions.html:183
+msgid ""
+"En caso de disputa entre viajero y guía, ambas partes deberán intentar "
+"resolverla de buena fe."
+msgstr ""
+"In the event of a dispute between traveler and guide, both parties must "
+"attempt to resolve it in good faith."
+
+#: .\templates\pages\terms_and_conditions.html:186
+msgid ""
+"Exploideo podrá intervenir de forma limitada como mediador técnico o gestor "
+"de incidencias, pero no asume la posición de parte contractual en la "
+"prestación de la experiencia."
+msgstr ""
+"Exploideo may intervene in a limited manner as a technical mediator or "
+"incident manager, but does not assume the position of a contractual party in "
+"the provision of the experience."
+
+#: .\templates\pages\terms_and_conditions.html:193
 msgid "7. Contenido y reseñas"
 msgstr "7. Content and reviews"
 
-#: .\templates\pages\terms_and_conditions.html:170
-msgid "Reseñas honestas y respetuosas."
-msgstr "Honest and respectful reviews."
+#: .\templates\pages\terms_and_conditions.html:195
+msgid "Las reseñas y valoraciones deben ser honestas, veraces y respetuosas."
+msgstr "Reviews and ratings must be honest, truthful, and respectful."
 
-#: .\templates\pages\terms_and_conditions.html:171
-msgid "Moderación de contenido inapropiado."
-msgstr "Moderation of inappropriate content."
+#: .\templates\pages\terms_and_conditions.html:196
+msgid ""
+"No está permitido publicar contenido ofensivo, discriminatorio, ilegal, "
+"engañoso o que vulnere derechos de terceros."
+msgstr ""
+"Publishing offensive, discriminatory, illegal, misleading content, or "
+"content that infringes third-party rights is not permitted."
 
-#: .\templates\pages\terms_and_conditions.html:178
+#: .\templates\pages\terms_and_conditions.html:197
+msgid ""
+"Exploideo podrá moderar, ocultar o eliminar contenido cuando considere "
+"razonablemente que infringe estos términos o la normativa aplicable."
+msgstr ""
+"Exploideo may moderate, hide, or remove content when it reasonably considers "
+"that it breaches these terms or applicable law."
+
+#: .\templates\pages\terms_and_conditions.html:204
 msgid "8. Limitación de responsabilidad"
 msgstr "8. Limitation of liability"
 
-#: .\templates\pages\terms_and_conditions.html:180
+#: .\templates\pages\terms_and_conditions.html:206
 msgid ""
-"Nuestra responsabilidad máxima es el importe efectivamente pagado por la "
-"reserva."
+"Exploideo no garantiza la disponibilidad ininterrumpida de la plataforma y "
+"podrá realizar labores de mantenimiento, actualización o mejora que "
+"impliquen interrupciones temporales."
 msgstr ""
-"Our maximum liability is limited to the amount actually paid for the booking."
+"Exploideo does not guarantee uninterrupted availability of the platform and "
+"may perform maintenance, updates, or improvements that involve temporary "
+"interruptions."
 
-#: .\templates\pages\terms_and_conditions.html:187
+#: .\templates\pages\terms_and_conditions.html:209
+msgid ""
+"En la máxima medida permitida por la ley, Exploideo no será responsable de "
+"daños indirectos, lucro cesante, pérdida de datos o incidencias derivadas de "
+"la actuación del guía, del viajero o de terceros ajenos a su control "
+"razonable."
+msgstr ""
+"To the fullest extent permitted by law, Exploideo shall not be liable for "
+"indirect damages, loss of profits, data loss, or incidents arising from the "
+"actions of the guide, the traveler, or third parties beyond its reasonable "
+"control."
+
+#: .\templates\pages\terms_and_conditions.html:212
+msgid ""
+"Cuando legalmente proceda, la responsabilidad máxima de Exploideo se "
+"limitará al importe efectivamente pagado a través de la plataforma en "
+"relación con la reserva afectada."
+msgstr ""
+"Where legally applicable, Exploideo's maximum liability will be limited to "
+"the amount effectively paid through the platform in relation to the affected "
+"booking."
+
+#: .\templates\pages\terms_and_conditions.html:219
 msgid "9. Propiedad intelectual"
 msgstr "9. Intellectual property"
 
-#: .\templates\pages\terms_and_conditions.html:189
-msgid "Todo el contenido pertenece a Exploideo o a sus licenciantes."
-msgstr "All content belongs to Exploideo or its licensors."
+#: .\templates\pages\terms_and_conditions.html:221
+msgid ""
+"El diseño de la plataforma, su software, textos, marcas, logotipos y demás "
+"elementos protegibles pertenecen a Exploideo o a sus licenciantes y no "
+"pueden utilizarse sin autorización."
+msgstr ""
+"The platform design, software, texts, trademarks, logos, and other protected "
+"elements belong to Exploideo or its licensors and may not be used without "
+"authorization."
 
-#: .\templates\pages\terms_and_conditions.html:196
-msgid "10. Terminación"
-msgstr "10. Termination"
+#: .\templates\pages\terms_and_conditions.html:228
+msgid "10. Terminación y suspensión"
+msgstr "10. Termination and suspension"
 
-#: .\templates\pages\terms_and_conditions.html:198
-msgid "Podemos suspender cuentas por incumplimiento de estos términos."
-msgstr "We may suspend accounts for breaches of these terms."
+#: .\templates\pages\terms_and_conditions.html:230
+msgid ""
+"Exploideo podrá suspender, restringir o cancelar cuentas cuando detecte "
+"incumplimientos de estos términos, uso fraudulento, actividades ilegales, "
+"abuso de la plataforma o riesgos para otros usuarios."
+msgstr ""
+"Exploideo may suspend, restrict, or terminate accounts when it detects "
+"breaches of these terms, fraudulent use, illegal activities, abuse of the "
+"platform, or risks to other users."
 
-#: .\templates\pages\terms_and_conditions.html:205
-msgid "11. Ley aplicable"
-msgstr "11. Governing law"
+#: .\templates\pages\terms_and_conditions.html:233
+msgid ""
+"El usuario también podrá dejar de usar la plataforma o solicitar la baja de "
+"su cuenta conforme a las funcionalidades disponibles en cada momento."
+msgstr ""
+"Users may also stop using the platform or request account deletion according "
+"to the functionalities available at any given time."
 
-#: .\templates\pages\terms_and_conditions.html:207
-msgid "Legislación española y tribunales competentes."
-msgstr "Spanish law and the competent courts shall apply."
+#: .\templates\pages\terms_and_conditions.html:240
+msgid "11. Ley aplicable y jurisdicción"
+msgstr "11. Governing law and jurisdiction"
 
-#: .\templates\pages\terms_and_conditions.html:214
-msgid "12. Cambios"
-msgstr "12. Changes"
+#: .\templates\pages\terms_and_conditions.html:242
+msgid "Estos términos se regirán por la legislación española."
+msgstr "These terms shall be governed by Spanish law."
 
-#: .\templates\pages\terms_and_conditions.html:216
-msgid "Los cambios relevantes serán notificados."
-msgstr "Relevant changes will be notified."
+#: .\templates\pages\terms_and_conditions.html:245
+msgid ""
+"Cualquier controversia se someterá a los juzgados y tribunales que "
+"correspondan conforme a la normativa aplicable de consumo y jurisdicción."
+msgstr ""
+"Any dispute shall be submitted to the courts and tribunals with jurisdiction "
+"under the applicable consumer and jurisdiction regulations."
 
-#: .\templates\pages\terms_and_conditions.html:223
+#: .\templates\pages\terms_and_conditions.html:252
+msgid "12. Cambios en estos términos"
+msgstr "12. Changes to these terms"
+
+#: .\templates\pages\terms_and_conditions.html:254
+msgid ""
+"Exploideo podrá actualizar estos Términos y Condiciones para reflejar "
+"cambios legales, técnicos o funcionales de la plataforma."
+msgstr ""
+"Exploideo may update these Terms and Conditions to reflect legal, technical, "
+"or functional changes to the platform."
+
+#: .\templates\pages\terms_and_conditions.html:257
+msgid ""
+"Cuando los cambios sean relevantes, se comunicarán de forma visible dentro "
+"de la plataforma o por medios razonables."
+msgstr ""
+"When changes are material, they will be communicated visibly within the "
+"platform or by reasonable means."
+
+#: .\templates\pages\terms_and_conditions.html:264
 msgid "13. Contacto"
 msgstr "13. Contact"
 
-#: .\templates\pages\terms_and_conditions.html:225
-msgid "Si tienes dudas, escríbenos:"
-msgstr "If you have any questions, write to us:"
+#: .\templates\pages\terms_and_conditions.html:266
+msgid "Si tienes dudas sobre estos términos, puedes escribirnos a:"
+msgstr "If you have questions about these terms, you can contact us at:"
 
-#: .\templates\pages\terms_and_conditions.html:238
+#: .\templates\pages\terms_and_conditions.html:279
 msgid "Resumen rápido"
 msgstr "Quick summary"
 
-#: .\templates\pages\terms_and_conditions.html:240
-msgid "Plataforma intermediaria, guías verificados y reglas claras."
-msgstr "An intermediary platform with verified guides and clear rules."
+#: .\templates\pages\terms_and_conditions.html:281
+msgid ""
+"Exploideo es una plataforma intermediaria: conecta, organiza y facilita, "
+"pero la experiencia la presta el guía."
+msgstr ""
+"Exploideo is an intermediary platform: it connects, organizes, and "
+"facilitates, but the experience is provided by the guide."

@@ -1,6 +1,14 @@
 {# templates/components/experience_search_card.html #}
 <div class="panel-soft p-4 sm:p-6">
   <form method="get" action="{{ action_url }}" class="space-y-3">
+    {% if near_me_active and filters.user_lat and filters.user_lng %}
+      <input type="hidden" name="near_me" value="1">
+      <input type="hidden" name="user_lat" value="{{ filters.user_lat }}">
+      <input type="hidden" name="user_lng" value="{{ filters.user_lng }}">
+      {% if filters.max_km %}
+        <input type="hidden" name="max_km" value="{{ filters.max_km }}">
+      {% endif %}
+    {% endif %}
 
     <!-- 1) Search bar (grande, táctil) -->
     <div class="flex items-center gap-3 rounded-2xl bg-surface ring-1 ring-(--border) backdrop-blur px-4 py-3 u-soft-shadow">
@@ -94,6 +102,28 @@
       <button class="c-button c-button--primary w-full sm:w-auto px-5 py-3" type="submit">
         Buscar
       </button>
+    </div>
+
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+      <button
+        type="button"
+        class="c-button {% if near_me_active %}c-button--primary{% else %}c-button--ghost{% endif %} w-full sm:w-auto"
+        data-near-me-trigger
+        data-near-me-target="{{ action_url }}"
+        aria-pressed="{% if near_me_active %}true{% else %}false{% endif %}"
+      >
+        {% if near_me_active %}Cerca de mí activo{% else %}Cerca de mí{% endif %}
+      </button>
+
+      <p class="p-micro" data-near-me-feedback>
+        {% if near_me_error %}
+          {{ near_me_error }}
+        {% elif near_me_active %}
+          Mostrando experiencias cerca de tu ubicación.
+        {% else %}
+          Ordena por proximidad con tu ubicación actual.
+        {% endif %}
+      </p>
     </div>
 
     <div class="grid gap-3 sm:grid-cols-2">

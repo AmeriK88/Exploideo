@@ -1,4 +1,5 @@
 from decimal import Decimal
+from typing import Optional
 
 from django.contrib import messages
 from django.db.models import Avg, Count, Q
@@ -12,6 +13,7 @@ from core.decorators import guide_required
 
 from .forms import ExperienceForm
 from .models import Category, Experience
+from .services.distance import calculate_distance_km
 from .services.geocoding import geocode_experience_location
 
 
@@ -49,7 +51,82 @@ def _extract_filters(request):
         "max_price": request.GET.get("max_price", "").strip(),
         "max_duration": request.GET.get("max_duration", "").strip(),
         "sort": request.GET.get("sort", "recent").strip(),
+        "near_me": request.GET.get("near_me", "").strip(),
+        "user_lat": request.GET.get("user_lat", "").strip(),
+        "user_lng": request.GET.get("user_lng", "").strip(),
+        "max_km": request.GET.get("max_km", "").strip(),
     }
+
+
+def _parse_float(value: str, *, min_value: float, max_value: float) -> Optional[float]:
+    try:
+        parsed = float(value)
+    except (TypeError, ValueError):
+        return None
+
+    if parsed < min_value or parsed > max_value:
+        return None
+    return parsed
+
+
+def _extract_near_me_payload(filters):
+    near_me_raw = (filters.get("near_me") or "").lower()
+    near_me_requested = near_me_raw in {"1", "true", "yes", "on"}
+
+    if not near_me_requested:
+        return {
+            "requested": False,
+            "active": False,
+            "user_lat": None,
+            "user_lng": None,
+            "max_km": None,
+            "error": "",
+        }
+
+    user_lat = _parse_float(filters.get("user_lat"), min_value=-90.0, max_value=90.0)
+    user_lng = _parse_float(filters.get("user_lng"), min_value=-180.0, max_value=180.0)
+    max_km = _parse_float(filters.get("max_km"), min_value=0.1, max_value=20000.0)
+
+    if user_lat is None or user_lng is None:
+        return {
+            "requested": True,
+            "active": False,
+            "user_lat": None,
+            "user_lng": None,
+            "max_km": max_km,
+            "error": "No se pudo activar Cerca de mí porque la ubicación no es válida.",
+        }
+
+    return {
+        "requested": True,
+        "active": True,
+        "user_lat": user_lat,
+        "user_lng": user_lng,
+        "max_km": max_km,
+        "error": "",
+    }
+
+
+def _order_experiences_by_distance(experiences, *, user_lat, user_lng, max_km=None):
+    georeferenced = list(experiences.exclude(latitude__isnull=True).exclude(longitude__isnull=True))
+    non_georeferenced = list(experiences.filter(Q(latitude__isnull=True) | Q(longitude__isnull=True)))
+
+    ranked = []
+    for exp in georeferenced:
+        distance_km = calculate_distance_km(user_lat, user_lng, exp.latitude, exp.longitude)
+        if distance_km is None:
+            non_georeferenced.append(exp)
+            continue
+
+        if max_km is not None and distance_km > max_km:
+            continue
+
+        exp.distance_km = round(distance_km, 1)
+        ranked.append((distance_km, exp))
+
+    ranked.sort(key=lambda item: item[0])
+    ordered = [exp for _, exp in ranked]
+    return ordered
 
 
 def _apply_common_experience_filters(experiences, filters):
@@ -111,6 +188,7 @@ def experience_list(request):
 
     categories = Category.objects.all()
     filters = _extract_filters(request)
+    near_me_payload = _extract_near_me_payload(filters)
 
     # ¿Hay filtros activos? (para cambiar el empty state)
     has_filters = any(
@@ -123,35 +201,47 @@ def experience_list(request):
             filters["max_price"],
             filters["max_duration"],
             filters["sort"] != "recent",
+            near_me_payload["requested"],
         ]
     )
 
     experiences = _apply_common_experience_filters(experiences, filters)
 
-    # Ordenación
-    if filters["sort"] == "price_asc":
-        experiences = experiences.order_by("price", "-created_at")
-    elif filters["sort"] == "price_desc":
-        experiences = experiences.order_by("-price", "-created_at")
-    elif filters["sort"] == "duration_asc":
-        experiences = experiences.order_by("duration_minutes", "-created_at")
-    elif filters["sort"] == "duration_desc":
-        experiences = experiences.order_by("-duration_minutes", "-created_at")
-    elif filters["sort"] == "popular":
-        experiences = experiences.annotate(
-            bookings_count=Count(
-                "bookings",
-                filter=Q(bookings__status__in=[Booking.Status.PENDING, Booking.Status.ACCEPTED]),
-            )
-        ).order_by("-bookings_count", "-created_at")
+    # Ordenación por distancia (phase 1 en Python) o por criterios existentes.
+    if near_me_payload["active"]:
+        experiences = _order_experiences_by_distance(
+            experiences,
+            user_lat=near_me_payload["user_lat"],
+            user_lng=near_me_payload["user_lng"],
+            max_km=near_me_payload["max_km"],
+        )
     else:
-        experiences = experiences.order_by("-created_at")
+        if filters["sort"] == "price_asc":
+            experiences = experiences.order_by("price", "-created_at")
+        elif filters["sort"] == "price_desc":
+            experiences = experiences.order_by("-price", "-created_at")
+        elif filters["sort"] == "duration_asc":
+            experiences = experiences.order_by("duration_minutes", "-created_at")
+        elif filters["sort"] == "duration_desc":
+            experiences = experiences.order_by("-duration_minutes", "-created_at")
+        elif filters["sort"] == "popular":
+            experiences = experiences.annotate(
+                bookings_count=Count(
+                    "bookings",
+                    filter=Q(bookings__status__in=[Booking.Status.PENDING, Booking.Status.ACCEPTED]),
+                )
+            ).order_by("-bookings_count", "-created_at")
+        else:
+            experiences = experiences.order_by("-created_at")
 
     context = {
         "experiences": experiences,
         "categories": categories,
         "has_filters": has_filters,
         "filters": filters,
+        "near_me_requested": near_me_payload["requested"],
+        "near_me_active": near_me_payload["active"],
+        "near_me_error": near_me_payload["error"],
     }
     return render(request, "experiences/list.html", context)
 
@@ -211,13 +301,14 @@ def experience_create(request):
             exp.save()
 
             geocoded = _apply_geocoding_if_available(exp)
-            if not geocoded:
-                messages.info(
+            if geocoded:
+                messages.success(request, "Experiencia creada correctamente.")
+            else:
+                messages.warning(
                     request,
-                    "Experiencia guardada. No se pudieron resolver coordenadas automáticamente por ahora.",
+                    "Experiencia creada correctamente, pero no se pudieron resolver las coordenadas automáticamente por ahora.",
                 )
 
-            messages.success(request, "Experiencia creada correctamente.")
             return redirect("experiences:list")
     else:
         form = ExperienceForm()
@@ -256,7 +347,7 @@ def experience_detail(request, pk):
         "experiences/detail.html",
         {
             "exp": exp,
-            "gp": gp,  # ✅ pásalo al template
+            "gp": gp,
             "availability": availability,
             "public_reviews": public_reviews,
             "review_stats": review_stats,
@@ -270,7 +361,6 @@ def experience_edit(request, pk):
     exp = get_object_or_404(Experience, pk=pk, guide=request.user)
     original_location_values = {field: getattr(exp, field, "") for field in GEOCODING_FIELDS}
 
-    # asegura que exista siempre (así el template puede mostrar resumen/CTA sin ifs raros)
     availability, _ = ExperienceAvailability.objects.get_or_create(experience=exp)
 
     if request.method == "POST":
@@ -280,13 +370,16 @@ def experience_edit(request, pk):
 
             if _location_fields_changed(original_location_values, form.cleaned_data):
                 geocoded = _apply_geocoding_if_available(exp)
-                if not geocoded:
-                    messages.info(
+                if geocoded:
+                    messages.success(request, "Experiencia actualizada.")
+                else:
+                    messages.warning(
                         request,
-                        "Se guardaron los cambios, pero no se pudieron actualizar las coordenadas automáticamente.",
+                        "Experiencia actualizada, pero no se pudieron actualizar las coordenadas automáticamente.",
                     )
+            else:
+                messages.success(request, "Experiencia actualizada.")
 
-            messages.success(request, "Experiencia actualizada.")
             return redirect("experiences:detail", pk=exp.pk)
     else:
         form = ExperienceForm(instance=exp)

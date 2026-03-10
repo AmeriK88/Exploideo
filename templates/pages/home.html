@@ -126,7 +126,7 @@
 
               {# ✅ MOBILE: pills #}
               <div class="lg:hidden">
-                {% include "components/experience_search_card.html" with action_url=experiences_list_url q_value=request.GET.q max_price_value=request.GET.max_price island_value=request.GET.island city_value=request.GET.city %}
+                {% include "components/experience_search_card.html" with action_url=experiences_list_url q_value=request.GET.q max_price_value=request.GET.max_price island_value=request.GET.island city_value=request.GET.city near_me_active=False %}
               </div>
 
               {# ✅ DESKTOP: form completo (igual que list.html) #}
@@ -140,7 +140,7 @@
                       <p class="mt-1 u-muted">{% trans "Zona, duración y precio. En 10s." %}</p>
                     </div>
 
-                    {% include "includes/ui/experience_filters_form.html" with action_url=experiences_list_url reset_url=experiences_list_url q_value=request.GET.q category_value=request.GET.category island_value=request.GET.island city_value=request.GET.city min_price_value=request.GET.min_price max_price_value=request.GET.max_price max_duration_value=request.GET.max_duration sort_value=request.GET.sort show_popular=True categories=categories %}
+                    {% include "includes/ui/experience_filters_form.html" with action_url=experiences_list_url reset_url=experiences_list_url q_value=request.GET.q category_value=request.GET.category island_value=request.GET.island city_value=request.GET.city min_price_value=request.GET.min_price max_price_value=request.GET.max_price max_duration_value=request.GET.max_duration sort_value=request.GET.sort show_popular=True categories=categories near_me_active=False %}
 
                   </div>
                 </div>
@@ -537,4 +537,8 @@
   </div>
 </section>
 
+{% endblock %}
+
+{% block extra_js %}
+  <script defer src="{% static 'js/components/near_me.js' %}"></script>
 {% endblock %}

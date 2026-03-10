@@ -1,4 +1,5 @@
 {% extends "layouts/dashboard_base.html" %}
+{% load static %}
 {% block title %}Experiencias{% endblock %}
 
 {% block dashboard_content %}
@@ -21,7 +22,7 @@
 
       {# ✅ MOBILE: pills (solo action_url) #}
       <div class="lg:hidden">
-        {% include "components/experience_search_card.html" with action_url=experiences_list_url q_value=filters.q max_price_value=filters.max_price island_value=filters.island city_value=filters.city %}
+        {% include "components/experience_search_card.html" with action_url=experiences_list_url q_value=filters.q max_price_value=filters.max_price island_value=filters.island city_value=filters.city near_me_active=near_me_active near_me_error=near_me_error filters=filters %}
       </div>
 
       {# ✅ DESKTOP: mantienes tu form actual (no rompes layout) #}
@@ -35,12 +36,16 @@
               <p class="mt-1 u-muted">Ajusta tu búsqueda y ordena resultados.</p>
             </div>
 
-            {% include "includes/ui/experience_filters_form.html" with action_url=experiences_list_url reset_url=experiences_list_url q_value=filters.q category_value=filters.category island_value=filters.island city_value=filters.city min_price_value=filters.min_price max_price_value=filters.max_price max_duration_value=filters.max_duration sort_value=filters.sort show_popular=True categories=categories %}
+            {% include "includes/ui/experience_filters_form.html" with action_url=experiences_list_url reset_url=experiences_list_url q_value=filters.q category_value=filters.category island_value=filters.island city_value=filters.city min_price_value=filters.min_price max_price_value=filters.max_price max_duration_value=filters.max_duration sort_value=filters.sort show_popular=True categories=categories near_me_active=near_me_active near_me_error=near_me_error filters=filters %}
 
           </div>
         </div>
       </div>
     </div>
+
+    {% if near_me_active %}
+      <p class="p-micro" data-animate="fade-up">Mostrando experiencias cerca de tu ubicación actual.</p>
+    {% endif %}
 
     {% if has_filters %}
       {% include "components/experience_grid.html" with experiences=experiences empty_title="Ups… no encontramos nada 😅" empty_text="Prueba con otros términos o limpia los filtros." empty_cta_url=experiences_list_url empty_cta_label="Limpiar filtros" %}
@@ -49,4 +54,8 @@
     {% endif %}
 
   </div>
+{% endblock %}
+
+{% block extra_js %}
+  <script defer src="{% static 'js/components/near_me.js' %}"></script>
 {% endblock %}

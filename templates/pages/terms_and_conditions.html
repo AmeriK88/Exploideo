@@ -23,7 +23,7 @@
       <div class="mt-5 rounded-2xl border border-border bg-surface-soft px-5 py-4">
         <p class="u-muted">
           <span class="font-semibold u-text">{% trans "Última actualización:" %}</span>
-          {{ current_date|default:_("26 de enero de 2026") }}
+          {{ current_date|default:_("10 de marzo de 2026") }}
         </p>
       </div>
 
@@ -35,13 +35,13 @@
           <a href="#cuentas" class="c-badge c-badge--neutral u-hover-lift">3. {% trans "Cuentas" %}</a>
           <a href="#reservas" class="c-badge c-badge--neutral u-hover-lift">4. {% trans "Reservas" %}</a>
           <a href="#cancelaciones" class="c-badge c-badge--neutral u-hover-lift">5. {% trans "Cancelaciones" %}</a>
-          <a href="#cambios" class="c-badge c-badge--neutral u-hover-lift">12. {% trans "Cambios" %}</a>
+          <a href="#responsabilidades" class="c-badge c-badge--neutral u-hover-lift">6. {% trans "Responsabilidades" %}</a>
           <a href="#contenido" class="c-badge c-badge--neutral u-hover-lift">7. {% trans "Reseñas" %}</a>
           <a href="#limitacion" class="c-badge c-badge--neutral u-hover-lift">8. {% trans "Limitación" %}</a>
           <a href="#propiedad" class="c-badge c-badge--neutral u-hover-lift">9. {% trans "Propiedad" %}</a>
           <a href="#terminacion" class="c-badge c-badge--neutral u-hover-lift">10. {% trans "Terminación" %}</a>
           <a href="#ley" class="c-badge c-badge--neutral u-hover-lift">11. {% trans "Ley" %}</a>
-          <a href="#responsabilidades" class="c-badge c-badge--neutral u-hover-lift">6. {% trans "Responsabilidades" %}</a>
+          <a href="#cambios" class="c-badge c-badge--neutral u-hover-lift">12. {% trans "Cambios" %}</a>
           <a href="#contacto" class="c-badge c-badge--neutral u-hover-lift">13. {% trans "Contacto" %}</a>
         </div>
       </div>
@@ -54,8 +54,8 @@
       <div class="c-card__body">
         <div class="rounded-2xl border border-border bg-surface-soft px-5 py-4">
           <p class="u-text">
-            <strong>{% trans "Exploideo actúa como intermediario entre viajeros y guías." %}</strong>
-            {% trans "Las experiencias las presta el guía." %}
+            <strong>{% trans "Exploideo actúa como plataforma tecnológica e intermediaria entre viajeros y guías." %}</strong>
+            {% trans "Las experiencias son prestadas por el guía, y el contrato de prestación de la actividad se celebra directamente entre viajero y guía." %}
           </p>
         </div>
       </div>
@@ -65,7 +65,7 @@
       <div class="c-card__body">
         <h2 class="h2-section">{% trans "1. Aceptación de términos" %}</h2>
         <p class="mt-2 p-body">
-          {% trans "Al acceder y usar Exploideo, aceptas estos Términos y Condiciones. Si no estás de acuerdo, no uses la plataforma." %}
+          {% trans "Al acceder y usar Exploideo, aceptas estos Términos y Condiciones. Si no estás de acuerdo con ellos, no debes usar la plataforma." %}
         </p>
       </div>
     </section>
@@ -74,7 +74,13 @@
       <div class="c-card__body">
         <h2 class="h2-section">{% trans "2. Descripción del servicio" %}</h2>
         <p class="mt-2 p-body">
-          {% trans "Exploideo conecta viajeros con guías locales. No somos responsables directos de las experiencias, solo facilitamos el contacto." %}
+          {% trans "Exploideo conecta viajeros con guías locales para facilitar el descubrimiento, solicitud y gestión de reservas de experiencias." %}
+        </p>
+        <p class="mt-3 p-body">
+          {% trans "Exploideo actúa exclusivamente como plataforma tecnológica de intermediación y no presta directamente las experiencias anunciadas, salvo que se indique expresamente lo contrario en el futuro." %}
+        </p>
+        <p class="mt-3 p-body">
+          {% trans "La información publicada sobre cada experiencia es proporcionada por el guía, quien es responsable de su exactitud, legalidad y actualización." %}
         </p>
       </div>
     </section>
@@ -83,10 +89,18 @@
       <div class="c-card__body">
         <h2 class="h2-section">{% trans "3. Cuentas de usuario" %}</h2>
         <ul class="mt-3 space-y-2 p-body list-bullets">
-          <li>{% trans "Proporcionar información veraz y actualizada." %}</li>
-          <li>{% trans "Mantener la seguridad de la cuenta." %}</li>
-          <li>{% trans "Guías verificados antes de publicar." %}</li>
+          <li>{% trans "Debes proporcionar información veraz, actualizada y completa al registrarte y usar la plataforma." %}</li>
+          <li>{% trans "Eres responsable de mantener la confidencialidad de tu cuenta y contraseña." %}</li>
+          <li>{% trans "No puedes ceder tu cuenta ni permitir un uso fraudulento o no autorizado de la misma." %}</li>
+          <li>{% trans "Los guías deberán completar los procesos de verificación exigidos por Exploideo antes de publicar experiencias, cuando así se solicite." %}</li>
         </ul>
+
+        <div class="mt-4 alert alert-info">
+          <p class="p-body">
+            <strong>{% trans "Importante:" %}</strong>
+            {% trans "La verificación realizada por Exploideo puede incluir comprobaciones básicas de identidad o perfil, pero no sustituye la obligación del guía de contar con las licencias, seguros, permisos y requisitos legales aplicables a su actividad." %}
+          </p>
+        </div>
       </div>
     </section>
 
@@ -94,15 +108,17 @@
       <div class="c-card__body">
         <h2 class="h2-section">{% trans "4. Reservas y pagos" %}</h2>
         <ul class="mt-3 space-y-2 p-body list-bullets">
-          <li>{% trans "Sujetas a confirmación del guía." %}</li>
-          <li>{% trans "Pagos gestionados mediante proveedores externos seguros." %}</li>
-          <li>{% trans "Precios con impuestos incluidos confirmados al reservar." %}</li>
+          <li>{% trans "Las reservas o solicitudes de reserva están sujetas a confirmación expresa del guía." %}</li>
+          <li>{% trans "Solicitar una experiencia no implica su confirmación automática." %}</li>
+          <li>{% trans "Los pagos podrán ser gestionados mediante proveedores externos seguros de pago." %}</li>
+          <li>{% trans "El precio total de la experiencia y, en su caso, los impuestos aplicables, se mostrarán antes de finalizar la reserva o en el momento de confirmación." %}</li>
+          <li>{% trans "La factura o justificante, cuando proceda, podrá emitirse conforme a la información facilitada en la reserva y a la normativa aplicable." %}</li>
         </ul>
 
         <div class="mt-4 alert alert-warn">
           <p class="p-body">
             <strong>{% trans "Nota:" %}</strong>
-            {% trans "Solicitar no implica confirmación automática. El guía debe aceptarla." %}
+            {% trans "La prestación efectiva de la experiencia corresponde al guía, no a Exploideo." %}
           </p>
         </div>
       </div>
@@ -113,33 +129,27 @@
         <h2 class="h2-section">{% trans "5. Cancelaciones, cambios y reembolsos" %}</h2>
 
         <ul class="mt-3 space-y-2 p-body list-bullets">
-          <li>{% trans "El viajero puede cancelar gratuitamente hasta 48 horas antes de la experiencia." %}</li>
-          <li>{% trans "Las solicitudes de cambio de fecha u horario están sujetas a aceptación expresa del guía." %}</li>
-          <li>{% trans "Si el guía acepta el cambio, la reserva se actualizará sin coste adicional." %}</li>
+          <li>{% trans "El viajero puede cancelar gratuitamente hasta 48 horas antes de la experiencia, salvo que en una experiencia concreta se indique una política distinta de forma clara y previa." %}</li>
+          <li>{% trans "Las solicitudes de cambio de fecha, hora o condiciones están sujetas a aceptación expresa del guía." %}</li>
+          <li>{% trans "Si el guía acepta el cambio, la reserva se actualizará conforme a las nuevas condiciones aplicables." %}</li>
 
           <li>
             {% trans "Si el guía rechaza una solicitud de cambio, el viajero podrá:" %}
             <ul class="ml-5 mt-2 list-disc">
-              <li>{% trans "Mantener la fecha original, o" %}</li>
-              <li>{% trans "Cancelar la reserva sin penalización, incluso si faltan menos de 48 horas." %}</li>
+              <li>{% trans "Mantener la reserva original, o" %}</li>
+              <li>{% trans "Cancelar sin penalización cuando así lo prevea la política aplicable en la plataforma." %}</li>
             </ul>
           </li>
 
-          <li>{% trans "Si el guía cancela la experiencia o no puede prestarla, el viajero tendrá derecho al reembolso completo." %}</li>
-
-          <li>
-            {% trans "En caso de que existan penalizaciones económicas, estas corresponderán exclusivamente al guía, incluyendo comisiones de proveedores de pago, cuando la cancelación o rechazo sea imputable al mismo." %}
-          </li>
-
-          <li>
-            {% trans "Los reembolsos se procesarán a través del mismo método de pago utilizado y podrán tardar entre 5 y 10 días hábiles, dependiendo de la entidad bancaria o proveedor de pagos." %}
-          </li>
+          <li>{% trans "Si el guía cancela la experiencia o no puede prestarla, el viajero tendrá derecho al reembolso que corresponda según la política aplicable y el estado del pago." %}</li>
+          <li>{% trans "Los reembolsos, cuando procedan, se tramitarán a través del mismo método de pago utilizado, salvo imposibilidad técnica o legal." %}</li>
+          <li>{% trans "Los plazos de abono pueden depender del proveedor de pago o de la entidad bancaria y no siempre dependen exclusivamente de Exploideo." %}</li>
         </ul>
 
         <div class="mt-4 alert alert-info">
           <p class="p-body">
             <strong>{% trans "Importante:" %}</strong>
-            {% trans "Exploideo actúa como intermediario técnico en la gestión de pagos y reembolsos, pero no retiene importes por penalización salvo que se indique expresamente en el futuro." %}
+            {% trans "Exploideo actúa como intermediario técnico en la gestión operativa de reservas, pagos y reembolsos cuando corresponda, pero no se considera prestador directo de la experiencia." %}
           </p>
         </div>
       </div>
@@ -149,17 +159,32 @@
       <div class="c-card__body">
         <h2 class="h2-section">{% trans "6. Responsabilidades" %}</h2>
         <ul class="mt-3 space-y-2 p-body list-bullets">
-          <li><strong>{% trans "Guías:" %}</strong> {% trans "seguridad, licencias y seguros." %}</li>
-          <li><strong>{% trans "Viajeros:" %}</strong> {% trans "respeto de normas e indicaciones." %}</li>
-          <li><strong>{% trans "Plataforma:" %}</strong> {% trans "intermediación sin ejecución directa." %}</li>
+          <li><strong>{% trans "Guías:" %}</strong> {% trans "son responsables de la legalidad de la experiencia, de su correcta ejecución, de la seguridad, de la información facilitada, y de contar con licencias, permisos y seguros cuando sean exigibles." %}</li>
+          <li><strong>{% trans "Viajeros:" %}</strong> {% trans "son responsables de facilitar datos correctos, seguir las instrucciones razonables del guía y respetar las normas de seguridad y convivencia." %}</li>
+          <li><strong>{% trans "Plataforma:" %}</strong> {% trans "facilita la intermediación tecnológica entre las partes, sin ejecutar directamente la actividad ofrecida por el guía." %}</li>
         </ul>
 
-        <h3 id="transporte" class="text-sm font-semibold u-text mt-4">{% trans "6.1 Transporte y desplazamientos" %}</h3>
+        <h3 id="actividad-riesgo" class="text-sm font-semibold u-text mt-4">{% trans "6.1 Actividades al aire libre y asunción de riesgos" %}</h3>
         <ul class="mt-3 space-y-2 p-body list-bullets">
-          <li>{% trans "No prestamos servicios de transporte." %}</li>
-          <li>{% trans "El viajero es responsable de su desplazamiento." %}</li>
-          <li>{% trans "El guía no conduce salvo autorización legal expresa." %}</li>
+          <li>{% trans "Algunas experiencias pueden desarrollarse al aire libre o implicar actividad física, condiciones meteorológicas variables o riesgos inherentes a la naturaleza de la actividad." %}</li>
+          <li>{% trans "El viajero es responsable de valorar si su estado físico, experiencia o condición personal son adecuados para participar en la actividad." %}</li>
+          <li>{% trans "El guía debe informar de forma clara sobre requisitos, dificultad, material recomendado y condiciones relevantes de seguridad." %}</li>
         </ul>
+
+        <h3 id="transporte" class="text-sm font-semibold u-text mt-4">{% trans "6.2 Transporte y desplazamientos" %}</h3>
+        <ul class="mt-3 space-y-2 p-body list-bullets">
+          <li>{% trans "Exploideo no presta servicios de transporte, salvo que se indique expresamente en una experiencia concreta." %}</li>
+          <li>{% trans "El viajero es responsable de sus desplazamientos hasta el punto de encuentro o lugar de realización de la experiencia." %}</li>
+          <li>{% trans "El guía no presta transporte de viajeros salvo que cuente con habilitación legal expresa y así se indique claramente en la experiencia." %}</li>
+        </ul>
+
+        <h3 id="disputas" class="text-sm font-semibold u-text mt-4">{% trans "6.3 Incidencias y disputas entre usuarios" %}</h3>
+        <p class="mt-3 p-body">
+          {% trans "En caso de disputa entre viajero y guía, ambas partes deberán intentar resolverla de buena fe." %}
+        </p>
+        <p class="mt-3 p-body">
+          {% trans "Exploideo podrá intervenir de forma limitada como mediador técnico o gestor de incidencias, pero no asume la posición de parte contractual en la prestación de la experiencia." %}
+        </p>
       </div>
     </section>
 
@@ -167,8 +192,9 @@
       <div class="c-card__body">
         <h2 class="h2-section">{% trans "7. Contenido y reseñas" %}</h2>
         <ul class="mt-3 space-y-2 p-body list-bullets">
-          <li>{% trans "Reseñas honestas y respetuosas." %}</li>
-          <li>{% trans "Moderación de contenido inapropiado." %}</li>
+          <li>{% trans "Las reseñas y valoraciones deben ser honestas, veraces y respetuosas." %}</li>
+          <li>{% trans "No está permitido publicar contenido ofensivo, discriminatorio, ilegal, engañoso o que vulnere derechos de terceros." %}</li>
+          <li>{% trans "Exploideo podrá moderar, ocultar o eliminar contenido cuando considere razonablemente que infringe estos términos o la normativa aplicable." %}</li>
         </ul>
       </div>
     </section>
@@ -177,7 +203,13 @@
       <div class="c-card__body">
         <h2 class="h2-section">{% trans "8. Limitación de responsabilidad" %}</h2>
         <p class="mt-2 p-body">
-          {% trans "Nuestra responsabilidad máxima es el importe efectivamente pagado por la reserva." %}
+          {% trans "Exploideo no garantiza la disponibilidad ininterrumpida de la plataforma y podrá realizar labores de mantenimiento, actualización o mejora que impliquen interrupciones temporales." %}
+        </p>
+        <p class="mt-3 p-body">
+          {% trans "En la máxima medida permitida por la ley, Exploideo no será responsable de daños indirectos, lucro cesante, pérdida de datos o incidencias derivadas de la actuación del guía, del viajero o de terceros ajenos a su control razonable." %}
+        </p>
+        <p class="mt-3 p-body">
+          {% trans "Cuando legalmente proceda, la responsabilidad máxima de Exploideo se limitará al importe efectivamente pagado a través de la plataforma en relación con la reserva afectada." %}
         </p>
       </div>
     </section>
@@ -186,34 +218,43 @@
       <div class="c-card__body">
         <h2 class="h2-section">{% trans "9. Propiedad intelectual" %}</h2>
         <p class="mt-2 p-body">
-          {% trans "Todo el contenido pertenece a Exploideo o a sus licenciantes." %}
+          {% trans "El diseño de la plataforma, su software, textos, marcas, logotipos y demás elementos protegibles pertenecen a Exploideo o a sus licenciantes y no pueden utilizarse sin autorización." %}
         </p>
       </div>
     </section>
 
     <section id="terminacion" class="c-card">
       <div class="c-card__body">
-        <h2 class="h2-section">{% trans "10. Terminación" %}</h2>
+        <h2 class="h2-section">{% trans "10. Terminación y suspensión" %}</h2>
         <p class="mt-2 p-body">
-          {% trans "Podemos suspender cuentas por incumplimiento de estos términos." %}
+          {% trans "Exploideo podrá suspender, restringir o cancelar cuentas cuando detecte incumplimientos de estos términos, uso fraudulento, actividades ilegales, abuso de la plataforma o riesgos para otros usuarios." %}
+        </p>
+        <p class="mt-3 p-body">
+          {% trans "El usuario también podrá dejar de usar la plataforma o solicitar la baja de su cuenta conforme a las funcionalidades disponibles en cada momento." %}
         </p>
       </div>
     </section>
 
     <section id="ley" class="c-card">
       <div class="c-card__body">
-        <h2 class="h2-section">{% trans "11. Ley aplicable" %}</h2>
+        <h2 class="h2-section">{% trans "11. Ley aplicable y jurisdicción" %}</h2>
         <p class="mt-2 p-body">
-          {% trans "Legislación española y tribunales competentes." %}
+          {% trans "Estos términos se regirán por la legislación española." %}
+        </p>
+        <p class="mt-3 p-body">
+          {% trans "Cualquier controversia se someterá a los juzgados y tribunales que correspondan conforme a la normativa aplicable de consumo y jurisdicción." %}
         </p>
       </div>
     </section>
 
     <section id="cambios" class="c-card">
       <div class="c-card__body">
-        <h2 class="h2-section">{% trans "12. Cambios" %}</h2>
+        <h2 class="h2-section">{% trans "12. Cambios en estos términos" %}</h2>
         <p class="mt-2 p-body">
-          {% trans "Los cambios relevantes serán notificados." %}
+          {% trans "Exploideo podrá actualizar estos Términos y Condiciones para reflejar cambios legales, técnicos o funcionales de la plataforma." %}
+        </p>
+        <p class="mt-3 p-body">
+          {% trans "Cuando los cambios sean relevantes, se comunicarán de forma visible dentro de la plataforma o por medios razonables." %}
         </p>
       </div>
     </section>
@@ -222,7 +263,7 @@
       <div class="c-card__body">
         <h2 class="h2-section">{% trans "13. Contacto" %}</h2>
         <p class="mt-2 p-body">
-          {% trans "Si tienes dudas, escríbenos:" %}
+          {% trans "Si tienes dudas sobre estos términos, puedes escribirnos a:" %}
         </p>
 
         <div class="mt-4 contact-box">
@@ -237,7 +278,7 @@
         <div class="mt-4 c-panel c-panel--soft">
           <p class="label-title">{% trans "Resumen rápido" %}</p>
           <p class="mt-1 u-muted">
-            {% trans "Plataforma intermediaria, guías verificados y reglas claras." %}
+            {% trans "Exploideo es una plataforma intermediaria: conecta, organiza y facilita, pero la experiencia la presta el guía." %}
           </p>
         </div>
       </div>

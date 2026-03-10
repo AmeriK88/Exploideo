@@ -272,3 +272,145 @@ class ExperienceValidationAndFormTests(TestCase):
 
 		with self.assertRaises(ValidationError):
 			exp.full_clean()
+
+
+class ExperienceNearMeDiscoveryTests(TestCase):
+	def setUp(self):
+		self.client = Client()
+		self.category_hiking = Category.objects.create(name="Hiking", slug="hiking")
+		self.category_boat = Category.objects.create(name="Boat", slug="boat")
+
+		self.guide = User.objects.create_user(username="near_guide", password="pass123", role=User.Role.GUIDE)
+		profile, _ = GuideProfile.objects.get_or_create(user=self.guide)
+		profile.verification_status = GuideProfile.VerificationStatus.VERIFIED
+		profile.save(update_fields=["verification_status"])
+
+	def _create_experience(self, *, title, category, city="Arrecife", latitude=None, longitude=None):
+		return Experience.objects.create(
+			guide=self.guide,
+			category=category,
+			title=title,
+			description="Desc",
+			price="30.00",
+			duration_minutes=120,
+			location="Canarias",
+			country="España",
+			region="Canarias",
+			province="Las Palmas",
+			island="Lanzarote",
+			city=city,
+			transport_requirement=Experience.TransportRequirement.ON_FOOT,
+			difficulty=Experience.Difficulty.EASY,
+			is_active=True,
+			latitude=latitude,
+			longitude=longitude,
+		)
+
+	def test_list_without_near_me_keeps_normal_behavior(self):
+		exp_a = self._create_experience(title="Normal A", category=self.category_hiking)
+		exp_b = self._create_experience(title="Normal B", category=self.category_hiking)
+
+		response = self.client.get(reverse("experiences:list"))
+
+		self.assertEqual(response.status_code, 200)
+		self.assertFalse(response.context["near_me_active"])
+		experiences = list(response.context["experiences"])
+		self.assertIn(exp_a, experiences)
+		self.assertIn(exp_b, experiences)
+
+	def test_invalid_near_me_coordinates_do_not_break_listing(self):
+		self._create_experience(title="Fallback item", category=self.category_hiking)
+
+		response = self.client.get(
+			reverse("experiences:list"),
+			{"near_me": "1", "user_lat": "oops", "user_lng": "-13.55"},
+		)
+
+		self.assertEqual(response.status_code, 200)
+		self.assertFalse(response.context["near_me_active"])
+		self.assertTrue(response.context["near_me_error"])
+
+	def test_near_me_orders_by_distance(self):
+		near = self._create_experience(
+			title="Near",
+			category=self.category_hiking,
+			latitude=28.9600,
+			longitude=-13.5500,
+		)
+		far = self._create_experience(
+			title="Far",
+			category=self.category_hiking,
+			latitude=29.3000,
+			longitude=-13.7000,
+		)
+		self._create_experience(title="No coords", category=self.category_hiking)
+
+		response = self.client.get(
+			reverse("experiences:list"),
+			{"near_me": "1", "user_lat": "28.961", "user_lng": "-13.552"},
+		)
+
+		self.assertEqual(response.status_code, 200)
+		self.assertTrue(response.context["near_me_active"])
+		experiences = response.context["experiences"]
+		titles = [exp.title for exp in experiences]
+		self.assertEqual(titles[0], near.title)
+		self.assertIn(far.title, titles)
+
+	def test_near_me_handles_missing_experience_coordinates(self):
+		self._create_experience(title="With coords", category=self.category_hiking, latitude=28.95, longitude=-13.53)
+		self._create_experience(title="Without coords", category=self.category_hiking)
+
+		response = self.client.get(
+			reverse("experiences:list"),
+			{"near_me": "1", "user_lat": "28.96", "user_lng": "-13.55"},
+		)
+
+		self.assertEqual(response.status_code, 200)
+		titles = [exp.title for exp in response.context["experiences"]]
+		self.assertIn("Without coords", titles)
+
+	def test_near_me_combines_with_existing_filters(self):
+		self._create_experience(
+			title="Hiking near",
+			category=self.category_hiking,
+			city="Arrecife",
+			latitude=28.9601,
+			longitude=-13.5501,
+		)
+		self._create_experience(
+			title="Boat near",
+			category=self.category_boat,
+			city="Arrecife",
+			latitude=28.9602,
+			longitude=-13.5502,
+		)
+
+		response = self.client.get(
+			reverse("experiences:list"),
+			{
+				"near_me": "1",
+				"user_lat": "28.96",
+				"user_lng": "-13.55",
+				"category": self.category_hiking.slug,
+				"city": "Arrecife",
+			},
+		)
+
+		self.assertEqual(response.status_code, 200)
+		titles = [exp.title for exp in response.context["experiences"]]
+		self.assertIn("Hiking near", titles)
+		self.assertNotIn("Boat near", titles)
+
+	def test_templates_render_with_and_without_distance_values(self):
+		self._create_experience(title="Has distance", category=self.category_hiking, latitude=28.9601, longitude=-13.5501)
+		self._create_experience(title="No distance", category=self.category_hiking)
+
+		near_response = self.client.get(
+			reverse("experiences:list"),
+			{"near_me": "1", "user_lat": "28.96", "user_lng": "-13.55"},
+		)
+		regular_response = self.client.get(reverse("experiences:list"))
+
+		self.assertContains(near_response, "km de ti")
+		self.assertEqual(regular_response.status_code, 200)
