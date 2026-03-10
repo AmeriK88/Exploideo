@@ -32,7 +32,7 @@
           <div class="grid gap-4 sm:grid-cols-2">
             {% for field in form %}
               <div class="min-w-0
-                {% if field.name == 'description' or field.name == 'tags' or field.name == 'transport_requirement' %}
+                {% if field.name == 'description' or field.name == 'tags' or field.name == 'transport_requirement' or field.name == 'location' %}
                   sm:col-span-2
                 {% endif %}
               ">

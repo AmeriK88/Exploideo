@@ -21,7 +21,7 @@
 
       {# ✅ MOBILE: pills (solo action_url) #}
       <div class="lg:hidden">
-        {% include "components/experience_search_card.html" with action_url=experiences_list_url %}
+        {% include "components/experience_search_card.html" with action_url=experiences_list_url q_value=filters.q max_price_value=filters.max_price island_value=filters.island city_value=filters.city %}
       </div>
 
       {# ✅ DESKTOP: mantienes tu form actual (no rompes layout) #}
@@ -35,7 +35,7 @@
               <p class="mt-1 u-muted">Ajusta tu búsqueda y ordena resultados.</p>
             </div>
 
-            {% include "includes/ui/experience_filters_form.html" with action_url=experiences_list_url reset_url=experiences_list_url q_value=filters.q category_value=filters.category min_price_value=filters.min_price max_price_value=filters.max_price max_duration_value=filters.max_duration sort_value=filters.sort show_popular=True categories=categories %}
+            {% include "includes/ui/experience_filters_form.html" with action_url=experiences_list_url reset_url=experiences_list_url q_value=filters.q category_value=filters.category island_value=filters.island city_value=filters.city min_price_value=filters.min_price max_price_value=filters.max_price max_duration_value=filters.max_duration sort_value=filters.sort show_popular=True categories=categories %}
 
           </div>
         </div>

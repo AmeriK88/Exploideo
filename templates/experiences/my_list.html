@@ -27,7 +27,7 @@
             <p class="mt-1 u-muted">Encuentra rápidamente tus experiencias.</p>
           </div>
 
-          {% include "includes/ui/experience_filters_form.html" with action_url=experiences_list_url reset_url=experiences_list_url q_value=filters.q category_value=filters.category min_price_value=filters.min_price max_price_value=filters.max_price max_duration_value=filters.max_duration sort_value=filters.sort show_popular=False q_placeholder="Timanfaya, volcanes, senderismo..." categories=categories %}
+          {% include "includes/ui/experience_filters_form.html" with action_url=experiences_list_url reset_url=experiences_list_url q_value=filters.q category_value=filters.category island_value=filters.island city_value=filters.city min_price_value=filters.min_price max_price_value=filters.max_price max_duration_value=filters.max_duration sort_value=filters.sort show_popular=False q_placeholder="Timanfaya, volcanes, senderismo..." categories=categories %}
         </div>
       </div>
     </div>

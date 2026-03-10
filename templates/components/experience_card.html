@@ -58,6 +58,10 @@
         <span class="c-badge c-badge--neutral u-hover-lift">📍 {{ experience.location }}</span>
       {% endif %}
 
+      {% if experience.city or experience.island %}
+        <span class="c-badge c-badge--neutral u-hover-lift">🗺 {{ experience.city }}{% if experience.city and experience.island %}, {% endif %}{{ experience.island }}</span>
+      {% endif %}
+
       {% if experience.duration_minutes %}
         <span class="c-badge c-badge--neutral u-hover-lift">⏱ {{ experience.duration_minutes }} min</span>
       {% endif %}

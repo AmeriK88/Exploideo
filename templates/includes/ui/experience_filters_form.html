@@ -17,6 +17,16 @@
   </div>
 
   <div>
+    <label class="label">Isla</label>
+    <input class="input" type="text" name="island" value="{{ island_value|default:'' }}" placeholder="Ej: Lanzarote">
+  </div>
+
+  <div>
+    <label class="label">Ciudad</label>
+    <input class="input" type="text" name="city" value="{{ city_value|default:'' }}" placeholder="Ej: Arrecife">
+  </div>
+
+  <div>
     <label class="label">Precio mín (€)</label>
     <input class="input" type="number" step="0.01" name="min_price" value="{{ min_price_value|default:'' }}">
   </div>

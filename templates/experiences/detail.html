@@ -21,12 +21,17 @@
         {% endif %}
 
         <div class="min-w-0 space-y-4">
-          <h1 id="experience-title" class="text-3xl font-semibold tracking-tight wrap-break-word">
+          <h1 id="experience-title" class="h1-page tracking-tight wrap-break-word">
             {{ exp.title }}
           </h1>
 
           <div class="flex flex-wrap gap-3">
-            <span class="c-badge c-badge--neutral u-hover-lift">📍 {{ exp.location }}</span>
+            {% if exp.location %}
+              <span class="c-badge c-badge--neutral u-hover-lift">📍 {{ exp.location }}</span>
+            {% endif %}
+            {% if exp.city or exp.island %}
+              <span class="c-badge c-badge--neutral u-hover-lift">🗺 {{ exp.city }}{% if exp.city and exp.island %}, {% endif %}{{ exp.island }}</span>
+            {% endif %}
             <span class="c-badge c-badge--neutral u-hover-lift">⏱ {{ exp.duration_minutes }} min</span>
             <span class="c-badge c-badge--neutral u-hover-lift">🧗 {{ exp.get_difficulty_display }}</span>
 
