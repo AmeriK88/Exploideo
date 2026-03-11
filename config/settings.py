@@ -40,6 +40,8 @@ PRELAUNCH_MODE = env.bool("PRELAUNCH_MODE", default=False)
 
 # Analytics (solo GA4, sin segmentación ni nada avanzado por ahora)
 GA_MEASUREMENT_ID = os.getenv("GA_MEASUREMENT_ID", "")
+ENABLE_ANALYTICS = bool(GA_MEASUREMENT_ID)
+
 
 # Geocoding (Nominatim)
 GEOCODING_TIMEOUT = env.int("GEOCODING_TIMEOUT", default=5)

@@ -19,28 +19,7 @@
 
     <!-- Filters -->
     <div data-animate="fade-up">
-
-      {# ✅ MOBILE: pills (solo action_url) #}
-      <div class="lg:hidden">
-        {% include "components/experience_search_card.html" with action_url=experiences_list_url q_value=filters.q max_price_value=filters.max_price island_value=filters.island city_value=filters.city near_me_active=near_me_active near_me_error=near_me_error filters=filters %}
-      </div>
-
-      {# ✅ DESKTOP: mantienes tu form actual (no rompes layout) #}
-      <div class="hidden lg:block">
-        <div class="c-card">
-          <div class="c-card__body relative">
-            <div class="u-hero-top-glow"></div>
-
-            <div class="mb-4">
-              <h2 class="h2-section">Buscar y filtrar</h2>
-              <p class="mt-1 u-muted">Ajusta tu búsqueda y ordena resultados.</p>
-            </div>
-
-            {% include "includes/ui/experience_filters_form.html" with action_url=experiences_list_url reset_url=experiences_list_url q_value=filters.q category_value=filters.category island_value=filters.island city_value=filters.city min_price_value=filters.min_price max_price_value=filters.max_price max_duration_value=filters.max_duration sort_value=filters.sort show_popular=True categories=categories near_me_active=near_me_active near_me_error=near_me_error filters=filters %}
-
-          </div>
-        </div>
-      </div>
+      {% include "components/experience_search_card.html" with action_url=experiences_list_url q_value=filters.q max_price_value=filters.max_price max_duration_value=filters.max_duration island_value=filters.island city_value=filters.city near_me_active=near_me_active near_me_error=near_me_error filters=filters %}
     </div>
 
     {% if near_me_active %}

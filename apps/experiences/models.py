@@ -79,6 +79,27 @@ class Experience(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    DIFFICULTY_BANNER_MAP = {
+        Difficulty.EASY: {
+            "icon": "✔",
+            "tone": "success",
+            "title": "Nivel fácil",
+            "message": "Apta para todos los públicos.",
+        },
+        Difficulty.MODERATE: {
+            "icon": "⚠️",
+            "tone": "warning",
+            "title": "Nivel moderado",
+            "message": "Menores permitidos solo acompañados por adultos.",
+        },
+        Difficulty.HARD: {
+            "icon": "⛔",
+            "tone": "danger",
+            "title": "Nivel difícil",
+            "message": "Experiencia difícil: no se permiten menores.",
+        },
+    }
+
     class Meta:
         ordering = ["-created_at"]
         indexes = [
@@ -118,6 +139,17 @@ class Experience(models.Model):
     def structured_location(self):
         parts = [self.city, self.island, self.region, self.country]
         return ", ".join(part for part in parts if part)
+
+    @property
+    def difficulty_banner(self):
+        config = self.DIFFICULTY_BANNER_MAP.get(
+            self.difficulty,
+            self.DIFFICULTY_BANNER_MAP[self.Difficulty.EASY],
+        )
+        return {
+            **config,
+            "css_class": f"c-alert c-alert--{config['tone']}",
+        }
 
     def __str__(self):
         return f"{self.title} - {self.guide.username}"

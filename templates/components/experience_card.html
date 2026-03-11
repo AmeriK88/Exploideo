@@ -52,25 +52,40 @@
       </div>
     {% endif %}
 
-    {# ===== Badges resumen ===== #}
+      <!-- Badges -->
     <div class="mt-3 flex flex-wrap gap-2 text-sm">
-      {% if experience.location %}
-        <span class="c-badge c-badge--neutral u-hover-lift">📍 {{ experience.location }}</span>
+      {% if experience.distance_km is not None %}
+        <span class="c-badge c-badge--neutral u-hover-lift">📏 {{ experience.distance_km }} km de ti</span>
       {% endif %}
 
-      {% if experience.city or experience.island %}
-        <span class="c-badge c-badge--neutral u-hover-lift">🗺 {{ experience.city }}{% if experience.city and experience.island %}, {% endif %}{{ experience.island }}</span>
+      {% if experience.location or experience.city or experience.island %}
+        <span class="c-badge c-badge--neutral u-hover-lift">
+          📍
+          {% if experience.location %}
+            {{ experience.location }}
+            {% if experience.city and experience.location != experience.city %}
+              {% if experience.city not in experience.location %}
+                , {{ experience.city }}
+              {% endif %}
+            {% endif %}
+          {% elif experience.city %}
+            {{ experience.city }}
+          {% endif %}
+          {% if experience.island %}
+            {% if experience.location or experience.city %}
+              , {{ experience.island }}
+            {% else %}
+              {{ experience.island }}
+            {% endif %}
+          {% endif %}
+        </span>
       {% endif %}
 
       {% if experience.duration_minutes %}
         <span class="c-badge c-badge--neutral u-hover-lift">⏱ {{ experience.duration_minutes }} min</span>
       {% endif %}
 
-      {% if experience.distance_km is not None %}
-        <span class="c-badge c-badge--neutral u-hover-lift">📏 {{ experience.distance_km }} km de ti</span>
-      {% endif %}
-
-      {# Dificultad #}
+        <!-- Difficulty - Level -->
       {% if experience.difficulty %}
         {% if experience.difficulty == "easy" %}
           <span class="c-badge c-badge--neutral u-hover-lift">🟢 Fácil</span>

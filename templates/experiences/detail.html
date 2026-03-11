@@ -26,12 +26,30 @@
           </h1>
 
           <div class="flex flex-wrap gap-3">
-            {% if exp.location %}
-              <span class="c-badge c-badge--neutral u-hover-lift">📍 {{ exp.location }}</span>
+            {% if exp.location or exp.city or exp.island %}
+              <span class="c-badge c-badge--neutral u-hover-lift">
+                📍
+                {% if exp.location %}
+                  {{ exp.location }}
+                  {% if exp.city and exp.location != exp.city %}
+                    {% if exp.city not in exp.location %}
+                      , {{ exp.city }}
+                    {% endif %}
+                  {% endif %}
+                {% elif exp.city %}
+                  {{ exp.city }}
+                {% endif %}
+
+                {% if exp.island %}
+                  {% if exp.location or exp.city %}
+                    , {{ exp.island }}
+                  {% else %}
+                    {{ exp.island }}
+                  {% endif %}
+                {% endif %}
+              </span>
             {% endif %}
-            {% if exp.city or exp.island %}
-              <span class="c-badge c-badge--neutral u-hover-lift">🗺 {{ exp.city }}{% if exp.city and exp.island %}, {% endif %}{{ exp.island }}</span>
-            {% endif %}
+
             <span class="c-badge c-badge--neutral u-hover-lift">⏱ {{ exp.duration_minutes }} min</span>
             <span class="c-badge c-badge--neutral u-hover-lift">🧗 {{ exp.get_difficulty_display }}</span>
 
@@ -61,19 +79,12 @@
               </div>
 
               <div class="text-sm u-muted">
-                {% if exp.difficulty == "hard" %}
-                  <div class="status-banner status-banner-update-rejected">
-                    ⛔ Experiencia difícil: no se permiten menores.
+                {% with banner=exp.difficulty_banner %}
+                  <div class="{{ banner.css_class }}">
+                    <p class="font-semibold">{{ banner.icon }} {{ banner.title }}</p>
+                    <p class="mt-1">{{ banner.message }}</p>
                   </div>
-                {% elif exp.difficulty == "moderate" %}
-                  <div class="status-banner status-banner-change">
-                    ⚠️ Menores permitidos solo acompañados por adultos.
-                  </div>
-                {% else %}
-                  <div class="status-banner status-banner-accepted">
-                    ✔ Apta para todos los públicos.
-                  </div>
-                {% endif %}
+                {% endwith %}
               </div>
             </div>
           </div>

@@ -274,6 +274,40 @@ class ExperienceValidationAndFormTests(TestCase):
 			exp.full_clean()
 
 
+class ExperienceDifficultyBannerTests(TestCase):
+	def test_easy_difficulty_banner_uses_success_tone(self):
+		exp = Experience(difficulty=Experience.Difficulty.EASY)
+		banner = exp.difficulty_banner
+
+		self.assertEqual(banner["tone"], "success")
+		self.assertEqual(banner["icon"], "✔")
+		self.assertEqual(banner["css_class"], "c-alert c-alert--success")
+
+	def test_moderate_difficulty_banner_uses_warning_tone(self):
+		exp = Experience(difficulty=Experience.Difficulty.MODERATE)
+		banner = exp.difficulty_banner
+
+		self.assertEqual(banner["tone"], "warning")
+		self.assertEqual(banner["icon"], "⚠️")
+		self.assertIn("Menores permitidos", banner["message"])
+		self.assertEqual(banner["css_class"], "c-alert c-alert--warning")
+
+	def test_hard_difficulty_banner_uses_danger_tone(self):
+		exp = Experience(difficulty=Experience.Difficulty.HARD)
+		banner = exp.difficulty_banner
+
+		self.assertEqual(banner["tone"], "danger")
+		self.assertEqual(banner["icon"], "⛔")
+		self.assertEqual(banner["css_class"], "c-alert c-alert--danger")
+
+	def test_unknown_difficulty_falls_back_to_easy_banner(self):
+		exp = Experience(difficulty="custom")
+		banner = exp.difficulty_banner
+
+		self.assertEqual(banner["tone"], "success")
+		self.assertEqual(banner["css_class"], "c-alert c-alert--success")
+
+
 class ExperienceNearMeDiscoveryTests(TestCase):
 	def setUp(self):
 		self.client = Client()

@@ -125,7 +125,7 @@ def _order_experiences_by_distance(experiences, *, user_lat, user_lng, max_km=No
         ranked.append((distance_km, exp))
 
     ranked.sort(key=lambda item: item[0])
-    ordered = [exp for _, exp in ranked]
+    ordered = [exp for _, exp in ranked] + non_georeferenced
     return ordered
 
 
