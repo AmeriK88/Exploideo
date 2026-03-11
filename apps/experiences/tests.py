@@ -126,7 +126,7 @@ class GeocodingServiceTests(TestCase):
 class ExperienceGeocodingFlowTests(TestCase):
 	def setUp(self):
 		self.client = Client()
-		self.guide = User.objects.create_user(username="guide1", password="pass123", role=User.Role.GUIDE)
+		self.guide = User.objects.create_user(username="guide1", password="test-password-not-a-secret", role=User.Role.GUIDE)
 		profile, _ = GuideProfile.objects.get_or_create(user=self.guide)
 		profile.verification_status = GuideProfile.VerificationStatus.VERIFIED
 		profile.save(update_fields=["verification_status"])
@@ -254,7 +254,7 @@ class ExperienceValidationAndFormTests(TestCase):
 		self.assertNotIn("longitude", form.fields)
 
 	def test_model_rejects_invalid_coordinate_pairs_when_set_programmatically(self):
-		guide = User.objects.create_user(username="guide2", password="pass123", role=User.Role.GUIDE)
+		guide = User.objects.create_user(username="guide2", password="test-password-not-a-secret", role=User.Role.GUIDE)
 		category = Category.objects.create(name="Kayak", slug="kayak")
 		exp = Experience(
 			guide=guide,
@@ -314,7 +314,7 @@ class ExperienceNearMeDiscoveryTests(TestCase):
 		self.category_hiking = Category.objects.create(name="Hiking", slug="hiking")
 		self.category_boat = Category.objects.create(name="Boat", slug="boat")
 
-		self.guide = User.objects.create_user(username="near_guide", password="pass123", role=User.Role.GUIDE)
+		self.guide = User.objects.create_user(username="near_guide", password="test-password-not-a-secret", role=User.Role.GUIDE)
 		profile, _ = GuideProfile.objects.get_or_create(user=self.guide)
 		profile.verification_status = GuideProfile.VerificationStatus.VERIFIED
 		profile.save(update_fields=["verification_status"])
