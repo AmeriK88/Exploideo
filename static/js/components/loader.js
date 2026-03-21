@@ -1,7 +1,4 @@
 (function () {
-  // Debug log to confirm the loader script was initialized
-  console.log("loader.js loaded ✅");
-
   // Main loader element
   const loader = document.getElementById("app-loader");
 

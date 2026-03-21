@@ -16,6 +16,7 @@ from datetime import timedelta
 from django.views.decorators.http import require_POST
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext as _
 
 from django.urls import reverse
 
@@ -291,6 +292,7 @@ def terms_and_conditions_view(request):
 def cookie_policy_view(request):
     return render(request, "pages/cookie_policy.html")
 
+
 @require_POST
 def newsletter_subscribe(request):
     email = (request.POST.get("email") or "").strip().lower()
@@ -302,15 +304,17 @@ def newsletter_subscribe(request):
     is_official_guide = request.POST.get("is_official_guide") in ("1", "on", "true", "True")
     consent = request.POST.get("consent") in ("1", "on", "true", "True")
 
+    next_url = request.POST.get("next") or request.META.get("HTTP_REFERER") or reverse("pages:home")
+
     if not consent:
-        messages.error(request, "Necesitamos tu consentimiento para poder avisarte por email.")
-        return redirect(request.META.get("HTTP_REFERER", "/"))
+        messages.error(request, _("Necesitamos tu consentimiento para poder avisarte por email."))
+        return redirect(next_url)
 
     try:
         validate_email(email)
     except ValidationError:
-        messages.error(request, "Ese email no parece válido.")
-        return redirect(request.META.get("HTTP_REFERER", "/"))
+        messages.error(request, _("Ese email no parece válido."))
+        return redirect(next_url)
 
     obj, created = NewsletterSubscriber.objects.get_or_create(
         email=email,
@@ -324,7 +328,6 @@ def newsletter_subscribe(request):
         },
     )
 
-    # Si ya existía, puedes “enriquecer” el registro
     if not created:
         changed = False
         if source and obj.source != source:
@@ -341,15 +344,14 @@ def newsletter_subscribe(request):
             obj.consent = True; changed = True
 
         if changed:
-            obj.save(update_fields=["source","region","island","role","is_official_guide","consent"])
+            obj.save(update_fields=["source", "region", "island", "role", "is_official_guide", "consent"])
 
     if created:
-        messages.success(request, "¡Listo! Te avisaremos cuando haya novedades.")
+        messages.success(request, _("¡Listo! Te avisaremos cuando haya novedades."))
     else:
-        messages.info(request, "Ese email ya estaba registrado 😉 (si añadiste info extra, queda guardada)")
+        messages.info(request, _("Ese email ya estaba registrado 😉 (si añadiste info extra, queda guardada)"))
 
-    return redirect(request.META.get("HTTP_REFERER", "/"))
-
+    return redirect(next_url)
 
 def landing_view(request):
     return render(request, "pages/landing/landing.html")
