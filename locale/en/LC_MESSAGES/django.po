@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-10 16:24+0000\n"
+"POT-Creation-Date: 2026-03-28 21:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: English <LL@li.org>\n"
@@ -17,11 +17,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\config\settings.py:149
+#: .\apps\pages\views.py:310
+msgid "Necesitamos tu consentimiento para poder avisarte por email."
+msgstr ""
+
+#: .\apps\pages\views.py:316
+msgid "Ese email no parece válido."
+msgstr ""
+
+#: .\apps\pages\views.py:350
+#, fuzzy
+#| msgid "Te avisaremos cuando abramos acceso. Nada más."
+msgid "¡Listo! Te avisaremos cuando haya novedades."
+msgstr "We'll notify you when access opens. Nothing else."
+
+#: .\apps\pages\views.py:352
+msgid ""
+"Ese email ya estaba registrado 😉 (si añadiste info extra, queda guardada)"
+msgstr ""
+
+#: .\config\settings.py:151
 msgid "Spanish"
 msgstr "Spanish"
 
-#: .\config\settings.py:150
+#: .\config\settings.py:152
 msgid "English"
 msgstr "English"
 
@@ -273,7 +292,7 @@ msgid "seguimiento"
 msgstr "tracking"
 
 #: .\templates\includes\landing\compare_section.html:39
-#: .\templates\pages\home.html:176
+#: .\templates\pages\home.html:154
 msgid "Antes"
 msgstr "Before"
 
@@ -311,7 +330,7 @@ msgid "Más dudas → menos conversiones → peor experiencia."
 msgstr "More uncertainty → fewer bookings → worse experience."
 
 #: .\templates\includes\landing\compare_section.html:83
-#: .\templates\pages\home.html:192
+#: .\templates\pages\home.html:170
 msgid "Con Exploideo"
 msgstr "With Exploideo"
 
@@ -578,7 +597,7 @@ msgstr "Your experience is premium. Your management should be too."
 #: .\templates\includes\layout\navbar.html:28
 #: .\templates\includes\layout\navbar.html:31
 #: .\templates\includes\layout\navbar.html:219
-#: .\templates\includes\layout\navbar.html:226 .\templates\pages\home.html:364
+#: .\templates\includes\layout\navbar.html:226 .\templates\pages\home.html:342
 msgid "Cómo funciona"
 msgstr "How it works"
 
@@ -759,12 +778,12 @@ msgid "¿Eres…?"
 msgstr "Are you…?"
 
 #: .\templates\includes\landing\waitlist_section.html:90
-#: .\templates\pages\home.html:328
+#: .\templates\pages\home.html:306
 msgid "Viajero"
 msgstr "Traveler"
 
 #: .\templates\includes\landing\waitlist_section.html:91
-#: .\templates\pages\home.html:281 .\templates\pages\landing\landing.html:139
+#: .\templates\pages\home.html:259 .\templates\pages\landing\landing.html:139
 msgid "Guía"
 msgstr "Guide"
 
@@ -864,7 +883,7 @@ msgid "Producto"
 msgstr "Product"
 
 #: .\templates\includes\layout\footer.html:64 .\templates\pages\home.html:77
-#: .\templates\pages\home.html:339
+#: .\templates\pages\home.html:317
 msgid "Explorar experiencias"
 msgstr "Explore experiences"
 
@@ -986,7 +1005,7 @@ msgid "Acceso"
 msgstr "Access"
 
 #: .\templates\includes\layout\navbar.html:38
-#: .\templates\includes\layout\navbar.html:236 .\templates\pages\home.html:509
+#: .\templates\includes\layout\navbar.html:236 .\templates\pages\home.html:487
 #: .\templates\pages\landing\landing.html:124
 #: .\templates\pages\landing\landing.html:130
 msgid "Explorar"
@@ -1390,12 +1409,12 @@ msgstr "days, capacity, and spots per experience."
 msgid "Soy guía · Crear cuenta"
 msgstr "I'm a guide · Create account"
 
-#: .\templates\pages\home.html:70 .\templates\pages\home.html:502
+#: .\templates\pages\home.html:70 .\templates\pages\home.html:480
 msgid "Ver experiencias"
 msgstr "View experiences"
 
-#: .\templates\pages\home.html:74 .\templates\pages\home.html:301
-#: .\templates\pages\home.html:506
+#: .\templates\pages\home.html:74 .\templates\pages\home.html:279
+#: .\templates\pages\home.html:484
 msgid "Ir a mi panel"
 msgstr "Go to my dashboard"
 
@@ -1426,103 +1445,95 @@ msgstr "The guide confirms · no surprises"
 msgid "Estados"
 msgstr "Statuses"
 
-#: .\templates\pages\home.html:139
-msgid "Buscar y filtrar"
-msgstr "Search and filter"
-
-#: .\templates\pages\home.html:140
-msgid "Zona, duración y precio. En 10s."
-msgstr "Area, duration, and price. In 10 seconds."
-
-#: .\templates\pages\home.html:171
+#: .\templates\pages\home.html:149
 msgid "Así se trabaja muchas veces hoy"
 msgstr "How things often work today"
 
-#: .\templates\pages\home.html:173
+#: .\templates\pages\home.html:151
 msgid ""
 "Mucha operativa se decide por mensajes, llamadas y cambios de última hora."
 msgstr ""
 "Many operations are handled through messages, calls, and last-minute changes."
 
-#: .\templates\pages\home.html:180
+#: .\templates\pages\home.html:158
 msgid "Confirmaciones por WhatsApp y llamadas inesperadas."
 msgstr "Confirmations via WhatsApp and unexpected calls."
 
-#: .\templates\pages\home.html:181
+#: .\templates\pages\home.html:159
 msgid "Excursiones “para mañana” que rompen la semana."
 msgstr "“Tomorrow” trips that disrupt the whole week."
 
-#: .\templates\pages\home.html:182
+#: .\templates\pages\home.html:160
 msgid "Fines de semana de trabajo constante sin conciliación familiar."
 msgstr "Weekends of constant work with no work-life balance."
 
-#: .\templates\pages\home.html:183
+#: .\templates\pages\home.html:161
 msgid "Poca previsión de ingresos y facturas dispersas."
 msgstr "Low income predictability and scattered invoices."
 
-#: .\templates\pages\home.html:194
+#: .\templates\pages\home.html:172
 msgid "Reglas y agenda claras, estados visibles para todos."
 msgstr "Clear rules and schedule, with statuses visible to everyone."
 
-#: .\templates\pages\home.html:197
+#: .\templates\pages\home.html:175
 msgid "Después"
 msgstr "After"
 
-#: .\templates\pages\home.html:201
+#: .\templates\pages\home.html:179
 msgid "Antelación mínima (48h) para evitar improvisación."
 msgstr "Minimum notice (48h) to avoid improvisation."
 
-#: .\templates\pages\home.html:202
+#: .\templates\pages\home.html:180
 msgid "Bloquea fechas y define cupos por día/experiencia."
 msgstr "Block dates and set capacity per day or experience."
 
-#: .\templates\pages\home.html:203
+#: .\templates\pages\home.html:181
 msgid "Máx. personas por excursión, sin masificación."
 msgstr "Max people per trip, no overcrowding."
 
-#: .\templates\pages\home.html:204
+#: .\templates\pages\home.html:182
 msgid "Panel con reservas, estados y control de facturas."
 msgstr "Dashboard with bookings, statuses, and invoice tracking."
 
-#: .\templates\pages\home.html:208
+#: .\templates\pages\home.html:186
 msgid "🎯 Resultado"
 msgstr "🎯 Result"
 
-#: .\templates\pages\home.html:209
+#: .\templates\pages\home.html:187
 msgid "Más conciliación, más previsión y menos estrés operativo."
 msgstr ""
 "Better work-life balance, more predictability, and less operational stress."
 
-#: .\templates\pages\home.html:229
+#: .\templates\pages\home.html:207
 msgid "Agenda real"
 msgstr "Real availability"
 
-#: .\templates\pages\home.html:230
+#: .\templates\pages\home.html:208
 msgid "Bloquea fechas, define reglas semanales y evita líos de disponibilidad."
 msgstr "Block dates, set weekly rules, and avoid availability headaches."
 
-#: .\templates\pages\home.html:235
+#: .\templates\pages\home.html:213
 msgid "Antelación mínima"
 msgstr "Minimum notice"
 
-#: .\templates\pages\home.html:236
+#: .\templates\pages\home.html:214
 msgid "Reservas con margen (ej. 48h). Menos “para mañana”, más planificación."
 msgstr ""
 "Bookings with breathing room (e.g., 48h). Less “for tomorrow”, more planning."
 
-#: .\templates\pages\home.html:241 .\templates\pages\landing\landing.html:64
+#: .\templates\pages\home.html:219 .\templates\pages\landing\landing.html:64
 msgid "Condiciones claras"
 msgstr "Clear terms"
 
-#: .\templates\pages\home.html:242
+#: .\templates\pages\home.html:220
 msgid "Duración, precio, plazas y punto de encuentro sin sorpresas."
 msgstr "Duration, price, spots, and meeting point with no surprises."
 
-#: .\templates\pages\home.html:247
+#: .\templates\pages\home.html:225
 msgid "Estados + notificaciones"
 msgstr "Statuses + notifications"
 
-#: .\templates\pages\home.html:248
+#: .\templates\pages\home.html:226
 msgid ""
 "Panel centralizado con notificaciones emails al aceptar, rechazar o cambiar. "
 "Cero incertidumbre."
@@ -1530,11 +1541,11 @@ msgstr ""
 "Centralized dashboard with email notifications when accepting, rejecting, or "
 "changing. Zero uncertainty."
 
-#: .\templates\pages\home.html:272
+#: .\templates\pages\home.html:250
 msgid "Si eres guía"
 msgstr "If you're a guide"
 
-#: .\templates\pages\home.html:275
+#: .\templates\pages\home.html:253
 msgid ""
 "\n"
 "                    Tú mandas: días, cupos, máximo de personas y políticas.\n"
@@ -1547,41 +1558,41 @@ msgstr ""
 "                    No last-minute bookings. Real predictability.\n"
 "                  "
 
-#: .\templates\pages\home.html:285
+#: .\templates\pages\home.html:263
 msgid "Bloquea fechas y controla disponibilidad real."
 msgstr "Block dates and control real availability."
 
-#: .\templates\pages\home.html:286
+#: .\templates\pages\home.html:264
 msgid "Define reglas: antelación mínima, plazas y máx. personas."
 msgstr "Set rules: minimum notice, spots, and max group size."
 
-#: .\templates\pages\home.html:287
+#: .\templates\pages\home.html:265
 msgid "Panel de reservas con estados, cambios y notificaciones."
 msgstr "Booking dashboard with statuses, changes, and notifications."
 
-#: .\templates\pages\home.html:288
+#: .\templates\pages\home.html:266
 msgid "Control de facturas e ingresos sin tenerlo “por ahí suelto”."
 msgstr ""
 "Keep invoices and income under control instead of having them scattered "
 "around."
 
-#: .\templates\pages\home.html:294 .\templates\pages\home.html:499
+#: .\templates\pages\home.html:272 .\templates\pages\home.html:477
 msgid "Crear cuenta de guía"
 msgstr "Create a guide account"
 
-#: .\templates\pages\home.html:297
+#: .\templates\pages\home.html:275
 msgid "Ya soy guía"
 msgstr "I'm already a guide"
 
-#: .\templates\pages\home.html:307
+#: .\templates\pages\home.html:285
 msgid "Comisión por excursión completada. Sin cuotas fijas."
 msgstr "Commission per completed experience. No fixed fees."
 
-#: .\templates\pages\home.html:319
+#: .\templates\pages\home.html:297
 msgid "Si viajas"
 msgstr "If you're traveling"
 
-#: .\templates\pages\home.html:322
+#: .\templates\pages\home.html:300
 msgid ""
 "\n"
 "                    Menos “a ver si está confirmado”.\n"
@@ -1595,74 +1606,74 @@ msgstr ""
 "statuses.\n"
 "                  "
 
-#: .\templates\pages\home.html:332
+#: .\templates\pages\home.html:310
 msgid "Explora por zona, precio, duración y tipo de plan."
 msgstr "Explore by area, price, duration, and type of experience."
 
-#: .\templates\pages\home.html:333
+#: .\templates\pages\home.html:311
 msgid "Conoce al guía: perfil, idiomas y estilo."
 msgstr "Get to know the guide: profile, languages, and style."
 
-#: .\templates\pages\home.html:334
+#: .\templates\pages\home.html:312
 msgid "Encuentra planes y comprueba disponibilidad"
 msgstr "Find experiences and check availability"
 
-#: .\templates\pages\home.html:343 .\templates\pages\home.html:463
+#: .\templates\pages\home.html:321 .\templates\pages\home.html:441
 msgid "Crear cuenta"
 msgstr "Create account"
 
-#: .\templates\pages\home.html:349
+#: .\templates\pages\home.html:327
 msgid ""
 "Ideal para experiencias más personales: rutas a tu ritmo y sin masificación."
 msgstr ""
 "Ideal for more personal experiences: routes at your own pace, without the "
 "crowds."
 
-#: .\templates\pages\home.html:365
+#: .\templates\pages\home.html:343
 msgid "Simple, claro y sin vueltas."
 msgstr "Simple, clear, and straightforward."
 
-#: .\templates\pages\home.html:366
+#: .\templates\pages\home.html:344
 msgid "Explorar →"
 msgstr "Explore →"
 
-#: .\templates\pages\home.html:374
+#: .\templates\pages\home.html:352
 msgid "1) Explora"
 msgstr "1) Explore"
 
-#: .\templates\pages\home.html:375
+#: .\templates\pages\home.html:353
 msgid ""
 "Filtra por tipo de plan, duración y precio. Elige con contexto, no a ciegas."
 msgstr ""
 "Filter by experience type, duration, and price. Choose with context, not "
 "blindly."
 
-#: .\templates\pages\home.html:380
+#: .\templates\pages\home.html:358
 msgid "2) Solicita plaza"
 msgstr "2) Request a spot"
 
-#: .\templates\pages\home.html:381
+#: .\templates\pages\home.html:359
 msgid ""
 "Selecciona fecha disponible y envía solicitud. Nada de pagos raros ni dudas."
 msgstr ""
 "Pick an available date and send your request. No sketchy payments, no "
 "confusion."
 
-#: .\templates\pages\home.html:386
+#: .\templates\pages\home.html:364
 msgid "3) Confirmación clara"
 msgstr "3) Clear confirmation"
 
-#: .\templates\pages\home.html:387
+#: .\templates\pages\home.html:365
 msgid "El guía acepta/rechaza/cambia con estados visibles y notificaciones."
 msgstr ""
 "The guide can accept, reject, or propose changes, with visible statuses and "
 "notifications."
 
-#: .\templates\pages\home.html:396
+#: .\templates\pages\home.html:374
 msgid "Bonus:"
 msgstr "Bonus:"
 
-#: .\templates\pages\home.html:397
+#: .\templates\pages\home.html:375
 msgid ""
 "experiencias más personales: menos masificación, más ritmo propio y guías "
 "que adaptan la aventura."
@@ -1670,31 +1681,31 @@ msgstr ""
 "more personal experiences: fewer crowds, your own pace, and guides who adapt "
 "the adventure."
 
-#: .\templates\pages\home.html:412
+#: .\templates\pages\home.html:390
 msgid "Testimonios"
 msgstr "Testimonials"
 
-#: .\templates\pages\home.html:414
+#: .\templates\pages\home.html:392
 msgid "Historias que queremos que se repitan."
 msgstr "Stories we want to happen again."
 
-#: .\templates\pages\home.html:417
+#: .\templates\pages\home.html:395
 msgid "Reseñas reales de viajeros que reservaron experiencias auténticas."
 msgstr "Real reviews from travelers who booked authentic experiences."
 
-#: .\templates\pages\home.html:438
+#: .\templates\pages\home.html:416
 msgid "Experiencias destacadas"
 msgstr "Featured experiences"
 
-#: .\templates\pages\home.html:439
+#: .\templates\pages\home.html:417
 msgid "Ideas para empezar si no sabes qué elegir."
 msgstr "Ideas to get you started if you're not sure what to choose."
 
-#: .\templates\pages\home.html:440
+#: .\templates\pages\home.html:418
 msgid "Ver todas →"
 msgstr "View all →"
 
-#: .\templates\pages\home.html:454
+#: .\templates\pages\home.html:432
 msgid ""
 "Aún no hay experiencias destacadas. Puedes empezar explorando el listado "
 "completo."
@@ -1702,51 +1713,51 @@ msgstr ""
 "There are no featured experiences yet. You can start by exploring the full "
 "list."
 
-#: .\templates\pages\home.html:459
+#: .\templates\pages\home.html:437
 msgid "Explorar ahora"
 msgstr "Explore now"
 
-#: .\templates\pages\home.html:487
+#: .\templates\pages\home.html:465
 msgid "Menos “para mañana”."
 msgstr "Less “for tomorrow”."
 
-#: .\templates\pages\home.html:488
+#: .\templates\pages\home.html:466
 msgid "Más control."
 msgstr "More control."
 
-#: .\templates\pages\home.html:492
+#: .\templates\pages\home.html:470
 msgid "Para guías: agenda planificable y reglas claras."
 msgstr "For guides: a more manageable schedule and clear rules."
 
-#: .\templates\pages\home.html:493
+#: .\templates\pages\home.html:471
 msgid "Para viajeros: reservas con disponibilidad real y estados visibles."
 msgstr "For travelers: bookings with real availability and visible statuses."
 
-#: .\templates\pages\home.html:515
+#: .\templates\pages\home.html:493
 msgid "Pensado para calidad (viajero) y control (guía)."
 msgstr "Built for quality (travelers) and control (guides)."
 
-#: .\templates\pages\home.html:520
+#: .\templates\pages\home.html:498
 msgid "Lo que vas a notar"
 msgstr "What you'll notice"
 
-#: .\templates\pages\home.html:523
+#: .\templates\pages\home.html:501
 msgid "Reglas de reserva: antelación mínima, cupos y plazas reales."
 msgstr "Booking rules: minimum notice, capacity limits, and real availability."
 
-#: .\templates\pages\home.html:524
+#: .\templates\pages\home.html:502
 msgid "Menos cambios de última hora y menos estrés operativo."
 msgstr "Fewer last-minute changes and less operational stress."
 
-#: .\templates\pages\home.html:525
+#: .\templates\pages\home.html:503
 msgid "Experiencias más personales: menos masificación, más intención."
 msgstr "More personal experiences: fewer crowds, more intention."
 
-#: .\templates\pages\home.html:528
+#: .\templates\pages\home.html:506
 msgid "💡 Tip rápido | Empieza simple"
 msgstr "💡 Quick tip | Start simple"
 
-#: .\templates\pages\home.html:529
+#: .\templates\pages\home.html:507
 msgid "1 experiencia bien definida. Luego amplías."
 msgstr "Start with one well-defined experience. Expand later."
 
@@ -1777,25 +1788,19 @@ msgstr "no improvisation."
 #: .\templates\pages\landing\landing.html:37
 msgid ""
 "\n"
-"              Exploideo te ayuda a <span class=\"u-text\">encontrar y "
-"reservar experiencias locales</span>\n"
-"              con <span class=\"u-text\">grupos reducidos</span>,\n"
-"              <span class=\"u-text\">condiciones claras</span> y\n"
-"              <span class=\"u-text\">comunicación directa con el guía</"
-"span>.\n"
-"              Empezamos en <span class=\"u-text\">Canarias</span> y "
-"creceremos hacia nuevos destinos.\n"
+"              Exploideo te ayuda a <span class=\"font-semibold u-text\">encontrar y reservar experiencias locales</span>\n"
+"              con <span class=\"font-semibold u-text\">grupos reducidos</span>,\n"
+"              <span class=\"font-semibold u-text\">condiciones claras</span> y\n"
+"              <span class=\"font-semibold u-text\">comunicación directa con el guía</span>.\n"
+"              Empezamos en <span class=\"font-semibold u-text\">Canarias</span> y creceremos hacia nuevos destinos.\n"
 "            "
 msgstr ""
 "\n"
-"              Exploideo helps you <span class=\"u-text\">discover and book "
-"local experiences</span>\n"
-"              with <span class=\"u-text\">small groups</span>,\n"
-"              <span class=\"u-text\">clear conditions</span>, and\n"
-"              <span class=\"u-text\">direct communication with your guide</"
-"span>.\n"
-"              We start in <span class=\"u-text\">the Canary Islands</span> "
-"and will expand to new destinations.\n"
+"              Exploideo helps you <span class=\"font-semibold u-text\">discover and book local experiences</span>\n"
+"              with <span class=\"font-semibold u-text\">small groups</span>,\n"
+"              <span class=\"font-semibold u-text\">clear conditions</span>, and\n"
+"              <span class=\"font-semibold u-text\">direct communication with your guide</span>.\n"
+"              We start in <span class=\"font-semibold u-text\">the Canary Islands</span> and will expand to new destinations.\n"
 "            "
 
 #: .\templates\pages\landing\landing.html:48
