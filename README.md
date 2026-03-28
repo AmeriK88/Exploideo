@@ -1,6 +1,6 @@
 <img width="375" height="250" alt="exploideo-logo" src="https://github.com/user-attachments/assets/024cce0b-379c-4d6d-ac86-4cac02031ea8" />
 
-## 🚀 Exploideo
+## Exploideo
 
 A modern SaaS platform connecting travelers with local guides for
 unforgettable experiences.\
@@ -20,7 +20,7 @@ Started](https://img.shields.io/badge/⚡_Get_Started-111827?style=for-the-badge
 <img width="1888" height="873" alt="cover" src="https://github.com/user-attachments/assets/8aabb52a-ea4f-42b1-8745-b76cf0d988f8" />
 
 
-## 🌟 Features
+## Features
 
 ### For Travelers
 
@@ -65,7 +65,7 @@ Started](https://img.shields.io/badge/⚡_Get_Started-111827?style=for-the-badge
 
 ------------------------------------------------------------------------
 
-## 📦 Installation
+## Installation
 
 ### Prerequisites
 
@@ -96,7 +96,7 @@ Visit: http://127.0.0.1:8000
 
 ------------------------------------------------------------------------
 
-## 🤝 Contributing
+## Contributing
 
 1.  Fork the project\
 2.  Create a feature branch\
@@ -106,13 +106,10 @@ Visit: http://127.0.0.1:8000
 
 ------------------------------------------------------------------------
 
-## 📄 License
+## License
 
 © 2026 José Félix Gordo Castaño\
 Elastic License 2.0 --- see `LICENSE.TXT`
 
 ------------------------------------------------------------------------
 
-::: {align="center"}
-`<sub>`{=html}Made with passion · Happy adventuring 🌍✈️`</sub>`{=html}
-:::
