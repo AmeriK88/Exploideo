@@ -6,7 +6,6 @@ from django.db.models import Avg, Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
 
 from apps.availability.models import ExperienceAvailability
-from apps.bookings.models import Booking
 from apps.reviews.models import Review
 from apps.reviews.services import traveler_can_review
 from core.decorators import guide_required
@@ -47,10 +46,8 @@ def _extract_filters(request):
         "category": request.GET.get("category", "").strip(),
         "island": request.GET.get("island", "").strip(),
         "city": request.GET.get("city", "").strip(),
-        "min_price": request.GET.get("min_price", "").strip(),
         "max_price": request.GET.get("max_price", "").strip(),
         "max_duration": request.GET.get("max_duration", "").strip(),
-        "sort": request.GET.get("sort", "recent").strip(),
         "near_me": request.GET.get("near_me", "").strip(),
         "user_lat": request.GET.get("user_lat", "").strip(),
         "user_lng": request.GET.get("user_lng", "").strip(),
@@ -155,12 +152,6 @@ def _apply_common_experience_filters(experiences, filters):
     if filters["city"]:
         experiences = experiences.filter(city__iexact=filters["city"])
 
-    if filters["min_price"]:
-        try:
-            experiences = experiences.filter(price__gte=float(filters["min_price"]))
-        except ValueError:
-            pass
-
     if filters["max_price"]:
         try:
             experiences = experiences.filter(price__lte=float(filters["max_price"]))
@@ -197,17 +188,15 @@ def experience_list(request):
             filters["category"],
             filters["island"],
             filters["city"],
-            filters["min_price"],
             filters["max_price"],
             filters["max_duration"],
-            filters["sort"] != "recent",
             near_me_payload["requested"],
         ]
     )
 
     experiences = _apply_common_experience_filters(experiences, filters)
 
-    # Ordenación por distancia (phase 1 en Python) o por criterios existentes.
+    # Ordenación por distancia (phase 1 en Python) o por recencia.
     if near_me_payload["active"]:
         experiences = _order_experiences_by_distance(
             experiences,
@@ -216,23 +205,7 @@ def experience_list(request):
             max_km=near_me_payload["max_km"],
         )
     else:
-        if filters["sort"] == "price_asc":
-            experiences = experiences.order_by("price", "-created_at")
-        elif filters["sort"] == "price_desc":
-            experiences = experiences.order_by("-price", "-created_at")
-        elif filters["sort"] == "duration_asc":
-            experiences = experiences.order_by("duration_minutes", "-created_at")
-        elif filters["sort"] == "duration_desc":
-            experiences = experiences.order_by("-duration_minutes", "-created_at")
-        elif filters["sort"] == "popular":
-            experiences = experiences.annotate(
-                bookings_count=Count(
-                    "bookings",
-                    filter=Q(bookings__status__in=[Booking.Status.PENDING, Booking.Status.ACCEPTED]),
-                )
-            ).order_by("-bookings_count", "-created_at")
-        else:
-            experiences = experiences.order_by("-created_at")
+        experiences = experiences.order_by("-created_at")
 
     context = {
         "experiences": experiences,
@@ -261,26 +234,14 @@ def my_experiences(request):
             filters["category"],
             filters["island"],
             filters["city"],
-            filters["min_price"],
             filters["max_price"],
             filters["max_duration"],
-            filters["sort"] != "recent",
         ]
     )
 
     experiences = _apply_common_experience_filters(experiences, filters)
 
-    # Ordenación (igual estilo que list)
-    if filters["sort"] == "price_asc":
-        experiences = experiences.order_by("price", "-created_at")
-    elif filters["sort"] == "price_desc":
-        experiences = experiences.order_by("-price", "-created_at")
-    elif filters["sort"] == "duration_asc":
-        experiences = experiences.order_by("duration_minutes", "-created_at")
-    elif filters["sort"] == "duration_desc":
-        experiences = experiences.order_by("-duration_minutes", "-created_at")
-    else:
-        experiences = experiences.order_by("-created_at")
+    experiences = experiences.order_by("-created_at")
 
     context = {
         "experiences": experiences,
