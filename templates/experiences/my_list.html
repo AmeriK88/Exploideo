@@ -16,20 +16,9 @@
       </div>
     {% endwith %}
 
-    <!-- Filters (igual que list) -->
+    <!-- Filters -->
     <div data-animate="fade-up">
-      <div class="c-card">
-      <div class="c-card__body relative">
-        <!-- Subtle top gradient -->
-        <div class="u-hero-top-glow"></div>
-          <div class="mb-4">
-            <h2 class="h2-section">Buscar y filtrar</h2>
-            <p class="mt-1 u-muted">Encuentra rápidamente tus experiencias.</p>
-          </div>
-
-          {% include "includes/ui/experience_filters_form.html" with action_url=experiences_list_url reset_url=experiences_list_url q_value=filters.q category_value=filters.category island_value=filters.island city_value=filters.city min_price_value=filters.min_price max_price_value=filters.max_price max_duration_value=filters.max_duration sort_value=filters.sort show_popular=False q_placeholder="Timanfaya, volcanes, senderismo..." categories=categories %}
-        </div>
-      </div>
+      {% include "components/experience_search_card.html" with action_url=experiences_list_url q_value=filters.q max_price_value=filters.max_price max_duration_value=filters.max_duration island_value=filters.island city_value=filters.city near_me_active=False near_me_error="" filters=filters %}
     </div>
 
     {% if has_filters %}
