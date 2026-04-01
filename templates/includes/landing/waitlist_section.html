@@ -56,7 +56,7 @@
               <form method="post" action="{% url 'pages:newsletter_subscribe' %}" class="space-y-6" data-animate="fade-up">
                 {% csrf_token %}
                 <input type="hidden" name="source" value="landing" />
-                <input type="hidden" name="next" value="{{ request.path }}#waitlist" />
+                <input type="hidden" name="next" value="{% url 'pages:home' %}#waitlist" />
 
                 <div class="space-y-2">
                   <label class="c-form__label" for="waitlist_email">{% trans "Email" %}</label>
