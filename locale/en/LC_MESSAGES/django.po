@@ -34,7 +34,7 @@ msgstr "We'll notify you when access opens. Nothing else."
 #: .\apps\pages\views.py:352
 msgid ""
 "Ese email ya estaba registrado 😉 (si añadiste info extra, queda guardada)"
-msgstr ""
+msgstr "That email is already registered 😉 (if you added extra info, it has been saved)"
 
 #: .\config\settings.py:151
 msgid "Spanish"

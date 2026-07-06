@@ -29,10 +29,11 @@ pnpm-debug.log*
 
 static/css/output.css
 
+estructura_actual.md
+
 # OS
 .DS_Store
 Thumbs.db
 
-new_structure.md
 
 .vscode/
