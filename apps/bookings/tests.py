@@ -326,6 +326,8 @@ class BookingWorkflowTests(TestCase):
     def test_other_guide_cannot_view_decision_screen(self):
         booking = self._create_booking(notes="Información privada del viajero")
         other_guide = User.objects.create_user(username="other-guide", password="pw", role=User.Role.GUIDE)
+        other_guide.guide_profile.verification_status = GuideProfile.VerificationStatus.VERIFIED
+        other_guide.guide_profile.save(update_fields=["verification_status"])
 
         self.client.force_login(other_guide)
         accept_response = self.client.get(reverse("bookings:accept", args=[booking.pk]))
