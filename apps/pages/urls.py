@@ -4,8 +4,8 @@ from . import views
 app_name = "pages"
 
 urlpatterns = [
-    path("", views.landing_view, name="home"),
-    path("app/", views.home_view, name="app_home"),
+    path("", views.home_view, name="home"),
+    path("app/", views.app_home_redirect, name="app_home"),
     path("dashboard/", views.dashboard_redirect, name="dashboard"),
     path("dashboard/profile/", views.profile_view, name="profile"),
     path("dashboard/guide/", views.guide_dashboard, name="guide_dashboard"),
