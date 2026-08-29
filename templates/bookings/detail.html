@@ -287,11 +287,14 @@
                   {{ booking.get_transport_mode_display|default:booking.transport_mode }}
                 </span>
               {% endif %}
-
-              {% if booking.pickup_notes %}
-                <span class="c-badge c-badge--neutral u-hover-lift">📝 {{ booking.pickup_notes }}</span>
-              {% endif %}
             </div>
+
+            {% if booking.pickup_notes %}
+              <div class="panel-detail">
+                <p class="p-micro">📝 Tu ubicación / referencia</p>
+                <p class="mt-2 p-body whitespace-pre-line">{{ booking.pickup_notes }}</p>
+              </div>
+            {% endif %}
 
             <div class="grid gap-3 sm:grid-cols-2">
               {% if booking.unit_price %}

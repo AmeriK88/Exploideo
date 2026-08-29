@@ -153,7 +153,7 @@ def create_booking(request, experience_id):
             f"- Niños: {booking.children}\n"
             f"- Bebés: {booking.infants}\n\n"
             f"Desplazamiento: {booking.get_transport_mode_display()}\n"
-            f"{'Punto de encuentro: ' + booking.pickup_notes + chr(10) if booking.pickup_notes else ''}"
+            f"{'Tu ubicación/referencia: ' + booking.pickup_notes + chr(10) if booking.pickup_notes else ''}"
             f"\nTotal estimado: {booking.total_price}€\n\n"
             f"Cuando el guía responda, te avisaremos.\n"
         )
@@ -338,8 +338,9 @@ def accept_booking(request, pk):
                     f"- Niños: {booking.children}\n"
                     f"- Bebés: {booking.infants}\n\n"
                     f"Transporte: {booking.get_transport_mode_display()}\n"
-                    f"Punto de encuentro: {booking.pickup_notes or 'Por concretar con el guía'}\n\n"
-                    f"Total: {booking.total_price}€\n\n"
+                    f"Punto de encuentro: {booking.meeting_point or 'Por concretar con el guía'}\n"
+                    f"{'Tu ubicación/referencia: ' + booking.pickup_notes + chr(10) if booking.pickup_notes else ''}"
+                    f"\nTotal: {booking.total_price}€\n\n"
                     f"Mensaje del guía:\n{booking.guide_response or '-'}\n"
                 ),
             )
@@ -389,8 +390,8 @@ def reject_booking(request, pk):
                     f"- Niños: {booking.children}\n"
                     f"- Bebés: {booking.infants}\n\n"
                     f"Transporte: {booking.get_transport_mode_display()}\n"
-                    f"Punto de encuentro: {booking.pickup_notes or 'No especificado'}\n\n"
-                    f"Precio por adulto: {booking.unit_price}€\n"
+                    f"{'Tu ubicación/referencia: ' + booking.pickup_notes + chr(10) if booking.pickup_notes else ''}"
+                    f"\nPrecio por adulto: {booking.unit_price}€\n"
                     f"Total estimado: {booking.total_price}€\n\n"
                     f"Mensaje del guía:\n{booking.guide_response or '-'}\n"
                 ),

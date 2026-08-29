@@ -40,13 +40,22 @@ class BookingForm(forms.ModelForm):
         transport = getattr(experience, "transport_requirement", None)
 
         if transport == "own_vehicle":
-            self.fields["pickup_notes"].help_text = "Indica dónde quedas con el guía (parking, punto exacto, etc.)."
+            self.fields["pickup_notes"].help_text = (
+                "Indica dónde te alojas o una referencia de tu ubicación para que el guía organice la logística. "
+                "El guía te confirmará el punto de encuentro definitivo al aceptar la reserva."
+            )
             self.fields["pickup_notes"].widget.attrs["placeholder"] = "Ej: Parking Mirador del Río / Gasolinera X"
         elif transport == "bicycle":
-            self.fields["pickup_notes"].help_text = "Indica el punto de encuentro para comenzar la ruta en bici."
+            self.fields["pickup_notes"].help_text = (
+                "Indica dónde te alojas o una referencia de tu ubicación para que el guía organice la logística. "
+                "El guía te confirmará el punto de encuentro definitivo al aceptar la reserva."
+            )
             self.fields["pickup_notes"].widget.attrs["placeholder"] = "Ej: Plaza central / Tienda de bicis X"
         else:
-            self.fields["pickup_notes"].help_text = "Indica el punto de encuentro para iniciar la experiencia."
+            self.fields["pickup_notes"].help_text = (
+                "Indica dónde te alojas o una referencia de tu ubicación para que el guía organice la logística. "
+                "El guía te confirmará el punto de encuentro definitivo al aceptar la reserva."
+            )
             self.fields["pickup_notes"].widget.attrs["placeholder"] = "Ej: Entrada principal / Punto exacto en Maps"
 
     class Meta:
@@ -121,7 +130,7 @@ class BookingForm(forms.ModelForm):
 
         pickup_notes = (cleaned.get("pickup_notes") or "").strip()
         if not pickup_notes:
-            self.add_error("pickup_notes", "Indica el punto de encuentro (lo concretarás con el guía si hace falta).")
+            self.add_error("pickup_notes", "Indica tu ubicación o una referencia (el guía te confirmará el punto de encuentro exacto).")
 
         if self.errors:
             raise forms.ValidationError("Revisa el formulario: hay campos con errores.")
@@ -141,6 +150,12 @@ class BookingDecisionForm(forms.ModelForm):
             "meeting_point": forms.TextInput(attrs={"placeholder": "Ej: Lobby Hotel X / Parking Y"}),
             "guide_response": forms.Textarea(attrs={"rows": 3}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # meeting_point es la decisión del guía, nunca un valor derivado de pickup_notes.
+        self.fields["meeting_point"].label = "Punto de encuentro"
+        self.fields["meeting_point"].help_text = "Indica el punto exacto donde os encontraréis."
 
     def clean(self):
         cleaned = super().clean()

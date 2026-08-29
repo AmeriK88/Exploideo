@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from decimal import Decimal
 from unittest import expectedFailure
+from unittest.mock import patch
 
 from django.core import mail
 from django.test import TestCase, override_settings
@@ -62,7 +63,7 @@ class BookingWorkflowTests(TestCase):
     def _booking_date(self):
         return timezone.localdate() + timedelta(days=3)
 
-    def _post_create_booking(self, *, adults=2, children=1, infants=0, date=None, preferred_language=None, notes="Sin alergias"):
+    def _post_create_booking(self, *, adults=2, children=1, infants=0, date=None, preferred_language=None, notes="Sin alergias", pickup_notes="Parking del puerto"):
         self.client.force_login(self.traveler)
         target_date = date or self._booking_date()
         lang_id = preferred_language.pk if preferred_language else self.lang_es.pk
@@ -73,7 +74,7 @@ class BookingWorkflowTests(TestCase):
                 "adults": adults,
                 "children": children,
                 "infants": infants,
-                "pickup_notes": "Parking del puerto",
+                "pickup_notes": pickup_notes,
                 "preferred_language": str(lang_id),
                 "notes": notes,
             },
@@ -335,6 +336,109 @@ class BookingWorkflowTests(TestCase):
 
         self.assertEqual(accept_response.status_code, 404)
         self.assertEqual(reject_response.status_code, 404)
+
+    def test_pending_booking_stores_pickup_notes_and_leaves_meeting_point_empty(self):
+        booking = self._create_booking(pickup_notes="H10 Rubicón Palace")
+
+        self.assertEqual(booking.pickup_notes, "H10 Rubicón Palace")
+        self.assertEqual(booking.meeting_point, "")
+
+    def test_decision_screen_shows_pickup_notes_as_traveler_reference_not_meeting_point(self):
+        booking = self._create_booking(pickup_notes="H10 Rubicón Palace")
+
+        self.client.force_login(self.guide)
+        response = self.client.get(reverse("bookings:accept", args=[booking.pk]))
+        content = response.content.decode()
+
+        self.assertContains(response, "Ubicación / referencia del viajero")
+        self.assertContains(response, "H10 Rubicón Palace")
+        # The traveler's pickup_notes must not be presented as the (guide-defined) meeting point.
+        self.assertNotIn('<p class="p-micro">📍 Punto de encuentro</p>', content)
+
+    def test_guide_meeting_point_field_is_not_prefilled_with_pickup_notes(self):
+        booking = self._create_booking(pickup_notes="H10 Rubicón Palace")
+
+        self.client.force_login(self.guide)
+        response = self.client.get(reverse("bookings:accept", args=[booking.pk]))
+
+        self.assertEqual(response.context["form"]["meeting_point"].value(), "")
+
+    def test_accept_with_meeting_point_keeps_pickup_notes_and_stores_meeting_point_separately(self):
+        booking = self._create_booking(pickup_notes="H10 Rubicón Palace")
+
+        self.client.force_login(self.guide)
+        response = self.client.post(
+            reverse("bookings:accept", args=[booking.pk]),
+            data={
+                "pickup_time": "09:00",
+                "meeting_point": "Parking de Montaña Roja",
+                "guide_response": "Nos vemos allí",
+            },
+        )
+
+        self.assertEqual(response.status_code, 302)
+        booking.refresh_from_db()
+        self.assertEqual(booking.pickup_notes, "H10 Rubicón Palace")
+        self.assertEqual(booking.meeting_point, "Parking de Montaña Roja")
+
+    def test_accept_booking_email_uses_meeting_point_not_pickup_notes(self):
+        booking = self._create_booking(pickup_notes="H10 Rubicón Palace")
+
+        self.client.force_login(self.guide)
+        with patch("apps.bookings.views.send_booking_status_email") as mocked_send:
+            response = self.client.post(
+                reverse("bookings:accept", args=[booking.pk]),
+                data={
+                    "pickup_time": "09:00",
+                    "meeting_point": "Parking de Montaña Roja",
+                    "guide_response": "Nos vemos allí",
+                },
+            )
+
+        self.assertEqual(response.status_code, 302)
+        mocked_send.assert_called_once()
+        body = mocked_send.call_args.kwargs["message"]
+        self.assertIn("Punto de encuentro: Parking de Montaña Roja", body)
+        self.assertNotIn("Punto de encuentro: H10 Rubicón Palace", body)
+
+    def test_reject_booking_email_never_uses_pickup_notes_as_meeting_point_fallback(self):
+        booking = self._create_booking(pickup_notes="H10 Rubicón Palace")
+
+        self.client.force_login(self.guide)
+        with patch("apps.bookings.views.send_booking_status_email") as mocked_send:
+            response = self.client.post(
+                reverse("bookings:reject", args=[booking.pk]),
+                data={"guide_response": "No disponibilidad"},
+            )
+
+        self.assertEqual(response.status_code, 302)
+        mocked_send.assert_called_once()
+        body = mocked_send.call_args.kwargs["message"]
+        self.assertNotIn("Punto de encuentro: H10 Rubicón Palace", body)
+
+    def test_booking_detail_distinguishes_pickup_notes_from_meeting_point(self):
+        booking = self._create_accepted_booking(adults=2, children=0)
+        booking.pickup_notes = "H10 Rubicón Palace"
+        booking.meeting_point = "Parking de Montaña Roja"
+        booking.save(update_fields=["pickup_notes", "meeting_point"])
+
+        self.client.force_login(self.traveler)
+        response = self.client.get(reverse("bookings:detail", args=[booking.pk]))
+
+        self.assertContains(response, "Tu ubicación / referencia")
+        self.assertContains(response, "H10 Rubicón Palace")
+        self.assertContains(response, "Parking de Montaña Roja")
+
+    def test_change_request_form_does_not_mix_pickup_notes_and_meeting_point(self):
+        booking = self._create_accepted_booking(adults=2, children=0)
+        original_meeting_point = booking.meeting_point
+
+        booking = self._request_change(booking, adults=1)
+
+        # A date-changing request clears meeting_point (pending re-confirmation), but never
+        # copies pickup_notes into it.
+        self.assertNotEqual(booking.meeting_point, booking.pickup_notes)
+        self.assertIn(booking.meeting_point, ("", original_meeting_point))
 
     def test_change_request_stores_extras_and_pending_state(self):
         booking = self._create_accepted_booking(adults=2, children=0)

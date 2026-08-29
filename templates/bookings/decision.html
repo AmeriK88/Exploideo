@@ -70,7 +70,7 @@
 
         {% if booking.pickup_notes %}
           <div class="mt-4 panel-detail">
-            <p class="p-micro">📍 Punto de encuentro</p>
+            <p class="p-micro">📍 Ubicación / referencia del viajero</p>
             <p class="mt-2 p-body whitespace-pre-line">{{ booking.pickup_notes }}</p>
           </div>
         {% endif %}
@@ -116,6 +116,9 @@
                 <div>
                   <label class="label">{{ form.meeting_point.label }}</label>
                   {{ form.meeting_point|add_class:"input" }}
+                  {% if form.meeting_point.help_text %}
+                    <p class="u-muted text-sm">{{ form.meeting_point.help_text }}</p>
+                  {% endif %}
                   {% if form.meeting_point.errors %}
                     <p class="field-error">{{ form.meeting_point.errors|striptags }}</p>
                   {% endif %}
