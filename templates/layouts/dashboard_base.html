@@ -45,7 +45,7 @@
                       <span class="flex items-center justify-between gap-3">
                         <span>Reservas Recibidas</span>
                         {% with n=unseen_guide_bookings|default:0 %}
-                          {% if n %}<span class="notification-badge">{{ n }}</span>{% endif %}
+                          {% if n %}<span class="c-nav__badge">{{ n }}</span>{% endif %}
                         {% endwith %}
                       </span>
                     </a>
@@ -60,7 +60,7 @@
                       <span class="flex items-center justify-between gap-3">
                         <span>Mis Reservas</span>
                         {% with n=unseen_traveler_bookings|default:0 %}
-                          {% if n %}<span class="notification-badge">{{ n }}</span>{% endif %}
+                          {% if n %}<span class="c-nav__badge">{{ n }}</span>{% endif %}
                         {% endwith %}
                       </span>
                     </a>
@@ -136,7 +136,7 @@
                     <span class="flex items-center justify-between gap-3">
                       <span>Reservas Recibidas</span>
                       {% with n=unseen_guide_bookings|default:0 %}
-                        {% if n %}<span class="notification-badge">{{ n }}</span>{% endif %}
+                        {% if n %}<span class="c-nav__badge">{{ n }}</span>{% endif %}
                       {% endwith %}
                     </span>
                   </a>
@@ -151,7 +151,7 @@
                     <span class="flex items-center justify-between gap-3">
                       <span>Mis Reservas</span>
                       {% with n=unseen_traveler_bookings|default:0 %}
-                        {% if n %}<span class="notification-badge">{{ n }}</span>{% endif %}
+                        {% if n %}<span class="c-nav__badge">{{ n }}</span>{% endif %}
                       {% endwith %}
                     </span>
                   </a>

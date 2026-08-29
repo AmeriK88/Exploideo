@@ -122,9 +122,14 @@
 
                 <a
                   href="{% if user.is_guide %}{% url 'bookings:guide_list' %}{% else %}{% url 'bookings:traveler_list' %}{% endif %}"
-                  class="{% if request.resolver_match.app_name == 'bookings' and request.resolver_match.url_name == 'guide_list' or request.resolver_match.app_name == 'bookings' and request.resolver_match.url_name == 'traveler_list' %}block rounded-xl px-3 py-2 bg-(--surface-2) text-(--color-brand-500) font-semibold{% else %}block rounded-xl px-3 py-2 u-text hover:bg-(--border){% endif %}"
+                  class="{% if request.resolver_match.app_name == 'bookings' and request.resolver_match.url_name == 'guide_list' or request.resolver_match.app_name == 'bookings' and request.resolver_match.url_name == 'traveler_list' %}flex items-center justify-between rounded-xl px-3 py-2 bg-(--surface-2) text-(--color-brand-500) font-semibold{% else %}flex items-center justify-between rounded-xl px-3 py-2 u-text hover:bg-(--border){% endif %}"
                 >
-                  {% trans "Reservas" %}
+                  <span>{% trans "Reservas" %}</span>
+                  {% if user.is_guide and unseen_guide_bookings|default:0 %}
+                    <span class="c-nav__badge">{{ unseen_guide_bookings }}</span>
+                  {% elif not user.is_guide and unseen_traveler_bookings|default:0 %}
+                    <span class="c-nav__badge">{{ unseen_traveler_bookings }}</span>
+                  {% endif %}
                 </a>
 
                 <a
@@ -205,7 +210,7 @@
               {% endif %}
 
               {% if not PRELAUNCH_MODE and user.is_authenticated %}
-                {% include "includes/layout/navbar_account_menu_links.html" %}
+                {% include "includes/layout/navbar_account_menu_links.html" with show_booking_badge=True %}
               {% elif not PRELAUNCH_MODE %}
                 <div class="my-1 h-px bg-(--border)"></div>
                 <a href="{% url 'accounts:login' %}" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">

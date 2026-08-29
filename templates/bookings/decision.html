@@ -66,11 +66,21 @@
               🗣 {{ booking.preferred_language }}
             </span>
           {% endif %}
-
-          {% if booking.pickup_notes %}
-            <span class="c-badge c-badge--neutral u-hover-lift">📍 Punto de encuentro: {{ booking.pickup_notes }}</span>
-          {% endif %}
         </div>
+
+        {% if booking.pickup_notes %}
+          <div class="mt-4 panel-detail">
+            <p class="p-micro">📍 Punto de encuentro</p>
+            <p class="mt-2 p-body whitespace-pre-line">{{ booking.pickup_notes }}</p>
+          </div>
+        {% endif %}
+
+        {% if booking.notes %}
+          <div class="mt-4 panel-detail">
+            <p class="p-micro">Comentarios del viajero</p>
+            <p class="mt-2 p-body whitespace-pre-line">{{ booking.notes }}</p>
+          </div>
+        {% endif %}
 
       </div>
 

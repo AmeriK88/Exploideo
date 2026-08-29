@@ -62,7 +62,7 @@ class BookingWorkflowTests(TestCase):
     def _booking_date(self):
         return timezone.localdate() + timedelta(days=3)
 
-    def _post_create_booking(self, *, adults=2, children=1, infants=0, date=None, preferred_language=None):
+    def _post_create_booking(self, *, adults=2, children=1, infants=0, date=None, preferred_language=None, notes="Sin alergias"):
         self.client.force_login(self.traveler)
         target_date = date or self._booking_date()
         lang_id = preferred_language.pk if preferred_language else self.lang_es.pk
@@ -75,7 +75,7 @@ class BookingWorkflowTests(TestCase):
                 "infants": infants,
                 "pickup_notes": "Parking del puerto",
                 "preferred_language": str(lang_id),
-                "notes": "Sin alergias",
+                "notes": notes,
             },
         )
         return response
@@ -280,6 +280,59 @@ class BookingWorkflowTests(TestCase):
         self.assertFalse(Invoice.objects.filter(booking=booking).exists())
         self.assertFalse(Conversation.objects.filter(booking=booking).exists())
         self.assertEqual(len(mail.outbox), 1)
+
+    def test_accept_decision_screen_shows_traveler_notes(self):
+        notes_text = "Tengo una lesión leve de rodilla.\n¿La ruta es muy exigente?"
+        booking = self._create_booking(notes=notes_text)
+
+        self.client.force_login(self.guide)
+        response = self.client.get(reverse("bookings:accept", args=[booking.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Comentarios del viajero")
+        self.assertContains(response, "lesión leve de rodilla")
+
+    def test_reject_decision_screen_shows_traveler_notes(self):
+        notes_text = "Soy alérgico a los frutos secos"
+        booking = self._create_booking(notes=notes_text)
+
+        self.client.force_login(self.guide)
+        response = self.client.get(reverse("bookings:reject", args=[booking.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Comentarios del viajero")
+        self.assertContains(response, "Soy alérgico a los frutos secos")
+
+    def test_decision_screen_hides_notes_block_when_empty(self):
+        booking = self._create_booking(notes="")
+
+        self.client.force_login(self.guide)
+        response = self.client.get(reverse("bookings:accept", args=[booking.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "Comentarios del viajero")
+
+    def test_decision_screen_does_not_alter_stored_notes(self):
+        notes_text = "No cambiar este texto, por favor."
+        booking = self._create_booking(notes=notes_text)
+
+        self.client.force_login(self.guide)
+        self.client.get(reverse("bookings:accept", args=[booking.pk]))
+        self.client.get(reverse("bookings:reject", args=[booking.pk]))
+
+        booking.refresh_from_db()
+        self.assertEqual(booking.notes, notes_text)
+
+    def test_other_guide_cannot_view_decision_screen(self):
+        booking = self._create_booking(notes="Información privada del viajero")
+        other_guide = User.objects.create_user(username="other-guide", password="pw", role=User.Role.GUIDE)
+
+        self.client.force_login(other_guide)
+        accept_response = self.client.get(reverse("bookings:accept", args=[booking.pk]))
+        reject_response = self.client.get(reverse("bookings:reject", args=[booking.pk]))
+
+        self.assertEqual(accept_response.status_code, 404)
+        self.assertEqual(reject_response.status_code, 404)
 
     def test_change_request_stores_extras_and_pending_state(self):
         booking = self._create_accepted_booking(adults=2, children=0)
