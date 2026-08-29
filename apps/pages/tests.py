@@ -49,7 +49,7 @@ class SetLanguagePrelaunchFlowTests(TestCase):
 		self.assertEqual(response.wsgi_request.path, expected_home)
 		self.assertEqual(response.status_code, 200)
 
-		# Expected chain: set_language -> /en/app/ ; prelaunch middleware -> /en/
+		# Expected chain: set_language -> /en/app/ ; app/ redirect -> /en/ ; prelaunch middleware (no-op, already home)
 		self.assertGreaterEqual(len(response.redirect_chain), 2)
 		self.assertLess(len(response.redirect_chain), 8)
 
@@ -59,17 +59,20 @@ class SetLanguagePrelaunchFlowTests(TestCase):
 
 	@override_settings(PRELAUNCH_MODE=False)
 	def test_set_language_with_internal_next_keeps_normal_behavior_when_prelaunch_disabled(self):
-		response = self._post_set_language(language="en", next_url=reverse("pages:app_home"))
+		response = self._post_set_language(language="en", next_url="/app/")
 
-		# With prelaunch off, redirect should land on translated internal page.
-		self.assertEqual(response.wsgi_request.path, "/en/app/")
+		# With prelaunch off, /app/ still redirects to the canonical home.
+		with translation.override("en"):
+			expected_home = reverse("pages:home")
+
+		self.assertEqual(response.wsgi_request.path, expected_home)
 		self.assertEqual(response.status_code, 200)
 
-		self.assertGreaterEqual(len(response.redirect_chain), 1)
+		self.assertGreaterEqual(len(response.redirect_chain), 2)
 		self.assertLess(len(response.redirect_chain), 6)
 
 		match = resolve(response.wsgi_request.path)
-		self.assertEqual(f"{match.app_name}:{match.url_name}", "pages:app_home")
+		self.assertEqual(f"{match.app_name}:{match.url_name}", "pages:home")
 		self._assert_language_cookie("en")
 
 
@@ -95,12 +98,27 @@ class PrelaunchLegalAccessTests(TestCase):
 		match = resolve(response.wsgi_request.path)
 		self.assertEqual(f"{match.app_name}:{match.url_name}", "pages:home")
 
+	@override_settings(PRELAUNCH_MODE=True)
+	def test_root_home_is_landing_in_prelaunch(self):
+		response = self.client.get(reverse("pages:home"))
+
+		self.assertEqual(response.status_code, 200)
+		self.assertTemplateUsed(response, "pages/landing/landing.html")
+
 
 class HomeNearMeCtaTests(TestCase):
 	@override_settings(PRELAUNCH_MODE=False)
-	def test_app_home_contains_near_me_cta_targeting_experiences_list(self):
-		response = self.client.get(reverse("pages:app_home"))
+	def test_home_contains_near_me_cta_targeting_experiences_list(self):
+		response = self.client.get(reverse("pages:home"))
 
 		self.assertEqual(response.status_code, 200)
+		self.assertTemplateUsed(response, "pages/home.html")
 		self.assertContains(response, "data-near-me-trigger")
 		self.assertContains(response, reverse("experiences:list"))
+
+	@override_settings(PRELAUNCH_MODE=False)
+	def test_app_url_redirects_to_canonical_home(self):
+		response = self.client.get(reverse("pages:app_home"))
+
+		self.assertRedirects(response, reverse("pages:home"))
+

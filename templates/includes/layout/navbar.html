@@ -27,9 +27,6 @@
           {% if PRELAUNCH_MODE %}
             <a href="{% url 'pages:home' %}#how" class="c-nav__link c-nav__link--primary">{% trans "Cómo funciona" %}</a>
             <a href="{% url 'pages:home' %}#waitlist" class="c-nav__link c-nav__collapse-on-overflow">{% trans "Acceso" %}</a>
-          {% elif variant == 'landing' %}
-            <a href="#how" class="c-nav__link c-nav__link--primary">{% trans "Cómo funciona" %}</a>
-            <a href="#waitlist" class="c-nav__link c-nav__collapse-on-overflow">{% trans "Acceso" %}</a>
           {% else %}
             <a
               href="{% url 'experiences:list' %}"
@@ -84,23 +81,17 @@
             {% trans "Quiero acceso" %}
           </a>
         {% elif user.is_authenticated %}
-          {% if variant != 'landing' %}
-            <a
-              href="{% if user.is_guide %}{% url 'bookings:guide_list' %}{% else %}{% url 'bookings:traveler_list' %}{% endif %}"
-              class="{% if request.resolver_match.app_name == 'bookings' and request.resolver_match.url_name == 'guide_list' or request.resolver_match.app_name == 'bookings' and request.resolver_match.url_name == 'traveler_list' %}c-button c-button--ghost hidden! md:inline-flex! c-nav__collapse-on-overflow bg-(--surface-2) text-(--color-brand-500) font-semibold{% else %}c-button c-button--ghost hidden! md:inline-flex! c-nav__collapse-on-overflow{% endif %}"
-            >
-              {% trans "Reservas" %}
-              {% if user.is_guide and unseen_guide_bookings|default:0 %}
-                <span class="c-nav__badge">{{ unseen_guide_bookings }}</span>
-              {% elif not user.is_guide and unseen_traveler_bookings|default:0 %}
-                <span class="c-nav__badge">{{ unseen_traveler_bookings }}</span>
-              {% endif %}
-            </a>
-          {% else %}
-            <a href="{% url 'pages:dashboard' %}" class="c-button c-button--ghost hidden! md:inline-flex! c-nav__collapse-on-overflow">
-              {% trans "Mi panel" %}
-            </a>
-          {% endif %}
+          <a
+            href="{% if user.is_guide %}{% url 'bookings:guide_list' %}{% else %}{% url 'bookings:traveler_list' %}{% endif %}"
+            class="{% if request.resolver_match.app_name == 'bookings' and request.resolver_match.url_name == 'guide_list' or request.resolver_match.app_name == 'bookings' and request.resolver_match.url_name == 'traveler_list' %}c-button c-button--ghost hidden! md:inline-flex! c-nav__collapse-on-overflow bg-(--surface-2) text-(--color-brand-500) font-semibold{% else %}c-button c-button--ghost hidden! md:inline-flex! c-nav__collapse-on-overflow{% endif %}"
+          >
+            {% trans "Reservas" %}
+            {% if user.is_guide and unseen_guide_bookings|default:0 %}
+              <span class="c-nav__badge">{{ unseen_guide_bookings }}</span>
+            {% elif not user.is_guide and unseen_traveler_bookings|default:0 %}
+              <span class="c-nav__badge">{{ unseen_traveler_bookings }}</span>
+            {% endif %}
+          </a>
 
           <details class="relative account-dd hidden md:block c-nav__collapse-on-overflow">
             <summary class="list-none cursor-pointer">
@@ -154,11 +145,6 @@
           </details>
 
         {% else %}
-          {% if variant == 'landing' %}
-            <a href="#waitlist" class="c-button c-button--primary hidden! lg:inline-flex! c-nav__collapse-on-overflow">
-              {% trans "Quiero acceso" %}
-            </a>
-          {% endif %}
           <a href="{% url 'accounts:login' %}" class="c-button c-button--ghost hidden! lg:inline-flex! c-nav__collapse-on-overflow">
             {% trans "Login" %}
           </a>
@@ -180,18 +166,6 @@
                 <a href="{% url 'pages:home' %}#waitlist" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
                   {% trans "Acceso" %}
                 </a>
-              {% elif variant == 'landing' %}
-                <a href="#waitlist" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
-                  {% trans "Acceso" %}
-                </a>
-                {% if not user.is_authenticated %}
-                  <a href="{% url 'accounts:login' %}" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
-                    {% trans "Login" %}
-                  </a>
-                  <a href="#waitlist" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
-                    {% trans "Quiero acceso" %}
-                  </a>
-                {% endif %}
               {% else %}
                 {% if user.is_authenticated %}
                   {% include "includes/layout/navbar_account_menu_links.html" with show_booking_badge=True %}
@@ -221,13 +195,6 @@
                 <a href="{% url 'pages:home' %}#waitlist" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
                   {% trans "Acceso" %}
                 </a>
-              {% elif variant == 'landing' %}
-                <a href="#how" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
-                  {% trans "Cómo funciona" %}
-                </a>
-                <a href="#waitlist" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
-                  {% trans "Acceso" %}
-                </a>
               {% else %}
                 <a
                   href="{% url 'experiences:list' %}"
@@ -240,11 +207,6 @@
               {% if not PRELAUNCH_MODE and user.is_authenticated %}
                 {% include "includes/layout/navbar_account_menu_links.html" %}
               {% elif not PRELAUNCH_MODE %}
-                {% if variant == 'landing' %}
-                  <a href="#waitlist" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
-                    {% trans "Quiero acceso" %}
-                  </a>
-                {% endif %}
                 <div class="my-1 h-px bg-(--border)"></div>
                 <a href="{% url 'accounts:login' %}" class="block rounded-xl px-3 py-2 u-text hover:bg-(--border)">
                   {% trans "Login" %}

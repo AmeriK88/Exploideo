@@ -18,12 +18,18 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
 
+from django.conf import settings
 from django.urls import reverse
 
 from .models import NewsletterSubscriber
 
 
-def home_view(request):
+def _build_app_home_context():
+    """Build the context for the real Exploideo homepage.
+
+    Kept as a standalone helper so it can be reused/tested independently
+    of the request/response cycle that decides which template to render.
+    """
     categories = Category.objects.all()
 
     featured_experiences = (
@@ -53,12 +59,33 @@ def home_view(request):
         "helper_text": "✨ Experiencias sin buses: sin prisas, a tu ritmo.",
     }
 
-    return render(request, "pages/home.html", {
+    return {
         "featured_experiences": featured_experiences,
         "home_reviews": home_reviews,
         "search_cfg": search_cfg,
         "categories": categories,
-    })
+    }
+
+
+def home_view(request):
+    """Canonical homepage for ``pages:home``.
+
+    Renders the prelaunch landing/waitlist when ``PRELAUNCH_MODE`` is
+    enabled, otherwise renders the real Exploideo homepage.
+    """
+    if getattr(settings, "PRELAUNCH_MODE", False):
+        return render(request, "pages/landing/landing.html")
+
+    return render(request, "pages/home.html", _build_app_home_context())
+
+
+def app_home_redirect(request):
+    """Legacy ``/app/`` route kept as a temporary redirect to ``pages:home``.
+
+    ``/app/`` is no longer a homepage of its own; it only exists so old
+    links/bookmarks still land on the canonical homepage.
+    """
+    return redirect("pages:home")
 
 
 @login_required
@@ -352,6 +379,3 @@ def newsletter_subscribe(request):
         messages.info(request, _("Ese email ya estaba registrado 😉 (si añadiste info extra, queda guardada)"))
 
     return redirect(next_url)
-
-def landing_view(request):
-    return render(request, "pages/landing/landing.html")
