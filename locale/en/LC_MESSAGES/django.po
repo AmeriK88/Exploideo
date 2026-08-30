@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-28 21:56+0000\n"
+"POT-Creation-Date: 2026-08-29 20:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: English <LL@li.org>\n"
@@ -17,32 +17,881 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\apps\pages\views.py:310
+#: .\apps\accounts\forms.py:9
+msgid "Rol"
+msgstr "Role"
+
+#: .\apps\accounts\forms.py:15
+msgid "Nombre de usuario"
+msgstr "Username"
+
+#: .\apps\accounts\forms.py:16
+msgid "Correo electrónico"
+msgstr "Email"
+
+#: .\apps\accounts\forms.py:32
+msgid "Entiendo que esta acción es permanente y desactiva mi cuenta."
+msgstr "I understand that this action is permanent and disables my account."
+
+#: .\apps\accounts\forms.py:36
+msgid "Escribe \"ELIMINAR PERMANENTEMENTE\" para confirmar"
+msgstr "Type \"ELIMINAR PERMANENTEMENTE\" to confirm"
+
+#: .\apps\accounts\forms.py:37
+msgid "Esto evita eliminaciones accidentales."
+msgstr "This prevents accidental deletions."
+
+#: .\apps\accounts\forms.py:44
+msgid "Debes escribir exactamente: ELIMINAR PERMANENTEMENTE"
+msgstr "You must write exactly: ELIMINAR PERMANENTEMENTE"
+
+#: .\apps\accounts\models.py:7 .\apps\messages\models.py:69
+#: .\apps\pages\models.py:25
+#: .\templates\includes\landing\waitlist_section.html:90
+#: .\templates\pages\home.html:306
+msgid "Viajero"
+msgstr "Traveler"
+
+#: .\apps\accounts\models.py:8 .\apps\messages\models.py:70
+#: .\apps\pages\models.py:26
+#: .\templates\includes\landing\waitlist_section.html:91
+#: .\templates\pages\home.html:259 .\templates\pages\landing\landing.html:139
+msgid "Guía"
+msgstr "Guide"
+
+#: .\apps\availability\forms.py:7
+msgid "Lun"
+msgstr "Mon"
+
+#: .\apps\availability\forms.py:8
+msgid "Mar"
+msgstr "Tue"
+
+#: .\apps\availability\forms.py:9
+msgid "Mié"
+msgstr "Wed"
+
+#: .\apps\availability\forms.py:10
+msgid "Jue"
+msgstr "Thu"
+
+#: .\apps\availability\forms.py:11
+msgid "Vie"
+msgstr "Fri"
+
+#: .\apps\availability\forms.py:12
+msgid "Sáb"
+msgstr "Sat"
+
+#: .\apps\availability\forms.py:13
+msgid "Dom"
+msgstr "Sun"
+
+#: .\apps\availability\forms.py:29
+msgid "Días de la semana permitidos"
+msgstr "Allowed days of the week"
+
+#: .\apps\availability\forms.py:30
+msgid ""
+"Si no seleccionas nada, se permitirán reservas cualquier día de la semana."
+msgstr ""
+"Si no seleccionas nada, se permitirán reservas cualquier día de la semana."
+
+#: .\apps\availability\forms.py:47
+msgid "Ej: 18 (vacío = sin límite)"
+msgstr "Ej: 18 (vacío = sin límite)"
+
+#: .\apps\availability\forms.py:48
+msgid "Ej: 3 (vacío = sin límite)"
+msgstr "Ej: 3 (vacío = sin límite)"
+
+#: .\apps\availability\forms.py:49
+msgid "Ej: 6 (vacío = sin límite)"
+msgstr "Ej: 6 (vacío = sin límite)"
+
+#: .\apps\availability\forms.py:52
+msgid "Reservas abiertas"
+msgstr "Bookings open"
+
+#: .\apps\availability\forms.py:53
+msgid "Fecha inicio"
+msgstr "Start date"
+
+#: .\apps\availability\forms.py:54
+msgid "Fecha fin"
+msgstr "End date"
+
+#: .\apps\availability\forms.py:55
+msgid "Capacidad diaria (personas)"
+msgstr "Daily capacity (people)"
+
+#: .\apps\availability\forms.py:56
+msgid "Max de excursiones (por día)"
+msgstr "Max excursions (per day)"
+
+#: .\apps\availability\forms.py:57
+msgid "Max por reserva (personas)"
+msgstr "Max per booking (people)"
+
+#: .\apps\availability\forms.py:61
+msgid ""
+"Actívalo para aceptar nuevas reservas. Si lo desactivas, la experiencia "
+"seguirá visible pero no permitirá reservar."
+msgstr ""
+"Actívalo para aceptar nuevas reservas. Si lo desactivas, la experiencia "
+"seguirá visible pero no permitirá reservar."
+
+#: .\apps\availability\forms.py:64
+msgid "Opcional. Primera fecha en la que se permiten reservas."
+msgstr "Opcional. Primera fecha en la que se permiten reservas."
+
+#: .\apps\availability\forms.py:65
+msgid "Opcional. Última fecha en la que se permiten reservas."
+msgstr "Opcional. Última fecha en la que se permiten reservas."
+
+#: .\apps\availability\forms.py:66
+msgid ""
+"Límite total de personas aceptadas en un mismo día. (Vacío = sin límite)"
+msgstr ""
+"Límite total de personas aceptadas en un mismo día. (Vacío = sin límite)"
+
+#: .\apps\availability\forms.py:67
+msgid "Número máximo de reservas aceptadas por día. (Vacío = sin límite)"
+msgstr "Número máximo de reservas aceptadas por día. (Vacío = sin límite)"
+
+#: .\apps\availability\forms.py:69
+msgid ""
+"Límite de personas por reserva (por excursión). Útil si haces tours pequeños "
+"aunque el cupo diario sea mayor."
+msgstr ""
+"Límite de personas por reserva (por excursión). Útil si haces tours pequeños "
+"aunque el cupo diario sea mayor."
+
+#: .\apps\availability\forms.py:84
+msgid "La fecha fin no puede ser anterior a la fecha inicio."
+msgstr "La fecha fin no puede ser anterior a la fecha inicio."
+
+#: .\apps\billing\models.py:33
+msgid "Borrador"
+msgstr "Draft"
+
+#: .\apps\billing\models.py:34
+msgid "Emitida"
+msgstr "Issued"
+
+#: .\apps\billing\models.py:35
+msgid "Anulada"
+msgstr "Void"
+
+#: .\apps\billing\models.py:39
+msgid "Ordinaria"
+msgstr "Standard"
+
+#: .\apps\billing\models.py:40
+msgid "Rectificativa"
+msgstr "Rectificative"
+
+#: .\apps\bookings\forms.py:16 .\apps\bookings\forms.py:194
+msgid "Selecciona un idioma"
+msgstr "Selecciona un idioma"
+
+#: .\apps\bookings\forms.py:17 .\apps\bookings\forms.py:195
+#: .\apps\profiles\forms.py:62
+msgid "Idioma preferido"
+msgstr "Preferred language"
+
+#: .\apps\bookings\forms.py:35 .\apps\bookings\forms.py:225
+msgid "Este guía aún no ha configurado idiomas."
+msgstr "Este guía aún no ha configurado idiomas."
+
+#: .\apps\bookings\forms.py:40
+msgid "Tu ubicación o referencia"
+msgstr "Tu ubicación o referencia"
+
+#: .\apps\bookings\forms.py:45 .\apps\bookings\forms.py:51
+#: .\apps\bookings\forms.py:57
+msgid ""
+"Indica dónde te alojas o una referencia de tu ubicación para que el guía "
+"organice la logística. El guía te confirmará el punto de encuentro "
+"definitivo al aceptar la reserva."
+msgstr ""
+"Indica dónde te alojas o una referencia de tu ubicación para que el guía "
+"organice la logística. El guía te confirmará el punto de encuentro "
+"definitivo al aceptar la reserva."
+
+#: .\apps\bookings\forms.py:48
+msgid "Ej: Parking Mirador del Río / Gasolinera X"
+msgstr "Ej: Parking Mirador del Río / Gasolinera X"
+
+#: .\apps\bookings\forms.py:54
+msgid "Ej: Plaza central / Tienda de bicis X"
+msgstr "Ej: Plaza central / Tienda de bicis X"
+
+#: .\apps\bookings\forms.py:60
+msgid "Ej: Entrada principal / Punto exacto en Maps"
+msgstr "Ej: Entrada principal / Punto exacto en Maps"
+
+#: .\apps\bookings\forms.py:66 .\apps\bookings\forms.py:202
+msgid "Fecha"
+msgstr "Fecha"
+
+#: .\apps\bookings\forms.py:67 .\apps\bookings\forms.py:203
+msgid "Adultos"
+msgstr "Adultos"
+
+#: .\apps\bookings\forms.py:68 .\apps\bookings\forms.py:204
+msgid "Niños"
+msgstr "Niños"
+
+#: .\apps\bookings\forms.py:69 .\apps\bookings\forms.py:205
+msgid "Bebés"
+msgstr "Bebés"
+
+#: .\apps\bookings\forms.py:70 .\apps\bookings\forms.py:207
+msgid "Notas para el guía"
+msgstr "Notas para el guía"
+
+#: .\apps\bookings\forms.py:77
+msgid "Opcional: alergias, ritmo, restricciones, necesidades, etc."
+msgstr "Opcional: alergias, ritmo, restricciones, necesidades, etc."
+
+#: .\apps\bookings\forms.py:87 .\apps\bookings\forms.py:231
+msgid "Selecciona el idioma preferido para la experiencia."
+msgstr "Selecciona el idioma preferido para la experiencia."
+
+#: .\apps\bookings\forms.py:94 .\apps\bookings\forms.py:238
+msgid "El guía aún no ha configurado idiomas para esta experiencia."
+msgstr "El guía aún no ha configurado idiomas para esta experiencia."
+
+#: .\apps\bookings\forms.py:98
+msgid "Ese idioma no está disponible para este guía."
+msgstr "Ese idioma no está disponible para este guía."
+
+#: .\apps\bookings\forms.py:118
+msgid "Debe haber al menos 1 adulto."
+msgstr "Debe haber al menos 1 adulto."
+
+#: .\apps\bookings\forms.py:122
+msgid "Debes indicar al menos 1 persona."
+msgstr "Debes indicar al menos 1 persona."
+
+#: .\apps\bookings\forms.py:129
+msgid "No puedes reservar en una fecha pasada."
+msgstr "No puedes reservar en una fecha pasada."
+
+#: .\apps\bookings\forms.py:132
+msgid "No se permiten reservas con menos de 24 hrs de antelación."
+msgstr "No se permiten reservas con menos de 24 hrs de antelación."
+
+#: .\apps\bookings\forms.py:141
+msgid ""
+"Indica tu ubicación o una referencia (el guía te confirmará el punto de "
+"encuentro exacto)."
+msgstr ""
+"Indica tu ubicación o una referencia (el guía te confirmará el punto de "
+"encuentro exacto)."
+
+#: .\apps\bookings\forms.py:144
+msgid "Revisa el formulario: hay campos con errores."
+msgstr "Revisa el formulario: hay campos con errores."
+
+#: .\apps\bookings\forms.py:165
+msgid "Punto de encuentro"
+msgstr "Meeting point"
+
+#: .\apps\bookings\forms.py:166
+msgid "Indica el punto exacto donde os encontraréis."
+msgstr "Indica el punto exacto donde os encontraréis."
+
+#: .\apps\bookings\forms.py:176
+msgid "Indica un motivo para rechazar la reserva."
+msgstr "Indica un motivo para rechazar la reserva."
+
+#: .\apps\bookings\forms.py:179
+msgid "Indica la hora de recogida/encuentro para aceptar la reserva."
+msgstr "Indica la hora de recogida/encuentro para aceptar la reserva."
+
+#: .\apps\bookings\forms.py:184
+msgid ""
+"Para aceptar, indica al menos el punto de encuentro o un mensaje para el "
+"viajero."
+msgstr ""
+"Para aceptar, indica al menos el punto de encuentro o un mensaje para el "
+"viajero."
+
+#: .\apps\bookings\forms.py:206
+msgid "Ubicación o referencia"
+msgstr "Ubicación o referencia"
+
+#: .\apps\bookings\models.py:30 .\apps\experiences\models.py:48
+msgid "Vehículo propio"
+msgstr "Own vehicle"
+
+#: .\apps\bookings\models.py:31 .\apps\experiences\models.py:49
+msgid "Bicicleta"
+msgstr "Bicycle"
+
+#: .\apps\bookings\models.py:32 .\apps\experiences\models.py:50
+msgid "A pie"
+msgstr "On foot"
+
+#: .\apps\bookings\models.py:33
+msgid "Minibus"
+msgstr "Minibus"
+
+#: .\apps\bookings\models.py:36 .\apps\profiles\models.py:9
+#: .\apps\reviews\models.py:13
+msgid "Pendiente"
+msgstr "Pending"
+
+#: .\apps\bookings\models.py:37
+msgid "Aceptada"
+msgstr "Accepted"
+
+#: .\apps\bookings\models.py:38
+msgid "Rechazada"
+msgstr "Rejected"
+
+#: .\apps\bookings\models.py:39
+msgid "Cancelada"
+msgstr "Canceled"
+
+#: .\apps\bookings\models.py:40
+msgid "Cambio solicitado"
+msgstr "Change requested"
+
+#: .\apps\bookings\models.py:41
+msgid "Cancelación solicitada"
+msgstr "Cancel requested"
+
+#: .\apps\experiences\forms.py:29
+msgid "Categoría"
+msgstr "Category"
+
+#: .\apps\experiences\forms.py:30
+msgid "Título"
+msgstr "Title"
+
+#: .\apps\experiences\forms.py:31
+msgid "Descripción"
+msgstr "Description"
+
+#: .\apps\experiences\forms.py:32
+msgid "Imagen"
+msgstr "Image"
+
+#: .\apps\experiences\forms.py:33
+msgid "Precio (€)"
+msgstr "Price (€)"
+
+#: .\apps\experiences\forms.py:34
+msgid "Duración (minutos)"
+msgstr "Duration (minutes)"
+
+#: .\apps\experiences\forms.py:35
+msgid "Ubicación visible"
+msgstr "Visible location"
+
+#: .\apps\experiences\forms.py:36 .\apps\profiles\forms.py:63
+msgid "País"
+msgstr "Country"
+
+#: .\apps\experiences\forms.py:37
+msgid "Región"
+msgstr "Region"
+
+#: .\apps\experiences\forms.py:38
+msgid "Provincia"
+msgstr "Province"
+
+#: .\apps\experiences\forms.py:39
+#: .\templates\components\experience_search_card.html:64
+msgid "Isla"
+msgstr "Island"
+
+#: .\apps\experiences\forms.py:40 .\apps\profiles\forms.py:64
+#: .\templates\components\experience_search_card.html:75
+msgid "Ciudad"
+msgstr "City"
+
+#: .\apps\experiences\forms.py:41
+msgid "Modo de desplazamiento requerido"
+msgstr "Required transport mode"
+
+#: .\apps\experiences\forms.py:42
+msgid "Dificultad"
+msgstr "Difficulty"
+
+#: .\apps\experiences\forms.py:43 .\apps\messages\models.py:24
+msgid "Activa"
+msgstr "Active"
+
+#: .\apps\experiences\forms.py:47
+msgid ""
+"Texto descriptivo para mostrar al usuario (ej: Mirador del Rio, Lanzarote)."
+msgstr ""
+"Texto descriptivo para mostrar al usuario (ej: Mirador del Rio, Lanzarote)."
+
+#: .\apps\experiences\forms.py:48
+msgid "Opcional. País donde se realiza la experiencia."
+msgstr "Opcional. País donde se realiza la experiencia."
+
+#: .\apps\experiences\forms.py:49
+msgid "Opcional. Comunidad o región."
+msgstr "Opcional. Comunidad o región."
+
+#: .\apps\experiences\forms.py:50
+msgid "Opcional. Provincia."
+msgstr "Opcional. Provincia."
+
+#: .\apps\experiences\forms.py:51
+msgid "Campo estructurado para filtros por isla."
+msgstr "Campo estructurado para filtros por isla."
+
+#: .\apps\experiences\forms.py:52
+msgid "Campo estructurado para filtros por ciudad."
+msgstr "Campo estructurado para filtros por ciudad."
+
+#: .\apps\experiences\forms.py:53
+msgid "Define a qué público va dirigida (afecta a reservas con menores)."
+msgstr "Define a qué público va dirigida (afecta a reservas con menores)."
+
+#: .\apps\experiences\forms.py:54
+msgid ""
+"Este modo lo verá el viajero y se aplicará automáticamente a nuevas reservas."
+msgstr ""
+"Este modo lo verá el viajero y se aplicará automáticamente a nuevas reservas."
+
+#: .\apps\experiences\forms.py:58
+msgid "Zona o punto visible para el viajero"
+msgstr "Zona o punto visible para el viajero"
+
+#: .\apps\experiences\forms.py:59
+msgid "Ej: Lanzarote"
+msgstr "Ej: Lanzarote"
+
+#: .\apps\experiences\forms.py:60
+msgid "Ej: Teguise"
+msgstr "Ej: Teguise"
+
+#: .\apps\experiences\models.py:59
+#: .\templates\components\experience_card.html:92
+msgid "Fácil"
+msgstr "Easy"
+
+#: .\apps\experiences\models.py:60
+msgid "Moderada"
+msgstr "Moderate"
+
+#: .\apps\experiences\models.py:61
+#: .\templates\components\experience_card.html:98
+msgid "Difícil"
+msgstr "Hard"
+
+#: .\apps\experiences\models.py:206
+msgid "Traducción de categoría"
+msgstr "Traducción de categoría"
+
+#: .\apps\experiences\models.py:207
+msgid "Traducciones de categoría"
+msgstr "Traducciones de categoría"
+
+#: .\apps\experiences\models.py:229
+#| msgid "Editor de experiencias"
+msgid "Traducción de experiencia"
+msgstr "Experience editor"
+
+#: .\apps\experiences\models.py:230
+#| msgid "Editor de experiencias"
+msgid "Traducciones de experiencia"
+msgstr "Experience editor"
+
+#: .\apps\messages\models.py:25
+msgid "Cerrada"
+msgstr "Closed"
+
+#: .\apps\messages\models.py:26
+msgid "Bloqueada"
+msgstr "Blocked"
+
+#: .\apps\messages\models.py:127
+msgid "Texto"
+msgstr "Text"
+
+#: .\apps\messages\models.py:128
+msgid "Sistema"
+msgstr "System"
+
+#: .\apps\pages\models.py:7
+#: .\templates\includes\landing\waitlist_section.html:79
+#: .\templates\includes\layout\footer.html:48 .\templates\pages\home.html:29
+msgid "Canarias"
+msgstr "Canary Islands"
+
+#: .\apps\pages\models.py:8
+#: .\templates\includes\landing\waitlist_section.html:80
+msgid "Península"
+msgstr "Mainland Spain"
+
+#: .\apps\pages\models.py:9
+#: .\templates\includes\landing\waitlist_section.html:81
+msgid "Baleares"
+msgstr "Balearic Islands"
+
+#: .\apps\pages\models.py:10
+#: .\templates\includes\landing\waitlist_section.html:82
+msgid "Extranjero"
+msgstr "Abroad"
+
+#: .\apps\pages\models.py:11
+#: .\templates\includes\landing\waitlist_section.html:78
+#: .\templates\includes\landing\waitlist_section.html:89
+msgid "Prefiero no decirlo"
+msgstr "Prefer not to say"
+
+#: .\apps\pages\models.py:14
+#: .\templates\includes\landing\waitlist_section.html:102
+msgid "Lanzarote"
+msgstr "Lanzarote"
+
+#: .\apps\pages\models.py:15
+#: .\templates\includes\landing\waitlist_section.html:103
+msgid "Fuerteventura"
+msgstr "Fuerteventura"
+
+#: .\apps\pages\models.py:16
+#: .\templates\includes\landing\waitlist_section.html:104
+msgid "Gran Canaria"
+msgstr "Gran Canaria"
+
+#: .\apps\pages\models.py:17
+#: .\templates\includes\landing\waitlist_section.html:105
+msgid "Tenerife"
+msgstr "Tenerife"
+
+#: .\apps\pages\models.py:18
+#: .\templates\includes\landing\waitlist_section.html:106
+msgid "La Gomera"
+msgstr "La Gomera"
+
+#: .\apps\pages\models.py:19
+#: .\templates\includes\landing\waitlist_section.html:107
+msgid "La Palma"
+msgstr "La Palma"
+
+#: .\apps\pages\models.py:20
+#: .\templates\includes\landing\waitlist_section.html:108
+msgid "El Hierro"
+msgstr "El Hierro"
+
+#: .\apps\pages\models.py:21
+#: .\templates\includes\landing\waitlist_section.html:109
+msgid "La Graciosa"
+msgstr "La Graciosa"
+
+#: .\apps\pages\models.py:22
+msgid "Otra / no aplica"
+msgstr "Otra / no aplica"
+
+#: .\apps\pages\models.py:27
+#: .\templates\includes\landing\waitlist_section.html:92
+msgid "Ambos"
+msgstr "Both"
+
+#: .\apps\pages\models.py:28
+msgid "No lo sé / prefiero no decirlo"
+msgstr "No lo sé / prefiero no decirlo"
+
+#: .\apps\pages\views.py:337
 msgid "Necesitamos tu consentimiento para poder avisarte por email."
-msgstr ""
+msgstr "Necesitamos tu consentimiento para poder avisarte por email."
 
-#: .\apps\pages\views.py:316
+#: .\apps\pages\views.py:343
 msgid "Ese email no parece válido."
-msgstr ""
+msgstr "Ese email no parece válido."
 
-#: .\apps\pages\views.py:350
-#, fuzzy
-#| msgid "Te avisaremos cuando abramos acceso. Nada más."
+#: .\apps\pages\views.py:377
 msgid "¡Listo! Te avisaremos cuando haya novedades."
-msgstr "We'll notify you when access opens. Nothing else."
+msgstr "¡Listo! Te avisaremos cuando haya novedades."
 
-#: .\apps\pages\views.py:352
+#: .\apps\pages\views.py:379
 msgid ""
 "Ese email ya estaba registrado 😉 (si añadiste info extra, queda guardada)"
-msgstr "That email is already registered 😉 (if you added extra info, it has been saved)"
+msgstr ""
+"That email is already registered 😉 (if you added extra info, it has been "
+"saved)"
+
+#: .\apps\profiles\forms.py:12
+msgid "Idiomas que hablas"
+msgstr "Languages you speak"
+
+#: .\apps\profiles\forms.py:29 .\apps\profiles\forms.py:60
+msgid "Nombre público"
+msgstr "Display name"
+
+#: .\apps\profiles\forms.py:30
+msgid "Biografía / Presentación"
+msgstr "Bio / Presentation"
+
+#: .\apps\profiles\forms.py:31 .\apps\profiles\forms.py:61
+msgid "Teléfono"
+msgstr "Phone"
+
+#: .\apps\profiles\forms.py:32
+msgid "Instagram"
+msgstr "Instagram"
+
+#: .\apps\profiles\forms.py:33
+msgid "Sitio web"
+msgstr "Website"
+
+#: .\apps\profiles\forms.py:34
+msgid "Foto de perfil"
+msgstr "Profile picture"
+
+#: .\apps\profiles\forms.py:35
+msgid "Acreditación de guía oficial"
+msgstr "Official guide license"
+
+#: .\apps\profiles\forms.py:36
+msgid "Seguro RC o documento de autónomo/empresa"
+msgstr "Liability insurance or registration document"
+
+#: .\apps\profiles\forms.py:46
+msgid "Selecciona al menos un idioma."
+msgstr "Selecciona al menos un idioma."
+
+#: .\apps\profiles\forms.py:52
+msgid "Nombre"
+msgstr "First name"
+
+#: .\apps\profiles\forms.py:53
+msgid "Apellidos"
+msgstr "Last name"
+
+#: .\apps\profiles\forms.py:54
+#: .\templates\includes\landing\waitlist_section.html:62
+#: .\templates\includes\layout\footer.html:21
+msgid "Email"
+msgstr "Email"
+
+#: .\apps\profiles\models.py:10
+msgid "Verificado"
+msgstr "Verificado"
+
+#: .\apps\profiles\models.py:11
+msgid "Rechazado"
+msgstr "Rechazado"
+
+#: .\apps\reviews\forms.py:19
+msgid "Cuenta tu experiencia..."
+msgstr "Share your experience..."
+
+#: .\apps\reviews\forms.py:24
+msgid "Calificación"
+msgstr "Rating"
+
+#: .\apps\reviews\forms.py:25
+msgid "Comentario"
+msgstr "Comment"
+
+#: .\apps\reviews\models.py:14
+msgid "Publicada"
+msgstr "Publicada"
+
+#: .\apps\reviews\models.py:15
+msgid "Reportada"
+msgstr "Reportada"
 
 #: .\config\settings.py:151
 msgid "Spanish"
 msgstr "Spanish"
 
-#: .\config\settings.py:152
+#: .\config\settings.py:152 .\core\models.py:7
 msgid "English"
 msgstr "English"
+
+#: .\core\models.py:6
+msgid "Español"
+msgstr "Spanish"
+
+#: .\core\models.py:8
+msgid "Deutsch"
+msgstr "German"
+
+#: .\core\models.py:9
+msgid "Français"
+msgstr "French"
+
+#: .\core\models.py:10
+msgid "Italiano"
+msgstr "Italian"
+
+#: .\core\models.py:11
+msgid "Português"
+msgstr "Portuguese"
+
+#: .\core\models.py:13
+msgid "Nederlands"
+msgstr "Dutch"
+
+#: .\core\models.py:14
+msgid "Svenska"
+msgstr "Swedish"
+
+#: .\core\models.py:15
+msgid "Polski"
+msgstr "Polish"
+
+#: .\core\models.py:16
+msgid "Dansk"
+msgstr "Danish"
+
+#: .\core\models.py:17
+msgid "Suomi"
+msgstr "Finnish"
+
+#: .\core\models.py:18
+msgid "中文 (Chinese)"
+msgstr "Chinese"
+
+#: .\templates\components\experience_card.html:15
+#| msgid "Imagen"
+msgid "Sin imagen"
+msgstr "Image"
+
+#: .\templates\components\experience_card.html:48
+#| msgid "Guías verificados"
+msgid "Guía verificado"
+msgstr "Verified guides"
+
+#: .\templates\components\experience_card.html:50
+#| msgid "Guías locales"
+msgid "Guía local"
+msgstr "Local guides"
+
+#: .\templates\components\experience_card.html:59
+msgid "de ti"
+msgstr "de ti"
+
+#: .\templates\components\experience_card.html:93
+#| msgid "Aceptar todo"
+msgid "Apta para todos"
+msgstr "Accept all"
+
+#: .\templates\components\experience_card.html:95
+#| msgid "Moderada"
+msgid "Moderado"
+msgstr "Moderate"
+
+#: .\templates\components\experience_card.html:96
+msgid "Menores acompañados"
+msgstr "Minors accompanied"
+
+#: .\templates\components\experience_card.html:99
+msgid "Sin menores"
+msgstr "No minors"
+
+#: .\templates\components\experience_card.html:109
+msgid "por adulto"
+msgstr "por adulto"
+
+#: .\templates\components\experience_card.html:113
+msgid "Info"
+msgstr "Info"
+
+#: .\templates\components\experience_search_card.html:24
+msgid "¿A dónde quieres ir? (volcanes, atardecer...)"
+msgstr "¿A dónde quieres ir? (volcanes, atardecer...)"
+
+#: .\templates\components\experience_search_card.html:40
+#| msgid "Terminación"
+msgid "Duración"
+msgstr "Termination"
+
+#: .\templates\components\experience_search_card.html:53
+#| msgid "Precio (€)"
+msgid "Precio máx"
+msgstr "Price (€)"
+
+#: .\templates\components\experience_search_card.html:82
+msgid "Buscar"
+msgstr "Buscar"
+
+#: .\templates\components\experience_search_card.html:92
+#| msgid "Crear cuenta de guía"
+msgid "Cerca de mí activo"
+msgstr "Create a guide account"
+
+#: .\templates\components\experience_search_card.html:92
+#| msgid "Crear cuenta de guía"
+msgid "Cerca de mí"
+msgstr "Create a guide account"
+
+#: .\templates\components\experience_search_card.html:100
+msgid "Mostrando experiencias cerca de tu ubicación."
+msgstr "Mostrando experiencias cerca de tu ubicación."
+
+#: .\templates\components\experience_search_card.html:102
+msgid "Ordena por proximidad con tu ubicación actual."
+msgstr "Ordena por proximidad con tu ubicación actual."
+
+#: .\templates\components\experience_search_card.html:107
+#| msgid "Experiencias sin filtro"
+msgid "Experiencias sin buses"
+msgstr "Unfiltered experiences"
+
+#: .\templates\components\experience_search_card.html:109
+msgid "Sin prisas y a tu ritmo: coche, caminando o bici. Solo tú y el destino."
+msgstr "Sin prisas y a tu ritmo: coche, caminando o bici. Solo tú y el destino."
+
+#: .\templates\experiences\list.html:3
+#| msgid "Ver experiencias"
+msgid "Experiencias"
+msgstr "View experiences"
+
+#: .\templates\experiences\list.html:15
+#| msgid "Ver experiencias"
+msgid "Descubre experiencias"
+msgstr "View experiences"
+
+#: .\templates\experiences\list.html:16
+msgid "Explora rutas, volcanes, calas y planes únicos con guías locales."
+msgstr "Explore routes, volcanoes, coves and unique plans with local guides."
+
+#: .\templates\experiences\list.html:17
+#| msgid "Ver experiencias"
+msgid "+ Crear experiencia"
+msgstr "View experiences"
+
+#: .\templates\experiences\list.html:30
+msgid "Mostrando experiencias cerca de tu ubicación actual."
+msgstr "Showing experiences near your current location."
+
+#: .\templates\experiences\list.html:33
+msgid "Ups… no encontramos nada 😅"
+msgstr "Oops… we found nothing 😅"
+
+#: .\templates\experiences\list.html:34
+msgid "Prueba con otros términos o limpia los filtros."
+msgstr "Try other terms or clear filters."
+
+#: .\templates\experiences\list.html:35
+msgid "Limpiar filtros"
+msgstr "Clear filters"
+
+#: .\templates\experiences\list.html:37
+msgid "No hay experiencias activas todavía"
+msgstr "There are no active experiences yet"
+
+#: .\templates\experiences\list.html:38
+msgid "Vuelve más tarde o ajusta los filtros."
+msgstr "Come back later or adjust filters."
+
+#: .\templates\experiences\list.html:39 .\templates\pages\home.html:70
+#: .\templates\pages\home.html:480
+msgid "Ver experiencias"
+msgstr "View experiences"
 
 #: .\templates\includes\cookies\banner_flow.html:9
 #: .\templates\pages\cookie_policy.html:12
@@ -441,7 +1290,7 @@ msgstr "Experiences with a personal touch"
 
 #: .\templates\includes\landing\features_section.html:16
 msgid "Cada guía aporta su estilo: ruta, ritmo, enfoque y trato personalizado."
-msgstr ""
+msgstr "Cada guía aporta su estilo: ruta, ritmo, enfoque y trato personalizado."
 "Each guide brings their own style: route, pace, approach, and personal touch."
 
 #: .\templates\includes\landing\features_section.html:17
@@ -487,6 +1336,10 @@ msgid "Trabaja bajo tus reglas."
 msgstr "Work on your own terms."
 
 #: .\templates\includes\landing\guides_section.html:15
+#| msgid ""
+#| "              Exploideo no te consigue volumen. Te da "
+#| "estructura.              Agenda real, cupos definidos, condiciones claras "
+#| "y reservas con previsión.              "
 msgid ""
 "\n"
 "              Exploideo no te consigue volumen. Te da estructura.\n"
@@ -494,11 +1347,9 @@ msgid ""
 "con previsión.\n"
 "              "
 msgstr ""
-"\n"
-"              Exploideo doesn’t promise volume. It gives you structure.\n"
-"              Real availability, defined capacity, clear terms, and "
-"predictable bookings.\n"
-"              "
+"              Exploideo doesn’t promise volume. It gives you "
+"structure.              Real availability, defined capacity, clear terms, "
+"and predictable bookings.              "
 
 #: .\templates\includes\landing\guides_section.html:26
 msgid "Sin cuotas fijas · Sin contratos que te aten"
@@ -595,9 +1446,7 @@ msgstr "Your experience is premium. Your management should be too."
 
 #: .\templates\includes\landing\how_section.html:5
 #: .\templates\includes\layout\navbar.html:28
-#: .\templates\includes\layout\navbar.html:31
-#: .\templates\includes\layout\navbar.html:219
-#: .\templates\includes\layout\navbar.html:226 .\templates\pages\home.html:342
+#: .\templates\includes\layout\navbar.html:198 .\templates\pages\home.html:342
 msgid "Cómo funciona"
 msgstr "How it works"
 
@@ -606,6 +1455,11 @@ msgid "Reserva con contexto. Gestiona sin caos."
 msgstr "Book with context. Manage without chaos."
 
 #: .\templates\includes\landing\how_section.html:8
+#| msgid ""
+#| "          Aquí no vas a ciegas: ves <span class=\"font-semibold u-"
+#| "text\">qué incluye</span>,          <span class=\"font-semibold u-"
+#| "text\">cómo será</span> y          <span class=\"font-semibold u-"
+#| "text\">en qué punto está</span> tu solicitud en todo momento.        "
 msgid ""
 "\n"
 "          Aquí no vas a ciegas: ves <span class=\"font-semibold u-text\">qué "
@@ -615,13 +1469,10 @@ msgid ""
 "solicitud en todo momento.\n"
 "        "
 msgstr ""
-"\n"
 "          You never book blindly: see <span class=\"font-semibold u-"
-"text\">what’s included</span>,\n"
-"          <span class=\"font-semibold u-text\">what to expect</span>, and\n"
-"          <span class=\"font-semibold u-text\">the exact status</span> of "
-"your request at all times.\n"
-"        "
+"text\">what’s included</span>,          <span class=\"font-semibold u-"
+"text\">what to expect</span>, and          <span class=\"font-semibold u-"
+"text\">the exact status</span> of your request at all times.        "
 
 #: .\templates\includes\landing\how_section.html:17
 msgid "Paso 1"
@@ -734,11 +1585,6 @@ msgstr "Guides"
 msgid "Reservas, métricas y facturación · sin cuota fija"
 msgstr "Bookings, metrics, and billing · no fixed fee"
 
-#: .\templates\includes\landing\waitlist_section.html:62
-#: .\templates\includes\layout\footer.html:21
-msgid "Email"
-msgstr "Email"
-
 #: .\templates\includes\landing\waitlist_section.html:63
 msgid "Te avisaremos cuando abramos acceso. Nada más."
 msgstr "We'll notify you when access opens. Nothing else."
@@ -751,45 +1597,9 @@ msgstr "Enter your email"
 msgid "¿Dónde estás?"
 msgstr "Where are you located?"
 
-#: .\templates\includes\landing\waitlist_section.html:78
-#: .\templates\includes\landing\waitlist_section.html:89
-msgid "Prefiero no decirlo"
-msgstr "Prefer not to say"
-
-#: .\templates\includes\landing\waitlist_section.html:79
-#: .\templates\includes\layout\footer.html:48 .\templates\pages\home.html:29
-msgid "Canarias"
-msgstr "Canary Islands"
-
-#: .\templates\includes\landing\waitlist_section.html:80
-msgid "Península"
-msgstr "Mainland Spain"
-
-#: .\templates\includes\landing\waitlist_section.html:81
-msgid "Baleares"
-msgstr "Balearic Islands"
-
-#: .\templates\includes\landing\waitlist_section.html:82
-msgid "Extranjero"
-msgstr "Abroad"
-
 #: .\templates\includes\landing\waitlist_section.html:87
 msgid "¿Eres…?"
 msgstr "Are you…?"
-
-#: .\templates\includes\landing\waitlist_section.html:90
-#: .\templates\pages\home.html:306
-msgid "Viajero"
-msgstr "Traveler"
-
-#: .\templates\includes\landing\waitlist_section.html:91
-#: .\templates\pages\home.html:259 .\templates\pages\landing\landing.html:139
-msgid "Guía"
-msgstr "Guide"
-
-#: .\templates\includes\landing\waitlist_section.html:92
-msgid "Ambos"
-msgstr "Both"
 
 #: .\templates\includes\landing\waitlist_section.html:99
 msgid "¿Qué isla?"
@@ -798,38 +1608,6 @@ msgstr "Which island?"
 #: .\templates\includes\landing\waitlist_section.html:101
 msgid "Elige una"
 msgstr "Choose one"
-
-#: .\templates\includes\landing\waitlist_section.html:102
-msgid "Lanzarote"
-msgstr "Lanzarote"
-
-#: .\templates\includes\landing\waitlist_section.html:103
-msgid "Fuerteventura"
-msgstr "Fuerteventura"
-
-#: .\templates\includes\landing\waitlist_section.html:104
-msgid "Gran Canaria"
-msgstr "Gran Canaria"
-
-#: .\templates\includes\landing\waitlist_section.html:105
-msgid "Tenerife"
-msgstr "Tenerife"
-
-#: .\templates\includes\landing\waitlist_section.html:106
-msgid "La Gomera"
-msgstr "La Gomera"
-
-#: .\templates\includes\landing\waitlist_section.html:107
-msgid "La Palma"
-msgstr "La Palma"
-
-#: .\templates\includes\landing\waitlist_section.html:108
-msgid "El Hierro"
-msgstr "El Hierro"
-
-#: .\templates\includes\landing\waitlist_section.html:109
-msgid "La Graciosa"
-msgstr "La Graciosa"
 
 #: .\templates\includes\landing\waitlist_section.html:110
 msgid "Otra"
@@ -900,9 +1678,8 @@ msgid "Publica y gestiona reservas desde tu panel."
 msgstr "Publish and manage bookings from your dashboard."
 
 #: .\templates\includes\layout\footer.html:75
-#: .\templates\includes\layout\navbar.html:46
-#: .\templates\includes\layout\navbar.html:101
-#: .\templates\includes\layout\navbar.html:129
+#: .\templates\includes\layout\navbar.html:43
+#: .\templates\includes\layout\navbar.html:120
 #: .\templates\includes\layout\navbar_account_menu_links.html:6
 msgid "Mi panel"
 msgstr "My dashboard"
@@ -996,91 +1773,84 @@ msgid "Enlaces principales"
 msgstr "Main links"
 
 #: .\templates\includes\layout\navbar.html:29
-#: .\templates\includes\layout\navbar.html:32
-#: .\templates\includes\layout\navbar.html:181
-#: .\templates\includes\layout\navbar.html:185
-#: .\templates\includes\layout\navbar.html:222
-#: .\templates\includes\layout\navbar.html:229
+#: .\templates\includes\layout\navbar.html:172
+#: .\templates\includes\layout\navbar.html:201
 msgid "Acceso"
 msgstr "Access"
 
-#: .\templates\includes\layout\navbar.html:38
-#: .\templates\includes\layout\navbar.html:236 .\templates\pages\home.html:487
+#: .\templates\includes\layout\navbar.html:35
+#: .\templates\includes\layout\navbar.html:208 .\templates\pages\home.html:487
 #: .\templates\pages\landing\landing.html:124
 #: .\templates\pages\landing\landing.html:130
 msgid "Explorar"
 msgstr "Explore"
 
-#: .\templates\includes\layout\navbar.html:53
-#: .\templates\includes\layout\navbar.html:143
+#: .\templates\includes\layout\navbar.html:50
+#: .\templates\includes\layout\navbar.html:139
 #: .\templates\includes\layout\navbar_account_menu_links.html:27
 msgid "Mensajes"
 msgstr "Messages"
 
-#: .\templates\includes\layout\navbar.html:64
+#: .\templates\includes\layout\navbar.html:61
 msgid "Selector de idioma"
 msgstr "Language selector"
 
-#: .\templates\includes\layout\navbar.html:72
+#: .\templates\includes\layout\navbar.html:69
 msgid "Idioma"
 msgstr "Language"
 
-#: .\templates\includes\layout\navbar.html:84
-#: .\templates\includes\layout\navbar.html:159
-#: .\templates\includes\layout\navbar.html:192
-#: .\templates\includes\layout\navbar.html:245
+#: .\templates\includes\layout\navbar.html:81
 msgid "Quiero acceso"
 msgstr "Get access"
 
-#: .\templates\includes\layout\navbar.html:92
-#: .\templates\includes\layout\navbar.html:136
+#: .\templates\includes\layout\navbar.html:88
+#: .\templates\includes\layout\navbar.html:127
 #: .\templates\includes\layout\navbar_account_menu_links.html:13
 #: .\templates\pages\terms_and_conditions.html:36
 msgid "Reservas"
 msgstr "Bookings"
 
-#: .\templates\includes\layout\navbar.html:116
+#: .\templates\includes\layout\navbar.html:107
 msgid "Menú de cuenta"
 msgstr "Account menu"
 
-#: .\templates\includes\layout\navbar.html:118
+#: .\templates\includes\layout\navbar.html:109
 msgid "Sesión iniciada como"
 msgstr "Signed in as"
 
-#: .\templates\includes\layout\navbar.html:150
+#: .\templates\includes\layout\navbar.html:146
 #: .\templates\includes\layout\navbar_account_menu_links.html:36
 msgid "Salir"
 msgstr "Log out"
 
-#: .\templates\includes\layout\navbar.html:163
-#: .\templates\includes\layout\navbar.html:189
-#: .\templates\includes\layout\navbar.html:200
-#: .\templates\includes\layout\navbar.html:250
+#: .\templates\includes\layout\navbar.html:154
+#: .\templates\includes\layout\navbar.html:179
+#: .\templates\includes\layout\navbar.html:217
 msgid "Login"
 msgstr "Log in"
 
-#: .\templates\includes\layout\navbar.html:166
-#: .\templates\includes\layout\navbar.html:253
+#: .\templates\includes\layout\navbar.html:157
+#: .\templates\includes\layout\navbar.html:220
 msgid "Registro"
 msgstr "Sign up"
 
-#: .\templates\includes\layout\navbar.html:172
+#: .\templates\includes\layout\navbar.html:163
 msgid "Más acciones"
 msgstr "More actions"
 
-#: .\templates\includes\layout\navbar.html:173
+#: .\templates\includes\layout\navbar.html:164
 msgid "Más"
 msgstr "More"
 
-#: .\templates\includes\layout\navbar.html:177
+#: .\templates\includes\layout\navbar.html:168
 msgid "Menú secundario"
 msgstr "Secondary menu"
 
-#: .\templates\includes\layout\navbar.html:211
+#: .\templates\includes\layout\navbar.html:190
 msgid "Menú"
 msgstr "Menu"
 
-#: .\templates\includes\layout\navbar.html:215
+#: .\templates\includes\layout\navbar.html:194
 msgid "Menú móvil"
 msgstr "Mobile menu"
 
@@ -1409,10 +2179,6 @@ msgstr "days, capacity, and spots per experience."
 msgid "Soy guía · Crear cuenta"
 msgstr "I'm a guide · Create account"
 
-#: .\templates\pages\home.html:70 .\templates\pages\home.html:480
-msgid "Ver experiencias"
-msgstr "View experiences"
-
 #: .\templates\pages\home.html:74 .\templates\pages\home.html:279
 #: .\templates\pages\home.html:484
 msgid "Ir a mi panel"
@@ -1501,7 +2267,7 @@ msgstr "🎯 Result"
 
 #: .\templates\pages\home.html:187
 msgid "Más conciliación, más previsión y menos estrés operativo."
-msgstr ""
+msgstr "Más conciliación, más previsión y menos estrés operativo."
 "Better work-life balance, more predictability, and less operational stress."
 
 #: .\templates\pages\home.html:207
@@ -1518,7 +2284,7 @@ msgstr "Minimum notice"
 
 #: .\templates\pages\home.html:214
 msgid "Reservas con margen (ej. 48h). Menos “para mañana”, más planificación."
-msgstr ""
+msgstr "Reservas con margen (ej. 48h). Menos “para mañana”, más planificación."
 "Bookings with breathing room (e.g., 48h). Less “for tomorrow”, more planning."
 
 #: .\templates\pages\home.html:219 .\templates\pages\landing\landing.html:64
@@ -1546,17 +2312,19 @@ msgid "Si eres guía"
 msgstr "If you're a guide"
 
 #: .\templates\pages\home.html:253
+#| msgid ""
+#| "                    Tú mandas: días, cupos, máximo de personas y "
+#| "políticas.                    Sin reservas de última hora. Con previsión "
+#| "real.                  "
 msgid ""
 "\n"
 "                    Tú mandas: días, cupos, máximo de personas y políticas.\n"
 "                    Sin reservas de última hora. Con previsión real.\n"
 "                  "
 msgstr ""
-"\n"
 "                    You're in control: days, capacity, max group size, and "
-"policies.\n"
-"                    No last-minute bookings. Real predictability.\n"
-"                  "
+"policies.                    No last-minute bookings. Real "
+"predictability.                  "
 
 #: .\templates\pages\home.html:263
 msgid "Bloquea fechas y controla disponibilidad real."
@@ -1572,7 +2340,7 @@ msgstr "Booking dashboard with statuses, changes, and notifications."
 
 #: .\templates\pages\home.html:266
 msgid "Control de facturas e ingresos sin tenerlo “por ahí suelto”."
-msgstr ""
+msgstr "Control de facturas e ingresos sin tenerlo “por ahí suelto”."
 "Keep invoices and income under control instead of having them scattered "
 "around."
 
@@ -1593,6 +2361,10 @@ msgid "Si viajas"
 msgstr "If you're traveling"
 
 #: .\templates\pages\home.html:300
+#| msgid ""
+#| "                    Menos “a ver si está confirmado”.                    "
+#| "Más claridad: condiciones, plazas reales y estados "
+#| "visibles.                  "
 msgid ""
 "\n"
 "                    Menos “a ver si está confirmado”.\n"
@@ -1600,11 +2372,9 @@ msgid ""
 "visibles.\n"
 "                  "
 msgstr ""
-"\n"
-"                    Less “let's see if it's confirmed”.\n"
-"                    More clarity: terms, real availability, and visible "
-"statuses.\n"
-"                  "
+"                    Less “let's see if it's confirmed”.                    "
+"More clarity: terms, real availability, and visible "
+"statuses.                  "
 
 #: .\templates\pages\home.html:310
 msgid "Explora por zona, precio, duración y tipo de plan."
@@ -1665,7 +2435,7 @@ msgstr "3) Clear confirmation"
 
 #: .\templates\pages\home.html:365
 msgid "El guía acepta/rechaza/cambia con estados visibles y notificaciones."
-msgstr ""
+msgstr "El guía acepta/rechaza/cambia con estados visibles y notificaciones."
 "The guide can accept, reject, or propose changes, with visible statuses and "
 "notifications."
 
@@ -1786,22 +2556,36 @@ msgid "sin improvisaciones."
 msgstr "no improvisation."
 
 #: .\templates\pages\landing\landing.html:37
+#| msgid ""
+#| "              Exploideo te ayuda a <span class=\"font-semibold u-"
+#| "text\">encontrar y reservar experiencias locales</span>              con "
+#| "<span class=\"font-semibold u-text\">grupos reducidos</"
+#| "span>,              <span class=\"font-semibold u-text\">condiciones "
+#| "claras</span> y              <span class=\"font-semibold u-"
+#| "text\">comunicación directa con el guía</span>.              Empezamos en "
+#| "<span class=\"font-semibold u-text\">Canarias</span> y creceremos hacia "
+#| "nuevos destinos.            "
 msgid ""
 "\n"
-"              Exploideo te ayuda a <span class=\"font-semibold u-text\">encontrar y reservar experiencias locales</span>\n"
-"              con <span class=\"font-semibold u-text\">grupos reducidos</span>,\n"
-"              <span class=\"font-semibold u-text\">condiciones claras</span> y\n"
-"              <span class=\"font-semibold u-text\">comunicación directa con el guía</span>.\n"
-"              Empezamos en <span class=\"font-semibold u-text\">Canarias</span> y creceremos hacia nuevos destinos.\n"
+"              Exploideo te ayuda a <span class=\"font-semibold u-"
+"text\">encontrar y reservar experiencias locales</span>\n"
+"              con <span class=\"font-semibold u-text\">grupos reducidos</"
+"span>,\n"
+"              <span class=\"font-semibold u-text\">condiciones claras</span> "
+"y\n"
+"              <span class=\"font-semibold u-text\">comunicación directa con "
+"el guía</span>.\n"
+"              Empezamos en <span class=\"font-semibold u-text\">Canarias</"
+"span> y creceremos hacia nuevos destinos.\n"
 "            "
 msgstr ""
-"\n"
-"              Exploideo helps you <span class=\"font-semibold u-text\">discover and book local experiences</span>\n"
-"              with <span class=\"font-semibold u-text\">small groups</span>,\n"
-"              <span class=\"font-semibold u-text\">clear conditions</span>, and\n"
-"              <span class=\"font-semibold u-text\">direct communication with your guide</span>.\n"
-"              We start in <span class=\"font-semibold u-text\">the Canary Islands</span> and will expand to new destinations.\n"
-"            "
+"              Exploideo helps you <span class=\"font-semibold u-"
+"text\">discover and book local experiences</span>              with <span "
+"class=\"font-semibold u-text\">small groups</span>,              <span "
+"class=\"font-semibold u-text\">clear conditions</span>, and              "
+"<span class=\"font-semibold u-text\">direct communication with your guide</"
+"span>.              We start in <span class=\"font-semibold u-text\">the "
+"Canary Islands</span> and will expand to new destinations.            "
 
 #: .\templates\pages\landing\landing.html:48
 msgid "Para viajeros"
@@ -2361,10 +3145,8 @@ msgstr ""
 "not stored permanently in our systems."
 
 #: .\templates\pages\privacy_policy.html:167
-#, fuzzy
-#| msgid "6. Derechos del usuario"
 msgid "Derechos del usuario"
-msgstr "6. User rights"
+msgstr "Derechos del usuario"
 
 #: .\templates\pages\privacy_policy.html:169
 msgid "Acceder a tus datos personales."

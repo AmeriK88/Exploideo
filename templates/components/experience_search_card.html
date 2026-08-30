@@ -1,3 +1,4 @@
+{% load i18n %}
 <div class="panel-soft p-4 sm:p-6">
   <form method="get" action="{{ action_url }}" class="space-y-3">
     {% if near_me_active and filters.user_lat and filters.user_lng %}
@@ -20,7 +21,7 @@
         class="w-full bg-transparent text-sm sm:text-base u-text placeholder:u-muted focus:outline-none"
         name="q"
         value="{{ q_value|default:'' }}"
-        placeholder="¿A dónde quieres ir? (volcanes, atardecer...)"
+        placeholder="{% trans '¿A dónde quieres ir? (volcanes, atardecer...)' %}"
       />
     </div>
 
@@ -36,7 +37,7 @@
           type="number"
           name="max_duration"
           value="{{ max_duration_value|default:'' }}"
-          placeholder="Duración"
+          placeholder="{% trans 'Duración' %}"
         />
         <span class="text-xs u-muted">min</span>
       </div>
@@ -49,7 +50,7 @@
           step="0.01"
           name="max_price"
           value="{{ max_price_value|default:'' }}"
-          placeholder="Precio máx"
+          placeholder="{% trans 'Precio máx' %}"
         />
       </div>
 
@@ -60,7 +61,7 @@
           type="text"
           name="island"
           value="{{ island_value|default:'' }}"
-          placeholder="Isla"
+          placeholder="{% trans 'Isla' %}"
         />
       </div>
 
@@ -71,14 +72,14 @@
           type="text"
           name="city"
           value="{{ city_value|default:'' }}"
-          placeholder="Ciudad"
+          placeholder="{% trans 'Ciudad' %}"
         />
       </div>
     </div>
 
     <div class="grid gap-3 sm:grid-cols-[1fr_auto]">
       <button class="c-button c-button--primary w-full sm:w-auto px-5 py-3" type="submit">
-        Buscar
+        {% trans "Buscar" %}
       </button>
 
       <button
@@ -88,7 +89,7 @@
         data-near-me-target="{{ action_url }}"
         aria-pressed="{% if near_me_active %}true{% else %}false{% endif %}"
       >
-        {% if near_me_active %}Cerca de mí activo{% else %}Cerca de mí{% endif %}
+        {% if near_me_active %}{% trans "Cerca de mí activo" %}{% else %}{% trans "Cerca de mí" %}{% endif %}
       </button>
     </div>
 
@@ -96,16 +97,16 @@
       {% if near_me_error %}
         {{ near_me_error }}
       {% elif near_me_active %}
-        Mostrando experiencias cerca de tu ubicación.
+        {% trans "Mostrando experiencias cerca de tu ubicación." %}
       {% else %}
-        Ordena por proximidad con tu ubicación actual.
+        {% trans "Ordena por proximidad con tu ubicación actual." %}
       {% endif %}
     </p>
 
     <div class="rounded-2xl bg-surface-soft ring-1 ring-(--border) px-4 py-3">
-      <p class="text-sm font-semibold u-text">✨ Experiencias sin buses</p>
+      <p class="text-sm font-semibold u-text">✨ {% trans "Experiencias sin buses" %}</p>
       <p class="mt-1 text-sm u-muted">
-        Sin prisas y a tu ritmo: coche, caminando o bici. Solo tú y el destino.
+        {% trans "Sin prisas y a tu ritmo: coche, caminando o bici. Solo tú y el destino." %}
       </p>
     </div>
   </form>

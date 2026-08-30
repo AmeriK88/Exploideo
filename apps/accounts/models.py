@@ -1,10 +1,11 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 class User(AbstractUser):
     class Role(models.TextChoices):
-        TRAVELER = "traveler", "Traveler"
-        GUIDE = "guide", "Guide"
+        TRAVELER = "traveler", _("Viajero")
+        GUIDE = "guide", _("Guía")
 
     role = models.CharField(
         max_length=20,

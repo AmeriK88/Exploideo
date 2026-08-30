@@ -26,13 +26,13 @@ class BookingWorkflowTests(TestCase):
         cls.lang_es = Language.objects.create(code="es", name="Español")
         cls.lang_en = Language.objects.create(code="en", name="English")
 
-        cls.guide = User.objects.create_user(username="guide", password="pw", role=User.Role.GUIDE)
+        cls.guide = User.objects.create_user(username="guide", email="guide@example.com", password="pw", role=User.Role.GUIDE)
         guide_profile, _ = GuideProfile.objects.get_or_create(user=cls.guide)
         guide_profile.verification_status = GuideProfile.VerificationStatus.VERIFIED
         guide_profile.save(update_fields=["verification_status"])
         guide_profile.languages.add(cls.lang_es, cls.lang_en)
 
-        cls.traveler = User.objects.create_user(username="traveler", password="pw", role=User.Role.TRAVELER)
+        cls.traveler = User.objects.create_user(username="traveler", email="traveler@example.com", password="pw", role=User.Role.TRAVELER)
         cls.other_traveler = User.objects.create_user(username="other", password="pw", role=User.Role.TRAVELER)
         cls.category = Category.objects.create(name="Senderismo", slug="senderismo")
         cls.experience = Experience.objects.create(
@@ -58,6 +58,8 @@ class BookingWorkflowTests(TestCase):
         )
 
     def setUp(self):
+        Booking.objects.all().delete()
+        AvailabilityBlock.objects.all().delete()
         mail.outbox = []
 
     def _booking_date(self):
@@ -244,8 +246,8 @@ class BookingWorkflowTests(TestCase):
         booking.refresh_from_db()
         self.assertEqual(booking.status, Booking.Status.ACCEPTED)
         self.assertIsNotNone(booking.responded_at)
-        self.assertEqual(len(mail.outbox), 1)
-        self.assertEqual(mail.outbox[0].to, [self.traveler.email])
+        self.assertEqual(len(mail.outbox), 2)
+        self.assertEqual(mail.outbox[-1].to, [self.traveler.email])
 
         invoice = booking.invoice
         self.assertEqual(invoice.status, Invoice.Status.ISSUED)
@@ -280,7 +282,7 @@ class BookingWorkflowTests(TestCase):
         self.assertEqual(booking.status, Booking.Status.REJECTED)
         self.assertFalse(Invoice.objects.filter(booking=booking).exists())
         self.assertFalse(Conversation.objects.filter(booking=booking).exists())
-        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(len(mail.outbox), 2)
 
     def test_accept_decision_screen_shows_traveler_notes(self):
         notes_text = "Tengo una lesión leve de rodilla.\n¿La ruta es muy exigente?"

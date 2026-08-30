@@ -1,20 +1,21 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 class Language(models.Model):
     class Code(models.TextChoices):
-        ES = "es", "Español"
-        EN = "en", "English"
-        DE = "de", "Deutsch"
-        FR = "fr", "Français"
-        IT = "it", "Italiano"
-        PT = "pt", "Português"
+        ES = "es", _("Español")
+        EN = "en", _("English")
+        DE = "de", _("Deutsch")
+        FR = "fr", _("Français")
+        IT = "it", _("Italiano")
+        PT = "pt", _("Português")
 
-        NL = "nl", "Nederlands"
-        SV = "sv", "Svenska"
-        PL = "pl", "Polski"
-        DA = "da", "Dansk"
-        FI = "fi", "Suomi"
-        ZH = "zh", "中文 (Chinese)"
+        NL = "nl", _("Nederlands")
+        SV = "sv", _("Svenska")
+        PL = "pl", _("Polski")
+        DA = "da", _("Dansk")
+        FI = "fi", _("Suomi")
+        ZH = "zh", _("中文 (Chinese)")
 
     code = models.CharField(max_length=5, choices=Code.choices, unique=True)
     name = models.CharField(max_length=50)

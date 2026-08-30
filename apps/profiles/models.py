@@ -1,13 +1,14 @@
 from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from core.models import Language
 
 
 class GuideProfile(models.Model):
     class VerificationStatus(models.TextChoices):
-        PENDING = "pending", "Pending"
-        VERIFIED = "verified", "Verified"
-        REJECTED = "rejected", "Rejected"
+        PENDING = "pending", _("Pendiente")
+        VERIFIED = "verified", _("Verificado")
+        REJECTED = "rejected", _("Rechazado")
 
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,

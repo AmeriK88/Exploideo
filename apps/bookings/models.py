@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 from django.conf import settings
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 from apps.experiences.models import Experience
 from apps.bookings.services import validate_minors_policy
@@ -26,18 +27,18 @@ class Booking(models.Model):
     )
 
     class TransportMode(models.TextChoices):
-        OWN_VEHICLE = "own_vehicle", "Vehículo propio"
-        BICYCLE = "bicycle", "Bicicleta"
-        ON_FOOT = "on_foot", "A pie"
-        MINIBUS = "minibus", "Minibus"
+        OWN_VEHICLE = "own_vehicle", _("Vehículo propio")
+        BICYCLE = "bicycle", _("Bicicleta")
+        ON_FOOT = "on_foot", _("A pie")
+        MINIBUS = "minibus", _("Minibus")
 
     class Status(models.TextChoices):
-        PENDING = "pending", "Pending"
-        ACCEPTED = "accepted", "Accepted"
-        REJECTED = "rejected", "Rejected"
-        CANCELED = "canceled", "Canceled"
-        CHANGE_REQUESTED = "change_requested", "Change requested"
-        CANCEL_REQUESTED = "cancel_requested", "Cancel requested"
+        PENDING = "pending", _("Pendiente")
+        ACCEPTED = "accepted", _("Aceptada")
+        REJECTED = "rejected", _("Rechazada")
+        CANCELED = "canceled", _("Cancelada")
+        CHANGE_REQUESTED = "change_requested", _("Cambio solicitado")
+        CANCEL_REQUESTED = "cancel_requested", _("Cancelación solicitada")
 
     experience = models.ForeignKey(
         Experience,

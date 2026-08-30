@@ -10,11 +10,15 @@
 
   const labelEl = loader.querySelector(".loader-label");
 
+  function __(str) {
+    return typeof gettext === "function" ? gettext(str) : str;
+  }
+
   /**
    * Shows the loader and optionally updates the label text.
    */
   function show(label) {
-    if (labelEl) labelEl.textContent = label || "Cargando…";
+    if (labelEl) labelEl.textContent = label || __("Cargando…");
     loader.classList.add("is-open");
     loader.setAttribute("aria-hidden", "false");
   }
@@ -42,7 +46,7 @@
     function (e) {
       const form = e.target;
       if (form && form.matches("[data-no-loader]")) return;
-      show("Procesando…");
+      show(__("Procesando…"));
     },
     true
   );

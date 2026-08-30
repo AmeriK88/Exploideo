@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 
 class Conversation(models.Model):
@@ -20,9 +21,9 @@ class Conversation(models.Model):
     STATUS_BLOCKED = "blocked"
 
     STATUS_CHOICES = [
-        (STATUS_ACTIVE, "Active"),
-        (STATUS_CLOSED, "Closed"),
-        (STATUS_BLOCKED, "Blocked"),
+        (STATUS_ACTIVE, _("Activa")),
+        (STATUS_CLOSED, _("Cerrada")),
+        (STATUS_BLOCKED, _("Bloqueada")),
     ]
 
     status = models.CharField(
@@ -65,8 +66,8 @@ class Participant(models.Model):
     ROLE_GUIDE = "guide"
 
     ROLE_CHOICES = [
-        (ROLE_TRAVELER, "Traveler"),
-        (ROLE_GUIDE, "Guide"),
+        (ROLE_TRAVELER, _("Viajero")),
+        (ROLE_GUIDE, _("Guía")),
     ]
 
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
@@ -123,8 +124,8 @@ class Message(models.Model):
     KIND_SYSTEM = "system"
 
     KIND_CHOICES = [
-        (KIND_TEXT, "Text"),
-        (KIND_SYSTEM, "System"),
+        (KIND_TEXT, _("Texto")),
+        (KIND_SYSTEM, _("Sistema")),
     ]
 
     kind = models.CharField(max_length=20, choices=KIND_CHOICES, default=KIND_TEXT)

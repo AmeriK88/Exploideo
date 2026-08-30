@@ -1,4 +1,8 @@
 (function () {
+  function __(str) {
+    return typeof gettext === "function" ? gettext(str) : str;
+  }
+
   // Temporary debug switch for location diagnostics.
   const NEAR_ME_DEBUG = true;
 
@@ -51,26 +55,26 @@
    */
   function handlePositionError(trigger, error) {
     if (!error) {
-      setFeedback(trigger, "No se pudo obtener tu ubicación ahora. Puedes seguir usando filtros normales.");
+      setFeedback(trigger, __("No se pudo obtener tu ubicación ahora. Puedes seguir usando filtros normales."));
       return;
     }
 
     if (error.code === error.PERMISSION_DENIED) {
-      setFeedback(trigger, "Permiso de ubicación denegado. Puedes seguir filtrando de forma manual.");
+      setFeedback(trigger, __("Permiso de ubicación denegado. Puedes seguir filtrando de forma manual."));
       return;
     }
 
     if (error.code === error.POSITION_UNAVAILABLE) {
-      setFeedback(trigger, "Tu ubicación no está disponible temporalmente. Inténtalo de nuevo en unos segundos.");
+      setFeedback(trigger, __("Tu ubicación no está disponible temporalmente. Inténtalo de nuevo en unos segundos."));
       return;
     }
 
     if (error.code === error.TIMEOUT) {
-      setFeedback(trigger, "La ubicación tardó demasiado. Inténtalo de nuevo.");
+      setFeedback(trigger, __("La ubicación tardó demasiado. Inténtalo de nuevo."));
       return;
     }
 
-    setFeedback(trigger, "No se pudo activar Cerca de mí ahora mismo.");
+    setFeedback(trigger, __("No se pudo activar Cerca de mí ahora mismo."));
   }
 
   /**
@@ -85,7 +89,7 @@
 
       // If the browser does not support geolocation, fallback to normal filtering
       if (!navigator.geolocation) {
-        setFeedback(trigger, "Este navegador no soporta geolocalización. Usa los filtros normales.");
+        setFeedback(trigger, __("Este navegador no soporta geolocalización. Usa los filtros normales."));
         return;
       }
 
@@ -99,7 +103,7 @@
 
       const params = buildSearchParams(form);
 
-      setFeedback(trigger, "Obteniendo tu ubicación...");
+      setFeedback(trigger, __("Obteniendo tu ubicación..."));
 
       navigator.geolocation.getCurrentPosition(
         function (position) {

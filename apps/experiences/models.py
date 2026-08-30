@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
-
+from django.utils import translation
+from django.utils.translation import gettext_lazy as _
 
 
 class Category(models.Model):
@@ -12,7 +13,19 @@ class Category(models.Model):
         ordering = ["name"]
 
     def __str__(self):
-        return self.name
+        return self.get_name()
+
+    def get_name(self, lang: str = None) -> str:
+        if lang is None:
+            lang = translation.get_language() or "es"
+        if lang.startswith("es"):
+            return self.name
+        t = self.translations.filter(language=lang).first()
+        return (t.name if t and t.name else self.name)
+
+    @property
+    def translated_name(self) -> str:
+        return self.get_name()
 
 
 class Experience(models.Model):
@@ -32,9 +45,9 @@ class Experience(models.Model):
     )
 
     class TransportRequirement(models.TextChoices):
-        OWN_VEHICLE = "own_vehicle", "Vehículo propio"
-        BICYCLE = "bicycle", "Bicicleta"
-        ON_FOOT = "on_foot", "A pie"
+        OWN_VEHICLE = "own_vehicle", _("Vehículo propio")
+        BICYCLE = "bicycle", _("Bicicleta")
+        ON_FOOT = "on_foot", _("A pie")
 
     transport_requirement = models.CharField(
         max_length=20,
@@ -43,9 +56,9 @@ class Experience(models.Model):
     )
 
     class Difficulty(models.TextChoices):
-        EASY = "easy", "Fácil"
-        MODERATE = "moderate", "Moderada"
-        HARD = "hard", "Difícil"
+        EASY = "easy", _("Fácil")
+        MODERATE = "moderate", _("Moderada")
+        HARD = "hard", _("Difícil")
 
     difficulty = models.CharField(
         max_length=10,
@@ -151,5 +164,70 @@ class Experience(models.Model):
             "css_class": f"c-alert c-alert--{config['tone']}",
         }
 
+    def get_title(self, lang: str = None) -> str:
+        if lang is None:
+            lang = translation.get_language() or "es"
+        if lang.startswith("es"):
+            return self.title
+        t = self.translations.filter(language=lang).first()
+        return (t.title if t and t.title else self.title)
+
+    def get_description(self, lang: str = None) -> str:
+        if lang is None:
+            lang = translation.get_language() or "es"
+        if lang.startswith("es"):
+            return self.description
+        t = self.translations.filter(language=lang).first()
+        return (t.description if t and t.description else self.description)
+
+    @property
+    def translated_title(self) -> str:
+        return self.get_title()
+
+    @property
+    def translated_description(self) -> str:
+        return self.get_description()
+
     def __str__(self):
-        return f"{self.title} - {self.guide.username}"
+        return f"{self.translated_title} - {self.guide.username}"
+
+
+class CategoryTranslation(models.Model):
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.CASCADE,
+        related_name="translations",
+    )
+    language = models.CharField(max_length=5, db_index=True)
+    name = models.CharField(max_length=80)
+
+    class Meta:
+        unique_together = [("category", "language")]
+        verbose_name = _("Traducción de categoría")
+        verbose_name_plural = _("Traducciones de categoría")
+
+    def __str__(self):
+        return f"{self.category.name} [{self.language}]"
+
+
+class ExperienceTranslation(models.Model):
+    experience = models.ForeignKey(
+        Experience,
+        on_delete=models.CASCADE,
+        related_name="translations",
+    )
+    language = models.CharField(max_length=5, db_index=True)
+    title = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True)
+    is_machine_translated = models.BooleanField(default=True)
+    is_outdated = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = [("experience", "language")]
+        verbose_name = _("Traducción de experiencia")
+        verbose_name_plural = _("Traducciones de experiencia")
+
+    def __str__(self):
+        return f"{self.experience.title} [{self.language}]"

@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
 from core.models import Language
 from .models import GuideProfile, TravelerProfile
 
@@ -6,9 +7,9 @@ from .models import GuideProfile, TravelerProfile
 class GuideProfileForm(forms.ModelForm):
     languages = forms.ModelMultipleChoiceField(
         queryset=Language.objects.all().order_by("code"),
-        required=True,  # 👈 ponlo True si quieres obligar a elegir al menos 1 idioma
+        required=True,
         widget=forms.CheckboxSelectMultiple,
-        label="Idiomas que hablas",
+        label=_("Idiomas que hablas"),
     )
 
     class Meta:
@@ -24,40 +25,43 @@ class GuideProfileForm(forms.ModelForm):
             "guide_license_document",
             "insurance_or_registration_document",
         ]
+        labels = {
+            "display_name": _("Nombre público"),
+            "bio": _("Biografía / Presentación"),
+            "phone": _("Teléfono"),
+            "instagram": _("Instagram"),
+            "website": _("Sitio web"),
+            "avatar": _("Foto de perfil"),
+            "guide_license_document": _("Acreditación de guía oficial"),
+            "insurance_or_registration_document": _("Seguro RC o documento de autónomo/empresa"),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        # UX: si lo quieres como “completar perfil”, fuerza requerido solo aquí.
-        # Si prefieres que sea opcional al inicio, pon required=False arriba y
-        # aquí lo puedes condicionar según tu lógica.
-
-        # Ejemplo: añade clase para tu CSS/Bootstrap si quieres
-        # (CheckboxSelectMultiple no usa form-control, pero puedes meter clases)
         self.fields["languages"].widget.attrs.update({"class": "space-y-2"})
 
     def clean_languages(self):
         langs = self.cleaned_data.get("languages")
         if not langs or len(langs) == 0:
-            raise forms.ValidationError("Selecciona al menos un idioma.")
+            raise forms.ValidationError(_("Selecciona al menos un idioma."))
         return langs
 
 
 class TravelerProfileForm(forms.ModelForm):
     # Campos del User (cuenta)
-    first_name = forms.CharField(label="Nombre", required=False, max_length=150)
-    last_name = forms.CharField(label="Apellidos", required=False, max_length=150)
-    email = forms.EmailField(label="Email", required=True)
+    first_name = forms.CharField(label=_("Nombre"), required=False, max_length=150)
+    last_name = forms.CharField(label=_("Apellidos"), required=False, max_length=150)
+    email = forms.EmailField(label=_("Email"), required=True)
 
     class Meta:
         model = TravelerProfile
         fields = ["display_name", "phone", "preferred_language", "country", "city"]
         labels = {
-            "display_name": "Nombre público",
-            "phone": "Teléfono",
-            "preferred_language": "Idioma preferido",
-            "country": "País",
-            "city": "Ciudad",
+            "display_name": _("Nombre público"),
+            "phone": _("Teléfono"),
+            "preferred_language": _("Idioma preferido"),
+            "country": _("País"),
+            "city": _("Ciudad"),
         }
 
     def __init__(self, *args, user=None, **kwargs):

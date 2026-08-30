@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
 from .models import Review
 
 
@@ -15,11 +16,11 @@ class ReviewForm(forms.ModelForm):
                 attrs={
                     "class": "input",
                     "rows": 4,
-                    "placeholder": "Cuenta tu experiencia...",
+                    "placeholder": _("Cuenta tu experiencia..."),
                 }
             ),
         }
         labels = {
-            "rating": "Calificación",
-            "comment": "Comentario",
+            "rating": _("Calificación"),
+            "comment": _("Comentario"),
         }

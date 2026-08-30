@@ -129,6 +129,7 @@
     {% include "components/loader.html" with id="app-loader" label="Cargando..." %}
 
     <!-- Scripts -->
+    <script src="{% url 'javascript-catalog' %}"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script defer src="{% static 'js/bookings/booking_calendar.js' %}"></script>
     <script src="{% static 'js/components/loader.js' %}"></script>

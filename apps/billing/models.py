@@ -7,6 +7,7 @@ from django.conf import settings
 from django.db import models, transaction
 from django.db.models import Q
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 if TYPE_CHECKING:
     from django.db.models.manager import RelatedManager
@@ -29,14 +30,14 @@ class Invoice(models.Model):
         items: "RelatedManager[InvoiceItem]"
 
     class Status(models.TextChoices):
-        DRAFT = "draft", "Draft"
-        ISSUED = "issued", "Issued"
-        VOID = "void", "Void"
+        DRAFT = "draft", _("Borrador")
+        ISSUED = "issued", _("Emitida")
+        VOID = "void", _("Anulada")
 
         # tipo de factura (normal o rectificativa)
     class Kind(models.TextChoices):
-        STANDARD = "standard", "Standard"
-        RECTIFICATIVE = "rectificative", "Rectificative"
+        STANDARD = "standard", _("Ordinaria")
+        RECTIFICATIVE = "rectificative", _("Rectificativa")
 
     kind = models.CharField(
         max_length=20,

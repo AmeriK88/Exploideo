@@ -1,6 +1,6 @@
 {% extends "layouts/dashboard_base.html" %}
-{% load static %}
-{% block title %}Experiencias{% endblock %}
+{% load static i18n %}
+{% block title %}{% trans "Experiencias" %}{% endblock %}
 
 {% block dashboard_content %}
   <div class="flex flex-col gap-6">
@@ -12,8 +12,12 @@
         {% url 'experiences:create' as create_experience_url %}
       {% endif %}
 
+      {% trans "Descubre experiencias" as head_title %}
+      {% trans "Explora rutas, volcanes, calas y planes únicos con guías locales." as head_sub %}
+      {% trans "+ Crear experiencia" as head_cta %}
+
       <div data-animate="fade-up">
-        {% include "components/section_header.html" with title="Descubre experiencias" subtitle="Explora rutas, volcanes, calas y planes únicos con guías locales." cta_url=create_experience_url cta_label="+ Crear experiencia" %}
+        {% include "components/section_header.html" with title=head_title subtitle=head_sub cta_url=create_experience_url cta_label=head_cta %}
       </div>
     {% endwith %}
 
@@ -23,13 +27,21 @@
     </div>
 
     {% if near_me_active %}
-      <p class="p-micro" data-animate="fade-up">Mostrando experiencias cerca de tu ubicación actual.</p>
+      <p class="p-micro" data-animate="fade-up">{% trans "Mostrando experiencias cerca de tu ubicación actual." %}</p>
     {% endif %}
 
+    {% trans "Ups… no encontramos nada 😅" as empty_t1 %}
+    {% trans "Prueba con otros términos o limpia los filtros." as empty_sub1 %}
+    {% trans "Limpiar filtros" as empty_cta1 %}
+
+    {% trans "No hay experiencias activas todavía" as empty_t2 %}
+    {% trans "Vuelve más tarde o ajusta los filtros." as empty_sub2 %}
+    {% trans "Ver experiencias" as empty_cta2 %}
+
     {% if has_filters %}
-      {% include "components/experience_grid.html" with experiences=experiences empty_title="Ups… no encontramos nada 😅" empty_text="Prueba con otros términos o limpia los filtros." empty_cta_url=experiences_list_url empty_cta_label="Limpiar filtros" %}
+      {% include "components/experience_grid.html" with experiences=experiences empty_title=empty_t1 empty_text=empty_sub1 empty_cta_url=experiences_list_url empty_cta_label=empty_cta1 %}
     {% else %}
-      {% include "components/experience_grid.html" with experiences=experiences empty_title="No hay experiencias activas todavía" empty_text="Vuelve más tarde o ajusta los filtros." empty_cta_url=experiences_list_url empty_cta_label="Ver experiencias" %}
+      {% include "components/experience_grid.html" with experiences=experiences empty_title=empty_t2 empty_text=empty_sub2 empty_cta_url=experiences_list_url empty_cta_label=empty_cta2 %}
     {% endif %}
 
   </div>

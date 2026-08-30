@@ -1,15 +1,16 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
 from .models import ExperienceAvailability, AvailabilityBlock
 
 
 WEEKDAYS = [
-    ("0", "Lun"),
-    ("1", "Mar"),
-    ("2", "Mié"),
-    ("3", "Jue"),
-    ("4", "Vie"),
-    ("5", "Sáb"),
-    ("6", "Dom"),
+    ("0", _("Lun")),
+    ("1", _("Mar")),
+    ("2", _("Mié")),
+    ("3", _("Jue")),
+    ("4", _("Vie")),
+    ("5", _("Sáb")),
+    ("6", _("Dom")),
 ]
 
 
@@ -25,7 +26,8 @@ class ExperienceAvailabilityForm(forms.ModelForm):
         choices=WEEKDAYS,
         required=False,
         widget=forms.CheckboxSelectMultiple,
-        help_text="Si no seleccionas nada, se permitirán reservas cualquier día de la semana.",
+        label=_("Días de la semana permitidos"),
+        help_text=_("Si no seleccionas nada, se permitirán reservas cualquier día de la semana."),
     )
 
     class Meta:
@@ -42,26 +44,28 @@ class ExperienceAvailabilityForm(forms.ModelForm):
         widgets = {
             "start_date": forms.DateInput(attrs={"type": "date"}),
             "end_date": forms.DateInput(attrs={"type": "date"}),
-            "daily_capacity_people": forms.NumberInput(attrs={"min": 1, "placeholder": "Ej: 18 (vacío = sin límite)"}),
-            "daily_capacity_bookings": forms.NumberInput(attrs={"min": 1, "placeholder": "Ej: 3 (vacío = sin límite)"}),
-            "max_people_per_booking": forms.NumberInput(attrs={"min": 1, "placeholder": "Ej: 6 (vacío = sin límite)"}),
+            "daily_capacity_people": forms.NumberInput(attrs={"min": 1, "placeholder": _("Ej: 18 (vacío = sin límite)")}),
+            "daily_capacity_bookings": forms.NumberInput(attrs={"min": 1, "placeholder": _("Ej: 3 (vacío = sin límite)")}),
+            "max_people_per_booking": forms.NumberInput(attrs={"min": 1, "placeholder": _("Ej: 6 (vacío = sin límite)")}),
         }
         labels = {
-            "is_enabled": "Reservas abiertas",
-            "daily_capacity_people": "Capacidad diaria (personas)",
-            "daily_capacity_bookings": "Max de excursiones (por día)",
-            "max_people_per_booking": "Max por reserva (personas)",
+            "is_enabled": _("Reservas abiertas"),
+            "start_date": _("Fecha inicio"),
+            "end_date": _("Fecha fin"),
+            "daily_capacity_people": _("Capacidad diaria (personas)"),
+            "daily_capacity_bookings": _("Max de excursiones (por día)"),
+            "max_people_per_booking": _("Max por reserva (personas)"),
         }
         help_texts = {
-            "is_enabled": (
+            "is_enabled": _(
                 "Actívalo para aceptar nuevas reservas. "
                 "Si lo desactivas, la experiencia seguirá visible pero no permitirá reservar."
             ),
-            "start_date": "Opcional. Primera fecha en la que se permiten reservas.",
-            "end_date": "Opcional. Última fecha en la que se permiten reservas.",
-            "daily_capacity_people": "Límite total de personas aceptadas en un mismo día. (Vacío = sin límite)",
-            "daily_capacity_bookings": "Número máximo de reservas aceptadas por día. (Vacío = sin límite)",
-            "max_people_per_booking": (
+            "start_date": _("Opcional. Primera fecha en la que se permiten reservas."),
+            "end_date": _("Opcional. Última fecha en la que se permiten reservas."),
+            "daily_capacity_people": _("Límite total de personas aceptadas en un mismo día. (Vacío = sin límite)"),
+            "daily_capacity_bookings": _("Número máximo de reservas aceptadas por día. (Vacío = sin límite)"),
+            "max_people_per_booking": _(
                 "Límite de personas por reserva (por excursión). "
                 "Útil si haces tours pequeños aunque el cupo diario sea mayor."
             ),
@@ -77,7 +81,7 @@ class ExperienceAvailabilityForm(forms.ModelForm):
         start = cleaned.get("start_date")
         end = cleaned.get("end_date")
         if start and end and end < start:
-            self.add_error("end_date", "La fecha fin no puede ser anterior a la fecha inicio.")
+            self.add_error("end_date", _("La fecha fin no puede ser anterior a la fecha inicio."))
 
         # Soft validations
         for name in ("daily_capacity_people", "daily_capacity_bookings", "max_people_per_booking"):

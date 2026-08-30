@@ -2,6 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from apps.experiences.models import Experience
 from apps.bookings.models import Booking
@@ -9,9 +10,9 @@ from apps.bookings.models import Booking
 
 class Review(models.Model):
     class Status(models.TextChoices):
-        PENDING = "pending", "Pending"
-        PUBLISHED = "published", "Published"
-        FLAGGED = "flagged", "Flagged"
+        PENDING = "pending", _("Pendiente")
+        PUBLISHED = "published", _("Publicada")
+        FLAGGED = "flagged", _("Reportada")
 
     experience = models.ForeignKey(
         Experience,

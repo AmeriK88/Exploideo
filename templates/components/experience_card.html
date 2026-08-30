@@ -1,17 +1,18 @@
+{% load i18n %}
 <article class="c-card group overflow-hidden h-full flex flex-col">
   <!-- Media -->
   <div class="relative w-full bg-surface-soft aspect-16/10 overflow-hidden">
     {% if experience.image %}
       <img
         src="{{ experience.image.url }}"
-        alt="{{ experience.title }}"
+        alt="{{ experience.translated_title }}"
         class="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.02]"
         loading="lazy"
       />
       <div class="pointer-events-none absolute inset-0 bg-linear-to-t from-black/10 via-transparent to-transparent"></div>
     {% else %}
       <div class="flex h-full w-full items-center justify-center u-muted text-sm">
-        Sin imagen
+        {% trans "Sin imagen" %}
       </div>
     {% endif %}
   </div>
@@ -19,7 +20,7 @@
   <!-- Body -->
   <div class="c-card__body flex flex-col flex-1">
     <h3 class="text-lg font-semibold leading-tight u-text clamp-2">
-      {{ experience.title }}
+      {{ experience.translated_title }}
     </h3>
 
     {% if experience.guide %}
@@ -44,9 +45,9 @@
             {{ experience.guide.get_full_name|default:experience.guide.username }}
           </p>
           {% if experience.guide.is_guide and experience.guide.guide_profile.verification_status == "verified" %}
-            <p class="p-micro">Guía verificado ✅</p>
+            <p class="p-micro">{% trans "Guía verificado" %} ✅</p>
           {% else %}
-            <p class="p-micro">Guía local</p>
+            <p class="p-micro">{% trans "Guía local" %}</p>
           {% endif %}
         </div>
       </div>
@@ -55,7 +56,7 @@
       <!-- Badges -->
     <div class="mt-3 flex flex-wrap gap-2 text-sm">
       {% if experience.distance_km is not None %}
-        <span class="c-badge c-badge--neutral u-hover-lift">📏 {{ experience.distance_km }} km de ti</span>
+        <span class="c-badge c-badge--neutral u-hover-lift">📏 {{ experience.distance_km }} km {% trans "de ti" %}</span>
       {% endif %}
 
       {% if experience.location or experience.city or experience.island %}
@@ -88,16 +89,16 @@
         <!-- Difficulty - Level -->
       {% if experience.difficulty %}
         {% if experience.difficulty == "easy" %}
-          <span class="c-badge c-badge--neutral u-hover-lift">🟢 Fácil</span>
-          <span class="c-badge c-badge--neutral u-hover-lift">👨‍👩‍👧‍👦 Apta para todos</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">🟢 {% trans "Fácil" %}</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">👨‍👩‍👧‍👦 {% trans "Apta para todos" %}</span>
         {% elif experience.difficulty == "moderate" %}
-          <span class="c-badge c-badge--neutral u-hover-lift">🟠 Moderado</span>
-          <span class="c-badge c-badge--neutral u-hover-lift">🧒 Menores acompañados</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">🟠 {% trans "Moderado" %}</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">🧒 {% trans "Menores acompañados" %}</span>
         {% elif experience.difficulty == "hard" %}
-          <span class="c-badge c-badge--neutral u-hover-lift">🔴 Difícil</span>
-          <span class="c-badge c-badge--neutral u-hover-lift">⛔ Sin menores</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">🔴 {% trans "Difícil" %}</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">⛔ {% trans "Sin menores" %}</span>
         {% else %}
-          <span class="c-badge c-badge--neutral u-hover-lift">⚙️ {{ experience.get_difficulty_display|default:experience.difficulty }}</span>
+          <span class="c-badge c-badge--neutral u-hover-lift">⚙️ {{ experience.get_difficulty_display }}</span>
         {% endif %}
       {% endif %}
     </div>
@@ -105,11 +106,11 @@
     <div class="mt-auto pt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div class="flex items-baseline gap-2">
         <span class="text-xl font-bold u-text">{{ experience.price }} €</span>
-        <span class="p-micro">por adulto</span>
+        <span class="p-micro">{% trans "por adulto" %}</span>
       </div>
 
       <a href="{% url 'experiences:detail' experience.pk %}" class="c-button c-button--primary w-full sm:w-auto">
-        Info
+        {% trans "Info" %}
       </a>
     </div>
 
